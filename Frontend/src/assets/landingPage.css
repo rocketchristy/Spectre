@@ -37,9 +37,9 @@ html, body, #app {
 }
 
 .landing__card {
-	width: min(1100px, 94%);
+	width: min(780px, 94%);
 	max-width: 1100px;
-	padding: 3rem 2.2rem;
+	padding: 2.2rem 1.6rem;
 	border-radius: 14px;
 	background: linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.02));
 	box-shadow: 0 10px 40px rgba(3,7,18,0.5);
@@ -47,7 +47,7 @@ html, body, #app {
 }
 
 .landing__title {
-	font-size: clamp(2.6rem, 6vw, 5rem);
+	font-size: clamp(2.2rem, 5vw, 4rem);
 	line-height: 1.02;
 	margin: 0 0 1.4rem 0;
 	font-weight: 800;
@@ -59,11 +59,11 @@ html, body, #app {
 	display: inline-block;
 	background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
 	color: white;
-	padding: 0.95rem 1.4rem;
+	padding: 0.8rem 1.2rem;
 	border-radius: 10px;
 	font-weight: 600;
 	text-decoration: none;
-	box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+	box-shadow: 0 3px 30px rgba(2,6,23,0.6);
 	transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms;
 }
 
@@ -104,6 +104,23 @@ html, body, #app {
 /* Utility: make router-link look like a button */
 .btn {
 	display: inline-block;
+}
+
+
+/* --- Compact login strip placed between title and CTA --- */
+.login-strip {
+  position: relative;
+  z-index: 1;                 /* above card overlays */
+  display: grid;
+  gap: 0.65rem;
+  margin: 0 auto 0.5rem auto; /* slight gap before CTA */
+  width: min(500px, 90%);
+}
+
+.login-strip__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
 }
 
 @media (min-width: 1024px) {
