@@ -1,0 +1,19 @@
+{
+  "name": "nxttcg-frontend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "cd Frontend && npm run dev",
+    "install": "cd Frontend && npm install"
+  },
+  "dependencies": {
+    "vue": "^3.5.29"
+  },
+  "devDependencies": {
+       "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}
