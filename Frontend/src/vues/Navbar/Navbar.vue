@@ -1,111 +1,98 @@
 <script setup>
-const props = defineProps({
-  msg: {
-    type: String,
-    default: 'Welcome to NXT TCG',
-  },
-})
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const navLinks = [
+  { path: '/', name: 'Home' },
+  { path: '/store', name: 'Store' },
+]
 </script>
 
-
 <template>
-  <header class="site-header">
-    <img alt="NXT TCG Logo" class="logo" src="./assets/logo.png" width="125" height="125" />
-
-    <div class="wrapper">
-  <h1>{{ props.msg }}</h1>
-      <p class="subtitle">A small starter homepage built with Vue 3 + Vite.</p>
-
-      <nav class="cta">
-        <a class="btn primary" href="#">Get Started</a>
-        <a class="btn" href="#">Docs</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="hero">
-    <section class="features">
-      
-    </section>
-  </main>
-  
-  <footer class="main-footer">
-    <div class="footer-content">
-      <div class="footer-info">
-        <div class="footer-logo">
-          <img src="./assets/logo.png" alt="NXT TCG" class="footer-logo-image" />
-          <div>
-            <strong>NXT TCG</strong>
-            <p class="muted">Collect, play, and enjoy.</p>
-          </div>
-        </div>
-        <p class="muted">Small starter site built with Vue 3 and Vite.</p>
-      </div>
-
-      <div class="footer-col footer-links">
-        <h4>Get started</h4>
-        <ul>
-          <li><a href="#">Play</a></li>
-          <li><a href="#">Download</a></li>
-          <li><a href="#">Pricing</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col footer-links">
-        <h4>Resources</h4>
-        <ul>
-          <li><a href="#">Docs</a></li>
-          <li><a href="#">Tutorials</a></li>
-          <li><a href="#">Community</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col footer-links">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <router-link to="/" class="brand-link">
+        <img alt="NXT TCG Logo" class="logo" src="../../assets/logo.png" width="50" height="50" />
+        <span class="brand-text">NXT TCG</span>
+      </router-link>
     </div>
 
-    <div class="footer-bottom">
-      <div class="copyright">&copy; 2026 NXT TCG — Built with Vue + Vite</div>
-      <div class="footer-nav">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Contact</a>
-      </div>
-    </div>
-  </footer>
+    <ul class="navbar-nav">
+      <li v-for="link in navLinks" :key="link.path" class="nav-item">
+        <router-link 
+          v-if="route.path !== link.path"
+          :to="link.path" 
+          class="nav-link"
+        >
+          {{ link.name }}
+        </router-link>
+        <span v-else class="nav-link active">{{ link.name }}</span>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: var(--color-background-soft, #1a1a2e);
+  border-bottom: 1px solid var(--color-border, #333);
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--color-heading, #fff);
+  gap: 0.75rem;
+}
+
+.brand-text {
+  font-size: 1.25rem;
+  font-weight: bold;
 }
 
 .logo {
   display: block;
-  margin: 0 auto 2rem;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+.navbar-nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.5rem;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+.nav-item {
+  margin: 0;
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.nav-link {
+  text-decoration: none;
+  color: var(--color-text, #ccc);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-link:hover:not(.active) {
+  background-color: var(--color-background-mute, #2a2a4e);
+  color: var(--color-heading, #fff);
+}
+
+.nav-link.active {
+  color: var(--color-heading, #fff);
+  font-weight: bold;
+  cursor: default;
 }
 </style>

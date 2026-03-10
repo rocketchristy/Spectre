@@ -1,13 +1,24 @@
 <script setup>
-import HomePage from './HomePage.vue'
 import Navbar from './vues/Navbar/Navbar.vue'
-import { RouterView } from 'vue-router';
+import SiteFooter from './vues/Navbar/Footer.vue'
+import { RouterView, useRoute } from 'vue-router';
+
+const route = useRoute()
 </script>
 
 <template>
-  <Navbar />
-  <router-view />
+  <div class="app-layout">
+    <Navbar v-if="route.path !== '/'" />
+    <router-view />
+      <SiteFooter v-if="route.path !== '/'" /> />
+  </div>
 </template>
 
 <style scoped>
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
 </style>

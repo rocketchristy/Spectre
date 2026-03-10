@@ -11,7 +11,7 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'homepage', component: homepage },
     { path: '/store', name: 'store', component: store },
-    { path: '/product', name: 'product', component: product },
+    { path: '/product/:type/:id', name: 'product', component: product },
 
   ],
 })
