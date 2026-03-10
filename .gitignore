@@ -1,0 +1,5 @@
+.venv
+Backend/DatabaseAccess/config.ini
+__pycache__/
+**/__pycache__/
+spectre.log
