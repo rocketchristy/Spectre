@@ -1,6 +1,7 @@
 
 <script setup>
 import bg from '@/assets/Images/LandingPageBG.png'
+import '@/assets/landingPage.css'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -26,7 +27,7 @@ const onSubmit = async (e) => {
     submitting.value = true
     // TODO: replace with real auth if needed
     await new Promise((r) => setTimeout(r, 150))
-    router.push({ name: 'homepage' })
+    router.push({ name: 'store' })
   } finally {
     submitting.value = false
   }

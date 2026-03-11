@@ -8,17 +8,30 @@ export const prices = [
 ]
 export const cardPriceModifiers = {
     "condition": {
-        "used": 0.5,
-        "like-new": 0.8,
-        "mint": 1
+        "Mint": 2,
+        "Near Mint": 1,
+        "Lightplay": .8,
+        "Moderate Play": .5
     },
     "foil": {
-        "none": 1,
-        "foil": 1.5,
-        "reverse-foil": 2
+        "Non-foil": 1,
+        "Holowfoil": 3,
+        "Reverse Holofoil": 4
     },
     "language": {
         "english": 1,
-        "japanese": 1.2
+        "japanese": 1.2,
+        "australian": 1.5
+    },
+    "rarity": {
+        "Common": 1,
+        "Uncommon": 1.5,
+        "Rare": 3,
+        "Super Rare": 4,
+    },
+    "type": {
+        "character": 2,
+        "artifact": 1,
+        "lands": 1,
     }
 }

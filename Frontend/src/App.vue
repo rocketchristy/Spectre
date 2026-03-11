@@ -10,7 +10,7 @@ const route = useRoute()
   <div class="app-layout">
     <Navbar v-if="route.path !== '/'" />
     <router-view />
-      <SiteFooter v-if="route.path !== '/'" /> />
+      <SiteFooter v-if="route.path !== '/'" />
   </div>
 </template>
 

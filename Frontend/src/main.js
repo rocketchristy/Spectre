@@ -1,4 +1,5 @@
 import './assets/main.css'
+import './assets/page.css'
 import './assets/footer.css'
 
 import { createApp } from 'vue'
