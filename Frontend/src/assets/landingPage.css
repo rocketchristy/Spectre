@@ -109,7 +109,8 @@ html, body, #app {
 
 /* --- Compact login strip placed between title and CTA --- */
 .login-strip {
-  position: relative;
+ 
+  justify-items:center;
   z-index: 1;                 /* above card overlays */
   display: grid;
   gap: 0.65rem;
@@ -118,10 +119,19 @@ html, body, #app {
 }
 
 .login-strip__row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.6rem;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
+
+.auth-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem; 
+  margin-top: 0.5rem; 
+}
+
 
 @media (min-width: 1024px) {
 	.landing__title { font-size: 5rem; }
