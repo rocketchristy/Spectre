@@ -2,40 +2,56 @@
 import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { prices, cardPriceModifiers } from '@/utils/prices.js'
-import { tempCardData } from '@/utils/tempCard.js'
+import { generatedCards, getTemplateForName } from '@/utils/generateCards.js'
 
 const route = useRoute()
 
-// Get product info from route params
 const productType = computed(() => route.params.type)
 const productId = computed(() => route.params.id)
 
-// For sealed products
+// Sealed products
 const sealedProducts = {
   pack: { name: 'Booster Pack', price: prices[0].pack, description: '10 random cards per pack', stock: 50, image: '📦' },
   bundle: { name: 'Bundle', price: prices[0].bundle, description: '5 packs + 1 promo card', stock: 25, image: '🎁' },
   box: { name: 'Booster Box', price: prices[0].box, description: '36 packs per box', stock: 10, image: '📦' },
 }
 
-// Filter selections for cards
+// Filter selections
 const selectedCondition = ref('')
 const selectedFoil = ref('')
 const selectedLanguage = ref('')
 
-// Quantity
 const quantity = ref(1)
 
-// Get available options from the card data for this character
+// All generated cards matching this product name
 const cardVariants = computed(() => {
   if (productType.value !== 'card') return []
-  return tempCardData.filter(card => card.character === productId.value)
+  return generatedCards.filter(c => c.name === productId.value)
 })
 
-const availableConditions = computed(() => [...new Set(cardVariants.value.map(c => c.condition))])
-const availableFoils = computed(() => [...new Set(cardVariants.value.map(c => c.foil))])
-const availableLanguages = computed(() => [...new Set(cardVariants.value.map(c => c.language))])
+// The raw template for this card name — gives us ALL possible option values
+const cardTemplate = computed(() => {
+  if (productType.value !== 'card') return null
+  return getTemplateForName(productId.value)
+})
 
-// Reset filters and quantity when navigating to a different product
+// All possible options from template
+const allConditions = computed(() => cardTemplate.value?.condition || [])
+const allFoils      = computed(() => cardTemplate.value?.foil || [])
+const allLanguages  = computed(() => cardTemplate.value?.language || [])
+
+// Options that actually exist in stock (stock > 0)
+const inStockConditions = computed(() => new Set(
+  cardVariants.value.filter(c => c.stock > 0).map(c => c.condition)
+))
+const inStockFoils = computed(() => new Set(
+  cardVariants.value.filter(c => c.stock > 0).map(c => c.foil)
+))
+const inStockLanguages = computed(() => new Set(
+  cardVariants.value.filter(c => c.stock > 0).map(c => c.language)
+))
+
+// Reset filters and quantity on product change
 watch(productId, () => {
   selectedCondition.value = ''
   selectedFoil.value = ''
@@ -43,32 +59,22 @@ watch(productId, () => {
   quantity.value = 1
 })
 
-
-// Calculate current price based on selections
+// Price based on current selections
 const calculatedPrice = computed(() => {
   if (productType.value !== 'card') return null
-  
-  const basePrice = parseFloat(prices[0].card.replace('$', ''))
+  const base = parseFloat(prices[0].card.replace('$', ''))
   let modifier = 1
-
-  if (selectedCondition.value) {
-    modifier *= cardPriceModifiers.condition[selectedCondition.value] || 1
-  }
-  if (selectedFoil.value) {
-    modifier *= cardPriceModifiers.foil[selectedFoil.value] || 1
-  }
-  if (selectedLanguage.value) {
-    modifier *= cardPriceModifiers.language[selectedLanguage.value] || 1
-  }
-
-  return (basePrice * modifier).toFixed(2)
+  if (selectedCondition.value) modifier *= cardPriceModifiers.condition[selectedCondition.value] || 1
+  if (selectedFoil.value)      modifier *= cardPriceModifiers.foil[selectedFoil.value] || 1
+  if (selectedLanguage.value)  modifier *= cardPriceModifiers.language[selectedLanguage.value] || 1
+  return (base * modifier).toFixed(2)
 })
 
-// Find matching stock based on current selections
+// Cards matching current filter selections with stock > 0
 const matchingCards = computed(() => {
   if (productType.value !== 'card') return []
-  
   return cardVariants.value.filter(card => {
+    if (card.stock <= 0) return false
     if (selectedCondition.value && card.condition !== selectedCondition.value) return false
     if (selectedFoil.value && card.foil !== selectedFoil.value) return false
     if (selectedLanguage.value && card.language !== selectedLanguage.value) return false
@@ -76,24 +82,23 @@ const matchingCards = computed(() => {
   })
 })
 
-const currentStock = computed(() => matchingCards.value.length)
+const currentStock = computed(() =>
+  matchingCards.value.reduce((sum, c) => sum + c.stock, 0)
+)
 
-// Reset quantity when available stock changes
-watch(currentStock, (newStock) => {
-  if (quantity.value > newStock) quantity.value = Math.max(1, newStock)
+watch(currentStock, (s) => {
+  if (quantity.value > s) quantity.value = Math.max(1, s)
 })
 
-const hasAllSelections = computed(() => {
-  return selectedCondition.value && selectedFoil.value && selectedLanguage.value
-})
+const hasAllSelections = computed(() =>
+  selectedCondition.value && selectedFoil.value && selectedLanguage.value
+)
 
-// Check if current selection combination exists
 const selectionExists = computed(() => {
   if (!hasAllSelections.value) return true
   return matchingCards.value.length > 0
 })
 
-// Total price
 const totalPrice = computed(() => {
   if (productType.value === 'card') {
     return (parseFloat(calculatedPrice.value) * quantity.value).toFixed(2)
@@ -105,14 +110,14 @@ const totalPrice = computed(() => {
   return null
 })
 
-// Product display info
 const currentProduct = computed(() => {
   if (productType.value === 'card') {
+    const t = cardTemplate.value
     return {
-      name: `${productId.value} Card`,
-      description: `${productId.value} character card`,
+      name: `${productId.value}`,
+      description: t ? `${t.type} card` : 'Card',
       image: '🃏',
-      isCard: true
+      isCard: true,
     }
   }
   return sealedProducts[productType.value] || null
@@ -120,7 +125,7 @@ const currentProduct = computed(() => {
 </script>
 
 <template>
-  <main class="product-page">
+  <main class="page-shell product-page">
     <router-link to="/store" class="back-link">← Back to Store</router-link>
     
     <div v-if="currentProduct" class="product-container">
@@ -151,7 +156,7 @@ const currentProduct = computed(() => {
             />
             <button @click="quantity = Math.min(quantity + 1, currentProduct.stock)" :disabled="quantity >= currentProduct.stock">+</button>
           </div>
-          <button class="buy-btn" :disabled="currentProduct.stock === 0">
+          <button class="action-btn buy-btn" :disabled="currentProduct.stock === 0">
             Add {{ quantity }} to Cart
           </button>
         </template>
@@ -163,8 +168,12 @@ const currentProduct = computed(() => {
               <label>Condition</label>
               <select v-model="selectedCondition">
                 <option value="">Select condition...</option>
-                <option v-for="cond in availableConditions" :key="cond" :value="cond">
-                  {{ cond }}
+                <option
+                  v-for="cond in allConditions" :key="cond" :value="cond"
+                  :disabled="!inStockConditions.has(cond)"
+                  :class="{ 'option-unavailable': !inStockConditions.has(cond) }"
+                >
+                  {{ cond }}{{ !inStockConditions.has(cond) ? ' (unavailable)' : '' }}
                 </option>
               </select>
             </div>
@@ -173,8 +182,12 @@ const currentProduct = computed(() => {
               <label>Foil</label>
               <select v-model="selectedFoil">
                 <option value="">Select foil type...</option>
-                <option v-for="foil in availableFoils" :key="foil" :value="foil">
-                  {{ foil }}
+                <option
+                  v-for="foil in allFoils" :key="foil" :value="foil"
+                  :disabled="!inStockFoils.has(foil)"
+                  :class="{ 'option-unavailable': !inStockFoils.has(foil) }"
+                >
+                  {{ foil }}{{ !inStockFoils.has(foil) ? ' (unavailable)' : '' }}
                 </option>
               </select>
             </div>
@@ -183,8 +196,12 @@ const currentProduct = computed(() => {
               <label>Language</label>
               <select v-model="selectedLanguage">
                 <option value="">Select language...</option>
-                <option v-for="lang in availableLanguages" :key="lang" :value="lang">
-                  {{ lang }}
+                <option
+                  v-for="lang in allLanguages" :key="lang" :value="lang"
+                  :disabled="!inStockLanguages.has(lang)"
+                  :class="{ 'option-unavailable': !inStockLanguages.has(lang) }"
+                >
+                  {{ lang }}{{ !inStockLanguages.has(lang) ? ' (unavailable)' : '' }}
                 </option>
               </select>
             </div>
@@ -194,7 +211,7 @@ const currentProduct = computed(() => {
             <span class="price">${{ hasAllSelections ? totalPrice : calculatedPrice }}</span>
             <span class="stock" :class="{ 'out-of-stock': currentStock === 0 }">
               <template v-if="hasAllSelections">{{ currentStock }} in stock</template>
-              <template v-else>{{ currentStock }} variants available</template>
+              <template v-else>{{ currentStock }} available</template>
             </span>
           </div>
 
@@ -215,7 +232,7 @@ const currentProduct = computed(() => {
           </div>
 
           <button 
-            class="buy-btn" 
+            class="action-btn buy-btn" 
             :disabled="!hasAllSelections || currentStock === 0"
           >
             <template v-if="!hasAllSelections">Select options</template>
@@ -226,7 +243,7 @@ const currentProduct = computed(() => {
       </div>
     </div>
 
-    <div v-else class="not-found">
+    <div v-else class="empty-state">
       <h2>Product not found</h2>
       <router-link to="/store">Return to store</router-link>
     </div>
@@ -234,21 +251,9 @@ const currentProduct = computed(() => {
 </template>
 
 <style scoped>
+/* Only product-page-specific overrides; shared rules in page.css */
 .product-page {
-  padding: 2rem;
   max-width: 1000px;
-  margin: 0 auto;
-}
-
-.back-link {
-  display: inline-block;
-  margin-bottom: 2rem;
-  color: var(--color-text, #ccc);
-  text-decoration: none;
-}
-
-.back-link:hover {
-  color: var(--color-heading, #fff);
 }
 
 .product-container {
@@ -282,158 +287,7 @@ const currentProduct = computed(() => {
   color: var(--color-heading, #fff);
 }
 
-.description {
-  color: var(--color-text-mute, #888);
-  margin-bottom: 2rem;
-}
-
-.filters {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.filter-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.filter-group label {
-  font-weight: bold;
-  color: var(--color-heading, #fff);
-  font-size: 0.875rem;
-  text-transform: uppercase;
-}
-
-.filter-group select {
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  border: 1px solid var(--color-border, #333);
-  background: var(--color-background-soft, #1a1a2e);
-  color: var(--color-text, #ccc);
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.filter-group select:focus {
-  outline: none;
-  border-color: var(--color-accent, #646cff);
-}
-
-.price-section {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.price {
-  font-size: 2rem;
-  font-weight: bold;
-  color: var(--color-accent, #42b883);
-}
-
-.stock {
-  font-size: 1rem;
-  color: var(--color-text-mute, #888);
-  padding: 0.25rem 0.75rem;
-  background: var(--color-background-soft, #1a1a2e);
-  border-radius: 4px;
-}
-
-.stock.out-of-stock {
-  color: #ff6b6b;
-  background: rgba(255, 107, 107, 0.1);
-}
-
-.no-match-warning {
-  color: #ff6b6b;
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  background: rgba(255, 107, 107, 0.1);
-  border-radius: 6px;
-}
-
 .buy-btn {
   width: 100%;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  background: var(--color-accent, #42b883);
-  color: white;
-  cursor: pointer;
-  transition: background 0.2s, opacity 0.2s;
-}
-
-.buy-btn:hover:not(:disabled) {
-  background: var(--color-accent-hover, #33a06f);
-}
-
-.buy-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.quantity-control {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.quantity-control button {
-  width: 2.25rem;
-  height: 2.25rem;
-  font-size: 1.25rem;
-  line-height: 1;
-  border: 1px solid var(--color-border, #333);
-  background: var(--color-background-soft, #1a1a2e);
-  color: var(--color-heading, #fff);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.quantity-control button:hover:not(:disabled) {
-  background: var(--color-background-mute, #2a2a4e);
-}
-
-.quantity-control button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.quantity-control input {
-  width: 4rem;
-  text-align: center;
-  padding: 0.4rem;
-  border: 1px solid var(--color-border, #333);
-  background: var(--color-background-soft, #1a1a2e);
-  color: var(--color-heading, #fff);
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.quantity-control input::-webkit-inner-spin-button,
-.quantity-control input::-webkit-outer-spin-button {
-  opacity: 1;
-}
-
-.not-found {
-  text-align: center;
-  padding: 4rem;
-}
-
-.not-found h2 {
-  color: var(--color-heading, #fff);
-  margin-bottom: 1rem;
-}
-
-.not-found a {
-  color: var(--color-accent, #42b883);
 }
 </style>

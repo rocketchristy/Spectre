@@ -10,7 +10,7 @@ const route = useRoute()
   <div class="app-layout">
     <Navbar v-if="route.path !== '/'" />
     <router-view />
-      <SiteFooter v-if="route.path !== '/'" /> />
+      <SiteFooter v-if="route.path !== '/'" />
   </div>
 </template>
 
@@ -21,4 +21,5 @@ const route = useRoute()
   min-height: 100vh;
   width: 100%;
 }
+
 </style>
