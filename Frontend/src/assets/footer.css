@@ -1,0 +1,133 @@
+.main-footer {
+    /* make footer full-bleed while keeping inner content constrained */
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    background-color: var(--vt-c-blue);
+    color: var(--vt-c-bg);
+    padding: 1.5rem 0 1rem;
+    margin-top: 2rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 1fr);
+    gap: 2.5rem 3rem;
+    margin-bottom: 3rem;
+    align-items: start;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.footer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footer-logo-image {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    background-color: var(--vt-c-bg);
+    padding: 5px;
+    border-radius: var(--radius);
+}
+
+/* Footer columns and links */
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.footer-col h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: inherit;
+    text-decoration: none;
+    opacity: 0.95;
+    transition: opacity 150ms ease, transform 150ms ease;
+    font-size: 0.95rem;
+}
+
+.footer-links a:hover,
+.footer-links a:focus {
+    opacity: 1;
+    transform: translateX(3px);
+}
+
+/* Footer bottom row */
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.95rem;
+}
+
+.footer-bottom .copyright {
+    opacity: 0.95;
+}
+
+.footer-bottom .footer-nav {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.footer-bottom .footer-nav a {
+    color: inherit;
+    text-decoration: none;
+    opacity: 0.95;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-bottom .footer-nav {
+        margin-top: 0.75rem;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    /* ensure subtle contrast adjustments if needed */
+    .main-footer {
+        border-color: rgba(255,255,255,0.03);
+    }
+}
