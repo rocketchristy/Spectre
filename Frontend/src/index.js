@@ -4,7 +4,8 @@ import store from '@/vues/Store/Store.vue'
 import product from '@/vues/Product/Product.vue'
 import cart from '@/vues/Cart/Cart.vue'
 import OrderHistory from '@/vues/OrderHistory/OrderHistory.vue'
-// import profile from '@/vues/Profile/Profile.vue'
+import UserProfile from '@/vues/UserProfile/UserProfile.vue'
+import Gallery from '@/vues/Gallery/Gallery.vue'
 // import checkout from '@/vues/Checkout/Checkout.vue'
 
 const router = createRouter({
@@ -12,9 +13,11 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'landing', component: homepage },
     { path: '/store', name: 'store', component: store },
+    { path: '/gallery', name: 'gallery', component: Gallery },
     { path: '/product/:type/:id', name: 'product', component: product },
     { path: '/cart', name: 'cart', component: cart },
     { path: '/orders', name: 'orderHistory', component: OrderHistory },
+    { path: '/profile', name: 'profile', component: UserProfile },
   ],
 })
 

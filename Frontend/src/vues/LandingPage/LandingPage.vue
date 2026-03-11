@@ -33,6 +33,27 @@ const onLogin = async () => {
     submitting.value = false
   }
 }
+
+const onSignup = async () => {
+  touched.value = true
+  if (!isValid.value) return
+  try {
+    submitting.value = true
+    // TODO: replace with real auth if needed
+    await new Promise((r) => setTimeout(r, 150))
+    router.push({ name: 'store' })
+  } finally {
+    submitting.value = false
+  }
+}
+
+const continueAsGuest = async () => {
+  try {
+    router.push({ name: 'store' })
+  } finally {
+    // nothing
+  }
+}
 </script>
 
 
@@ -96,10 +117,6 @@ const onLogin = async () => {
             </button>
           </div>
 
-        </div>
-
-        <div class="landing__carousel" aria-hidden="true">
-          <!-- carousel here later -->
         </div>
 
       </div>

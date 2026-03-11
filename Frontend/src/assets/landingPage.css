@@ -132,7 +132,6 @@ html, body, #app {
   margin-top: 0.5rem; 
 }
 
-
 @media (min-width: 1024px) {
 	.landing__title { font-size: 5rem; }
 }
