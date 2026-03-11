@@ -21,4 +21,5 @@ const route = useRoute()
   min-height: 100vh;
   width: 100%;
 }
+
 </style>

@@ -1,4 +1,3 @@
-
 <script setup>
 import bg from '@/assets/Images/LandingPageBG.png'
 import '@/assets/landingPage.css'
@@ -9,18 +8,20 @@ defineOptions({ name: 'LandingPage' })
 
 const router = useRouter()
 
-// form state (simple client-side gate)
-const username = ref('')
+// Initial state
+const showAuthFields = ref(false)
+
+const email = ref('')
 const password = ref('')
-const touched = ref(false)
+
 const submitting = ref(false)
+const touched = ref(false)
 
 const isValid = computed(
-  () => username.value.trim() !== '' && password.value.trim() !== ''
+  () => email.value.trim() !== '' && password.value.trim() !== ''
 )
 
-const onSubmit = async (e) => {
-  e?.preventDefault?.()
+const onLogin = async () => {
   touched.value = true
   if (!isValid.value) return
   try {
@@ -34,30 +35,40 @@ const onSubmit = async (e) => {
 }
 </script>
 
+
 <template>
-  <!-- Use the imported image as the full-viewport background on the .landing container -->
   <div class="landing" :style="{ backgroundImage: `url(${bg})` }">
     <div class="landing__inner">
-      <div class="landing__card" role="region" aria-label="Landing background">
+      <div class="landing__card" role="region">
+        
         <h1 class="landing__title">Welcome to NextGen Trading Card Game™</h1>
 
-        <!-- Login form-->
-         <form class="login-strip" @submit="onSubmit" novalidate>
+        <!-- Login/Sign-up buttons -->
+        <div v-if="!showAuthFields" class="initial-options">
+          <button class="btn landing__cta" @click="showAuthFields = true">
+            Login / Sign‑Up
+          </button>
+
+          <button class="btn landing__cta" @click="continueAsGuest">
+            Continue your adventure as a guest
+          </button>
+        </div>
+
+        <!-- Login/sign-up fields -->
+        <div v-else class="auth-fields">
+
           <div class="login-strip__row">
-            <label class="sr-only" for="username">Username</label>
             <input
-              id="username"
               class="login-input"
-              type="text"
-              v-model.trim="username"
-              placeholder="Username"
-              autocomplete="username"
+              type="email"
+              v-model.trim="email"
+              placeholder="Email"
+              autocomplete="email"
             />
           </div>
+
           <div class="login-strip__row">
-            <label class="sr-only" for="password">Password</label>
             <input
-              id="password"
               class="login-input"
               type="password"
               v-model.trim="password"
@@ -66,20 +77,31 @@ const onSubmit = async (e) => {
             />
           </div>
 
-          <!-- CTA moved below inputs; only navigates when both fields are filled -->
-          <button
-            class="landing__cta btn"
-            type="submit"
-            :disabled="!isValid || submitting"
-          >
-            {{ submitting ? 'Checking…' : 'Click here to start your adventure' }}
-          </button>
-        </form>
-        <!-- Placeholder for future image carousel -->
-        <div class="landing__carousel" aria-hidden="true">
-            
-          <!-- insert carousel component here later -->
+          <!-- Button actions -->
+          <div class="auth-actions">
+            <button
+              class="btn landing__cta"
+              :disabled="!isValid || submitting"
+              @click="onLogin"
+            >
+              {{ submitting ? 'Checking…' : 'Login' }}
+            </button>
+
+            <button
+              class="btn landing__cta"
+              :disabled="!isValid || submitting"
+              @click="onSignup"
+            >
+              {{ submitting ? 'Creating...' : 'Sign‑Up' }}
+            </button>
+          </div>
+
         </div>
+
+        <div class="landing__carousel" aria-hidden="true">
+          <!-- carousel here later -->
+        </div>
+
       </div>
     </div>
   </div>
