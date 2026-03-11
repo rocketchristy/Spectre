@@ -1,0 +1,138 @@
+
+/* Landing page styles - centers a hero heading and CTA button */
+:root {
+	--landing-bg-a: #0f172a;
+	--landing-bg-b: #071124;
+	--accent: #14b8a6; /* teal */
+	--accent-2: #7c3aed; /* purple */
+}
+
+html, body, #app {
+	height: 100%;
+    background: var(--landing-bg-b);
+}
+
+.landing {
+	position: fixed;
+	inset: 0; 
+    width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	color: white;
+	padding: 0;
+	background-size: contain;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-blend-mode: overlay;
+}
+
+.landing__inner {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.landing__card {
+	width: min(780px, 94%);
+	max-width: 1100px;
+	padding: 2.2rem 1.6rem;
+	border-radius: 14px;
+	background: linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.02));
+	box-shadow: 0 10px 40px rgba(3,7,18,0.5);
+	position: relative; /* ensure overlay pseudo-elements are positioned relative */
+}
+
+.landing__title {
+	font-size: clamp(2.2rem, 5vw, 4rem);
+	line-height: 1.02;
+	margin: 0 0 1.4rem 0;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	text-shadow: 0 8px 30px rgba(4,6,23,0.6);
+}
+
+.landing__cta {
+	display: inline-block;
+	background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+	color: white;
+	padding: 0.8rem 1.2rem;
+	border-radius: 10px;
+	font-weight: 600;
+	text-decoration: none;
+	box-shadow: 0 3px 30px rgba(2,6,23,0.6);
+	transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms;
+}
+
+.landing__cta:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 14px 40px rgba(2,6,23,0.7);
+}
+
+.landing__sub {
+	color: rgba(255,255,255,0.85);
+	margin-bottom: 1.6rem;
+	font-size: 1rem;
+}
+
+.landing__card::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+/* subtle dark overlay to ensure text contrast against busy images */
+.landing__card::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(rgba(3,7,18,0.35), rgba(3,7,18,0.25));
+	pointer-events: none;
+}
+
+/* make heading and CTA appear above overlays */
+.landing__title,
+.landing__cta {
+	position: relative;
+	z-index: 1;
+}
+
+/* Utility: make router-link look like a button */
+.btn {
+	display: inline-block;
+}
+
+
+/* --- Compact login strip placed between title and CTA --- */
+.login-strip {
+ 
+  justify-items:center;
+  z-index: 1;                 /* above card overlays */
+  display: grid;
+  gap: 0.65rem;
+  margin: 0 auto 0.5rem auto; /* slight gap before CTA */
+  width: min(500px, 90%);
+}
+
+.login-strip__row {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.auth-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem; 
+  margin-top: 0.5rem; 
+}
+
+
+@media (min-width: 1024px) {
+	.landing__title { font-size: 5rem; }
+}
