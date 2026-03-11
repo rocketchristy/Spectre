@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import landingpage from '@/vues/LandingPage/LandingPage.vue'
-import homepage from '@/vues/HomePage/HomePage.vue'
+import homepage from '@/vues/LandingPage/LandingPage.vue'
 import store from '@/vues/Store/Store.vue'
 import product from '@/vues/Product/Product.vue'
 import cart from '@/vues/Cart/Cart.vue'
@@ -11,8 +10,7 @@ import OrderHistory from '@/vues/OrderHistory/OrderHistory.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', name: 'landing', component: landingpage },
-    { path: '/homepage', name: 'homepage', component: homepage },
+    { path: '/', name: 'landing', component: homepage },
     { path: '/store', name: 'store', component: store },
     { path: '/product/:type/:id', name: 'product', component: product },
     { path: '/cart', name: 'cart', component: cart },
