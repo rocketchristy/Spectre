@@ -1,5 +1,6 @@
 <script setup>
 import '@/assets/gallery.css'
+import bg from '@/assets/Images/Gallery.png'
 import { ref, computed } from 'vue'
 import { generatedCards } from '@/utils/generateCards.js'
 
@@ -55,7 +56,7 @@ const otherUsersCards = computed(() =>
     <!-- Carousel Section -->
     <section class="carousel-section">
       <h2 class="section-heading">Featured Cards</h2>
-      <div class="carousel-container">
+      <div class="carousel-container" :style="{ backgroundImage: `url(${bg})` }">
         <button class="carousel-btn carousel-btn--prev" @click="prevCard" aria-label="Previous card">
           ‹
         </button>
@@ -101,7 +102,7 @@ const otherUsersCards = computed(() =>
           <div class="card-image">🎴</div>
           <div class="card-info">
             <h3 class="card-name">{{ card.name }}</h3>
-            <p class="card-rarity" :class="`rarity-${card.rarity.toLowerCase()}`">
+            <p class="card-rarity" :class="`rarity-${card.rarity.toLowerCase().replace(' ', '-')}`">
               {{ card.rarity }}
             </p>
             <p class="card-condition">{{ card.condition }}</p>

@@ -46,6 +46,7 @@
 }
 
 .carousel-container {
+  min-height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,6 +56,9 @@
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 1rem;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .carousel-display {
@@ -99,7 +103,7 @@
 
 .carousel-title {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-background, #ffffff);
   margin: 1rem 0 0.5rem 0;
 }
@@ -175,7 +179,7 @@
 /* ========== Cards Grids ========== */
 .section-heading {
   margin-bottom: 1.5rem;
-  color: var(--color-heading, #fff);
+  color: var(--vt-c-text);
   border-bottom: 2px solid var(--color-border, #333);
   padding-bottom: 0.5rem;
   font-size: 1.5rem;
@@ -259,9 +263,10 @@
   color: #ffaa00;
 }
 
-.rarity-super\ rare {
+.rarity-super-rare {
   color: #ff0055;
 }
+
 
 .card-condition {
   font-size: 0.9rem;
