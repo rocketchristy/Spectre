@@ -1,7 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import JSONResponse
 from Backend.RestAPI.Routes import login, inventory
 from Backend.DatabaseAccess.connection_pool import IBMDBConnectionPool
 import configparser
+from Backend.Utilities.logger import logger
 from contextlib import asynccontextmanager
 
 @asynccontextmanager
@@ -25,5 +27,23 @@ async def lifespan(app: FastAPI):
     app.state.db_pool.close_all()
 
 app = FastAPI(lifespan=lifespan)
+
+# Exception handlers
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    logger.error(f"HTTP exception: {exc.detail}")
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"status": "error", "reason": exc.detail}
+    )
+
+@app.exception_handler(Exception)
+async def general_exception_handler(request: Request, exc: Exception):
+    logger.error(f"Unhandled exception: {str(exc)}", exc_info=True)
+    return JSONResponse(
+        status_code=500,
+        content={"status": "error", "reason": "Internal server error"}
+    )
+
 app.include_router(login.router)
 app.include_router(inventory.router)
