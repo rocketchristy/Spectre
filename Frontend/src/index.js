@@ -4,17 +4,19 @@ import store from '@/vues/Store/Store.vue'
 import product from '@/vues/Product/Product.vue'
 import cart from '@/vues/Cart/Cart.vue'
 import OrderHistory from '@/vues/OrderHistory/OrderHistory.vue'
-// import profile from '@/vues/Profile/Profile.vue'
-// import checkout from '@/vues/Checkout/Checkout.vue'
+import UserProfile from '@/vues/UserProfile/UserProfile.vue'
+import Gallery from '@/vues/Gallery/Gallery.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', name: 'landing', component: homepage },
     { path: '/store', name: 'store', component: store },
+    { path: '/gallery', name: 'gallery', component: Gallery },
     { path: '/product/:type/:id', name: 'product', component: product },
     { path: '/cart', name: 'cart', component: cart },
     { path: '/orders', name: 'orderHistory', component: OrderHistory },
+    { path: '/profile', name: 'profile', component: UserProfile },
   ],
 })
 

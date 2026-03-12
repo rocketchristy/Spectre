@@ -3,6 +3,7 @@ import bg from '@/assets/Images/LandingPageBG.png'
 import '@/assets/landingPage.css'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { loginUser, registerUser } from '@/utils/api.js'
 
 defineOptions({ name: 'LandingPage' })
 
@@ -10,29 +11,77 @@ const router = useRouter()
 
 // Initial state
 const showAuthFields = ref(false)
+const isSignup = ref(false)
 
 const email = ref('')
 const password = ref('')
+const firstName = ref('')
+const lastName = ref('')
 
 const submitting = ref(false)
 const touched = ref(false)
+const errorMsg = ref('')
 
-const isValid = computed(
+const isLoginValid = computed(
   () => email.value.trim() !== '' && password.value.trim() !== ''
 )
 
+const isSignupValid = computed(
+  () =>
+    isLoginValid.value &&
+    firstName.value.trim() !== '' &&
+    lastName.value.trim() !== ''
+)
+
+const isValid = computed(() =>
+  isSignup.value ? isSignupValid.value : isLoginValid.value
+)
+
+const continueAsGuest = () => {
+  router.push({ name: 'store' })
+}
+
 const onLogin = async () => {
   touched.value = true
-  if (!isValid.value) return
+  errorMsg.value = ''
+  if (!isLoginValid.value) return
   try {
     submitting.value = true
-    // TODO: replace with real auth if needed
-    await new Promise((r) => setTimeout(r, 150))
+    const data = await loginUser(email.value, password.value)
+    localStorage.setItem('token', data.token)
+    localStorage.setItem('firstName', data.first_name)
     router.push({ name: 'store' })
+  } catch (err) {
+    errorMsg.value = err.message
   } finally {
     submitting.value = false
   }
 }
+
+const onSignup = async () => {
+  touched.value = true
+  errorMsg.value = ''
+  if (!isSignupValid.value) return
+  try {
+    submitting.value = true
+    await registerUser(
+      email.value,
+      password.value,
+      firstName.value,
+      lastName.value
+    )
+    // Auto-login after successful registration
+    const data = await loginUser(email.value, password.value)
+    localStorage.setItem('token', data.token)
+    localStorage.setItem('firstName', data.first_name)
+    router.push({ name: 'store' })
+  } catch (err) {
+    errorMsg.value = err.message
+  } finally {
+    submitting.value = false
+  }
+}
+
 </script>
 
 
@@ -57,6 +106,28 @@ const onLogin = async () => {
         <!-- Login/sign-up fields -->
         <div v-else class="auth-fields">
 
+          <p v-if="errorMsg" class="auth-error" role="alert">{{ errorMsg }}</p>
+
+          <div v-if="isSignup" class="login-strip__row">
+            <input
+              class="login-input"
+              type="text"
+              v-model.trim="firstName"
+              placeholder="First Name"
+              autocomplete="given-name"
+            />
+          </div>
+
+          <div v-if="isSignup" class="login-strip__row">
+            <input
+              class="login-input"
+              type="text"
+              v-model.trim="lastName"
+              placeholder="Last Name"
+              autocomplete="family-name"
+            />
+          </div>
+
           <div class="login-strip__row">
             <input
               class="login-input"
@@ -79,27 +150,41 @@ const onLogin = async () => {
 
           <!-- Button actions -->
           <div class="auth-actions">
-            <button
-              class="btn landing__cta"
-              :disabled="!isValid || submitting"
-              @click="onLogin"
-            >
-              {{ submitting ? 'Checking…' : 'Login' }}
-            </button>
+            <template v-if="!isSignup">
+              <button
+                class="btn landing__cta"
+                :disabled="!isValid || submitting"
+                @click="onLogin"
+              >
+                {{ submitting ? 'Checking…' : 'Login' }}
+              </button>
 
-            <button
-              class="btn landing__cta"
-              :disabled="!isValid || submitting"
-              @click="onSignup"
-            >
-              {{ submitting ? 'Creating...' : 'Sign‑Up' }}
-            </button>
+              <button
+                class="btn landing__cta"
+                @click="isSignup = true"
+              >
+                Sign‑Up
+              </button>
+            </template>
+
+            <template v-else>
+              <button
+                class="btn landing__cta"
+                :disabled="!isValid || submitting"
+                @click="onSignup"
+              >
+                {{ submitting ? 'Creating…' : 'Create Account' }}
+              </button>
+
+              <button
+                class="btn landing__cta"
+                @click="isSignup = false; errorMsg = ''"
+              >
+                Back to Login
+              </button>
+            </template>
           </div>
 
-        </div>
-
-        <div class="landing__carousel" aria-hidden="true">
-          <!-- carousel here later -->
         </div>
 
       </div>
