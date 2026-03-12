@@ -15,7 +15,7 @@ export const cardPriceModifiers = {
     },
     "foil": {
         "Non-foil": 1,
-        "Holowfoil": 3,
+        "Holofoil": 3,
         "Reverse Holofoil": 4
     },
     "language": {
