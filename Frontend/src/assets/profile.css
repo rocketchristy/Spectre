@@ -124,6 +124,87 @@
   transform: translateY(-2px);
 }
 
+.btn-danger {
+  background-color: transparent;
+  color: #ff4d4d;
+  border: 1px solid #ff4d4d;
+  font-size: 0.85rem;
+  padding: 0.4rem 1rem;
+  margin-top: 0.75rem;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #ff4d4d;
+  color: #fff;
+}
+
+.btn-logout {
+  background-color: transparent;
+  color: #ff4d4d;
+  border: 2px solid #ff4d4d;
+}
+
+.btn-logout:hover {
+  background-color: #ff4d4d;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Addresses */
+.addresses-section {
+  margin-top: 1rem;
+}
+
+.addresses-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.addresses-header h2 {
+  margin: 0;
+  color: var(--color-text, #fff);
+}
+
+.address-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.address-card {
+  padding: 1.25rem;
+  background-color: var(--color-background-soft, #1a1a2e);
+  border: 1px solid var(--color-border, #333);
+  border-radius: 8px;
+}
+
+.address-card p {
+  margin: 0.2rem 0;
+  color: var(--color-text, #fff);
+}
+
+.address-name {
+  font-weight: 600;
+  color: var(--color-primary, #00d4ff) !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Loading & Error */
+.profile-loading {
+  text-align: center;
+  padding: 4rem 0;
+  color: var(--color-text, #fff);
+  font-size: 1.1rem;
+}
+
+.modal-error {
+  color: #ff4d4d;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
 /* Modal Styles */
 .modal-overlay {
   position: fixed;
@@ -267,5 +348,9 @@
 
   .modal-actions .btn {
     width: 100%;
+  }
+
+  .address-grid {
+    grid-template-columns: 1fr;
   }
 }

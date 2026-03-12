@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "concurrently -n front,back -c cyan,green \"cd Frontend && npm run dev\" \"uvicorn Backend.RestAPI.server:app --reload\"",
+    "start": "concurrently \"cd Frontend && npm run dev\" \"uvicorn Backend.RestAPI.server:app --reload\"",
     "install": "cd Frontend && npm install"
   },
   "dependencies": {
