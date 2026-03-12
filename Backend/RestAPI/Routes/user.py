@@ -2,13 +2,10 @@ from fastapi import APIRouter, Request, Depends, HTTPException, status
 from Backend.Utilities.logger import logger
 from Backend.DatabaseAccess.user_dao import UserDAO
 from Backend.Utilities.utilities import hash_password, get_token_header
+from Backend.Utilities.user_validation import LoginRequest, RegisterRequest, UpdateUserRequest, AddressRequest
 from pydantic import BaseModel
 
 router = APIRouter()
-
-class LoginRequest(BaseModel):
-    email: str
-    password: str
 
 @router.post("/login", status_code=status.HTTP_200_OK)
 def login(request: Request, payload: LoginRequest):
@@ -48,12 +45,6 @@ def login(request: Request, payload: LoginRequest):
         "token": result_token.get("output")[-1]['ID'],
         "first_name": result.get("output")[-1]['FIRST_NAME']
     }
-
-class RegisterRequest(BaseModel):
-    email: str
-    password: str
-    first_name: str
-    last_name: str
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
 def register(request: Request, payload: RegisterRequest):
@@ -114,12 +105,6 @@ def get_user_data(request: Request, token: str = Depends(get_token_header)):
         "addresses": address.get("output")
     }
 
-class UpdateUserRequest(BaseModel):
-    email: str
-    password: str
-    fname: str
-    lname: str
-
 @router.put("/user", status_code=status.HTTP_200_OK)
 def update_user_data(request: Request, payload: UpdateUserRequest, token: str = Depends(get_token_header)):
     email = payload.email
@@ -152,16 +137,6 @@ def update_user_data(request: Request, payload: UpdateUserRequest, token: str = 
     
     logger.info(f"Successfully updated user data for user ID {user_id}")
     return {"message": "User data updated successfully"}
-
-class AddressRequest(BaseModel):
-    full_name: str
-    line1: str
-    line2: str
-    city: str
-    region: str
-    postal_code: str
-    country_code: str
-    phone: str
 
 @router.post("/user/address", status_code=status.HTTP_201_CREATED)
 def add_address(request: Request, payload: AddressRequest, token: str = Depends(get_token_header)):

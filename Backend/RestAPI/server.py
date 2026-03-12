@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
-from Backend.RestAPI.Routes import login, inventory
+from Backend.RestAPI.Routes import inventory, user
 from Backend.DatabaseAccess.connection_pool import IBMDBConnectionPool
 import configparser
 from Backend.Utilities.logger import logger
@@ -45,5 +45,5 @@ async def general_exception_handler(request: Request, exc: Exception):
         content={"status": "error", "reason": "Internal server error"}
     )
 
-app.include_router(login.router)
+app.include_router(user.router)
 app.include_router(inventory.router)
