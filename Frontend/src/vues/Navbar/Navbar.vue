@@ -5,9 +5,10 @@ const route = useRoute()
 
 const navLinks = [
   { path: '/store', name: 'Store' },
+  { path: '/gallery', name: 'Gallery' },
   { path: '/cart', name: 'Cart' },
   { path: '/orders', name: 'Orders' },
-  // { path: '/profile', name: 'Profile' },
+  { path: '/profile', name: 'Profile' },
 ]
 </script>
 

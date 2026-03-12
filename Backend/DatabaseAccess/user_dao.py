@@ -67,6 +67,11 @@ class UserDAO:
         try:
             sql = """
                 SELECT 
+<<<<<<< HEAD
+=======
+                    USER01.USERS.FIRST_NAME,
+                    USER01.USERS.LAST_NAME,
+>>>>>>> 2e30084cb21959f6159dc777f2ea6cfb16a0d124
                     USER01.ADDRESSES.ID,
                     USER01.ADDRESSES.FULL_NAME,
                     USER01.ADDRESSES.LINE1,
@@ -139,10 +144,13 @@ class UserDAO:
             stmt = ibm_db.prepare(conn, sql)
             ibm_db.bind_param(stmt, 1, token)
             ibm_db.execute(stmt)
+<<<<<<< HEAD
             num_rows=ibm_db.num_rows(stmt)
             if num_rows == 0:
                 return {"status": "error", "reason": "No token not found"}
             ibm_db.commit(conn)
+=======
+>>>>>>> 2e30084cb21959f6159dc777f2ea6cfb16a0d124
             return {"status": "success"}
         except Exception as e:
             return {"status": "error", "reason": str(e)}
@@ -246,10 +254,13 @@ class UserDAO:
             ibm_db.bind_param(stmt, 1, user_id)
             ibm_db.bind_param(stmt, 2, index)
             ibm_db.execute(stmt)
+<<<<<<< HEAD
             num_rows=ibm_db.num_rows(stmt)
             if num_rows == 0:
                 return {"status": "error", "reason": "No address not found"}
             ibm_db.commit(conn)
+=======
+>>>>>>> 2e30084cb21959f6159dc777f2ea6cfb16a0d124
             return {"status": "success"}
         except Exception as e:
             return {"status": "error", "reason": str(e)}

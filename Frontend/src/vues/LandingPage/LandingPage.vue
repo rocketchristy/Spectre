@@ -81,6 +81,7 @@ const onSignup = async () => {
     submitting.value = false
   }
 }
+
 </script>
 
 
@@ -184,10 +185,6 @@ const onSignup = async () => {
             </template>
           </div>
 
-        </div>
-
-        <div class="landing__carousel" aria-hidden="true">
-          <!-- carousel here later -->
         </div>
 
       </div>

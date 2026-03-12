@@ -132,6 +132,7 @@ html, body, #app {
   margin-top: 0.5rem; 
 }
 
+<<<<<<< HEAD
 .auth-error {
   color: #f87171;
   font-size: 0.95rem;
@@ -155,6 +156,8 @@ html, body, #app {
 }
 
 
+=======
+>>>>>>> 2e30084cb21959f6159dc777f2ea6cfb16a0d124
 @media (min-width: 1024px) {
 	.landing__title { font-size: 5rem; }
 }
