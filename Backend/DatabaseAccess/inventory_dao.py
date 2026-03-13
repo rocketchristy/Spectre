@@ -14,7 +14,7 @@ class InventoryDAO:
         self.pool = pool
     '''
     def get_products(self):
-        # TODO add sql code here
+        # TODO add sql code here 
 
     def get_specific_product(self, sku):
         # TODO add code to search for item with spefic sku or combination

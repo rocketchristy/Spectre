@@ -13,6 +13,10 @@ class CartDAO:
     def __init__(self, pool):
         self.pool = pool
     
+    def get_cart(self, user_id):
+        #TODO Return all cart
+
+    
     
 '''
 class CartDAO:
