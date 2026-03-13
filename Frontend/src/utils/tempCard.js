@@ -14,7 +14,8 @@ export const tempCardData = [
      "language": ["english", "japanese", "australian"],
      "stock": "0",
      "rarity": ["Common", "Uncommon", "Rare", "Super Rare"],
-     "type": "artifact"
+     "type": "artifact",
+     "seller": ["bigseller1", "collectThemAll", "MrCard", "CardShark", "RareFindsShop"]
     },
       {"name": ["NextGen Office", "Breakroom", "TopGolf", "Wrights BBQ", "BreakRoom", "Desk47", "Ozark-Booked"],
      "condition" : ["Mint", "Near Mint", "Lightplay", "Moderate Play"],
@@ -22,6 +23,7 @@ export const tempCardData = [
      "language": ["english", "japanese", "australian"],
      "stock": "0",
      "rarity": ["Common", "Uncommon", "Rare", "Super Rare"],
-     "type": "lands"
+     "type": "lands",
+     "seller": ["bigseller1", "collectThemAll", "MrCard", "CardShark", "RareFindsShop"]
     },
 ]

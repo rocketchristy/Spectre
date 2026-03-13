@@ -1,57 +1,59 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { prices, cardPriceModifiers } from '@/utils/prices.js'
+import { prices, cardPriceModifiers, mysteryProductTypes, elementEmoji } from '@/utils/prices.js'
 import { generatedCards, getTemplateForName } from '@/utils/generateCards.js'
+import { allListingsForName, userListings } from '@/utils/listings.js'
 
 const route = useRoute()
 
 const productType = computed(() => route.params.type)
-const productId = computed(() => route.params.id)
+const productId   = computed(() => route.params.id)
 
-// Sealed products
-const sealedProducts = {
-  pack: { name: 'Booster Pack', price: prices[0].pack, description: '10 random cards per pack', stock: 50, image: '📦' },
-  bundle: { name: 'Bundle', price: prices[0].bundle, description: '5 packs + 1 promo card', stock: 25, image: '🎁' },
-  box: { name: 'Booster Box', price: prices[0].box, description: '36 packs per box', stock: 10, image: '📦' },
-}
+// ---------- Mystery products ----------
+const isMystery = computed(() => productType.value?.startsWith('mystery-'))
 
-// Filter selections
+const mysteryProduct = computed(() => {
+  if (!isMystery.value) return null
+  const tier = productType.value.replace('mystery-', '')   // single | mid | pack
+  const element = productId.value                           // Fire, Water, etc.
+  const info = mysteryProductTypes[tier]
+  if (!info) return null
+  return {
+    name: `${element} ${info.name}`,
+    description: `${info.cards} random ${element} card${info.cards > 1 ? 's' : ''}`,
+    price: prices[0][info.priceKey],
+    image: elementEmoji[element] || '🎴',
+    stock: 50,
+  }
+})
+
+// ---------- Filter selections ----------
 const selectedCondition = ref('')
-const selectedFoil = ref('')
-const selectedLanguage = ref('')
+const selectedFoil      = ref('')
+const selectedLanguage  = ref('')
 
 const quantity = ref(1)
 
-// All generated cards matching this product name
-const cardVariants = computed(() => {
-  if (productType.value !== 'card') return []
-  return generatedCards.filter(c => c.name === productId.value)
+// ---------- Card data ----------
+const isCard = computed(() => productType.value === 'card')
+
+// All listings (generated + user) for this card name
+const cardListings = computed(() => {
+  if (!isCard.value) return []
+  return allListingsForName(productId.value)
 })
 
-// The raw template for this card name — gives us ALL possible option values
 const cardTemplate = computed(() => {
-  if (productType.value !== 'card') return null
+  if (!isCard.value) return null
   return getTemplateForName(productId.value)
 })
 
-// All possible options from template
 const allConditions = computed(() => cardTemplate.value?.condition || [])
 const allFoils      = computed(() => cardTemplate.value?.foil || [])
 const allLanguages  = computed(() => cardTemplate.value?.language || [])
 
-// Options that actually exist in stock (stock > 0)
-const inStockConditions = computed(() => new Set(
-  cardVariants.value.filter(c => c.stock > 0).map(c => c.condition)
-))
-const inStockFoils = computed(() => new Set(
-  cardVariants.value.filter(c => c.stock > 0).map(c => c.foil)
-))
-const inStockLanguages = computed(() => new Set(
-  cardVariants.value.filter(c => c.stock > 0).map(c => c.language)
-))
-
-// Reset filters and quantity on product change
+// Reset on product change
 watch(productId, () => {
   selectedCondition.value = ''
   selectedFoil.value = ''
@@ -59,22 +61,9 @@ watch(productId, () => {
   quantity.value = 1
 })
 
-// Price based on current selections
-const calculatedPrice = computed(() => {
-  if (productType.value !== 'card') return null
-  const base = parseFloat(prices[0].card.replace('$', ''))
-  let modifier = 1
-  if (selectedCondition.value) modifier *= cardPriceModifiers.condition[selectedCondition.value] || 1
-  if (selectedFoil.value)      modifier *= cardPriceModifiers.foil[selectedFoil.value] || 1
-  if (selectedLanguage.value)  modifier *= cardPriceModifiers.language[selectedLanguage.value] || 1
-  return (base * modifier).toFixed(2)
-})
-
-// Cards matching current filter selections with stock > 0
-const matchingCards = computed(() => {
-  if (productType.value !== 'card') return []
-  return cardVariants.value.filter(card => {
-    if (card.stock <= 0) return false
+// Filtered seller listings
+const filteredListings = computed(() => {
+  return cardListings.value.filter(card => {
     if (selectedCondition.value && card.condition !== selectedCondition.value) return false
     if (selectedFoil.value && card.foil !== selectedFoil.value) return false
     if (selectedLanguage.value && card.language !== selectedLanguage.value) return false
@@ -82,52 +71,32 @@ const matchingCards = computed(() => {
   })
 })
 
-const currentStock = computed(() =>
-  matchingCards.value.reduce((sum, c) => sum + c.stock, 0)
-)
-
-watch(currentStock, (s) => {
-  if (quantity.value > s) quantity.value = Math.max(1, s)
-})
-
-const hasAllSelections = computed(() =>
-  selectedCondition.value && selectedFoil.value && selectedLanguage.value
-)
-
-const selectionExists = computed(() => {
-  if (!hasAllSelections.value) return true
-  return matchingCards.value.length > 0
-})
-
-const totalPrice = computed(() => {
-  if (productType.value === 'card') {
-    return (parseFloat(calculatedPrice.value) * quantity.value).toFixed(2)
-  }
-  if (currentProduct.value) {
-    const base = parseFloat(currentProduct.value.price.replace('$', ''))
-    return (base * quantity.value).toFixed(2)
+// ---------- Current product (for the header area) ----------
+const currentProduct = computed(() => {
+  if (isMystery.value) return mysteryProduct.value
+  if (isCard.value) {
+    const t = cardTemplate.value
+    return {
+      name: productId.value,
+      description: t ? `${t.type} card` : 'Card',
+      image: '🃏',
+    }
   }
   return null
 })
 
-const currentProduct = computed(() => {
-  if (productType.value === 'card') {
-    const t = cardTemplate.value
-    return {
-      name: `${productId.value}`,
-      description: t ? `${t.type} card` : 'Card',
-      image: '🃏',
-      isCard: true,
-    }
-  }
-  return sealedProducts[productType.value] || null
+// Mystery product price helpers
+const mysteryTotalPrice = computed(() => {
+  if (!mysteryProduct.value) return null
+  const base = parseFloat(mysteryProduct.value.price.replace('$', ''))
+  return (base * quantity.value).toFixed(2)
 })
 </script>
 
 <template>
   <main class="page-shell product-page">
     <router-link to="/store" class="back-link">← Back to Store</router-link>
-    
+
     <div v-if="currentProduct" class="product-container">
       <div class="product-image-section">
         <div class="product-image-large">{{ currentProduct.image }}</div>
@@ -137,108 +106,72 @@ const currentProduct = computed(() => {
         <h1>{{ currentProduct.name }}</h1>
         <p class="description">{{ currentProduct.description }}</p>
 
-        <!-- Sealed product (no filters) -->
-        <template v-if="!currentProduct.isCard">
+        <!-- Mystery product -->
+        <template v-if="isMystery && mysteryProduct">
           <div class="price-section">
-            <span class="price">${{ totalPrice }}</span>
-            <span class="stock" :class="{ 'out-of-stock': currentProduct.stock === 0 }">
-              {{ currentProduct.stock }} in stock
-            </span>
+            <span class="price">${{ mysteryTotalPrice }}</span>
+            <span class="stock">{{ mysteryProduct.stock }} in stock</span>
           </div>
           <div class="quantity-control">
             <button @click="quantity = Math.max(1, quantity - 1)" :disabled="quantity <= 1">−</button>
-            <input
-              type="number"
-              v-model.number="quantity"
-              :min="1"
-              :max="currentProduct.stock"
-              @change="quantity = Math.min(Math.max(1, quantity), currentProduct.stock)"
-            />
-            <button @click="quantity = Math.min(quantity + 1, currentProduct.stock)" :disabled="quantity >= currentProduct.stock">+</button>
+            <input type="number" v-model.number="quantity" :min="1" :max="mysteryProduct.stock"
+              @change="quantity = Math.min(Math.max(1, quantity), mysteryProduct.stock)" />
+            <button @click="quantity = Math.min(quantity + 1, mysteryProduct.stock)"
+              :disabled="quantity >= mysteryProduct.stock">+</button>
           </div>
-          <button class="action-btn buy-btn" :disabled="currentProduct.stock === 0">
+          <button class="action-btn buy-btn" :disabled="mysteryProduct.stock === 0">
             Add {{ quantity }} to Cart
           </button>
         </template>
 
-        <!-- Card product (with filters) -->
-        <template v-else>
+        <!-- Card product: filters + seller listings -->
+        <template v-else-if="isCard">
           <div class="filters">
             <div class="filter-group">
               <label>Condition</label>
               <select v-model="selectedCondition">
-                <option value="">Select condition...</option>
-                <option
-                  v-for="cond in allConditions" :key="cond" :value="cond"
-                  :disabled="!inStockConditions.has(cond)"
-                  :class="{ 'option-unavailable': !inStockConditions.has(cond) }"
-                >
-                  {{ cond }}{{ !inStockConditions.has(cond) ? ' (unavailable)' : '' }}
-                </option>
+                <option value="">All conditions</option>
+                <option v-for="c in allConditions" :key="c" :value="c">{{ c }}</option>
               </select>
             </div>
-
             <div class="filter-group">
               <label>Foil</label>
               <select v-model="selectedFoil">
-                <option value="">Select foil type...</option>
-                <option
-                  v-for="foil in allFoils" :key="foil" :value="foil"
-                  :disabled="!inStockFoils.has(foil)"
-                  :class="{ 'option-unavailable': !inStockFoils.has(foil) }"
-                >
-                  {{ foil }}{{ !inStockFoils.has(foil) ? ' (unavailable)' : '' }}
-                </option>
+                <option value="">All foil types</option>
+                <option v-for="f in allFoils" :key="f" :value="f">{{ f }}</option>
               </select>
             </div>
-
             <div class="filter-group">
               <label>Language</label>
               <select v-model="selectedLanguage">
-                <option value="">Select language...</option>
-                <option
-                  v-for="lang in allLanguages" :key="lang" :value="lang"
-                  :disabled="!inStockLanguages.has(lang)"
-                  :class="{ 'option-unavailable': !inStockLanguages.has(lang) }"
-                >
-                  {{ lang }}{{ !inStockLanguages.has(lang) ? ' (unavailable)' : '' }}
-                </option>
+                <option value="">All languages</option>
+                <option v-for="l in allLanguages" :key="l" :value="l">{{ l }}</option>
               </select>
             </div>
           </div>
 
-          <div class="price-section">
-            <span class="price">${{ hasAllSelections ? totalPrice : calculatedPrice }}</span>
-            <span class="stock" :class="{ 'out-of-stock': currentStock === 0 }">
-              <template v-if="hasAllSelections">{{ currentStock }} in stock</template>
-              <template v-else>{{ currentStock }} available</template>
-            </span>
-          </div>
+          <!-- Seller listings table -->
+          <h2 class="section-heading">Listings ({{ filteredListings.length }})</h2>
 
-          <div v-if="hasAllSelections && !selectionExists" class="no-match-warning">
-            This combination is not available.
+          <div v-if="filteredListings.length" class="seller-listings">
+            <div class="listing-header">
+              <span>Seller</span>
+              <span>Condition</span>
+              <span>Foil</span>
+              <span>Language</span>
+              <span>Price</span>
+              <span></span>
+            </div>
+            <div v-for="card in filteredListings" :key="card.id" class="listing-row">
+              <span class="listing-seller">{{ card.seller }}</span>
+              <span>{{ card.condition }}</span>
+              <span>{{ card.foil }}</span>
+              <span>{{ card.language }}</span>
+              <span class="listing-price">${{ card.price }}</span>
+              <button class="action-btn listing-buy-btn">Add to Cart</button>
+            </div>
           </div>
-
-          <div v-if="hasAllSelections && currentStock > 0" class="quantity-control">
-            <button @click="quantity = Math.max(1, quantity - 1)" :disabled="quantity <= 1">−</button>
-            <input
-              type="number"
-              v-model.number="quantity"
-              :min="1"
-              :max="currentStock"
-              @change="quantity = Math.min(Math.max(1, quantity), currentStock)"
-            />
-            <button @click="quantity = Math.min(quantity + 1, currentStock)" :disabled="quantity >= currentStock">+</button>
-          </div>
-
-          <button 
-            class="action-btn buy-btn" 
-            :disabled="!hasAllSelections || currentStock === 0"
-          >
-            <template v-if="!hasAllSelections">Select options</template>
-            <template v-else-if="currentStock === 0">Out of Stock</template>
-            <template v-else>Add {{ quantity }} to Cart</template>
-          </button>
+          <p v-else class="text-muted">No listings match the selected filters.</p>
         </template>
       </div>
     </div>
@@ -251,7 +184,6 @@ const currentProduct = computed(() => {
 </template>
 
 <style scoped>
-/* Only product-page-specific overrides; shared rules in page.css */
 .product-page {
   max-width: 1000px;
 }

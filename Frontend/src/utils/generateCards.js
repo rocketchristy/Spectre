@@ -1,11 +1,13 @@
 import { tempCardData } from './tempCard.js'
 import { prices, cardPriceModifiers } from './prices.js'
 
+const defaultSellers = ['bigseller1', 'collectThemAll', 'MrCard', 'CardShark', 'RareFindsShop']
+
 function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)]
 }
 
-function calculatePrice(card) {
+export function calculatePrice(card) {
   const base = parseFloat(prices[0].card.replace('$', ''))
   let modifier = 1
   modifier *= cardPriceModifiers.condition[card.condition] || 1
@@ -33,6 +35,7 @@ export function generateCards(variantsPerName = 3) {
           rarity: pick(template.rarity),
           type: template.type,
           stock: Math.floor(Math.random() * 101),
+          seller: pick(template.seller || defaultSellers),
         }
         card.price = calculatePrice(card)
         cards.push(card)

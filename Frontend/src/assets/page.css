@@ -427,6 +427,83 @@
   color: var(--color-heading, #fff);
 }
 
+/* ---------- sell bar ---------- */
+.sell-bar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.sell-btn {
+  background: var(--color-accent, #42b883);
+  font-size: 1.1rem;
+  padding: 0.85rem 2.5rem;
+}
+
+/* ---------- suggested price ---------- */
+.suggested-price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--color-accent, #42b883);
+  margin: 0;
+}
+
+/* ---------- seller listings ---------- */
+.seller-listings {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 2rem;
+}
+
+.listing-header,
+.listing-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr 0.8fr auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+}
+
+.listing-header {
+  font-weight: bold;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--color-heading, #fff);
+  border-bottom: 2px solid var(--color-border, #333);
+}
+
+.listing-row {
+  border-bottom: 1px solid var(--color-border, #333);
+  color: var(--color-text, #ccc);
+  font-size: 0.9rem;
+}
+
+.listing-seller {
+  font-weight: 600;
+  color: var(--color-heading, #fff);
+}
+
+.listing-price {
+  font-weight: bold;
+  color: var(--color-accent, #42b883);
+}
+
+.listing-buy-btn {
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .listing-header,
+  .listing-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .listing-header { display: none; }
+}
+
 /* ---------- ad components ---------- */
 .ad-carousel {
   position: relative;

@@ -1,11 +1,24 @@
 export const prices = [
-    {"pack": "$10",
-     "bundle" : "$50",
-     "box": "$100",
+    {"mystery_single": "$5",
+     "mystery_mid" : "$12",
+     "mystery_pack": "$35",
      "card": "$1"
     },
-
 ]
+
+export const elements = ['Fire', 'Water', 'Grass', 'Earth', 'Ice', 'Shadow', 'Rainbow']
+
+export const elementEmoji = {
+  Fire: '🔥', Water: '💧', Grass: '🌿', Earth: '🪨',
+  Ice: '❄️', Shadow: '🌑', Rainbow: '🌈'
+}
+
+export const mysteryProductTypes = {
+  single: { name: 'Mystery Single', cards: 1, priceKey: 'mystery_single' },
+  mid:    { name: 'Mystery Mid',    cards: 3, priceKey: 'mystery_mid' },
+  pack:   { name: 'Mystery Pack',   cards: 10, priceKey: 'mystery_pack' },
+}
+
 export const cardPriceModifiers = {
     "condition": {
         "Mint": 2,
