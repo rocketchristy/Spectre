@@ -48,6 +48,7 @@ def login(request: Request, payload: LoginRequest):
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
 def register(request: Request, payload: RegisterRequest):
+    # TODO create a cart too
     email = payload.email
     password = payload.password
     password_hash = hash_password(password)
@@ -67,7 +68,7 @@ def register(request: Request, payload: RegisterRequest):
     logger.info(f"Register user {email} successfully")
     return {"message": "User registered successfully"}
 
-@router.get("/user", status_code=status.HTTP_200_OK)
+@router.get("/", status_code=status.HTTP_200_OK)
 def get_user_data(request: Request, token: str = Depends(get_token_header)):
     logger.info("Attempting to retrieve user data")
     pool = request.app.state.db_pool
@@ -105,7 +106,7 @@ def get_user_data(request: Request, token: str = Depends(get_token_header)):
         "addresses": address.get("output")
     }
 
-@router.put("/user", status_code=status.HTTP_200_OK)
+@router.put("/", status_code=status.HTTP_200_OK)
 def update_user_data(request: Request, payload: UpdateUserRequest, token: str = Depends(get_token_header)):
     email = payload.email
     password = payload.password
@@ -138,7 +139,7 @@ def update_user_data(request: Request, payload: UpdateUserRequest, token: str = 
     logger.info(f"Successfully updated user data for user ID {user_id}")
     return {"message": "User data updated successfully"}
 
-@router.post("/user/address", status_code=status.HTTP_201_CREATED)
+@router.post("/address", status_code=status.HTTP_201_CREATED)
 def add_address(request: Request, payload: AddressRequest, token: str = Depends(get_token_header)):
     full_name = payload.full_name
     line1 = payload.line1
@@ -180,7 +181,7 @@ def add_address(request: Request, payload: AddressRequest, token: str = Depends(
     logger.info(f"Successfully added address for user ID {user_id}")
     return {"message": "Address added successfully"}
 
-@router.delete("/user/address/{index}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/address/{index}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_address(request: Request, index: int, token: str = Depends(get_token_header)):
     logger.info(f"Attempting to delete address with index {index}")
     pool = request.app.state.db_pool

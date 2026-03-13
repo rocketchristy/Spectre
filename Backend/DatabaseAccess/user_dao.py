@@ -128,6 +128,7 @@ class UserDAO:
             stmt=ibm_db.prepare(conn,sql)
             ibm_db.bind_param(stmt,1,user_id)
             ibm_db.execute(stmt)
+            
             return {"status": "success"}
         except Exception as e:
             return {"status": "error", "reason": str(e)}
@@ -141,6 +142,12 @@ class UserDAO:
             stmt = ibm_db.prepare(conn, sql)
             ibm_db.bind_param(stmt, 1, token)
             ibm_db.execute(stmt)
+            num_rows = ibm_db.num_rows(stmt)
+        
+            if num_rows == 0:
+                return {"status": "error", "reason": "Token not found"}
+            
+            ibm_db.commit(conn)
             return {"status": "success"}
         except Exception as e:
             return {"status": "error", "reason": str(e)}
@@ -206,6 +213,12 @@ class UserDAO:
             ibm_db.bind_param(stmt, 4, lname)
             ibm_db.bind_param(stmt, 5, user_id)
             ibm_db.execute(stmt)
+            num_rows = ibm_db.num_rows(stmt)
+        
+            if num_rows == 0:
+                return {"status": "error", "reason": "User not found"}
+            
+            ibm_db.commit(conn)
             return {"status": "success"}
         except Exception as e:
             return {"status": "error", "reason": str(e)}
@@ -244,6 +257,12 @@ class UserDAO:
             ibm_db.bind_param(stmt, 1, user_id)
             ibm_db.bind_param(stmt, 2, index)
             ibm_db.execute(stmt)
+            num_rows = ibm_db.num_rows(stmt)
+        
+            if num_rows == 0:
+                return {"status": "error", "reason": "Address not found"}
+            
+            ibm_db.commit(conn)
             return {"status": "success"}
         except Exception as e:
             return {"status": "error", "reason": str(e)}
