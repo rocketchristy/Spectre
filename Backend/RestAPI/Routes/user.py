@@ -1,14 +1,12 @@
 from fastapi import APIRouter, Request, Depends, HTTPException, status
 from Backend.Utilities.logger import logger
 from Backend.DatabaseAccess.user_dao import UserDAO
+from Backend.DatabaseAccess.cart_dao import CartDAO
 from Backend.Utilities.utilities import hash_password, get_token_header
+from Backend.Utilities.user_validation import LoginRequest, RegisterRequest, UpdateUserRequest, AddressRequest
 from pydantic import BaseModel
 
 router = APIRouter()
-
-class LoginRequest(BaseModel):
-    email: str
-    password: str
 
 @router.post("/login", status_code=status.HTTP_200_OK)
 def login(request: Request, payload: LoginRequest):
@@ -49,14 +47,9 @@ def login(request: Request, payload: LoginRequest):
         "first_name": result.get("output")[-1]['FIRST_NAME']
     }
 
-class RegisterRequest(BaseModel):
-    email: str
-    password: str
-    first_name: str
-    last_name: str
-
 @router.post("/register", status_code=status.HTTP_201_CREATED)
 def register(request: Request, payload: RegisterRequest):
+    # TODO create a cart too
     email = payload.email
     password = payload.password
     password_hash = hash_password(password)
@@ -64,8 +57,8 @@ def register(request: Request, payload: RegisterRequest):
     last_name = payload.last_name
     pool = request.app.state.db_pool
     userdao = UserDAO(pool)
+    cartdao = CartDAO(pool)
     result = userdao.add_user(email, password_hash, first_name, last_name)
-    
     if result.get("status") == "error":
         logger.info(f"Failed to register email: {result.get('reason')}")
         raise HTTPException(
@@ -73,10 +66,35 @@ def register(request: Request, payload: RegisterRequest):
             detail=result.get("reason")
         )
     
+    result_1 = userdao.get_user(email)
+    if result_1.get("status") == "error":
+        logger.error(f"Failed to retrieve user after registration: {result_1.get('reason')}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="User registered but failed to retrieve user data"
+        )
+    
+    if len(result_1.get("output")) == 0:
+        logger.error(f"User not found after registration: {email}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="User registered but not found"
+        )
+    
+    user_id = result_1.get("output")[0]["ID"]
+    result_2 = cartdao.create_cart(user_id)
+    
+    if result_2.get("status") == "error":
+        logger.error(f"Failed to create cart for user ID {user_id}: {result_2.get('reason')}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="User registered but failed to create cart"
+        )
+    
     logger.info(f"Register user {email} successfully")
     return {"message": "User registered successfully"}
 
-@router.get("/user", status_code=status.HTTP_200_OK)
+@router.get("/", status_code=status.HTTP_200_OK)
 def get_user_data(request: Request, token: str = Depends(get_token_header)):
     logger.info("Attempting to retrieve user data")
     pool = request.app.state.db_pool
@@ -114,13 +132,7 @@ def get_user_data(request: Request, token: str = Depends(get_token_header)):
         "addresses": address.get("output")
     }
 
-class UpdateUserRequest(BaseModel):
-    email: str
-    password: str
-    fname: str
-    lname: str
-
-@router.put("/user", status_code=status.HTTP_200_OK)
+@router.put("/", status_code=status.HTTP_200_OK)
 def update_user_data(request: Request, payload: UpdateUserRequest, token: str = Depends(get_token_header)):
     email = payload.email
     password = payload.password
@@ -131,7 +143,7 @@ def update_user_data(request: Request, payload: UpdateUserRequest, token: str = 
     pool = request.app.state.db_pool
     userdao = UserDAO(pool)
     result = userdao.get_user_id(token)
-    
+
     if result.get("status") == "error":
         logger.error(f"Failed to get user ID from token: {result.get('reason', 'Unknown error')}")
         raise HTTPException(
@@ -141,6 +153,8 @@ def update_user_data(request: Request, payload: UpdateUserRequest, token: str = 
     
     user_id = result.get("output")[0]["USER_ID"]
     logger.info(f"User ID {user_id} found, updating user data")
+    userdao.create_cart(user_id)
+
     out = userdao.update_user_data(user_id, email, hashed_password, fname, lname)
     
     if out.get("status") == "error":
@@ -153,17 +167,7 @@ def update_user_data(request: Request, payload: UpdateUserRequest, token: str = 
     logger.info(f"Successfully updated user data for user ID {user_id}")
     return {"message": "User data updated successfully"}
 
-class AddressRequest(BaseModel):
-    full_name: str
-    line1: str
-    line2: str
-    city: str
-    region: str
-    postal_code: str
-    country_code: str
-    phone: str
-
-@router.post("/user/address", status_code=status.HTTP_201_CREATED)
+@router.post("/address", status_code=status.HTTP_201_CREATED)
 def add_address(request: Request, payload: AddressRequest, token: str = Depends(get_token_header)):
     full_name = payload.full_name
     line1 = payload.line1
@@ -205,7 +209,7 @@ def add_address(request: Request, payload: AddressRequest, token: str = Depends(
     logger.info(f"Successfully added address for user ID {user_id}")
     return {"message": "Address added successfully"}
 
-@router.delete("/user/address/{index}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/address/{index}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_address(request: Request, index: int, token: str = Depends(get_token_header)):
     logger.info(f"Attempting to delete address with index {index}")
     pool = request.app.state.db_pool
