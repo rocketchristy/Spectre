@@ -48,7 +48,7 @@ class ProductsDAO:
                         AND PV.STYLE_CODE = VI.STYLE_CODE
                         AND PV.SERIAL_NUMBER = VI.SERIAL_NUMBER
                         AND PV.MODIFIER_CODE = VI.MODIFIER_CODE
-                        WHERE PV.IS_ACTIVE = 'Y';
+                        WHERE PV.IS_ACTIVE = 'Y'
                     """
             stmt = ibm_db.prepare(conn, sql)
             ibm_db.execute(stmt)
@@ -160,7 +160,7 @@ class ProductsDAO:
                         AND PV.SERIES_CODE = ?
                         AND PV.STYLE_CODE = ?
                         AND PV.SERIAL_NUMBER = ?
-                        AND PV.MODIFIER_CODE = ?;
+                        AND PV.MODIFIER_CODE = ?
                     """
             stmt = ibm_db.prepare(conn, sql)
             ibm_db.bind_param(stmt, 1, series_code)

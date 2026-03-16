@@ -12,10 +12,31 @@ import ibm_db
 class CartDAO:
     def __init__(self, pool):
         self.pool = pool
-    '''
-    def create_cart(self, user_id):
     
+    def create_cart(self, user_id):
+        conn = self.pool.get_connection()
+        try:
+            sql = """
+                    INSERT INTO USER01.CARTS (USER_ID)
+                    VALUES ?
+            """
+            stmt = ibm_db.prepare(conn, sql)
+            ibm_db.bind_param(stmt, 1, user_id)
+            ibm_db.execute(stmt)
+            ibm_db.commit(conn)
+            return {"status": "success"}
+        except Exception as e:
+            ibm_db.rollback(conn)
+            error_code = ibm_db.conn_error(conn)
+            error_msg = ibm_db.conn_errormsg(conn)
+            return {"status": "error", "reason": str(e)}
+        finally:
+            self.pool.return_connection(conn)
+
+    '''
     def get_cart_id(self, user_id):
+    
+    SELECT ID FROM USER01.CARTS WHERE USER_ID =?
     '''
     def get_cart(self, user_id):
         conn = self.pool.get_connection()
@@ -88,15 +109,14 @@ class CartDAO:
         finally:
             self.pool.return_connection(conn)
 
-    def add_item(self, user_id, cart_id, inventory_id, quantity, unit_price_cents, currency_code):
-        #TODO add item to cart
+    def add_item(self, cart_id, inventory_id, quantity, unit_price_cents, currency_code):
         conn = self.pool.get_connection()
         try:
             sql="""
                     INSERT INTO USER01.CART_ITEMS
                         (CART_ID, INVENTORY_ID, QUANTITY, UNIT_PRICE_CENTS,
                         CURRENCY_CODE)
-                    VALUES (?, ?, ?, ?, ?);
+                    VALUES (?, ?, ?, ?, ?)
                     """
             stmt=ibm_db.prepare(conn,sql)
             ibm_db.bind_param(stmt,1,cart_id )
@@ -105,43 +125,57 @@ class CartDAO:
             ibm_db.bind_param(stmt,4,unit_price_cents)
             ibm_db.bind_param(stmt,5,currency_code)
             ibm_db.execute(stmt)
+            ibm_db.commit(conn)
             return {"status": "success"}
         except Exception as e:
+            ibm_db.rollback(conn)
             return {"status": "error", "reason": str(e)}
         finally:
             self.pool.return_connection(conn)
 
     def remove_item(self, cart_id, inventory_id):
-        # remove item from cart
         conn = self.pool.get_connection()
         try:
             sql = """
                     DELETE FROM USER01.CART_ITEMS
                     WHERE CART_ID = ?
-                    AND INVENTORY_ID = ?;
+                    AND INVENTORY_ID = ?
                  """
             stmt = ibm_db.prepare(conn, sql)
             ibm_db.bind_param(stmt, 1, cart_id)
-            ibm_db.bind_param(stmt, 1, inventory_id)
+            ibm_db.bind_param(stmt, 2, inventory_id)
             ibm_db.execute(stmt)
+            
+            num_rows = ibm_db.num_rows(stmt)
+            if num_rows == 0:
+                return {"status": "error", "reason": "Cart item not found"}
+            
+            ibm_db.commit(conn)
             return {"status": "success"}
         except Exception as e:
+            ibm_db.rollback(conn)
             return {"status": "error", "reason": str(e)}
         finally:
             self.pool.return_connection(conn)
 
     def remove_entire_cart(self, cart_id):
-        # remove entire cart for user
         conn = self.pool.get_connection()
         try:
             sql = """
                 DELETE FROM USER01.CART_ITEMS
-                WHERE CART_ID = ?;"""
+                WHERE CART_ID = ?"""
             stmt = ibm_db.prepare(conn, sql)
             ibm_db.bind_param(stmt, 1, cart_id)
             ibm_db.execute(stmt)
-            return {"status": "success"}
+            
+            num_rows = ibm_db.num_rows(stmt)
+            if num_rows == 0:
+                return {"status": "error", "reason": "Cart is already empty or doesn't exist"}
+            
+            ibm_db.commit(conn)
+            return {"status": "success", "rows_deleted": num_rows}
         except Exception as e:
+            ibm_db.rollback(conn)
             return {"status": "error", "reason": str(e)}
         finally:
             self.pool.return_connection(conn)

@@ -49,4 +49,4 @@ path = "/spectre/api"
 app.include_router(user.router, prefix = path + "/user")
 app.include_router(inventory.router, prefix = path + "/inventory")
 app.include_router(products.router, prefix = path + "/products")
-#app.include_router(cart.router, prefix = path + "/cart")
+app.include_router(cart.router, prefix = path + "/cart")

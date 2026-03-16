@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Request, Depends, HTTPException, status
 from Backend.Utilities.logger import logger
 from Backend.DatabaseAccess.user_dao import UserDAO
+from Backend.DatabaseAccess.cart_dao import CartDAO
 from Backend.Utilities.utilities import hash_password, get_token_header
 from Backend.Utilities.user_validation import LoginRequest, RegisterRequest, UpdateUserRequest, AddressRequest
 from pydantic import BaseModel
@@ -56,13 +57,38 @@ def register(request: Request, payload: RegisterRequest):
     last_name = payload.last_name
     pool = request.app.state.db_pool
     userdao = UserDAO(pool)
+    cartdao = CartDAO(pool)
     result = userdao.add_user(email, password_hash, first_name, last_name)
-    
     if result.get("status") == "error":
         logger.info(f"Failed to register email: {result.get('reason')}")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=result.get("reason")
+        )
+    
+    result_1 = userdao.get_user(email)
+    if result_1.get("status") == "error":
+        logger.error(f"Failed to retrieve user after registration: {result_1.get('reason')}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="User registered but failed to retrieve user data"
+        )
+    
+    if len(result_1.get("output")) == 0:
+        logger.error(f"User not found after registration: {email}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="User registered but not found"
+        )
+    
+    user_id = result_1.get("output")[0]["ID"]
+    result_2 = cartdao.create_cart(user_id)
+    
+    if result_2.get("status") == "error":
+        logger.error(f"Failed to create cart for user ID {user_id}: {result_2.get('reason')}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="User registered but failed to create cart"
         )
     
     logger.info(f"Register user {email} successfully")
@@ -117,7 +143,7 @@ def update_user_data(request: Request, payload: UpdateUserRequest, token: str = 
     pool = request.app.state.db_pool
     userdao = UserDAO(pool)
     result = userdao.get_user_id(token)
-    
+
     if result.get("status") == "error":
         logger.error(f"Failed to get user ID from token: {result.get('reason', 'Unknown error')}")
         raise HTTPException(
@@ -127,6 +153,8 @@ def update_user_data(request: Request, payload: UpdateUserRequest, token: str = 
     
     user_id = result.get("output")[0]["USER_ID"]
     logger.info(f"User ID {user_id} found, updating user data")
+    userdao.create_cart(user_id)
+
     out = userdao.update_user_data(user_id, email, hashed_password, fname, lname)
     
     if out.get("status") == "error":
