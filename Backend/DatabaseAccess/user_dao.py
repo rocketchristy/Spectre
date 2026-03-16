@@ -171,6 +171,10 @@ class UserDAO:
             while row:
                 results.append(row)
                 row = ibm_db.fetch_assoc(stmt)
+            
+            if results == []:
+                return {"status": "error", "reason": "Token not found"}
+            
             return {"status": "success", "output": results}
         except Exception as e:
             return {"status": "error", "reason": str(e)}

@@ -13,10 +13,13 @@ async def lifespan(app: FastAPI):
     config.read('Backend/DatabaseAccess/config.ini')
     username = config['database']['username']
     password = config['database']['password']
+    database = config['database']['database']
+    hostname = config['database']['hostname']
+    port = config['database']['port']
     conn_str = (
-        "DATABASE=HL02HL2D;"
-        "HOSTNAME=192.168.54.250;"
-        "PORT=3600;"
+        f"DATABASE={database};"
+        f"HOSTNAME={hostname};"
+        f"PORT={port};"
         "PROTOCOL=TCPIP;"
         f"UID={username};"
         f"PWD={password};"
@@ -50,3 +53,11 @@ app.include_router(user.router, prefix = path + "/user")
 app.include_router(inventory.router, prefix = path + "/inventory")
 app.include_router(products.router, prefix = path + "/products")
 app.include_router(cart.router, prefix = path + "/cart")
+
+@app.get("/hello_world")
+def hello_world():
+    return "Hi All"
+
+@app.get("/hola_mundo")
+def hello_world():
+    return "Hola a todos"

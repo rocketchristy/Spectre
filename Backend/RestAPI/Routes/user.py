@@ -3,7 +3,7 @@ from Backend.Utilities.logger import logger
 from Backend.DatabaseAccess.user_dao import UserDAO
 from Backend.DatabaseAccess.cart_dao import CartDAO
 from Backend.Utilities.utilities import hash_password, get_token_header
-from Backend.Utilities.user_validation import LoginRequest, RegisterRequest, UpdateUserRequest, AddressRequest
+from Backend.Utilities.validation import LoginRequest, RegisterRequest, UpdateUserRequest, AddressRequest
 from pydantic import BaseModel
 
 router = APIRouter()
@@ -237,3 +237,5 @@ def delete_address(request: Request, index: int, token: str = Depends(get_token_
     logger.info(f"Successfully deleted address {index} for user ID {user_id}")
     # Note: 204 NO_CONTENT should not return a body
     return None
+
+#TODO get address

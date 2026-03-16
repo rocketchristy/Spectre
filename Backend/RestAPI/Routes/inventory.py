@@ -4,7 +4,18 @@ from Backend.Utilities.logger import logger
 from Backend.DatabaseAccess.inventory_dao import InventoryDAO
 from Backend.DatabaseAccess.user_dao import UserDAO
 from Backend.Utilities.utilities import get_token_header
+from Backend.Utilities.validation import InventoryItemRequest
 from pydantic import BaseModel
+import configparser
+
+# Load SKU configuration
+config = configparser.ConfigParser()
+config.read('Backend/DatabaseAccess/config.ini')
+SERIES_LENGTH = int(config['sku']['series_length'])
+STYLE_LENGTH = int(config['sku']['style_length'])
+SERIAL_LENGTH = int(config['sku']['serial_length'])
+MODIFIER_LENGTH = int(config['sku']['modifier_length'])
+MIN_SKU_LENGTH = SERIES_LENGTH + STYLE_LENGTH + SERIAL_LENGTH
 
 router = APIRouter()
 
@@ -40,7 +51,7 @@ def get_user_inventory(request: Request,  token: str = Depends(get_token_header)
             status_code= status.HTTP_404_NOT_FOUND,
             detail = "Failed to retrieve userid"
         )
-    user_id = info.get("USER_ID")
+    user_id = info.get("output")[0]["USER_ID"]
     result = inventorydao.get_user_inventory(user_id)
     if result.get("status") == "error":
         logger.error(f"Failed to retrieve inventory")
@@ -50,30 +61,28 @@ def get_user_inventory(request: Request,  token: str = Depends(get_token_header)
         )
     return result.get("output")
 
-class InventoryItemRequest(BaseModel):
-    sku: str
-    quantity: int
-    unitPriceCents: str
-    currencyCode: str
-    seller: str
-
 @router.post("/", status_code=status.HTTP_201_CREATED)
 def add_item(request: Request, payload: InventoryItemRequest, token: str = Depends(get_token_header)):
     logger.info("Attempting to add inventory item")
     
     # Parse SKU
     sku = payload.sku
-    if len(sku) < 10:
+    if len(sku) < MIN_SKU_LENGTH:
         logger.error(f"Invalid SKU format: {sku}")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid SKU format - must be at least 10 characters"
+            detail=f"Invalid SKU format - must be at least {MIN_SKU_LENGTH} characters"
         )
     
-    series_code = sku[0:2]
-    style_code = sku[2:6]
-    serial_number = sku[6:10]
-    modifier_code = sku[10:] if len(sku) > 10 else ""
+    # Parse SKU using config values
+    series_end = SERIES_LENGTH
+    style_end = series_end + STYLE_LENGTH
+    serial_end = style_end + SERIAL_LENGTH
+    
+    series_code = sku[0:series_end]
+    style_code = sku[series_end:style_end]
+    serial_number = sku[style_end:serial_end]
+    modifier_code = sku[serial_end:] if len(sku) > serial_end else ""
     quantity = payload.quantity
     unit_price_cents = payload.unitPriceCents 
     currency_code = payload.currencyCode
