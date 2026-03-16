@@ -1,0 +1,145 @@
+--********************************************************************
+--* MEMBER  : E02TBSPC
+--* PURPOSE : Create all tablespaces for ECOMDB01 database
+--* PRODUCT : ECOMAPP  (E-Commerce Application)
+--* DB2 VER : Db2 13 for z/OS
+--* AUTHOR  : Ben Edens
+--* DATE    : 2026-03-11
+--*------------------------------------------------------------------
+--* INSTRUCTIONS:
+--*   No changes needed. This script does not reference <Your HLQ>.
+--*------------------------------------------------------------------
+--* NOTES:
+--*   - All tablespaces use BUFFERPOOL BP0, SEGSIZE 4, LOCKSIZE PAGE
+--*   - Uses system default storage group (SYSDEFLT)
+--*   - CLOSE NO keeps datasets open for performance
+--*   - Supports 15 tables in SKU-based schema
+--********************************************************************
+
+-- USERS
+CREATE TABLESPACE TSUSERS1
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- TOKENS
+CREATE TABLESPACE TSTOKENS
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- SERIES
+CREATE TABLESPACE TSSERIES
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- STYLES
+CREATE TABLESPACE TSSTYLES
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- STYLE_MODIFIERS
+CREATE TABLESPACE TSSTYLMD
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- PRODUCT_TYPES
+CREATE TABLESPACE TSPRDTYP
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- PRODUCT_TYPE_MODIFIERS
+CREATE TABLESPACE TSPRDMOD
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- PRODUCT_VARIANTS
+CREATE TABLESPACE TSPRDVAR
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- VARIANT_IMAGES
+CREATE TABLESPACE TSVARIMG
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- INVENTORY
+CREATE TABLESPACE TSINVTRY
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- CARTS
+CREATE TABLESPACE TSCARTS1
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- CART_ITEMS
+CREATE TABLESPACE TSCRTITM
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- ADDRESSES
+CREATE TABLESPACE TSADDR01
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- ORDERS
+CREATE TABLESPACE TSORDERS
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- ORDER_ADDRESSES
+CREATE TABLESPACE TSORDADR
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
+
+-- ORDER_ITEMS
+CREATE TABLESPACE TSORDITM
+    IN ECOMDB01
+    BUFFERPOOL BP0
+    SEGSIZE    4
+    LOCKSIZE   PAGE
+    CLOSE      NO;
