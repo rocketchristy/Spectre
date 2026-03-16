@@ -1,5 +1,5 @@
 /* Gallery Styles */
-
+@import './modal.css';
 .gallery-shell {
   padding: 2rem;
   max-width: 1400px;
@@ -51,14 +51,11 @@
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  background: var(--color-background-soft, #1a1a2e);
+  background: #ffffff;
   border: 1px solid var(--color-border, #333);
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 1rem;
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .carousel-display {
@@ -83,13 +80,11 @@
 }
 
 .carousel-image {
-  font-size: 6rem;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
   height: 200px;
-  animation: float 3s ease-in-out infinite;
+  object-fit: contain;
+  margin-bottom: 1rem;
+  display: block;
 }
 
 @keyframes float {
@@ -158,7 +153,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--color-border, #333);
+  background: var(--color-background);
   border: 2px solid transparent;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -176,10 +171,10 @@
   height: 14px;
 }
 
-/* ========== Cards Grids ========== */
+/* ========== Section Headings ========== */
 .section-heading {
   margin-bottom: 1.5rem;
-  color: var(--vt-c-text);
+  color: #ffffff;
   border-bottom: 2px solid var(--color-border, #333);
   padding-bottom: 0.5rem;
   font-size: 1.5rem;
@@ -187,196 +182,6 @@
   letter-spacing: 1px;
 }
 
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-/* ========== Marketplace Cards ========== */
-.marketplace-section {
-  margin-bottom: 3rem;
-}
-
-.marketplace-card {
-  background: var(--color-background-soft, #1a1a2e);
-  border: 1px solid var(--color-border, #333);
-  border-radius: 8px;
-  overflow: hidden;
-  text-decoration: none;
-  color: var(--color-background, #ffffff);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.marketplace-card:hover {
-  border-color: var(--color-primary, #00d4ff);
-  box-shadow: 0 8px 24px rgba(0, 212, 255, 0.2);
-  transform: translateY(-4px);
-}
-
-.card-image {
-  font-size: 4rem;
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #2a2a4e 0%, #1a1a3e 100%);
-  border-bottom: 1px solid var(--color-border, #333);
-}
-
-.card-info {
-  padding: 1rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-name {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-heading, #fff);
-  margin: 0 0 0.5rem 0;
-  line-height: 1.3;
-}
-
-.card-rarity {
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin: 0 0 0.5rem 0;
-}
-
-.rarity-common {
-  color: #888;
-}
-
-.rarity-uncommon {
-  color: #00d4ff;
-}
-
-.rarity-rare {
-  color: #ffaa00;
-}
-
-.rarity-super-rare {
-  color: #ff0055;
-}
-
-
-.card-condition {
-  font-size: 0.9rem;
-  color: var(--color-text, #ccc);
-  margin: 0 0 0.25rem 0;
-}
-
-.card-foil {
-  font-size: 0.85rem;
-  color: var(--color-primary, #00d4ff);
-  font-style: italic;
-  margin: 0 0 0.5rem 0;
-}
-
-.card-price {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--color-primary, #00d4ff);
-  margin: auto 0 0 0;
-}
-
-/* ========== User Cards Section ========== */
-.user-cards-section {
-  background: var(--color-background-soft, #1a1a2e);
-  border: 1px solid var(--color-border, #333);
-  border-radius: 8px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-}
-
-.user-card {
-  position: relative;
-  background: var(--color-background, #0f0f1e);
-  border: 1px solid var(--color-border, #333);
-  border-radius: 8px;
-  overflow: hidden;
-  text-decoration: none;
-  color: var(--color-background, #ffffff);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.user-card:hover {
-  border-color: var(--color-primary, #00d4ff);
-  box-shadow: 0 8px 24px rgba(0, 212, 255, 0.2);
-  transform: translateY(-4px);
-}
-
-.user-card:hover .edit-btn {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.edit-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: var(--color-primary, #00d4ff);
-  color: #000;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
-}
-
-.edit-btn:hover {
-  background: #00a8cc;
-  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
-}
-
-/* ========== No Cards State ========== */
-.no-cards {
-  text-align: center;
-  padding: 3rem;
-  color: var(--color-text, #ccc);
-}
-
-.no-cards p {
-  font-size: 1.1rem;
-  margin: 0 0 1.5rem 0;
-  color: var(--color-text, #ccc);
-}
-
-.btn-link {
-  display: inline-block;
-  background: var(--color-primary, #00d4ff);
-  color: #000;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
-}
-
-.btn-link:hover {
-  background: #00a8cc;
-  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
-  transform: translateY(-2px);
-}
 
 /* ========== Responsive Design ========== */
 @media (max-width: 768px) {
@@ -413,32 +218,6 @@
     height: 150px;
   }
 
-  .cards-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 1rem;
-  }
-
-  .card-image {
-    font-size: 3rem;
-    height: 120px;
-  }
-
-  .card-name {
-    font-size: 0.9rem;
-  }
-
-  .card-price {
-    font-size: 1rem;
-  }
-
-  .user-cards-section {
-    padding: 1.5rem;
-  }
-
-  .edit-btn {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.75rem;
-  }
 }
 
 @media (max-width: 480px) {
@@ -457,16 +236,6 @@
   .carousel-image {
     font-size: 3rem;
     height: 120px;
-  }
-
-  .cards-grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 0.75rem;
-  }
-
-  .card-image {
-    font-size: 2rem;
-    height: 100px;
   }
 
   .section-heading {
