@@ -1,7 +1,7 @@
-const API_BASE = '/api'
+const API_BASE = '/spectre/api'
 
 export async function loginUser(email, password) {
-  const res = await fetch(`${API_BASE}/login`, {
+  const res = await fetch(`${API_BASE}/user/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
@@ -14,7 +14,7 @@ export async function loginUser(email, password) {
 }
 
 export async function registerUser(email, password, firstName, lastName) {
-  const res = await fetch(`${API_BASE}/register`, {
+  const res = await fetch(`${API_BASE}/user/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
