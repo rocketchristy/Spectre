@@ -5,6 +5,17 @@ from Backend.DatabaseAccess.products_dao import ProductsDAO
 from Backend.DatabaseAccess.user_dao import UserDAO
 from Backend.Utilities.utilities import get_token_header
 from pydantic import BaseModel
+import configparser
+
+# Load SKU configuration
+config = configparser.ConfigParser()
+config.read('Backend/DatabaseAccess/config.ini')
+SERIES_LENGTH = int(config['sku']['series_length'])
+STYLE_LENGTH = int(config['sku']['style_length'])
+SERIAL_LENGTH = int(config['sku']['serial_length'])
+MODIFIER_LENGTH = int(config['sku']['modifier_length'])
+MIN_SKU_LENGTH = SERIES_LENGTH + STYLE_LENGTH + SERIAL_LENGTH
+FULL_SKU_LENGTH = MIN_SKU_LENGTH + MODIFIER_LENGTH
 
 router = APIRouter()
 
@@ -18,47 +29,60 @@ def test_code(request: Request):
 
 @router.get("/", status_code = status.HTTP_200_OK)
 def get_products(request: Request):
+    logger.info("Attempting to retrieve all products")
     pool = request.app.state.db_pool
     productsdao = ProductsDAO(pool)
     result = productsdao.get_products()
     if result.get("status") == "error":
-        logger.error(f"Failed to retrieve products")
+        logger.error(f"Failed to retrieve products: {result.get('reason')}")
         raise HTTPException(
-            status_code= status.HTTP_404_BAD_REQUEST,
+            status_code= status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail = "Failed to retrieve products"
         )
+    logger.info(f"Successfully retrieved {len(result.get('output', []))} products")
     return result.get("output")
 
 @router.get("/{sku}", status_code = status.HTTP_200_OK)
 def get_specific_products(request: Request, sku: str):
+    logger.info(f"Attempting to retrieve product(s) with SKU: {sku}")
     pool = request.app.state.db_pool
     productsdao = ProductsDAO(pool)
-    if len(sku) == 6 or len(sku) == 9:
-        series_code = sku[0:1]
-        style_code = sku[1:2]
-        serial_number = sku[2:6]
+    
+    # Parse SKU using config values
+    series_end = SERIES_LENGTH
+    style_end = series_end + STYLE_LENGTH
+    serial_end = style_end + SERIAL_LENGTH
+    
+    if len(sku) == MIN_SKU_LENGTH or len(sku) == FULL_SKU_LENGTH:
+        series_code = sku[0:series_end]
+        style_code = sku[series_end:style_end]
+        serial_number = sku[style_end:serial_end]
     else:
-        logger.error(f"Invalid sku number")
+        logger.error(f"Invalid sku number: {sku}")
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
-            detail = "Invalid SKU number"
+            detail = f"Invalid SKU number - must be {MIN_SKU_LENGTH} or {FULL_SKU_LENGTH} characters"
         )
-    if len(sku) == 6:
+    
+    if len(sku) == MIN_SKU_LENGTH:
+        logger.info(f"Retrieving product set for SKU: {sku}")
         result = productsdao.get_specific_product_set(series_code, style_code, serial_number)
         if result.get("status") == "error":
-            logger.error(f"Failed to retrieve product info")
-            print(result.get("reason"))
+            logger.error(f"Failed to retrieve product set: {result.get('reason')}")
             raise HTTPException(
                 status_code= status.HTTP_404_NOT_FOUND,
                 detail = "Failed to retrieve product info"
             )
-    elif len(sku) == 9:
-        modifier_code = sku[6:10]
+    elif len(sku) == FULL_SKU_LENGTH:
+        logger.info(f"Retrieving specific product for SKU: {sku}")
+        modifier_code = sku[serial_end:]
         result = productsdao.get_specific_product(series_code, style_code, serial_number, modifier_code)
         if result.get("status") == "error":
-            logger.error(f"Failed to retrieve product info")
+            logger.error(f"Failed to retrieve specific product: {result.get('reason')}")
             raise HTTPException(
                 status_code= status.HTTP_404_NOT_FOUND,
                 detail = "Failed to retrieve product info"
             )
+    
+    logger.info(f"Successfully retrieved product(s) for SKU: {sku}")
     return result.get("output")
