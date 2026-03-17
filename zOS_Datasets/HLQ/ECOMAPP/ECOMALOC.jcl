@@ -15,6 +15,7 @@
 //*   - Run ONCE per environment (DEV/TEST/PROD)
 //*   - Creates <Your HLQ>.ECOMAPP.DDL for SQL DDL source
 //*   - Creates <Your HLQ>.ECOMAPP.JCL for JCL members
+//*   - Creates <Your HLQ>.ECOMAPP.REPORTS for report output
 //*   - After running, upload DDL/JCL members via Zowe or ISPF
 //*------------------------------------------------------------------
 //* PREREQS : None
@@ -24,9 +25,10 @@
 // SET HLQ=<Your HLQ>.ECOMAPP
 //*
 //********************************************************************
-//* STEP 1 - Allocate both PDS libraries
-//*           LRECL=80    standard card-image SQL/JCL
-//*           BLKSIZE=3120 = 39 x 80 -- efficient for 3390 DASD
+//* STEP 1 - Allocate three PDS libraries
+//*           DDL/JCL: LRECL=80 standard card-image SQL/JCL
+//*           REPORTS: LRECL=133 for DSNTEP3 report output
+//*           BLKSIZE optimized for 3390 DASD
 //*           SPACE: primary TRKs, secondary TRKs, directory blocks
 //********************************************************************
 //ALLPDS   EXEC PGM=IEFBR14
@@ -40,4 +42,9 @@
 //             UNIT=SYSDA,
 //             SPACE=(TRK,(15,5,10)),
 //             DCB=(RECFM=FB,LRECL=80,BLKSIZE=3120,DSORG=PO)
+//REPORTS  DD  DSN=&HLQ..REPORTS,
+//             DISP=(MOD,CATLG,DELETE),
+//             UNIT=SYSDA,
+//             SPACE=(TRK,(50,10,10)),
+//             DCB=(RECFM=FBA,LRECL=133,BLKSIZE=1330,DSORG=PO)
 //*

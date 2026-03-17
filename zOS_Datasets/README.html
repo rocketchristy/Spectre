@@ -125,11 +125,15 @@
         │   ├── E07INIT1.sql      (Load reference data + initial users)
         │   ├── E07INIT2.sql      (Load Product Variants part 1)
         │   ├── E07INIT3.sql      (Load Product Variants part 2 + Mystery products)
-        │   └── E08INVEN.sql      (Load mystery product inventory for seller)
+        │   ├── E08INVEN.sql      (Load mystery product inventory for seller)
+        │   ├── E09RPTO1.sql      (Report: Order history by day and user)
+        │   ├── E09RPTO2.sql      (Report: Per-item order summaries)
+        │   └── E09RPTO3.sql      (Report: Database and table statistics)
         └── JCL/                   (Job Control Language jobs)
             ├── ECOMDDL.jcl       (Execute DDL pipeline: create database)
             ├── ECOMINIT.jcl      (Execute INIT pipeline: load product catalog + users)
             ├── ECOMFILL.jcl      (Load inventory: 767 units of mystery products)
+            ├── ECOMRPTS.jcl      (Generate reports: orders, sales, statistics)
             ├── ECOMDROP.jcl      (Drop all database objects)
             ├── ECOMGRNT.jcl      (Apply grants only)
             ├── ECOMLOAD.jcl      (Reserved for future test data)
@@ -276,8 +280,9 @@ zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/ECOMA
 <p>This job creates the two main PDS libraries for your DDL and JCL files.</p>
 <p><strong>What ECOMALOC Does:</strong></p>
 <ul>
-<li>Creates <code>&lt;Your HLQ&gt;.ECOMAPP.DDL</code> (for SQL scripts)</li>
-<li>Creates <code>&lt;Your HLQ&gt;.ECOMAPP.JCL</code> (for JCL jobs)</li>
+<li>Creates <code>&lt;Your HLQ&gt;.ECOMAPP.DDL</code> (for SQL scripts, LRECL=80)</li>
+<li>Creates <code>&lt;Your HLQ&gt;.ECOMAPP.JCL</code> (for JCL jobs, LRECL=80)</li>
+<li>Creates <code>&lt;Your HLQ&gt;.ECOMAPP.REPORTS</code> (for report output, LRECL=133)</li>
 </ul>
 <p><strong>To Submit:</strong></p>
 <p><strong>Method A: TSO/ISPF</strong></p>
@@ -307,6 +312,7 @@ You should see:
 &lt;Your HLQ&gt;.ECOMAPP.DDL
 &lt;Your HLQ&gt;.ECOMAPP.ECOMALOC
 &lt;Your HLQ&gt;.ECOMAPP.JCL
+&lt;Your HLQ&gt;.ECOMAPP.REPORTS
 </code></pre><hr>
 <h3 id="step-4-upload-ddl-members">Step 4: Upload DDL Members </h3>
 <p>Upload all SQL DDL files to the <code>&lt;Your HLQ&gt;.ECOMAPP.DDL</code> library.</p>
@@ -574,7 +580,55 @@ Purpose: Update Db2 catalog statistics
 Time: ~2-5 minutes
 Prerequisites: Database created (ECOMDDL completed)
 Frequency: After data loads, weekly/monthly
-</code></pre><h4 id="apply-grants-only"><strong>Apply Grants Only</strong> </h4>
+</code></pre><h4 id="generate-reports"><strong>Generate Reports</strong> </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Submit: ECOMRPTS
+Purpose: Generate business intelligence and database statistics reports
+Time: &lt;2 minutes
+Prerequisites: ECOMINIT completed (requires order data for meaningful results)
+Frequency: On-demand or scheduled (weekly/monthly)
+</code></pre><p><strong>What ECOMRPTS Generates:</strong></p>
+<ol>
+<li>
+<p><strong>Report RPTO1: Order History by Day and User</strong></p>
+<ul>
+<li>Groups orders by calendar day and user</li>
+<li>Shows order count and total revenue (last 90 days)</li>
+<li>Breaks down orders by status (pending, confirmed, fulfilled, canceled, refunded)</li>
+<li>Output: <code>&lt;Your HLQ&gt;.ECOMAPP.REPORTS(RPTO1)</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Report RPTO2: Per-Item Order Summaries</strong></p>
+<ul>
+<li>Aggregates sales by SKU and seller</li>
+<li>Shows total quantity sold and total revenue (last 90 days)</li>
+<li>Includes average, min, and max unit prices</li>
+<li>Excludes canceled and refunded orders</li>
+<li>Output: <code>&lt;Your HLQ&gt;.ECOMAPP.REPORTS(RPTO2)</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Report RPTO3: Database and Table Statistics</strong></p>
+<ul>
+<li>Lists all tables with column counts and row counts</li>
+<li>Shows table status, page utilization, and index counts</li>
+<li>Provides database-level summary statistics</li>
+<li>Output: <code>&lt;Your HLQ&gt;.ECOMAPP.REPORTS(RPTO3)</code></li>
+</ul>
+</li>
+</ol>
+<p><strong>To View Report Output:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>TSO/ISPF Option 1 (VIEW)
+Dataset: &lt;Your HLQ&gt;.ECOMAPP.REPORTS
+Members: RPTO1, RPTO2, RPTO3
+</code></pre><p>Or using Zowe CLI:</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># View specific report</span>
+zowe files view data-set <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.REPORTS(RPTO1)"</span>
+
+<span class="token comment"># Download all reports</span>
+zowe files download all-members <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.REPORTS"</span> <span class="token parameter variable">--directory</span> ./reports
+</code></pre><p><strong>Note:</strong> Reports can be run multiple times and will overwrite previous results. For historical tracking, copy reports to dated datasets before re-running.</p>
+<h4 id="apply-grants-only"><strong>Apply Grants Only</strong> </h4>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>Submit: ECOMGRNT
 Purpose: Re-apply privileges without full rebuild
 Time: &lt;1 minute
@@ -1202,8 +1256,8 @@ Final Price <span class="token operator">=</span> BASE_PRICE_CENTS × PRICE_MULT
 <li><strong>CARTS</strong> - Shopping carts</li>
 <li><strong>CART_ITEMS</strong> - Line items in carts (references seller inventory listings)</li>
 <li><strong>ADDRESSES</strong> - Customer shipping/billing addresses</li>
-<li><strong>ORDERS</strong> - Completed purchases</li>
-<li><strong>ORDER_ADDRESSES</strong> - Shipping/billing address snapshots for orders</li>
+<li><strong>ORDERS</strong> - Completed purchases (contains FKs to billing and shipping addresses)</li>
+<li><strong>ORDER_ADDRESSES</strong> - Immutable address snapshots per order (billing and shipping)</li>
 <li><strong>ORDER_ITEMS</strong> - Line items in orders with pricing snapshots</li>
 </ul>
 <p><strong>Marketplace Design:</strong></p>
