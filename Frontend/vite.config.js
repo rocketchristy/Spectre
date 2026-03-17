@@ -17,10 +17,9 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': {
+      '/spectre/api': {
         target: 'http://localhost:8000',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },

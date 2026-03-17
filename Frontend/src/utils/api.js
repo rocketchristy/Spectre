@@ -1,7 +1,7 @@
-const API_BASE = '/api'
+const API_BASE = '/spectre/api'
 
 export async function loginUser(email, password) {
-  const res = await fetch(`${API_BASE}/login`, {
+  const res = await fetch(`${API_BASE}/user/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
@@ -14,7 +14,7 @@ export async function loginUser(email, password) {
 }
 
 export async function registerUser(email, password, firstName, lastName) {
-  const res = await fetch(`${API_BASE}/register`, {
+  const res = await fetch(`${API_BASE}/user/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -84,5 +84,121 @@ export async function deleteAddress(index) {
   if (!res.ok) {
     const err = await res.json()
     throw new Error(err.reason || 'Failed to delete address')
+  }
+}
+
+// ---- Products ----
+
+export async function getProducts() {
+  const res = await fetch(`${API_BASE}/products/`)
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.reason || 'Failed to load products')
+  }
+  return res.json()
+}
+
+export async function getProduct(sku) {
+  const res = await fetch(`${API_BASE}/products/${encodeURIComponent(sku)}`)
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.reason || 'Failed to load product')
+  }
+  return res.json()
+}
+
+export async function getModifiers(styleCode) {
+  const res = await fetch(`${API_BASE}/products/modifier/${encodeURIComponent(styleCode)}`)
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.reason || 'Failed to load modifiers')
+  }
+  return res.json()
+}
+
+// ---- Inventory ----
+
+export async function getInventory() {
+  const res = await fetch(`${API_BASE}/inventory/`)
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.reason || 'Failed to load inventory')
+  }
+  return res.json()
+}
+
+export async function getUserInventory() {
+  const token = localStorage.getItem('token')
+  if (!token) throw new Error('Not logged in')
+  const res = await fetch(`${API_BASE}/inventory/me`, {
+    headers: { token },
+  })
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.reason || 'Failed to load your inventory')
+  }
+  return res.json()
+}
+
+export async function addInventoryItem(sku, quantity, unitPriceCents, currencyCode) {
+  const token = localStorage.getItem('token')
+  if (!token) throw new Error('Not logged in')
+  const res = await fetch(`${API_BASE}/inventory/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', token },
+    body: JSON.stringify({ sku, quantity, unitPriceCents: String(unitPriceCents), currencyCode, seller: token }),
+  })
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.reason || 'Failed to add inventory item')
+  }
+  return res.json()
+}
+
+// ---- Cart ----
+
+export async function getCart() {
+  const token = localStorage.getItem('token')
+  if (!token) throw new Error('Not logged in')
+  const res = await fetch(`${API_BASE}/cart/`, {
+    headers: { token },
+  })
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.reason || 'Failed to load cart')
+  }
+  return res.json()
+}
+
+export async function addToCart(inventoryId, quantity, unitPriceCents, currencyCode) {
+  const token = localStorage.getItem('token')
+  if (!token) throw new Error('Not logged in')
+  const res = await fetch(`${API_BASE}/cart/item`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', token },
+    body: JSON.stringify({
+      inventory_id: inventoryId,
+      quantity,
+      unit_price_cents: unitPriceCents,
+      currency_code: currencyCode,
+    }),
+  })
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.reason || 'Failed to add to cart')
+  }
+  return res.json()
+}
+
+export async function removeFromCart(inventoryId) {
+  const token = localStorage.getItem('token')
+  if (!token) throw new Error('Not logged in')
+  const res = await fetch(`${API_BASE}/cart/item/${inventoryId}`, {
+    method: 'DELETE',
+    headers: { token },
+  })
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.reason || 'Failed to remove from cart')
   }
 }

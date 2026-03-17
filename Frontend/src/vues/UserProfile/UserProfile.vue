@@ -1,9 +1,9 @@
 <script setup>
 import '@/assets/profile.css'
 import logo from '@/assets/logo.png'
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getUser, updateUser, addAddress, deleteAddress } from '@/utils/api.js'
+import { getUser, updateUser, addAddress, deleteAddress, getUserInventory } from '@/utils/api.js'
 
 defineOptions({ name: 'UserProfile' })
 
@@ -14,6 +14,7 @@ const addresses = ref([])
 const loading = ref(true)
 const errorMsg = ref('')
 const submitting = ref(false)
+const isLoggedIn = ref(!!localStorage.getItem('token'))
 
 const showUpdateModal = ref(false)
 const showPasswordModal = ref(false)
@@ -40,7 +41,10 @@ async function fetchProfile() {
   }
 }
 
-onMounted(fetchProfile)
+onMounted(() => {
+  fetchProfile()
+  fetchUserCards()
+})
 
 // Update info modal
 const openUpdateModal = () => {
@@ -138,16 +142,38 @@ const removeAddress = async (id) => {
   }
 }
 
+// User's cards for sale (from API)
+const currentUserCards = ref([])
+
+async function fetchUserCards() {
+  try {
+    const data = await getUserInventory()
+    currentUserCards.value = data
+  } catch {
+    // Not logged in or failed — leave empty
+  }
+}
+
 const logout = () => {
   localStorage.removeItem('token')
   localStorage.removeItem('firstName')
+  router.push('/')
+}
+
+const redirectToLogin = () => {
   router.push('/')
 }
 </script>
 
 <template>
   <div class="profile-container">
-    <div v-if="loading" class="profile-loading">Loading profile...</div>
+    <div v-if="!isLoggedIn" class="login-prompt">
+      <h2>You must be signed in to view your profile</h2>
+      <p>Click below to start your NXTCG Adventure</p>
+      <button class="btn btn-primary" @click="redirectToLogin">Login / Sign Up</button>
+    </div>
+
+    <div v-else-if="loading" class="profile-loading">Loading profile...</div>
 
     <template v-else-if="userInfo">
       <!-- Profile header -->
@@ -157,6 +183,7 @@ const logout = () => {
         </div>
         <h1 class="profile-title">{{ userInfo.FIRST_NAME }} {{ userInfo.LAST_NAME }}</h1>
       </div>
+      
 
       <div class="profile-content">
         <!-- User info -->
@@ -173,6 +200,33 @@ const logout = () => {
             <label class="info-label">Email:</label>
             <p class="info-value">{{ userInfo.EMAIL }}</p>
           </div>
+        </div>
+
+        <!-- User's Cards for Sale -->
+        <div class="user-cards-section">
+          <div class="addresses-header">
+            <h2>Your Cards for Sale</h2>
+          </div>
+          <div v-if="currentUserCards.length > 0" class="cards-grid">
+            <router-link
+              v-for="card in currentUserCards"
+              :key="card.INVENTORY_ID || card.SKU"
+              :to="{ name: 'product', params: { type: 'card', id: card.PRODUCT_NAME } }"
+              class="user-card"
+            >
+              <div class="card-image">
+                <img v-if="card.URL" :src="card.URL" :alt="card.PRODUCT_NAME" style="max-width:60px;border-radius:4px" />
+                <span v-else>🎴</span>
+              </div>
+              <div class="card-info">
+                <h3 class="card-name">{{ card.PRODUCT_NAME }}</h3>
+                <p class="card-rarity">{{ card.MODIFIER_NAME }}</p>
+                <p class="card-condition">Qty: {{ card.QUANTITY_AVAILABLE }}</p>
+                <p class="card-price">${{ (card.UNIT_PRICE_CENTS / 100).toFixed(2) }}</p>
+              </div>
+            </router-link>
+          </div>
+          <p v-else class="info-value">You don't have any cards listed for sale yet.</p>
         </div>
 
         <!-- Addresses -->
@@ -321,6 +375,14 @@ const logout = () => {
         </div>
       </div>
     </template>
+
+    <div v-else-if="!isLoggedIn" class="profile-loading">
+      <div class="login-prompt">
+        <h2>Not Signed In</h2>
+        <p>You need to be signed in to view your profile.</p>
+        <button class="btn btn-primary" @click="redirectToLogin">Login / Sign Up</button>
+      </div>
+    </div>
 
     <div v-else class="profile-loading">
       <p class="modal-error">{{ errorMsg || 'Unable to load profile.' }}</p>
