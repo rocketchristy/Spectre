@@ -871,42 +871,73 @@ Note: Product catalog uses ECOMINIT instead
 <span class="token keyword keyword-ORDER">ORDER</span> <span class="token keyword keyword-BY">BY</span> I<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">,</span> PV<span class="token punctuation">.</span>DISPLAY_NAME<span class="token punctuation">;</span>
 </code></pre><h3 id="order-management">Order Management </h3>
 <h4 id="create-new-order-from-cart"><strong>Create New Order from Cart</strong> </h4>
-<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- Step 1: Create order</span>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- Step 1: Create billing address snapshot</span>
+<span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDER_ADDRESSES
+  <span class="token punctuation">(</span>FULL_NAME<span class="token punctuation">,</span> LINE1<span class="token punctuation">,</span> LINE2<span class="token punctuation">,</span> CITY<span class="token punctuation">,</span> REGION<span class="token punctuation">,</span> POSTAL_CODE<span class="token punctuation">,</span> COUNTRY_CODE<span class="token punctuation">,</span> PHONE<span class="token punctuation">)</span>
+<span class="token keyword keyword-SELECT">SELECT</span> 
+    A<span class="token punctuation">.</span>FULL_NAME<span class="token punctuation">,</span> A<span class="token punctuation">.</span>LINE1<span class="token punctuation">,</span> A<span class="token punctuation">.</span>LINE2<span class="token punctuation">,</span> A<span class="token punctuation">.</span>CITY<span class="token punctuation">,</span> A<span class="token punctuation">.</span>REGION<span class="token punctuation">,</span> 
+    A<span class="token punctuation">.</span>POSTAL_CODE<span class="token punctuation">,</span> A<span class="token punctuation">.</span>COUNTRY_CODE<span class="token punctuation">,</span> A<span class="token punctuation">.</span>PHONE
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ADDRESSES A
+<span class="token keyword keyword-WHERE">WHERE</span> A<span class="token punctuation">.</span>ID <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>  <span class="token comment">-- User's billing address ID</span>
+
+<span class="token comment">-- Step 2: Create shipping address snapshot (can reference same address)</span>
+<span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDER_ADDRESSES
+  <span class="token punctuation">(</span>FULL_NAME<span class="token punctuation">,</span> LINE1<span class="token punctuation">,</span> LINE2<span class="token punctuation">,</span> CITY<span class="token punctuation">,</span> REGION<span class="token punctuation">,</span> POSTAL_CODE<span class="token punctuation">,</span> COUNTRY_CODE<span class="token punctuation">,</span> PHONE<span class="token punctuation">)</span>
+<span class="token keyword keyword-SELECT">SELECT</span> 
+    A<span class="token punctuation">.</span>FULL_NAME<span class="token punctuation">,</span> A<span class="token punctuation">.</span>LINE1<span class="token punctuation">,</span> A<span class="token punctuation">.</span>LINE2<span class="token punctuation">,</span> A<span class="token punctuation">.</span>CITY<span class="token punctuation">,</span> A<span class="token punctuation">.</span>REGION<span class="token punctuation">,</span> 
+    A<span class="token punctuation">.</span>POSTAL_CODE<span class="token punctuation">,</span> A<span class="token punctuation">.</span>COUNTRY_CODE<span class="token punctuation">,</span> A<span class="token punctuation">.</span>PHONE
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ADDRESSES A
+<span class="token keyword keyword-WHERE">WHERE</span> A<span class="token punctuation">.</span>ID <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>  <span class="token comment">-- User's shipping address ID</span>
+
+<span class="token comment">-- Step 3: Create order with address references</span>
 <span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDERS
-  <span class="token punctuation">(</span>USER_ID<span class="token punctuation">,</span> TOTAL_CENTS<span class="token punctuation">,</span> <span class="token keyword keyword-STATUS">STATUS</span><span class="token punctuation">)</span>
+  <span class="token punctuation">(</span>USER_ID<span class="token punctuation">,</span> TOTAL_CENTS<span class="token punctuation">,</span> <span class="token keyword keyword-STATUS">STATUS</span><span class="token punctuation">,</span> BILLING_ADDRESS_ID<span class="token punctuation">,</span> SHIPPING_ADDRESS_ID<span class="token punctuation">)</span>
 <span class="token keyword keyword-SELECT">SELECT</span> 
     C<span class="token punctuation">.</span>USER_ID<span class="token punctuation">,</span>
     <span class="token function">SUM</span><span class="token punctuation">(</span>CI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> CI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> TOTAL_CENTS<span class="token punctuation">,</span>
-    <span class="token string">'PENDING'</span>
+    <span class="token string">'PENDING'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> <span class="token function">MAX</span><span class="token punctuation">(</span>ID<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDER_ADDRESSES<span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">-- Billing address</span>
+    <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> <span class="token function">MAX</span><span class="token punctuation">(</span>ID<span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDER_ADDRESSES<span class="token punctuation">)</span>       <span class="token comment">-- Shipping address</span>
 <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CARTS C
 <span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CART_ITEMS CI <span class="token keyword keyword-ON">ON</span> C<span class="token punctuation">.</span>ID <span class="token operator">=</span> CI<span class="token punctuation">.</span>CART_ID
 <span class="token keyword keyword-WHERE">WHERE</span> C<span class="token punctuation">.</span>USER_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS <span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span><span class="token punctuation">)</span>
-  <span class="token operator">AND</span> C<span class="token punctuation">.</span>IS_ACTIVE <span class="token operator">=</span> <span class="token string">'Y'</span>
+  <span class="token operator">AND</span> C<span class="token punctuation">.</span><span class="token keyword keyword-STATUS">STATUS</span> <span class="token operator">=</span> <span class="token string">'active'</span>
 <span class="token keyword keyword-GROUP">GROUP</span> <span class="token keyword keyword-BY">BY</span> C<span class="token punctuation">.</span>USER_ID<span class="token punctuation">;</span>
 
-<span class="token comment">-- Step 2: Copy cart items to order items</span>
+<span class="token comment">-- Step 4: Copy cart items to order items</span>
 <span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDER_ITEMS
-  <span class="token punctuation">(</span>ORDER_ID<span class="token punctuation">,</span> INVENTORY_ID<span class="token punctuation">,</span> QUANTITY<span class="token punctuation">,</span> UNIT_PRICE_CENTS<span class="token punctuation">)</span>
+  <span class="token punctuation">(</span>ORDER_ID<span class="token punctuation">,</span> INVENTORY_ID<span class="token punctuation">,</span> SELLER_ID<span class="token punctuation">,</span> SKU<span class="token punctuation">,</span> PRODUCT_NAME<span class="token punctuation">,</span> 
+   UNIT_PRICE_CENTS<span class="token punctuation">,</span> QUANTITY<span class="token punctuation">,</span> TOTAL_CENTS<span class="token punctuation">)</span>
 <span class="token keyword keyword-SELECT">SELECT</span> 
     <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> <span class="token function">MAX</span><span class="token punctuation">(</span>ID<span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDERS 
      <span class="token keyword keyword-WHERE">WHERE</span> USER_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS 
                       <span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
     CI<span class="token punctuation">.</span>INVENTORY_ID<span class="token punctuation">,</span>
+    I<span class="token punctuation">.</span>SELLER_ID<span class="token punctuation">,</span>
+    CONCAT<span class="token punctuation">(</span>CONCAT<span class="token punctuation">(</span>CONCAT<span class="token punctuation">(</span>I<span class="token punctuation">.</span>SERIES_CODE<span class="token punctuation">,</span> I<span class="token punctuation">.</span>STYLE_CODE<span class="token punctuation">)</span><span class="token punctuation">,</span> I<span class="token punctuation">.</span>SERIAL_NUMBER<span class="token punctuation">)</span><span class="token punctuation">,</span> I<span class="token punctuation">.</span>MODIFIER_CODE<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    PV<span class="token punctuation">.</span>DISPLAY_NAME<span class="token punctuation">,</span>
+    CI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">,</span>
     CI<span class="token punctuation">.</span>QUANTITY<span class="token punctuation">,</span>
-    CI<span class="token punctuation">.</span>UNIT_PRICE_CENTS
+    CI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> CI<span class="token punctuation">.</span>UNIT_PRICE_CENTS
 <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CART_ITEMS CI
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>INVENTORY I <span class="token keyword keyword-ON">ON</span> CI<span class="token punctuation">.</span>INVENTORY_ID <span class="token operator">=</span> I<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_VARIANTS PV
+  <span class="token keyword keyword-ON">ON</span> I<span class="token punctuation">.</span>SERIES_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>SERIES_CODE
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>STYLE_CODE
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>SERIAL_NUMBER <span class="token operator">=</span> PV<span class="token punctuation">.</span>SERIAL_NUMBER
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>MODIFIER_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>MODIFIER_CODE
 <span class="token keyword keyword-WHERE">WHERE</span> CI<span class="token punctuation">.</span>CART_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CARTS 
                     <span class="token keyword keyword-WHERE">WHERE</span> USER_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS 
                                      <span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span><span class="token punctuation">)</span>
-                      <span class="token operator">AND</span> IS_ACTIVE <span class="token operator">=</span> <span class="token string">'Y'</span>
+                      <span class="token operator">AND</span> <span class="token keyword keyword-STATUS">STATUS</span> <span class="token operator">=</span> <span class="token string">'active'</span>
                     <span class="token keyword keyword-FETCH">FETCH</span> <span class="token keyword keyword-FIRST">FIRST</span> <span class="token number">1</span> <span class="token keyword keyword-ROW">ROW</span> ONLY<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token comment">-- Step 3: Deactivate cart</span>
+<span class="token comment">-- Step 5: Mark cart as converted</span>
 <span class="token keyword keyword-UPDATE">UPDATE</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CARTS
-<span class="token keyword keyword-SET">SET</span> IS_ACTIVE <span class="token operator">=</span> <span class="token string">'N'</span><span class="token punctuation">,</span>
+<span class="token keyword keyword-SET">SET</span> <span class="token keyword keyword-STATUS">STATUS</span> <span class="token operator">=</span> <span class="token string">'converted'</span><span class="token punctuation">,</span>
     UPDATED_AT <span class="token operator">=</span> <span class="token keyword keyword-CURRENT">CURRENT</span> <span class="token keyword keyword-TIMESTAMP">TIMESTAMP</span>
 <span class="token keyword keyword-WHERE">WHERE</span> USER_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS <span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span><span class="token punctuation">)</span>
-  <span class="token operator">AND</span> IS_ACTIVE <span class="token operator">=</span> <span class="token string">'Y'</span><span class="token punctuation">;</span>
+  <span class="token operator">AND</span> <span class="token keyword keyword-STATUS">STATUS</span> <span class="token operator">=</span> <span class="token string">'active'</span><span class="token punctuation">;</span>
 </code></pre><h4 id="view-order-history-for-user"><strong>View Order History for User</strong> </h4>
 <pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> 
     O<span class="token punctuation">.</span>ID <span class="token keyword keyword-AS">AS</span> ORDER_ID<span class="token punctuation">,</span>
@@ -927,24 +958,45 @@ Note: Product catalog uses ECOMINIT instead
     O<span class="token punctuation">.</span>ID <span class="token keyword keyword-AS">AS</span> ORDER_ID<span class="token punctuation">,</span>
     O<span class="token punctuation">.</span><span class="token keyword keyword-STATUS">STATUS</span><span class="token punctuation">,</span>
     U<span class="token punctuation">.</span>EMAIL <span class="token keyword keyword-AS">AS</span> CUSTOMER_EMAIL<span class="token punctuation">,</span>
-    PV<span class="token punctuation">.</span>DISPLAY_NAME <span class="token keyword keyword-AS">AS</span> PRODUCT<span class="token punctuation">,</span>
+    OI<span class="token punctuation">.</span>PRODUCT_NAME <span class="token keyword keyword-AS">AS</span> PRODUCT<span class="token punctuation">,</span>
+    OI<span class="token punctuation">.</span>SKU<span class="token punctuation">,</span>
     OI<span class="token punctuation">.</span>QUANTITY<span class="token punctuation">,</span>
     OI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">,</span>
     CAST<span class="token punctuation">(</span>OI<span class="token punctuation">.</span>UNIT_PRICE_CENTS <span class="token operator">/</span> <span class="token number">100.00</span> <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> UNIT_PRICE_USD<span class="token punctuation">,</span>
-    OI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> OI<span class="token punctuation">.</span>UNIT_PRICE_CENTS <span class="token keyword keyword-AS">AS</span> LINE_TOTAL_CENTS<span class="token punctuation">,</span>
-    CAST<span class="token punctuation">(</span><span class="token punctuation">(</span>OI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> OI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">100.00</span> 
-         <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> LINE_TOTAL_USD
+    OI<span class="token punctuation">.</span>TOTAL_CENTS <span class="token keyword keyword-AS">AS</span> LINE_TOTAL_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span>OI<span class="token punctuation">.</span>TOTAL_CENTS <span class="token operator">/</span> <span class="token number">100.00</span> <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> LINE_TOTAL_USD<span class="token punctuation">,</span>
+    SELLER<span class="token punctuation">.</span>EMAIL <span class="token keyword keyword-AS">AS</span> SELLER_EMAIL
 <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDERS O
 <span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS U <span class="token keyword keyword-ON">ON</span> O<span class="token punctuation">.</span>USER_ID <span class="token operator">=</span> U<span class="token punctuation">.</span>ID
 <span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDER_ITEMS OI <span class="token keyword keyword-ON">ON</span> O<span class="token punctuation">.</span>ID <span class="token operator">=</span> OI<span class="token punctuation">.</span>ORDER_ID
-<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>INVENTORY I <span class="token keyword keyword-ON">ON</span> OI<span class="token punctuation">.</span>INVENTORY_ID <span class="token operator">=</span> I<span class="token punctuation">.</span>ID
-<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_VARIANTS PV
-  <span class="token keyword keyword-ON">ON</span> I<span class="token punctuation">.</span>SERIES_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>SERIES_CODE
- <span class="token operator">AND</span> I<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>STYLE_CODE
- <span class="token operator">AND</span> I<span class="token punctuation">.</span>SERIAL_NUMBER <span class="token operator">=</span> PV<span class="token punctuation">.</span>SERIAL_NUMBER
- <span class="token operator">AND</span> I<span class="token punctuation">.</span>MODIFIER_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>MODIFIER_CODE
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS SELLER <span class="token keyword keyword-ON">ON</span> OI<span class="token punctuation">.</span>SELLER_ID <span class="token operator">=</span> SELLER<span class="token punctuation">.</span>ID
 <span class="token keyword keyword-WHERE">WHERE</span> O<span class="token punctuation">.</span>ID <span class="token operator">=</span> <span class="token number">1</span>
 <span class="token keyword keyword-ORDER">ORDER</span> <span class="token keyword keyword-BY">BY</span> OI<span class="token punctuation">.</span>ID<span class="token punctuation">;</span>
+</code></pre><h4 id="view-order-with-addresses"><strong>View Order with Addresses</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> 
+    O<span class="token punctuation">.</span>ID <span class="token keyword keyword-AS">AS</span> ORDER_ID<span class="token punctuation">,</span>
+    O<span class="token punctuation">.</span><span class="token keyword keyword-STATUS">STATUS</span><span class="token punctuation">,</span>
+    O<span class="token punctuation">.</span>TOTAL_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span>O<span class="token punctuation">.</span>TOTAL_CENTS <span class="token operator">/</span> <span class="token number">100.00</span> <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> TOTAL_USD<span class="token punctuation">,</span>
+    U<span class="token punctuation">.</span>EMAIL <span class="token keyword keyword-AS">AS</span> CUSTOMER_EMAIL<span class="token punctuation">,</span>
+    <span class="token comment">-- Billing Address</span>
+    BA<span class="token punctuation">.</span>FULL_NAME <span class="token keyword keyword-AS">AS</span> BILL_NAME<span class="token punctuation">,</span>
+    BA<span class="token punctuation">.</span>LINE1 <span class="token keyword keyword-AS">AS</span> BILL_LINE1<span class="token punctuation">,</span>
+    BA<span class="token punctuation">.</span>CITY <span class="token keyword keyword-AS">AS</span> BILL_CITY<span class="token punctuation">,</span>
+    BA<span class="token punctuation">.</span>REGION <span class="token keyword keyword-AS">AS</span> BILL_REGION<span class="token punctuation">,</span>
+    BA<span class="token punctuation">.</span>POSTAL_CODE <span class="token keyword keyword-AS">AS</span> BILL_ZIP<span class="token punctuation">,</span>
+    <span class="token comment">-- Shipping Address</span>
+    SA<span class="token punctuation">.</span>FULL_NAME <span class="token keyword keyword-AS">AS</span> SHIP_NAME<span class="token punctuation">,</span>
+    SA<span class="token punctuation">.</span>LINE1 <span class="token keyword keyword-AS">AS</span> SHIP_LINE1<span class="token punctuation">,</span>
+    SA<span class="token punctuation">.</span>CITY <span class="token keyword keyword-AS">AS</span> SHIP_CITY<span class="token punctuation">,</span>
+    SA<span class="token punctuation">.</span>REGION <span class="token keyword keyword-AS">AS</span> SHIP_REGION<span class="token punctuation">,</span>
+    SA<span class="token punctuation">.</span>POSTAL_CODE <span class="token keyword keyword-AS">AS</span> SHIP_ZIP<span class="token punctuation">,</span>
+    O<span class="token punctuation">.</span>CREATED_AT <span class="token keyword keyword-AS">AS</span> ORDER_DATE
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDERS O
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS U <span class="token keyword keyword-ON">ON</span> O<span class="token punctuation">.</span>USER_ID <span class="token operator">=</span> U<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-LEFT">LEFT</span> <span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDER_ADDRESSES BA <span class="token keyword keyword-ON">ON</span> O<span class="token punctuation">.</span>BILLING_ADDRESS_ID <span class="token operator">=</span> BA<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-LEFT">LEFT</span> <span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDER_ADDRESSES SA <span class="token keyword keyword-ON">ON</span> O<span class="token punctuation">.</span>SHIPPING_ADDRESS_ID <span class="token operator">=</span> SA<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-WHERE">WHERE</span> O<span class="token punctuation">.</span>ID <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
 </code></pre><h4 id="update-order-status"><strong>Update Order Status</strong> </h4>
 <pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-UPDATE">UPDATE</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDERS
 <span class="token keyword keyword-SET">SET</span> <span class="token keyword keyword-STATUS">STATUS</span> <span class="token operator">=</span> <span class="token string">'SHIPPED'</span><span class="token punctuation">,</span>
@@ -1257,7 +1309,7 @@ Final Price <span class="token operator">=</span> BASE_PRICE_CENTS × PRICE_MULT
 <li><strong>CART_ITEMS</strong> - Line items in carts (references seller inventory listings)</li>
 <li><strong>ADDRESSES</strong> - Customer shipping/billing addresses</li>
 <li><strong>ORDERS</strong> - Completed purchases (contains FKs to billing and shipping addresses)</li>
-<li><strong>ORDER_ADDRESSES</strong> - Immutable address snapshots per order (billing and shipping)</li>
+<li><strong>ORDER_ADDRESSES</strong> - Immutable address snapshots (reusable across orders)</li>
 <li><strong>ORDER_ITEMS</strong> - Line items in orders with pricing snapshots</li>
 </ul>
 <p><strong>Marketplace Design:</strong></p>
@@ -1265,6 +1317,13 @@ Final Price <span class="token operator">=</span> BASE_PRICE_CENTS × PRICE_MULT
 <li>Each INVENTORY row represents a seller's listing of a product variant at their price</li>
 <li>Multiple sellers can list the same variant at different prices</li>
 <li>CART_ITEMS and ORDER_ITEMS reference specific INVENTORY listings (seller + variant + price)</li>
+</ul>
+<p><strong>Order Address Design:</strong></p>
+<ul>
+<li>ORDER_ADDRESSES stores immutable address snapshots</li>
+<li>ORDERS references two ORDER_ADDRESSES records (BILLING_ADDRESS_ID and SHIPPING_ADDRESS_ID)</li>
+<li>Same address snapshot can be reused across multiple orders if unchanged</li>
+<li>Address snapshots prevent data loss if customer updates their ADDRESSES after order placement</li>
 </ul>
 <p>These tables are defined in E03TABLE.sql but are NOT populated by ECOMINIT (except sample INVENTORY). They will be populated by the e-commerce application at runtime.</p>
 <hr>
