@@ -107,6 +107,15 @@ export async function getProduct(sku) {
   return res.json()
 }
 
+export async function getModifiers(styleCode) {
+  const res = await fetch(`${API_BASE}/products/modifier/${encodeURIComponent(styleCode)}`)
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.reason || 'Failed to load modifiers')
+  }
+  return res.json()
+}
+
 // ---- Inventory ----
 
 export async function getInventory() {
@@ -137,7 +146,7 @@ export async function addInventoryItem(sku, quantity, unitPriceCents, currencyCo
   const res = await fetch(`${API_BASE}/inventory/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', token },
-    body: JSON.stringify({ sku, quantity, unitPriceCents, currencyCode }),
+    body: JSON.stringify({ sku, quantity, unitPriceCents: String(unitPriceCents), currencyCode, seller: token }),
   })
   if (!res.ok) {
     const err = await res.json()

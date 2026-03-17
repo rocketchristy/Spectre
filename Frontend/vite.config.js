@@ -20,7 +20,6 @@ export default defineConfig({
       '/spectre/api': {
         target: 'http://localhost:8000',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/spectre\/api/, '')
       },
     },
   },

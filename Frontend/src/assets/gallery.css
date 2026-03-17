@@ -46,7 +46,7 @@
 }
 
 .carousel-container {
-  min-height: 300px;
+  min-height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,8 +60,8 @@
 
 .carousel-display {
   flex: 1;
-  max-width: 400px;
-  min-width: 250px;
+  max-width: 600px;
+  min-width: 300px;
 }
 
 .carousel-card {
@@ -81,19 +81,10 @@
 
 .carousel-image {
   width: 100%;
-  height: 200px;
+  height: 380px;
   object-fit: contain;
   margin-bottom: 1rem;
   display: block;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
 }
 
 .carousel-title {
@@ -115,10 +106,10 @@
   background: var(--color-primary, #00d4ff);
   color: #000;
   border: none;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -138,37 +129,86 @@
   transform: scale(0.95);
 }
 
-/* Carousel indicators */
-.carousel-indicators {
-  display: flex;
-  justify-content: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  max-height: 100px;
-  overflow-y: auto;
-  padding: 0 1rem;
+/* ========== Static Card Grid ========== */
+.card-grid-section {
+  margin-bottom: 3rem;
 }
 
-.indicator {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--color-background);
-  border: 2px solid transparent;
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1.25rem;
+}
+
+.grid-card {
+  background: var(--color-background-soft, #1a1a2e);
+  border: 1px solid var(--color-border, #333);
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.indicator:hover {
-  background: var(--color-primary, #00d4ff);
-  transform: scale(1.2);
+.grid-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.25);
+  border-color: var(--color-primary, #00d4ff);
 }
 
-.indicator.active {
-  background: var(--color-primary, #00d4ff);
-  border-color: var(--color-heading, #fff);
-  width: 14px;
-  height: 14px;
+.grid-card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.grid-card-name {
+  font-size: 0.85rem;
+  color: var(--color-text, #ccc);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ========== Card Modal ========== */
+.card-modal {
+  position: relative;
+  background: linear-gradient(135deg, #2a2a4e 0%, #1a1a3e 100%);
+  border: 2px solid var(--color-primary, #00d4ff);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 16px 64px rgba(0, 212, 255, 0.3);
+}
+
+.card-modal .modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.modal-card-img {
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.modal-card-name {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
 }
 
 /* ========== Section Headings ========== */
@@ -181,7 +221,6 @@
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-
 
 /* ========== Responsive Design ========== */
 @media (max-width: 768px) {
@@ -205,19 +244,27 @@
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
+    min-height: 350px;
   }
 
   .carousel-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 1.5rem;
+    width: 44px;
+    height: 44px;
+    font-size: 1.8rem;
   }
 
   .carousel-image {
-    font-size: 4rem;
-    height: 150px;
+    height: 250px;
   }
 
+  .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .grid-card-img {
+    height: 120px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -234,8 +281,7 @@
   }
 
   .carousel-image {
-    font-size: 3rem;
-    height: 120px;
+    height: 180px;
   }
 
   .section-heading {

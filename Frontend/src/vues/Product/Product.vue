@@ -2,7 +2,6 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getProducts, getInventory, addToCart } from '@/utils/api.js'
-import { prices, mysteryProductTypes, elementEmoji } from '@/utils/prices.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -13,6 +12,23 @@ const productId   = computed(() => route.params.id)
 const products = ref([])
 const inventory = ref([])
 const loading = ref(true)
+
+// Dynamically import all card images
+const cardImageFiles = import.meta.glob('@/assets/Images/Cards/*.png', { eager: true })
+
+function getCardImage(description) {
+  const lowerDesc = description.toLowerCase()
+  if (lowerDesc.includes('mystery') || lowerDesc.includes('booster')) {
+    const boosterKey = Object.keys(cardImageFiles).find(k => k.toLowerCase().endsWith('booster.png'))
+    if (boosterKey) return cardImageFiles[boosterKey].default
+  }
+  for (const [path, mod] of Object.entries(cardImageFiles)) {
+    const fileName = path.split('/').pop().replace('.png', '')
+    if (fileName === description) return mod.default
+  }
+  const blankKey = Object.keys(cardImageFiles).find(k => k.endsWith('Blank.png'))
+  return blankKey ? cardImageFiles[blankKey].default : null
+}
 
 async function fetchData() {
   loading.value = true
@@ -31,53 +47,15 @@ async function fetchData() {
 
 onMounted(fetchData)
 
-// ---------- Mystery products ----------
-const isMystery = computed(() => productType.value?.startsWith('mystery-'))
-
-const mysteryProduct = computed(() => {
-  if (!isMystery.value) return null
-  const tier = productType.value.replace('mystery-', '')
-  const element = productId.value
-  const info = mysteryProductTypes[tier]
-  if (!info) return null
-  return {
-    name: `${element} ${info.name}`,
-    description: `${info.cards} random ${element} card${info.cards > 1 ? 's' : ''}`,
-    price: prices[0][info.priceKey],
-    image: elementEmoji[element] || '🎴',
-    stock: 50,
-  }
-})
-
-const quantity = ref(1)
-
-// ---------- Card data from API ----------
 const isCard = computed(() => productType.value === 'card')
 
-// All variants of this product from the products catalog
-const productVariants = computed(() => {
-  if (!isCard.value) return []
-  return products.value.filter(p => p.PRODUCT_NAME === productId.value)
+// Find the product from the catalog by DESCRIPTION
+const catalogProduct = computed(() => {
+  if (!isCard.value) return null
+  return products.value.find(p => p.DESCRIPTION === productId.value) || null
 })
 
-// Unique modifier names for filtering
-const availableModifiers = computed(() => {
-  return [...new Set(productVariants.value.map(p => p.MODIFIER_NAME))]
-})
-
-// Product info from the first variant
-const productInfo = computed(() => {
-  if (!productVariants.value.length) return null
-  const first = productVariants.value[0]
-  return {
-    name: first.PRODUCT_NAME,
-    styleName: first.STYLE_NAME,
-    seriesName: first.SERIES_NAME,
-    image: first.URL || null,
-  }
-})
-
-// Inventory listings for this product (only items with stock)
+// Inventory listings for this product (by PRODUCT_NAME, only items with stock)
 const productListings = computed(() => {
   if (!isCard.value) return []
   return inventory.value.filter(i =>
@@ -86,53 +64,83 @@ const productListings = computed(() => {
   )
 })
 
-// Filter state
-const selectedModifier = ref('')
-
-watch(productId, () => {
-  selectedModifier.value = ''
-  quantity.value = 1
+// Detect booster / mystery products (sold by the company, no variant dropdowns)
+const isBooster = computed(() => {
+  const name = (productId.value || '').toLowerCase()
+  return name.includes('mystery') || name.includes('booster')
 })
 
-// Filtered listings
+// Hardcoded filter options
+const LANGUAGE_OPTIONS = ['English', 'Japanese', 'Korean', 'Australian', 'Spanish']
+const FOIL_OPTIONS = ['Non-Foil', 'Holofoil', 'Reverse Holofoil']
+const CONDITION_OPTIONS = ['Mint', 'Near-Mint', 'Light Play', 'Moderate Play']
+
+const selectedLanguage = ref('')
+const selectedCondition = ref('')
+const selectedFoil = ref('')
+
+watch(productId, () => {
+  selectedLanguage.value = ''
+  selectedCondition.value = ''
+  selectedFoil.value = ''
+})
+
 const filteredListings = computed(() => {
   return productListings.value.filter(i => {
-    if (selectedModifier.value && i.MODIFIER_NAME !== selectedModifier.value) return false
+    const name = (i.MODIFIER_NAME || '').toLowerCase()
+    if (selectedLanguage.value && !name.includes(selectedLanguage.value.toLowerCase())) return false
+    if (selectedCondition.value && !name.includes(selectedCondition.value.toLowerCase())) return false
+    if (selectedFoil.value && !name.includes(selectedFoil.value.toLowerCase())) return false
     return true
   })
 })
 
-// ---------- Current product (for the header area) ----------
+// Product display info
 const currentProduct = computed(() => {
-  if (isMystery.value) return mysteryProduct.value
-  if (isCard.value && productInfo.value) {
+  if (!isCard.value || loading.value) return null
+  // Try catalog first
+  if (catalogProduct.value) {
     return {
-      name: productInfo.value.name,
-      description: `${productInfo.value.styleName} · ${productInfo.value.seriesName}`,
-      imageUrl: productInfo.value.image,
-      image: productInfo.value.image ? null : '🃏',
+      name: catalogProduct.value.DESCRIPTION,
+      sku: catalogProduct.value['1'],
+      price: (catalogProduct.value.BASE_PRICE_CENTS / 100).toFixed(2),
+      image: getCardImage(catalogProduct.value.DESCRIPTION),
     }
   }
-  if (isCard.value && !loading.value) return null
+  // Fallback: product exists in inventory but not in catalog (mystery/booster)
+  if (productListings.value.length) {
+    const first = productListings.value[0]
+    return {
+      name: first.PRODUCT_NAME,
+      sku: first.SKU,
+      price: (first.BASE_PRICE_CENTS / 100).toFixed(2),
+      image: getCardImage(first.PRODUCT_NAME),
+    }
+  }
   return null
 })
 
-// Mystery product price helpers
-const mysteryTotalPrice = computed(() => {
-  if (!mysteryProduct.value) return null
-  const base = parseFloat(mysteryProduct.value.price.replace('$', ''))
-  return (base * quantity.value).toFixed(2)
-})
-
 // Add to cart handler
+const cartQuantities = ref({})
+
+function getCartQty(listing) {
+  return cartQuantities.value[listing.INVENTORY_ID] || 1
+}
+
+function setCartQty(listing, val) {
+  cartQuantities.value[listing.INVENTORY_ID] = Math.max(1, Math.min(val, listing.QUANTITY_AVAILABLE))
+}
+
 async function handleAddToCart(listing) {
+  const qty = getCartQty(listing)
   try {
     await addToCart(
       listing.INVENTORY_ID,
-      1,
+      qty,
       listing.UNIT_PRICE_CENTS,
       listing.CURRENCY_CODE || 'USD'
     )
+    alert(`Added ${qty} to cart!`)
   } catch (e) {
     alert(e.message || 'Failed to add to cart')
   }
@@ -143,46 +151,62 @@ async function handleAddToCart(listing) {
   <main class="page-shell product-page">
     <router-link to="/store" class="back-link">← Back to Store</router-link>
 
-    <p v-if="loading && isCard" class="empty-state">Loading product…</p>
+    <p v-if="loading" class="empty-state">Loading product…</p>
 
     <div v-else-if="currentProduct" class="product-container">
       <div class="product-image-section">
         <div class="product-image-large">
-          <img v-if="currentProduct.imageUrl" :src="currentProduct.imageUrl" :alt="currentProduct.name" class="product-img" />
-          <span v-else>{{ currentProduct.image }}</span>
+          <img :src="currentProduct.image" :alt="currentProduct.name" class="product-img" />
         </div>
       </div>
 
       <div class="product-details">
         <h1>{{ currentProduct.name }}</h1>
-        <p class="description">{{ currentProduct.description }}</p>
+        <p class="description">Base Price: ${{ currentProduct.price }}</p>
 
-        <!-- Mystery product -->
-        <template v-if="isMystery && mysteryProduct">
-          <div class="price-section">
-            <span class="price">${{ mysteryTotalPrice }}</span>
-            <span class="stock">{{ mysteryProduct.stock }} in stock</span>
+        <!-- Booster / Mystery packs: company sells directly, no variants -->
+        <template v-if="isBooster">
+          <h2 class="section-heading">Buy</h2>
+          <div v-if="productListings.length" class="booster-listings">
+            <div v-for="listing in productListings" :key="listing.INVENTORY_ID" class="booster-row">
+              <span>{{ listing.QUANTITY_AVAILABLE }} in stock</span>
+              <span class="listing-price">${{ (listing.UNIT_PRICE_CENTS / 100).toFixed(2) }}</span>
+              <input
+                type="number"
+                class="qty-input"
+                :value="getCartQty(listing)"
+                @input="setCartQty(listing, +$event.target.value)"
+                min="1"
+                :max="listing.QUANTITY_AVAILABLE"
+              />
+              <button class="action-btn listing-buy-btn" @click="handleAddToCart(listing)">Buy</button>
+            </div>
           </div>
-          <div class="quantity-control">
-            <button @click="quantity = Math.max(1, quantity - 1)" :disabled="quantity <= 1">−</button>
-            <input type="number" v-model.number="quantity" :min="1" :max="mysteryProduct.stock"
-              @change="quantity = Math.min(Math.max(1, quantity), mysteryProduct.stock)" />
-            <button @click="quantity = Math.min(quantity + 1, mysteryProduct.stock)"
-              :disabled="quantity >= mysteryProduct.stock">+</button>
-          </div>
-          <button class="action-btn buy-btn" :disabled="mysteryProduct.stock === 0">
-            Add {{ quantity }} to Cart
-          </button>
+          <p v-else class="text-muted">Currently out of stock.</p>
         </template>
 
-        <!-- Card product: filter + seller listings -->
-        <template v-else-if="isCard">
-          <div v-if="availableModifiers.length > 1" class="filters">
+        <!-- Cards: Language / Condition / Foil filter dropdowns -->
+        <template v-else>
+          <div class="filters">
             <div class="filter-group">
-              <label>Variant</label>
-              <select v-model="selectedModifier">
-                <option value="">All variants</option>
-                <option v-for="m in availableModifiers" :key="m" :value="m">{{ m }}</option>
+              <label>Language</label>
+              <select v-model="selectedLanguage">
+                <option value="">All</option>
+                <option v-for="l in LANGUAGE_OPTIONS" :key="l" :value="l">{{ l }}</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Foil</label>
+              <select v-model="selectedFoil">
+                <option value="">All</option>
+                <option v-for="f in FOIL_OPTIONS" :key="f" :value="f">{{ f }}</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Condition</label>
+              <select v-model="selectedCondition">
+                <option value="">All</option>
+                <option v-for="c in CONDITION_OPTIONS" :key="c" :value="c">{{ c }}</option>
               </select>
             </div>
           </div>
@@ -194,8 +218,9 @@ async function handleAddToCart(listing) {
             <div class="listing-header">
               <span>Seller</span>
               <span>Variant</span>
-              <span>Qty</span>
+              <span>Stock</span>
               <span>Price</span>
+              <span>Qty</span>
               <span></span>
             </div>
             <div v-for="listing in filteredListings" :key="listing.INVENTORY_ID" class="listing-row">
@@ -203,6 +228,16 @@ async function handleAddToCart(listing) {
               <span>{{ listing.MODIFIER_NAME }}</span>
               <span>{{ listing.QUANTITY_AVAILABLE }}</span>
               <span class="listing-price">${{ (listing.UNIT_PRICE_CENTS / 100).toFixed(2) }}</span>
+              <span>
+                <input
+                  type="number"
+                  class="qty-input"
+                  :value="getCartQty(listing)"
+                  @input="setCartQty(listing, +$event.target.value)"
+                  min="1"
+                  :max="listing.QUANTITY_AVAILABLE"
+                />
+              </span>
               <button class="action-btn listing-buy-btn" @click="handleAddToCart(listing)">Add to Cart</button>
             </div>
           </div>
@@ -262,5 +297,57 @@ async function handleAddToCart(listing) {
 
 .buy-btn {
   width: 100%;
+}
+
+.qty-input {
+  width: 60px;
+  padding: 4px 6px;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid var(--color-border, #333);
+  background: var(--color-background, #111);
+  color: var(--color-text, #fff);
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.filter-group label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #aaa);
+}
+
+.filter-group select {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border, #333);
+  background: var(--color-background-soft, #1a1a2e);
+  color: var(--color-text, #fff);
+}
+
+.booster-listings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.booster-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: var(--color-background-soft, #1a1a2e);
+  border-radius: 8px;
+  border: 1px solid var(--color-border, #333);
 }
 </style>
