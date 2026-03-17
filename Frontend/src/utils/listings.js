@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
-import { generatedCards } from './generateCards.js'
 
-// User-created sell listings (frontend-only until backend is wired)
+// User-created sell listings (kept for backward compatibility)
+// Inventory is now managed via the backend API.
 export const userListings = reactive([])
 
 let nextId = 200000
@@ -15,9 +15,7 @@ export function addListing(listing) {
   })
 }
 
-// All available cards: generated inventory + user listings
+// All available listings for a given product name (local only)
 export function allListingsForName(name) {
-  const generated = generatedCards.filter(c => c.name === name && c.stock > 0)
-  const user = userListings.filter(c => c.name === name && c.stock > 0)
-  return [...generated, ...user]
+  return userListings.filter(c => c.name === name && c.stock > 0)
 }

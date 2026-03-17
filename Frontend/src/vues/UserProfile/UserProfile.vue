@@ -3,8 +3,7 @@ import '@/assets/profile.css'
 import logo from '@/assets/logo.png'
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getUser, updateUser, addAddress, deleteAddress } from '@/utils/api.js'
-import { generatedCards } from '@/utils/generateCards.js'
+import { getUser, updateUser, addAddress, deleteAddress, getUserInventory } from '@/utils/api.js'
 
 defineOptions({ name: 'UserProfile' })
 
@@ -42,7 +41,10 @@ async function fetchProfile() {
   }
 }
 
-onMounted(fetchProfile)
+onMounted(() => {
+  fetchProfile()
+  fetchUserCards()
+})
 
 // Update info modal
 const openUpdateModal = () => {
@@ -140,10 +142,17 @@ const removeAddress = async (id) => {
   }
 }
 
-// User's cards for sale
-const currentUserCards = computed(() =>
-  generatedCards.filter(c => c.stock > 0 && c.rarity === 'Rare').slice(0, 6)
-)
+// User's cards for sale (from API)
+const currentUserCards = ref([])
+
+async function fetchUserCards() {
+  try {
+    const data = await getUserInventory()
+    currentUserCards.value = data
+  } catch {
+    // Not logged in or failed — leave empty
+  }
+}
 
 const logout = () => {
   localStorage.removeItem('token')
@@ -201,21 +210,20 @@ const redirectToLogin = () => {
           <div v-if="currentUserCards.length > 0" class="cards-grid">
             <router-link
               v-for="card in currentUserCards"
-              :key="card.id"
-              :to="{ name: 'product', params: { type: 'card', id: card.name } }"
+              :key="card.INVENTORY_ID || card.SKU"
+              :to="{ name: 'product', params: { type: 'card', id: card.PRODUCT_NAME } }"
               class="user-card"
             >
-              <div class="card-image">🎴</div>
-              <div class="card-info">
-                <h3 class="card-name">{{ card.name }}</h3>
-                <p class="card-rarity" :class="`rarity-${card.rarity.toLowerCase()}`">
-                  {{ card.rarity }}
-                </p>
-                <p class="card-condition">{{ card.condition }}</p>
-                <p class="card-foil" v-if="card.foil !== 'Non-foil'">{{ card.foil }}</p>
-                <p class="card-price">${{ card.price }}</p>
+              <div class="card-image">
+                <img v-if="card.URL" :src="card.URL" :alt="card.PRODUCT_NAME" style="max-width:60px;border-radius:4px" />
+                <span v-else>🎴</span>
               </div>
-              <button class="edit-btn">Edit</button>
+              <div class="card-info">
+                <h3 class="card-name">{{ card.PRODUCT_NAME }}</h3>
+                <p class="card-rarity">{{ card.MODIFIER_NAME }}</p>
+                <p class="card-condition">Qty: {{ card.QUANTITY_AVAILABLE }}</p>
+                <p class="card-price">${{ (card.UNIT_PRICE_CENTS / 100).toFixed(2) }}</p>
+              </div>
             </router-link>
           </div>
           <p v-else class="info-value">You don't have any cards listed for sale yet.</p>

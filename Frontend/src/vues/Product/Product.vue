@@ -1,22 +1,43 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import { prices, cardPriceModifiers, mysteryProductTypes, elementEmoji } from '@/utils/prices.js'
-import { generatedCards, getTemplateForName } from '@/utils/generateCards.js'
-import { allListingsForName, userListings } from '@/utils/listings.js'
+import { ref, computed, watch, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { getProducts, getInventory, addToCart } from '@/utils/api.js'
+import { prices, mysteryProductTypes, elementEmoji } from '@/utils/prices.js'
 
 const route = useRoute()
+const router = useRouter()
 
 const productType = computed(() => route.params.type)
 const productId   = computed(() => route.params.id)
+
+const products = ref([])
+const inventory = ref([])
+const loading = ref(true)
+
+async function fetchData() {
+  loading.value = true
+  try {
+    const [productsData, inventoryData] = await Promise.all([
+      getProducts(),
+      getInventory(),
+    ])
+    products.value = productsData
+    inventory.value = inventoryData
+    loading.value = false
+  } catch (e) {
+    router.push({ name: 'error', query: { message: e.message } })
+  }
+}
+
+onMounted(fetchData)
 
 // ---------- Mystery products ----------
 const isMystery = computed(() => productType.value?.startsWith('mystery-'))
 
 const mysteryProduct = computed(() => {
   if (!isMystery.value) return null
-  const tier = productType.value.replace('mystery-', '')   // single | mid | pack
-  const element = productId.value                           // Fire, Water, etc.
+  const tier = productType.value.replace('mystery-', '')
+  const element = productId.value
   const info = mysteryProductTypes[tier]
   if (!info) return null
   return {
@@ -28,45 +49,55 @@ const mysteryProduct = computed(() => {
   }
 })
 
-// ---------- Filter selections ----------
-const selectedCondition = ref('')
-const selectedFoil      = ref('')
-const selectedLanguage  = ref('')
-
 const quantity = ref(1)
 
-// ---------- Card data ----------
+// ---------- Card data from API ----------
 const isCard = computed(() => productType.value === 'card')
 
-// All listings (generated + user) for this card name
-const cardListings = computed(() => {
+// All variants of this product from the products catalog
+const productVariants = computed(() => {
   if (!isCard.value) return []
-  return allListingsForName(productId.value)
+  return products.value.filter(p => p.PRODUCT_NAME === productId.value)
 })
 
-const cardTemplate = computed(() => {
-  if (!isCard.value) return null
-  return getTemplateForName(productId.value)
+// Unique modifier names for filtering
+const availableModifiers = computed(() => {
+  return [...new Set(productVariants.value.map(p => p.MODIFIER_NAME))]
 })
 
-const allConditions = computed(() => cardTemplate.value?.condition || [])
-const allFoils      = computed(() => cardTemplate.value?.foil || [])
-const allLanguages  = computed(() => cardTemplate.value?.language || [])
+// Product info from the first variant
+const productInfo = computed(() => {
+  if (!productVariants.value.length) return null
+  const first = productVariants.value[0]
+  return {
+    name: first.PRODUCT_NAME,
+    styleName: first.STYLE_NAME,
+    seriesName: first.SERIES_NAME,
+    image: first.URL || null,
+  }
+})
 
-// Reset on product change
+// Inventory listings for this product (only items with stock)
+const productListings = computed(() => {
+  if (!isCard.value) return []
+  return inventory.value.filter(i =>
+    i.PRODUCT_NAME === productId.value &&
+    i.QUANTITY_AVAILABLE && i.QUANTITY_AVAILABLE > 0
+  )
+})
+
+// Filter state
+const selectedModifier = ref('')
+
 watch(productId, () => {
-  selectedCondition.value = ''
-  selectedFoil.value = ''
-  selectedLanguage.value = ''
+  selectedModifier.value = ''
   quantity.value = 1
 })
 
-// Filtered seller listings
+// Filtered listings
 const filteredListings = computed(() => {
-  return cardListings.value.filter(card => {
-    if (selectedCondition.value && card.condition !== selectedCondition.value) return false
-    if (selectedFoil.value && card.foil !== selectedFoil.value) return false
-    if (selectedLanguage.value && card.language !== selectedLanguage.value) return false
+  return productListings.value.filter(i => {
+    if (selectedModifier.value && i.MODIFIER_NAME !== selectedModifier.value) return false
     return true
   })
 })
@@ -74,14 +105,15 @@ const filteredListings = computed(() => {
 // ---------- Current product (for the header area) ----------
 const currentProduct = computed(() => {
   if (isMystery.value) return mysteryProduct.value
-  if (isCard.value) {
-    const t = cardTemplate.value
+  if (isCard.value && productInfo.value) {
     return {
-      name: productId.value,
-      description: t ? `${t.type} card` : 'Card',
-      image: '🃏',
+      name: productInfo.value.name,
+      description: `${productInfo.value.styleName} · ${productInfo.value.seriesName}`,
+      imageUrl: productInfo.value.image,
+      image: productInfo.value.image ? null : '🃏',
     }
   }
+  if (isCard.value && !loading.value) return null
   return null
 })
 
@@ -91,15 +123,34 @@ const mysteryTotalPrice = computed(() => {
   const base = parseFloat(mysteryProduct.value.price.replace('$', ''))
   return (base * quantity.value).toFixed(2)
 })
+
+// Add to cart handler
+async function handleAddToCart(listing) {
+  try {
+    await addToCart(
+      listing.INVENTORY_ID,
+      1,
+      listing.UNIT_PRICE_CENTS,
+      listing.CURRENCY_CODE || 'USD'
+    )
+  } catch (e) {
+    alert(e.message || 'Failed to add to cart')
+  }
+}
 </script>
 
 <template>
   <main class="page-shell product-page">
     <router-link to="/store" class="back-link">← Back to Store</router-link>
 
-    <div v-if="currentProduct" class="product-container">
+    <p v-if="loading && isCard" class="empty-state">Loading product…</p>
+
+    <div v-else-if="currentProduct" class="product-container">
       <div class="product-image-section">
-        <div class="product-image-large">{{ currentProduct.image }}</div>
+        <div class="product-image-large">
+          <img v-if="currentProduct.imageUrl" :src="currentProduct.imageUrl" :alt="currentProduct.name" class="product-img" />
+          <span v-else>{{ currentProduct.image }}</span>
+        </div>
       </div>
 
       <div class="product-details">
@@ -124,28 +175,14 @@ const mysteryTotalPrice = computed(() => {
           </button>
         </template>
 
-        <!-- Card product: filters + seller listings -->
+        <!-- Card product: filter + seller listings -->
         <template v-else-if="isCard">
-          <div class="filters">
+          <div v-if="availableModifiers.length > 1" class="filters">
             <div class="filter-group">
-              <label>Condition</label>
-              <select v-model="selectedCondition">
-                <option value="">All conditions</option>
-                <option v-for="c in allConditions" :key="c" :value="c">{{ c }}</option>
-              </select>
-            </div>
-            <div class="filter-group">
-              <label>Foil</label>
-              <select v-model="selectedFoil">
-                <option value="">All foil types</option>
-                <option v-for="f in allFoils" :key="f" :value="f">{{ f }}</option>
-              </select>
-            </div>
-            <div class="filter-group">
-              <label>Language</label>
-              <select v-model="selectedLanguage">
-                <option value="">All languages</option>
-                <option v-for="l in allLanguages" :key="l" :value="l">{{ l }}</option>
+              <label>Variant</label>
+              <select v-model="selectedModifier">
+                <option value="">All variants</option>
+                <option v-for="m in availableModifiers" :key="m" :value="m">{{ m }}</option>
               </select>
             </div>
           </div>
@@ -156,27 +193,25 @@ const mysteryTotalPrice = computed(() => {
           <div v-if="filteredListings.length" class="seller-listings">
             <div class="listing-header">
               <span>Seller</span>
-              <span>Condition</span>
-              <span>Foil</span>
-              <span>Language</span>
+              <span>Variant</span>
+              <span>Qty</span>
               <span>Price</span>
               <span></span>
             </div>
-            <div v-for="card in filteredListings" :key="card.id" class="listing-row">
-              <span class="listing-seller">{{ card.seller }}</span>
-              <span>{{ card.condition }}</span>
-              <span>{{ card.foil }}</span>
-              <span>{{ card.language }}</span>
-              <span class="listing-price">${{ card.price }}</span>
-              <button class="action-btn listing-buy-btn">Add to Cart</button>
+            <div v-for="listing in filteredListings" :key="listing.INVENTORY_ID" class="listing-row">
+              <span class="listing-seller">Seller #{{ listing.SELLER_ID }}</span>
+              <span>{{ listing.MODIFIER_NAME }}</span>
+              <span>{{ listing.QUANTITY_AVAILABLE }}</span>
+              <span class="listing-price">${{ (listing.UNIT_PRICE_CENTS / 100).toFixed(2) }}</span>
+              <button class="action-btn listing-buy-btn" @click="handleAddToCart(listing)">Add to Cart</button>
             </div>
           </div>
-          <p v-else class="text-muted">No listings match the selected filters.</p>
+          <p v-else class="text-muted">No listings available for this product.</p>
         </template>
       </div>
     </div>
 
-    <div v-else class="empty-state">
+    <div v-else-if="!loading" class="empty-state">
       <h2>Product not found</h2>
       <router-link to="/store">Return to store</router-link>
     </div>
@@ -217,6 +252,12 @@ const mysteryTotalPrice = computed(() => {
 .product-details h1 {
   margin: 0 0 1rem;
   color: var(--color-heading, #fff);
+}
+
+.product-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
 .buy-btn {

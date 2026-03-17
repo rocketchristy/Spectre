@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from Backend.RestAPI.Routes import inventory, user, products, cart
 from Backend.DatabaseAccess.connection_pool import IBMDBConnectionPool
 import configparser
@@ -30,6 +31,14 @@ async def lifespan(app: FastAPI):
     app.state.db_pool.close_all()
 
 app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Exception handlers
 @app.exception_handler(HTTPException)
