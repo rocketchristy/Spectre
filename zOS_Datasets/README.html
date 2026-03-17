@@ -1,0 +1,1565 @@
+<!DOCTYPE html><html><head>
+      <title>README</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\bedens\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.21\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script>
+    </head>
+    <body for="html-export">
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="ecomapp---e-commerce-database-for-db2-zos">ECOMAPP - E-Commerce Database for Db2 z/OS </h1>
+<p><strong>Author:</strong> Ben Edens<br>
+<strong>Product:</strong> ECOMAPP (E-Commerce Application)<br>
+<strong>Platform:</strong> Db2 13 for z/OS<br>
+<strong>Date:</strong> March 16, 2026</p>
+<blockquote>
+<p><strong>Note:</strong> This documentation was created with AI assistance using GitHub Copilot.</p>
+</blockquote>
+<hr>
+<h2 id="table-of-contents">Table of Contents </h2>
+<ol>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#directory-structure">Directory Structure</a></li>
+<li><a href="#installation-instructions">Installation Instructions</a></li>
+<li><a href="#database-operations">Database Operations</a></li>
+<li><a href="#sql-query-examples">SQL Query Examples</a></li>
+<li><a href="#pricing-model">Pricing Model</a></li>
+<li><a href="#database-design">Database Design</a></li>
+<li><a href="#customization-guide">Customization Guide</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+</ol>
+<hr>
+<h2 id="overview">Overview </h2>
+<p>ECOMAPP is a Db2 13 for z/OS database implementation for the NextGen America trading card e-commerce platform. This package includes all DDL (Data Definition Language) scripts and JCL (Job Control Language) jobs needed to create and initialize the product catalog database.</p>
+<p><strong>Key Features:</strong></p>
+<ul>
+<li>Complete SKU-based product catalog (4,824 trading card variants)</li>
+<li>Multiplier-based dynamic pricing system</li>
+<li>16 normalized tables with full referential integrity</li>
+<li>Performance indexes on all critical access paths</li>
+<li>Split initialization files for mainframe line length compliance</li>
+<li>Automated JCL for all database operations</li>
+</ul>
+<p><strong>Product Catalog:</strong></p>
+<ul>
+<li><strong>80 Individual Cards</strong> × 60 modifier combinations = 4,800 variants</li>
+<li><strong>24 Mystery Products</strong> × 1 variant each = 24 variants</li>
+<li><strong>Total:</strong> 4,824 sellable SKUs</li>
+</ul>
+<p><strong>Database Components:</strong></p>
+<ul>
+<li><strong>Database:</strong> ECOMDB01</li>
+<li><strong>Tablespaces:</strong> 15 tablespaces (one per table for maximum flexibility)</li>
+<li><strong>Tables:</strong> USERS, TOKENS, SERIES, STYLES, STYLE_MODIFIERS, PRODUCT_TYPES, PRODUCT_VARIANTS, VARIANT_IMAGES, INVENTORY, CARTS, CART_ITEMS, ADDRESSES, ORDERS, ORDER_ADDRESSES, ORDER_ITEMS (15 tables)</li>
+<li><strong>Indexes:</strong> Primary key indexes + business key indexes</li>
+<li><strong>Sample Data:</strong> 4,824 product variants with complete metadata</li>
+</ul>
+<hr>
+<h2 id="prerequisites">Prerequisites </h2>
+<p>Before installing ECOMAPP, ensure you have:</p>
+<ol>
+<li>
+<p><strong>z/OS System Access</strong></p>
+<ul>
+<li>TSO/ISPF access or Zowe CLI installed</li>
+<li>RACF/ACF2/Top Secret security access</li>
+</ul>
+</li>
+<li>
+<p><strong>Db2 Subsystem</strong></p>
+<ul>
+<li>Db2 13 for z/OS (or compatible version)</li>
+<li>Db2 subsystem ID (SSID) - e.g., DSN1, DB2P, HL2D</li>
+<li>Db2 software library high-level qualifier - e.g., DSNV13, DSN.VD10</li>
+</ul>
+</li>
+<li>
+<p><strong>User Privileges</strong></p>
+<ul>
+<li>Authority to create datasets under your high-level qualifier (HLQ)</li>
+<li>Db2 SYSADM or SYSCTRL authority (for database creation)</li>
+<li>EXECUTE privilege on DSNTEP3 plan (Db2 sample program)</li>
+</ul>
+</li>
+<li>
+<p><strong>Storage</strong></p>
+<ul>
+<li>Approximately 100 tracks for DDL library</li>
+<li>Approximately 50 tracks for JCL library</li>
+<li>DASD storage for database tablespaces (estimated ~500 MB)</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="directory-structure">Directory Structure </h2>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>zOS_Datasets/
+├── README.md                      (this file)
+└── HLQ/
+    └── ECOMAPP/
+        ├── ECOMALOC.jcl          (Allocate PDS libraries - run first!)
+        ├── DDL/                   (SQL Data Definition Language scripts)
+        │   ├── E01STGDB.sql      (Create ECOMDB01 database)
+        │   ├── E02TBSPC.sql      (Create 15 tablespaces)
+        │   ├── E03TABLE.sql      (Create all tables with PKs/FKs)
+        │   ├── E04INDEX.sql      (Create performance indexes)
+        │   ├── E05CMNT.sql       (Add catalog comments)
+        │   ├── E06GRANT.sql      (Grant privileges)
+        │   ├── E07INIT1.sql      (Load reference data + initial users)
+        │   ├── E07INIT2.sql      (Load Product Variants part 1)
+        │   ├── E07INIT3.sql      (Load Product Variants part 2 + Mystery products)
+        │   ├── E08INVEN.sql      (Load mystery product inventory for seller)
+        │   ├── E09RPTO1.sql      (Report: Order history by day and user)
+        │   ├── E09RPTO2.sql      (Report: Per-item order summaries)
+        │   └── E09RPTO3.sql      (Report: Database and table statistics)
+        └── JCL/                   (Job Control Language jobs)
+            ├── ECOMDDL.jcl       (Execute DDL pipeline: create database)
+            ├── ECOMINIT.jcl      (Execute INIT pipeline: load product catalog + users)
+            ├── ECOMFILL.jcl      (Load inventory: 767 units of mystery products)
+            ├── ECOMRPTS.jcl      (Generate reports: orders, sales, statistics)
+            ├── ECOMDROP.jcl      (Drop all database objects)
+            ├── ECOMGRNT.jcl      (Apply grants only)
+            ├── ECOMLOAD.jcl      (Reserved for future test data)
+            └── ECOMRS.jcl        (Run statistics)
+</code></pre><p><strong>Note:</strong> This directory structure mirrors the z/OS dataset hierarchy. Files must be uploaded to the mainframe as PDS members. ECOMALOC.jcl is located at the <code>HLQ/ECOMAPP/</code> level (not under <code>JCL/</code>) because it is the bootstrap job that creates the JCL and DDL datasets.</p>
+<p><strong>Data Initialization Files:</strong><br>
+The product catalog is simplified into three E07INIT files to comply with mainframe 72-character line length limits:</p>
+<ul>
+<li><strong>E07INIT1:</strong> Reference tables (1 series, 4 styles, 63 modifiers, 104 product types) + 5 initial users</li>
+<li><strong>E07INIT2:</strong> Product variants part 1 (2,400 variants: cards SE01-UN40)</li>
+<li><strong>E07INIT3:</strong> Product variants part 2 + mystery products (2,424 variants: cards UN41-UN80 + 24 mystery products)</li>
+<li><strong>E08INVEN:</strong> Inventory data (24 mystery product inventory items, 767 total units, seller: Christy D)</li>
+</ul>
+<p><strong>Schema Simplification (March 2026):</strong><br>
+The PRODUCT_TYPE_MODIFIERS table was eliminated to simplify the schema. This change:</p>
+<ul>
+<li>Reduces initialization files to sequential numbering (INIT1, INIT2, INIT3)</li>
+<li>Removes 1 unnecessary table and tablespace</li>
+<li>Simplifies foreign key relationships</li>
+<li>Maintains all 4,824 product variants (2,400 + 2,424)</li>
+</ul>
+<p><strong>Initial Users:</strong><br>
+E07INIT1 creates five starter accounts for testing:</p>
+<ul>
+<li><a href="mailto:bryce@nxtcg.com">bryce@nxtcg.com</a> - Bryce M</li>
+<li><a href="mailto:ben@nxtcg.com">ben@nxtcg.com</a> - Ben E</li>
+<li><a href="mailto:christy@nxtcg.com">christy@nxtcg.com</a> - Christy D (inventory seller)</li>
+<li><a href="mailto:claire@nxtcg.com">claire@nxtcg.com</a> - Claire O</li>
+<li><a href="mailto:jessalyn@nxtcg.com">jessalyn@nxtcg.com</a> - Jessalyn H</li>
+<li>All users share the same hashed password for demo purposes</li>
+</ul>
+<hr>
+<h2 id="installation-instructions">Installation Instructions </h2>
+<h3 id="step-1-customize-placeholders">Step 1: Customize Placeholders </h3>
+<p>Before uploading any files, you <strong>must</strong> customize the following placeholders throughout all DDL and JCL files:</p>
+<table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;Your HLQ&gt;</code></td>
+<td>Your z/OS High-Level Qualifier</td>
+<td><code>USER01</code>, <code>PROD01</code>, <code>DEVUSER</code></td>
+</tr>
+<tr>
+<td><code>&lt;Your USERGRP&gt;</code></td>
+<td>Application user/group for DML access</td>
+<td><code>APPUSER</code>, <code>ECOMGRP</code>, <code>WEBAPP</code></td>
+</tr>
+<tr>
+<td><code>&lt;Your SSID&gt;</code></td>
+<td>Db2 subsystem ID</td>
+<td><code>DSN1</code>, <code>DB2P</code>, <code>HL2D</code></td>
+</tr>
+<tr>
+<td><code>&lt;Your DB2HLQ&gt;</code></td>
+<td>Db2 software library HLQ</td>
+<td><code>DSNV13</code>, <code>DSN.VD10</code>, <code>DB2V13</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Important Notes:</strong></p>
+<ul>
+<li><code>&lt;Your HLQ&gt;</code> will be the schema owner and will own all database objects</li>
+<li><code>&lt;Your USERGRP&gt;</code> will receive SELECT, INSERT, UPDATE, DELETE privileges for application runtime</li>
+<li>These can be the same user ID or different, depending on your security model</li>
+</ul>
+<p><strong>Customization Methods:</strong></p>
+<p><strong>Option A: Global Find/Replace (Recommended)</strong><br>
+Use your text editor to find and replace all placeholders across all files:</p>
+<ol>
+<li>Open all DDL and JCL files in your editor</li>
+<li>Find <code>&lt;Your HLQ&gt;</code> → Replace with your actual HLQ (e.g., <code>USER01</code>)</li>
+<li>Find <code>&lt;Your USERGRP&gt;</code> → Replace with your application user (e.g., <code>APPUSER</code>)</li>
+<li>Find <code>&lt;Your SSID&gt;</code> → Replace with your Db2 subsystem ID (e.g., <code>HL2D</code>)</li>
+<li>Find <code>&lt;Your DB2HLQ&gt;</code> → Replace with your Db2 software HLQ (e.g., <code>DSN.VD10</code>)</li>
+<li>Save all files</li>
+</ol>
+<p><strong>Option B: Manual Edit</strong><br>
+Edit each file individually, replacing placeholders as you encounter them.</p>
+<hr>
+<h3 id="step-2-create-initial-pds-for-ecomaloc">Step 2: Create Initial PDS for ECOMALOC </h3>
+<p>You need to manually create one dataset and upload the ECOMALOC.jcl file to it. This job will then create the remaining datasets.</p>
+<p><strong>Method A: Using TSO/ISPF</strong></p>
+<ol>
+<li>
+<p><strong>Log into TSO/ISPF</strong></p>
+<ul>
+<li>Option 3.2 (Dataset Utility)</li>
+</ul>
+</li>
+<li>
+<p><strong>Allocate the Initial PDS</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Command ===&gt; A
+Dataset Name: &lt;Your HLQ&gt;.ECOMAPP.ECOMALOC
+Management class . . . &lt;blank&gt;
+Storage class  . . . . &lt;blank&gt;
+Volume serial  . . . . &lt;blank&gt;
+Device type  . . . . . &lt;blank or SYSDA&gt;
+Data class . . . . . . &lt;blank&gt;
+Space units  . . . . . TRKS
+Primary quantity . . . 5
+Secondary quantity . . 2
+Directory blocks . . . 2
+Record format  . . . . FB
+Record length  . . . . 80
+Block size . . . . . . 3120
+Data set name type . . PDS
+</code></pre></li>
+<li>
+<p><strong>Upload ECOMALOC.jcl</strong></p>
+<ul>
+<li>Option 3.4 (DSLIST)</li>
+<li>Navigate to <code>&lt;Your HLQ&gt;.ECOMAPP.ECOMALOC</code></li>
+<li>Press Enter to browse</li>
+<li>Type <code>EDIT</code> on command line</li>
+<li>Use option 1 (View) or 2 (Edit) on the ECOMALOC member</li>
+<li>Copy/paste the contents of <code>HLQ/ECOMAPP/ECOMALOC.jcl</code> from this package</li>
+<li>Save (F3)</li>
+</ul>
+</li>
+</ol>
+<p><strong>Method B: Using Zowe CLI</strong></p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># Create the initial PDS</span>
+zowe files create data-set-classic <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.ECOMALOC"</span> <span class="token punctuation">\</span>
+  --data-set-type PDS <span class="token punctuation">\</span>
+  --primary-space <span class="token number">5</span> <span class="token punctuation">\</span>
+  --secondary-space <span class="token number">2</span> <span class="token punctuation">\</span>
+  --directory-blocks <span class="token number">2</span> <span class="token punctuation">\</span>
+  --record-format FB <span class="token punctuation">\</span>
+  --record-length <span class="token number">80</span> <span class="token punctuation">\</span>
+  --block-size <span class="token number">3120</span>
+
+<span class="token comment"># Upload ECOMALOC.jcl as a member</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/ECOMALOC.jcl"</span> <span class="token punctuation">\</span>
+  <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.ECOMALOC(ECOMALOC)"</span>
+</code></pre><hr>
+<h3 id="step-3-run-ecomaloc-to-create-ddl-and-jcl-libraries">Step 3: Run ECOMALOC to Create DDL and JCL Libraries </h3>
+<p>This job creates the two main PDS libraries for your DDL and JCL files.</p>
+<p><strong>What ECOMALOC Does:</strong></p>
+<ul>
+<li>Creates <code>&lt;Your HLQ&gt;.ECOMAPP.DDL</code> (for SQL scripts, LRECL=80)</li>
+<li>Creates <code>&lt;Your HLQ&gt;.ECOMAPP.JCL</code> (for JCL jobs, LRECL=80)</li>
+<li>Creates <code>&lt;Your HLQ&gt;.ECOMAPP.REPORTS</code> (for report output, LRECL=133)</li>
+</ul>
+<p><strong>To Submit:</strong></p>
+<p><strong>Method A: TSO/ISPF</strong></p>
+<ol>
+<li>Option 3.4 (DSLIST)</li>
+<li>Navigate to <code>&lt;Your HLQ&gt;.ECOMAPP.ECOMALOC</code></li>
+<li>Type <code>SUB</code> next to ECOMALOC member</li>
+<li>Press Enter</li>
+</ol>
+<p><strong>Method B: Zowe CLI</strong></p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code>zowe <span class="token function">jobs</span> submit data-set <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.ECOMALOC(ECOMALOC)"</span>
+</code></pre><p><strong>Expected Result:</strong></p>
+<ul>
+<li>Job should complete with RC=0</li>
+<li>Two new datasets created:
+<ul>
+<li><code>&lt;Your HLQ&gt;.ECOMAPP.DDL</code></li>
+<li><code>&lt;Your HLQ&gt;.ECOMAPP.JCL</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>Verify:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>TSO/ISPF Option 3.4
+Filter: &lt;Your HLQ&gt;.ECOMAPP.*
+
+You should see:
+&lt;Your HLQ&gt;.ECOMAPP.DDL
+&lt;Your HLQ&gt;.ECOMAPP.ECOMALOC
+&lt;Your HLQ&gt;.ECOMAPP.JCL
+&lt;Your HLQ&gt;.ECOMAPP.REPORTS
+</code></pre><hr>
+<h3 id="step-4-upload-ddl-members">Step 4: Upload DDL Members </h3>
+<p>Upload all SQL DDL files to the <code>&lt;Your HLQ&gt;.ECOMAPP.DDL</code> library.</p>
+<p><strong>Method A: TSO/ISPF</strong></p>
+<ol>
+<li>Option 3.4 (DSLIST)</li>
+<li>Navigate to <code>&lt;Your HLQ&gt;.ECOMAPP.DDL</code></li>
+<li>Press Enter to browse</li>
+<li>For each DDL file, create a new member:
+<ul>
+<li>Type <code>E &lt;membername&gt;</code> (e.g., <code>E E01STGDB</code>)</li>
+<li>Copy/paste the contents from the DDL/ directory</li>
+<li>Save (F3)</li>
+</ul>
+</li>
+</ol>
+<p><strong>Upload these members (in order):</strong></p>
+<ul>
+<li>E01STGDB (from HLQ/ECOMAPP/DDL/E01STGDB.sql)</li>
+<li>E02TBSPC (from HLQ/ECOMAPP/DDL/E02TBSPC.sql)</li>
+<li>E03TABLE (from HLQ/ECOMAPP/DDL/E03TABLE.sql)</li>
+<li>E04INDEX (from HLQ/ECOMAPP/DDL/E04INDEX.sql)</li>
+<li>E05CMNT (from HLQ/ECOMAPP/DDL/E05CMNT.sql)</li>
+<li>E06GRANT (from HLQ/ECOMAPP/DDL/E06GRANT.sql)</li>
+<li>E07INIT1 (from HLQ/ECOMAPP/DDL/E07INIT1.sql)</li>
+<li>E07INIT2 (from HLQ/ECOMAPP/DDL/E07INIT2.sql)</li>
+<li>E07INIT3 (from HLQ/ECOMAPP/DDL/E07INIT3.sql)</li>
+<li>E08INVEN (from HLQ/ECOMAPP/DDL/E08INVEN.sql)</li>
+</ul>
+<p><strong>Method B: Zowe CLI</strong></p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># Upload all DDL files</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/DDL/E01STGDB.sql"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.DDL(E01STGDB)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/DDL/E02TBSPC.sql"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.DDL(E02TBSPC)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/DDL/E03TABLE.sql"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.DDL(E03TABLE)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/DDL/E04INDEX.sql"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.DDL(E04INDEX)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/DDL/E05CMNT.sql"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.DDL(E05CMNT)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/DDL/E06GRANT.sql"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.DDL(E06GRANT)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/DDL/E07INIT1.sql"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.DDL(E07INIT1)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/DDL/E07INIT2.sql"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.DDL(E07INIT2)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/DDL/E07INIT3.sql"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.DDL(E07INIT3)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/DDL/E08INVEN.sql"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.DDL(E08INVEN)"</span>
+</code></pre><p><strong>Method C: Batch Upload Script (PowerShell)</strong></p>
+<pre data-role="codeBlock" data-info="powershell" class="language-powershell powershell"><code><span class="token comment"># Upload all DDL files at once</span>
+<span class="token variable">$hlq</span> = <span class="token string">"&lt;Your HLQ&gt;"</span>  <span class="token comment"># Change to your HLQ</span>
+<span class="token variable">$ddlFiles</span> = @<span class="token punctuation">(</span><span class="token string">"E01STGDB"</span><span class="token punctuation">,</span> <span class="token string">"E02TBSPC"</span><span class="token punctuation">,</span> <span class="token string">"E03TABLE"</span><span class="token punctuation">,</span> <span class="token string">"E04INDEX"</span><span class="token punctuation">,</span> <span class="token string">"E05CMNT"</span><span class="token punctuation">,</span> <span class="token string">"E06GRANT"</span><span class="token punctuation">,</span> 
+              <span class="token string">"E07INIT1"</span><span class="token punctuation">,</span> <span class="token string">"E07INIT2"</span><span class="token punctuation">,</span> <span class="token string">"E07INIT3"</span><span class="token punctuation">,</span> <span class="token string">"E08INVEN"</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token variable">$file</span> in <span class="token variable">$ddlFiles</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    zowe files upload file-to-<span class="token keyword keyword-data">data</span><span class="token operator">-</span><span class="token function">set</span> <span class="token string">"HLQ/ECOMAPP/DDL/<span class="token variable">$file</span>.sql"</span> <span class="token string">"<span class="token variable">$hlq</span>.ECOMAPP.DDL(<span class="token variable">$file</span>)"</span>
+    <span class="token function">Write-Host</span> <span class="token string">"Uploaded <span class="token variable">$file</span>"</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h3 id="step-5-upload-jcl-members">Step 5: Upload JCL Members </h3>
+<p>Upload all JCL job files to the <code>&lt;Your HLQ&gt;.ECOMAPP.JCL</code> library.</p>
+<p><strong>Method A: TSO/ISPF</strong></p>
+<ol>
+<li>Option 3.4 (DSLIST)</li>
+<li>Navigate to <code>&lt;Your HLQ&gt;.ECOMAPP.JCL</code></li>
+<li>Press Enter to browse</li>
+<li>For each JCL file, create a new member:
+<ul>
+<li>Type <code>E &lt;membername&gt;</code> (e.g., <code>E ECOMDDL</code>)</li>
+<li>Copy/paste the contents from the JCL/ directory</li>
+<li>Save (F3)</li>
+</ul>
+</li>
+</ol>
+<p><strong>Upload these members:</strong></p>
+<ul>
+<li>ECOMDDL (from HLQ/ECOMAPP/JCL/ECOMDDL.jcl)</li>
+<li>ECOMINIT (from HLQ/ECOMAPP/JCL/ECOMINIT.jcl)</li>
+<li>ECOMFILL (from HLQ/ECOMAPP/JCL/ECOMFILL.jcl)</li>
+<li>ECOMDROP (from HLQ/ECOMAPP/JCL/ECOMDROP.jcl)</li>
+<li>ECOMGRNT (from HLQ/ECOMAPP/JCL/ECOMGRNT.jcl)</li>
+<li>ECOMLOAD (from HLQ/ECOMAPP/JCL/ECOMLOAD.jcl)</li>
+<li>ECOMRS (from HLQ/ECOMAPP/JCL/ECOMRS.jcl)</li>
+</ul>
+<p><strong>Method B: Zowe CLI</strong></p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># Upload all JCL files</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/JCL/ECOMDDL.jcl"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.JCL(ECOMDDL)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/JCL/ECOMINIT.jcl"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.JCL(ECOMINIT)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/JCL/ECOMFILL.jcl"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.JCL(ECOMFILL)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/JCL/ECOMDROP.jcl"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.JCL(ECOMDROP)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/JCL/ECOMGRNT.jcl"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.JCL(ECOMGRNT)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/JCL/ECOMLOAD.jcl"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.JCL(ECOMLOAD)"</span>
+zowe files upload file-to-data-set <span class="token string">"HLQ/ECOMAPP/JCL/ECOMRS.jcl"</span> <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.JCL(ECOMRS)"</span>
+</code></pre><p><strong>Method C: Batch Upload Script (PowerShell)</strong></p>
+<pre data-role="codeBlock" data-info="powershell" class="language-powershell powershell"><code><span class="token comment"># Upload all JCL files at once</span>
+<span class="token variable">$hlq</span> = <span class="token string">"&lt;Your HLQ&gt;"</span>  <span class="token comment"># Change to your HLQ</span>
+<span class="token variable">$jclFiles</span> = @<span class="token punctuation">(</span><span class="token string">"ECOMDDL"</span><span class="token punctuation">,</span> <span class="token string">"ECOMINIT"</span><span class="token punctuation">,</span> <span class="token string">"ECOMFILL"</span><span class="token punctuation">,</span> <span class="token string">"ECOMDROP"</span><span class="token punctuation">,</span> <span class="token string">"ECOMGRNT"</span><span class="token punctuation">,</span> <span class="token string">"ECOMLOAD"</span><span class="token punctuation">,</span> <span class="token string">"ECOMRS"</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token variable">$file</span> in <span class="token variable">$jclFiles</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    zowe files upload file-to-<span class="token keyword keyword-data">data</span><span class="token operator">-</span><span class="token function">set</span> <span class="token string">"HLQ/ECOMAPP/JCL/<span class="token variable">$file</span>.jcl"</span> <span class="token string">"<span class="token variable">$hlq</span>.ECOMAPP.JCL(<span class="token variable">$file</span>)"</span>
+    <span class="token function">Write-Host</span> <span class="token string">"Uploaded <span class="token variable">$file</span>"</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h3 id="step-6-create-the-database">Step 6: Create the Database </h3>
+<p>Now you're ready to create the ECOMAPP database!</p>
+<p><strong>Submit ECOMDDL Job:</strong></p>
+<p><strong>Method A: TSO/ISPF</strong></p>
+<ol>
+<li>Option 3.4 (DSLIST)</li>
+<li>Navigate to <code>&lt;Your HLQ&gt;.ECOMAPP.JCL</code></li>
+<li>Type <code>SUB</code> next to ECOMDDL member</li>
+<li>Press Enter</li>
+</ol>
+<p><strong>Method B: Zowe CLI</strong></p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code>zowe <span class="token function">jobs</span> submit data-set <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.JCL(ECOMDDL)"</span>
+</code></pre><p><strong>What ECOMDDL Does:</strong><br>
+This job executes the complete DDL pipeline in dependency order:</p>
+<ol>
+<li><strong>STGDB Step</strong> - Creates ECOMDB01 database (E01STGDB)</li>
+<li><strong>TBSPC Step</strong> - Creates 15 tablespaces (E02TBSPC)</li>
+<li><strong>TABLES Step</strong> - Creates all tables with PKs, FKs, constraints (E03TABLE)</li>
+<li><strong>INDEXES Step</strong> - Creates performance indexes (E04INDEX)</li>
+<li><strong>COMMENTS Step</strong> - Adds catalog comments (E05CMNT)</li>
+<li><strong>GRANTS Step</strong> - Grants privileges to owner and application user (E06GRANT)</li>
+</ol>
+<p><strong>Expected Return Codes:</strong></p>
+<ul>
+<li><strong>RC=0</strong>: Complete success - all DDL executed successfully</li>
+<li><strong>RC=4</strong>: Warning (e.g., data truncation) - generally safe to continue</li>
+<li><strong>RC=8</strong>: SQL error (e.g., -601 object already exists on re-run) - review SYSTSPRT</li>
+<li><strong>RC=12+</strong>: Severe error (plan not found, authorization failure) - STOP and investigate</li>
+</ul>
+<p><strong>Job Conditioning:</strong><br>
+Each step is conditioned on the previous step completing with RC &lt; 12. This means:</p>
+<ul>
+<li>RC=8 (e.g., object already exists) allows the job to continue</li>
+<li>RC=12+ stops the job immediately</li>
+</ul>
+<p><strong>Verify Database Creation:</strong></p>
+<p><strong>Method A: TSO/ISPF with Db2I</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Option ==&gt; D (Db2I Primary Menu)
+Option ==&gt; 2 (SPUFI)
+
+Enter SQL:
+SELECT * FROM SYSIBM.SYSTABLES WHERE CREATOR = '&lt;Your HLQ&gt;';
+
+You should see 15 tables:
+USERS, TOKENS, SERIES, STYLES, STYLE_MODIFIERS, PRODUCT_TYPES,
+PRODUCT_VARIANTS, VARIANT_IMAGES, INVENTORY, CARTS, CART_ITEMS,
+ADDRESSES, ORDERS, ORDER_ADDRESSES, ORDER_ITEMS
+</code></pre><p><strong>Method B: Db2 Command</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>-DIS DATABASE(ECOMDB01) SPACENAM(*)
+
+Should show all 15 tablespaces in RW (read-write) status
+</code></pre><hr>
+<h3 id="step-7-initialize-product-catalog">Step 7: Initialize Product Catalog </h3>
+<p>After creating the database structure, initialize it with the NextGen America trading card catalog (4,824 product variants).</p>
+<p><strong>Submit ECOMINIT Job:</strong></p>
+<p><strong>Method A: TSO/ISPF</strong></p>
+<ol>
+<li>Navigate to <code>&lt;Your HLQ&gt;.ECOMAPP.JCL</code></li>
+<li>Type <code>SUB</code> next to ECOMINIT member</li>
+</ol>
+<p><strong>Method B: Zowe CLI</strong></p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code>zowe <span class="token function">jobs</span> submit data-set <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.JCL(ECOMINIT)"</span>
+</code></pre><p><strong>What ECOMINIT Does:</strong><br>
+Executes E07INIT1, E07INIT2, and E07INIT3 in sequence to populate the product catalog:</p>
+<ol>
+<li>
+<p><strong>INIT1 Step</strong> - Loads reference data (E07INIT1):</p>
+<ul>
+<li>1 Series (NextGen America)</li>
+<li>4 Styles (Card Single, Mystery Single, Mystery Midi, Mystery Pack)</li>
+<li>63 Style Modifiers (language, foil, condition combinations + NIB)</li>
+<li>104 Product Types (80 cards + 24 mystery products)</li>
+</ul>
+</li>
+<li>
+<p><strong>INIT2 Step</strong> - Creates product variants part 1 (E07INIT2):</p>
+<ul>
+<li>2,400 PRODUCT_VARIANTS rows (cards SE01-UN40 × 60 modifiers)</li>
+</ul>
+</li>
+<li>
+<p><strong>INIT3 Step</strong> - Creates product variants part 2 + mystery products (E07INIT3):</p>
+<ul>
+<li>2,424 PRODUCT_VARIANTS rows (cards UN41-UN80 × 60 modifiers + 24 mystery variants)</li>
+</ul>
+</li>
+</ol>
+<p><strong>Expected Return Codes:</strong></p>
+<ul>
+<li><strong>RC=0</strong>: Complete success - all 4,824 product variants loaded</li>
+<li><strong>RC=4</strong>: Warning (e.g., data truncation) - generally safe to continue</li>
+<li><strong>RC=8</strong>: SQL error (e.g., -803 duplicate key on re-run) - review SYSTSPRT</li>
+<li><strong>RC=12+</strong>: Severe error (plan not found, authorization failure) - STOP and investigate</li>
+</ul>
+<p><strong>Job Conditioning:</strong><br>
+Each step is conditioned on the previous step completing with RC &lt; 12. This means:</p>
+<ul>
+<li>RC=8 (e.g., duplicate key) allows the job to continue to next step</li>
+<li>RC=12+ stops the job immediately</li>
+</ul>
+<p><strong>Verify Data Load:</strong></p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- Check catalog summary</span>
+<span class="token keyword keyword-SELECT">SELECT</span> 
+    <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>SERIES<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> SERIES_COUNT<span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>STYLES<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> STYLES_COUNT<span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>STYLE_MODIFIERS<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> MODIFIERS_COUNT<span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_TYPES<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> PRODUCT_TYPES_COUNT<span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_VARIANTS<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> VARIANTS_COUNT
+<span class="token keyword keyword-FROM">FROM</span> SYSIBM<span class="token punctuation">.</span>SYSDUMMY1<span class="token punctuation">;</span>
+
+Expected results:
+SERIES: <span class="token number">1</span>
+STYLES: <span class="token number">4</span>  
+MODIFIERS: <span class="token number">63</span>
+PRODUCT_TYPES: <span class="token number">104</span>
+VARIANTS: <span class="token number">4</span><span class="token punctuation">,</span><span class="token number">824</span>
+</code></pre><hr>
+<h3 id="step-8-gather-statistics-recommended">Step 8: Gather Statistics (Recommended) </h3>
+<p>After creating the database (and loading data if applicable), run statistics for optimal query performance:</p>
+<p><strong>Submit ECOMRS Job:</strong></p>
+<p><strong>Method A: TSO/ISPF</strong></p>
+<ol>
+<li>Navigate to <code>&lt;Your HLQ&gt;.ECOMAPP.JCL</code></li>
+<li>Type <code>SUB</code> next to ECOMRS member</li>
+</ol>
+<p><strong>Method B: Zowe CLI</strong></p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code>zowe <span class="token function">jobs</span> submit data-set <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.JCL(ECOMRS)"</span>
+</code></pre><p><strong>What ECOMRS Does:</strong></p>
+<ul>
+<li>Runs RUNSTATS on all 15 tablespaces</li>
+<li>Runs RUNSTATS on all indexes (both primary key and performance indexes)</li>
+<li>Updates Db2 catalog statistics for query optimization</li>
+</ul>
+<p><strong>Expected Result:</strong></p>
+<ul>
+<li>RC=0: All statistics gathered successfully</li>
+<li>Db2 optimizer can now make informed access path decisions</li>
+</ul>
+<p><strong>When to Run:</strong></p>
+<ul>
+<li>After initial database creation</li>
+<li>After loading or significantly modifying data</li>
+<li>Periodically as part of database maintenance (weekly/monthly)</li>
+</ul>
+<hr>
+<h2 id="database-operations">Database Operations </h2>
+<h3 id="standard-operations">Standard Operations </h3>
+<h4 id="create-database-full-build"><strong>Create Database (Full Build)</strong> </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Submit: ECOMDDL
+Purpose: Build complete database structure
+Time: ~2-5 minutes
+Prerequisites: None (or previous database dropped)
+Result: Empty database with all tables, indexes, constraints
+</code></pre><h4 id="initialize-product-catalog"><strong>Initialize Product Catalog</strong> </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Submit: ECOMINIT
+Purpose: Load 4,824 NextGen America product variants + 5 initial users
+Time: ~3-5 minutes
+Prerequisites: ECOMDDL completed successfully
+Result: Complete product catalog + user accounts ready for operations
+</code></pre><h4 id="load-inventory-data"><strong>Load Inventory Data</strong> </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Submit: ECOMFILL
+Purpose: Load mystery product inventory (767 units, 24 SKUs)
+Time: &lt;1 minute
+Prerequisites: ECOMINIT completed (products and users must exist)
+Result: Sellable inventory owned by Christy D (christy@nxtcg.com)
+</code></pre><h4 id="gather-statistics"><strong>Gather Statistics</strong> </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Submit: ECOMRS
+Purpose: Update Db2 catalog statistics
+Time: ~2-5 minutes
+Prerequisites: Database created (ECOMDDL completed)
+Frequency: After data loads, weekly/monthly
+</code></pre><h4 id="generate-reports"><strong>Generate Reports</strong> </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Submit: ECOMRPTS
+Purpose: Generate business intelligence and database statistics reports
+Time: &lt;2 minutes
+Prerequisites: ECOMINIT completed (requires order data for meaningful results)
+Frequency: On-demand or scheduled (weekly/monthly)
+</code></pre><p><strong>What ECOMRPTS Generates:</strong></p>
+<ol>
+<li>
+<p><strong>Report RPTO1: Order History by Day and User</strong></p>
+<ul>
+<li>Groups orders by calendar day and user</li>
+<li>Shows order count and total revenue (last 90 days)</li>
+<li>Breaks down orders by status (pending, confirmed, fulfilled, canceled, refunded)</li>
+<li>Output: <code>&lt;Your HLQ&gt;.ECOMAPP.REPORTS(RPTO1)</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Report RPTO2: Per-Item Order Summaries</strong></p>
+<ul>
+<li>Aggregates sales by SKU and seller</li>
+<li>Shows total quantity sold and total revenue (last 90 days)</li>
+<li>Includes average, min, and max unit prices</li>
+<li>Excludes canceled and refunded orders</li>
+<li>Output: <code>&lt;Your HLQ&gt;.ECOMAPP.REPORTS(RPTO2)</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Report RPTO3: Database and Table Statistics</strong></p>
+<ul>
+<li>Lists all tables with column counts and row counts</li>
+<li>Shows table status, page utilization, and index counts</li>
+<li>Provides database-level summary statistics</li>
+<li>Output: <code>&lt;Your HLQ&gt;.ECOMAPP.REPORTS(RPTO3)</code></li>
+</ul>
+</li>
+</ol>
+<p><strong>To View Report Output:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>TSO/ISPF Option 1 (VIEW)
+Dataset: &lt;Your HLQ&gt;.ECOMAPP.REPORTS
+Members: RPTO1, RPTO2, RPTO3
+</code></pre><p>Or using Zowe CLI:</p>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># View specific report</span>
+zowe files view data-set <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.REPORTS(RPTO1)"</span>
+
+<span class="token comment"># Download all reports</span>
+zowe files download all-members <span class="token string">"&lt;Your HLQ&gt;.ECOMAPP.REPORTS"</span> <span class="token parameter variable">--directory</span> ./reports
+</code></pre><p><strong>Note:</strong> Reports can be run multiple times and will overwrite previous results. For historical tracking, copy reports to dated datasets before re-running.</p>
+<h4 id="apply-grants-only"><strong>Apply Grants Only</strong> </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Submit: ECOMGRNT
+Purpose: Re-apply privileges without full rebuild
+Time: &lt;1 minute
+Prerequisites: Database already exists
+Use Case: Adding new application users
+</code></pre><h4 id="drop-database-complete-teardown"><strong>Drop Database (Complete Teardown)</strong> </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Submit: ECOMDROP
+Purpose: Remove all database objects
+Time: ~1-2 minutes
+Prerequisites: No active connections to ECOMDB01
+⚠️ WARNING: Destroys all data - use with caution!
+</code></pre><h4 id="load-additional-test-data-reserved"><strong>Load Additional Test Data</strong> (Reserved) </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Submit: ECOMLOAD
+Purpose: Reserved for future user/order test data
+Status: Not yet implemented
+Note: Product catalog uses ECOMINIT instead
+</code></pre><hr>
+<h3 id="job-execution-order-typical-workflow">Job Execution Order (Typical Workflow) </h3>
+<p><strong>Initial Setup:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. Customize all files (replace placeholders)
+2. Create &lt;Your HLQ&gt;.ECOMAPP.ECOMALOC dataset
+3. Upload ECOMALOC.jcl
+4. Submit ECOMALOC → Creates DDL and JCL libraries
+5. Upload all DDL members to &lt;Your HLQ&gt;.ECOMAPP.DDL
+6. Upload all JCL members to &lt;Your HLQ&gt;.ECOMAPP.JCL
+7. Submit ECOMDDL → Creates database structure
+8. Submit ECOMINIT → Loads product catalog + users (4,824 variants + 5 users)
+9. Submit ECOMFILL → Loads inventory (767 mystery product units)
+10. Submit ECOMRS → Gathers statistics
+</code></pre><p><strong>Rebuild Database:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. Submit ECOMDROP → Removes all objects
+2. Submit ECOMDDL → Rebuilds database structure
+3. Submit ECOMINIT → Reloads product catalog + users
+4. Submit ECOMFILL → Reloads inventory
+5. Submit ECOMRS → Gathers statistics
+</code></pre><p><strong>Add New Application User:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. Edit E06GRANT.sql: Update &lt;Your USERGRP&gt; placeholder
+2. Re-upload E06GRANT to &lt;Your HLQ&gt;.ECOMAPP.DDL
+3. Submit ECOMGRNT → Applies grants
+</code></pre><hr>
+<h2 id="sql-query-examples">SQL Query Examples </h2>
+<p>This section provides common SQL queries for typical e-commerce operations. Replace <code>&lt;Your HLQ&gt;</code> with your actual High-Level Qualifier.</p>
+<h3 id="user-management">User Management </h3>
+<h4 id="create-a-new-user"><strong>Create a New User</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS
+  <span class="token punctuation">(</span>EMAIL<span class="token punctuation">,</span> HASHED_PASSWORD<span class="token punctuation">,</span> PASSWORD_ALG<span class="token punctuation">,</span> FIRST_NAME<span class="token punctuation">,</span> LAST_NAME<span class="token punctuation">)</span>
+<span class="token keyword keyword-VALUES">VALUES</span> 
+  <span class="token punctuation">(</span><span class="token string">'newuser@example.com'</span><span class="token punctuation">,</span>
+   <span class="token string">'c7da87713c8e2a933acb2786ea9f7a0c23de42473bce00e46b1e6a37ed48d079'</span><span class="token punctuation">,</span>
+   <span class="token string">'SHA256'</span><span class="token punctuation">,</span>
+   <span class="token string">'John'</span><span class="token punctuation">,</span>
+   <span class="token string">'Doe'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><h4 id="verify-user-login-check-password-hash"><strong>Verify User Login (Check Password Hash)</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> ID<span class="token punctuation">,</span> EMAIL<span class="token punctuation">,</span> FIRST_NAME<span class="token punctuation">,</span> LAST_NAME<span class="token punctuation">,</span> IS_ACTIVE
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS
+<span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span>
+  <span class="token operator">AND</span> HASHED_PASSWORD <span class="token operator">=</span> <span class="token string">'c7da87713c8e2a933acb2786ea9f7a0c23de42473bce00e46b1e6a37ed48d079'</span>
+  <span class="token operator">AND</span> IS_ACTIVE <span class="token operator">=</span> <span class="token string">'Y'</span><span class="token punctuation">;</span>
+</code></pre><h4 id="list-all-active-users"><strong>List All Active Users</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> ID<span class="token punctuation">,</span> EMAIL<span class="token punctuation">,</span> FIRST_NAME<span class="token punctuation">,</span> LAST_NAME<span class="token punctuation">,</span> CREATED_AT
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS
+<span class="token keyword keyword-WHERE">WHERE</span> IS_ACTIVE <span class="token operator">=</span> <span class="token string">'Y'</span>
+<span class="token keyword keyword-ORDER">ORDER</span> <span class="token keyword keyword-BY">BY</span> CREATED_AT <span class="token keyword keyword-DESC">DESC</span><span class="token punctuation">;</span>
+</code></pre><h4 id="deactivate-a-user-account"><strong>Deactivate a User Account</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-UPDATE">UPDATE</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS
+<span class="token keyword keyword-SET">SET</span> IS_ACTIVE <span class="token operator">=</span> <span class="token string">'N'</span><span class="token punctuation">,</span>
+    UPDATED_AT <span class="token operator">=</span> <span class="token keyword keyword-CURRENT">CURRENT</span> <span class="token keyword keyword-TIMESTAMP">TIMESTAMP</span>
+<span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'olduser@example.com'</span><span class="token punctuation">;</span>
+</code></pre><h3 id="inventory-management">Inventory Management </h3>
+<h4 id="add-inventory-for-a-product-variant"><strong>Add Inventory for a Product Variant</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>INVENTORY
+  <span class="token punctuation">(</span>SELLER_ID<span class="token punctuation">,</span> SERIES_CODE<span class="token punctuation">,</span> STYLE_CODE<span class="token punctuation">,</span> SERIAL_NUMBER<span class="token punctuation">,</span> MODIFIER_CODE<span class="token punctuation">,</span>
+   QUANTITY_AVAILABLE<span class="token punctuation">,</span> UNIT_PRICE_CENTS<span class="token punctuation">)</span>
+<span class="token keyword keyword-VALUES">VALUES</span>
+  <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS <span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'christy@nxtcg.com'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+   <span class="token string">'NA'</span><span class="token punctuation">,</span> <span class="token string">'C'</span><span class="token punctuation">,</span> <span class="token string">'SE01'</span><span class="token punctuation">,</span> <span class="token string">'ENM'</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><h4 id="update-inventory-quantity"><strong>Update Inventory Quantity</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-UPDATE">UPDATE</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>INVENTORY
+<span class="token keyword keyword-SET">SET</span> QUANTITY_AVAILABLE <span class="token operator">=</span> QUANTITY_AVAILABLE <span class="token operator">+</span> <span class="token number">50</span><span class="token punctuation">,</span>
+    UPDATED_AT <span class="token operator">=</span> <span class="token keyword keyword-CURRENT">CURRENT</span> <span class="token keyword keyword-TIMESTAMP">TIMESTAMP</span>
+<span class="token keyword keyword-WHERE">WHERE</span> SELLER_ID <span class="token operator">=</span> <span class="token number">3</span>
+  <span class="token operator">AND</span> SERIES_CODE <span class="token operator">=</span> <span class="token string">'NA'</span>
+  <span class="token operator">AND</span> STYLE_CODE <span class="token operator">=</span> <span class="token string">'S'</span>
+  <span class="token operator">AND</span> SERIAL_NUMBER <span class="token operator">=</span> <span class="token string">'XW01'</span>
+  <span class="token operator">AND</span> MODIFIER_CODE <span class="token operator">=</span> <span class="token string">'NIB'</span><span class="token punctuation">;</span>
+</code></pre><h4 id="view-available-inventory-by-seller"><strong>View Available Inventory by Seller</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> 
+    I<span class="token punctuation">.</span>ID <span class="token keyword keyword-AS">AS</span> INVENTORY_ID<span class="token punctuation">,</span>
+    U<span class="token punctuation">.</span>EMAIL <span class="token keyword keyword-AS">AS</span> SELLER_EMAIL<span class="token punctuation">,</span>
+    U<span class="token punctuation">.</span>FIRST_NAME <span class="token operator">||</span> <span class="token string">' '</span> <span class="token operator">||</span> U<span class="token punctuation">.</span>LAST_NAME <span class="token keyword keyword-AS">AS</span> SELLER_NAME<span class="token punctuation">,</span>
+    PV<span class="token punctuation">.</span>DISPLAY_NAME<span class="token punctuation">,</span>
+    I<span class="token punctuation">.</span>QUANTITY_AVAILABLE<span class="token punctuation">,</span>
+    I<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span>I<span class="token punctuation">.</span>UNIT_PRICE_CENTS <span class="token operator">/</span> <span class="token number">100.00</span> <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> PRICE_USD
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>INVENTORY I
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS U <span class="token keyword keyword-ON">ON</span> I<span class="token punctuation">.</span>SELLER_ID <span class="token operator">=</span> U<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_VARIANTS PV 
+  <span class="token keyword keyword-ON">ON</span> I<span class="token punctuation">.</span>SERIES_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>SERIES_CODE
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>STYLE_CODE
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>SERIAL_NUMBER <span class="token operator">=</span> PV<span class="token punctuation">.</span>SERIAL_NUMBER
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>MODIFIER_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>MODIFIER_CODE
+<span class="token keyword keyword-WHERE">WHERE</span> U<span class="token punctuation">.</span>EMAIL <span class="token operator">=</span> <span class="token string">'christy@nxtcg.com'</span>
+  <span class="token operator">AND</span> I<span class="token punctuation">.</span>QUANTITY_AVAILABLE <span class="token operator">&gt;</span> <span class="token number">0</span>
+<span class="token keyword keyword-ORDER">ORDER</span> <span class="token keyword keyword-BY">BY</span> PV<span class="token punctuation">.</span>DISPLAY_NAME<span class="token punctuation">;</span>
+</code></pre><h4 id="check-total-inventory-value-by-seller"><strong>Check Total Inventory Value by Seller</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> 
+    U<span class="token punctuation">.</span>EMAIL<span class="token punctuation">,</span>
+    U<span class="token punctuation">.</span>FIRST_NAME <span class="token operator">||</span> <span class="token string">' '</span> <span class="token operator">||</span> U<span class="token punctuation">.</span>LAST_NAME <span class="token keyword keyword-AS">AS</span> SELLER_NAME<span class="token punctuation">,</span>
+    <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> TOTAL_SKUS<span class="token punctuation">,</span>
+    <span class="token function">SUM</span><span class="token punctuation">(</span>I<span class="token punctuation">.</span>QUANTITY_AVAILABLE<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> TOTAL_UNITS<span class="token punctuation">,</span>
+    <span class="token function">SUM</span><span class="token punctuation">(</span>I<span class="token punctuation">.</span>QUANTITY_AVAILABLE <span class="token operator">*</span> I<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> TOTAL_VALUE_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span><span class="token function">SUM</span><span class="token punctuation">(</span>I<span class="token punctuation">.</span>QUANTITY_AVAILABLE <span class="token operator">*</span> I<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">100.00</span> 
+         <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> TOTAL_VALUE_USD
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>INVENTORY I
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS U <span class="token keyword keyword-ON">ON</span> I<span class="token punctuation">.</span>SELLER_ID <span class="token operator">=</span> U<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-WHERE">WHERE</span> I<span class="token punctuation">.</span>QUANTITY_AVAILABLE <span class="token operator">&gt;</span> <span class="token number">0</span>
+<span class="token keyword keyword-GROUP">GROUP</span> <span class="token keyword keyword-BY">BY</span> U<span class="token punctuation">.</span>EMAIL<span class="token punctuation">,</span> U<span class="token punctuation">.</span>FIRST_NAME<span class="token punctuation">,</span> U<span class="token punctuation">.</span>LAST_NAME
+<span class="token keyword keyword-ORDER">ORDER</span> <span class="token keyword keyword-BY">BY</span> TOTAL_VALUE_CENTS <span class="token keyword keyword-DESC">DESC</span><span class="token punctuation">;</span>
+</code></pre><h3 id="shopping-cart-operations">Shopping Cart Operations </h3>
+<h4 id="create-a-new-cart-for-a-user"><strong>Create a New Cart for a User</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CARTS <span class="token punctuation">(</span>USER_ID<span class="token punctuation">)</span>
+<span class="token keyword keyword-VALUES">VALUES</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS <span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><h4 id="add-item-to-cart"><strong>Add Item to Cart</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CART_ITEMS
+  <span class="token punctuation">(</span>CART_ID<span class="token punctuation">,</span> INVENTORY_ID<span class="token punctuation">,</span> QUANTITY<span class="token punctuation">,</span> UNIT_PRICE_CENTS<span class="token punctuation">)</span>
+<span class="token keyword keyword-VALUES">VALUES</span>
+  <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CARTS 
+    <span class="token keyword keyword-WHERE">WHERE</span> USER_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS 
+                     <span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span><span class="token punctuation">)</span>
+      <span class="token operator">AND</span> IS_ACTIVE <span class="token operator">=</span> <span class="token string">'Y'</span>
+    <span class="token keyword keyword-FETCH">FETCH</span> <span class="token keyword keyword-FIRST">FIRST</span> <span class="token number">1</span> <span class="token keyword keyword-ROW">ROW</span> ONLY<span class="token punctuation">)</span><span class="token punctuation">,</span>
+   <span class="token number">25</span><span class="token punctuation">,</span>  <span class="token comment">-- Inventory ID</span>
+   <span class="token number">2</span><span class="token punctuation">,</span>   <span class="token comment">-- Quantity</span>
+   <span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">-- Price at time of add</span>
+</code></pre><h4 id="view-cart-contents-with-product-details"><strong>View Cart Contents with Product Details</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> 
+    C<span class="token punctuation">.</span>ID <span class="token keyword keyword-AS">AS</span> CART_ID<span class="token punctuation">,</span>
+    U<span class="token punctuation">.</span>EMAIL <span class="token keyword keyword-AS">AS</span> BUYER_EMAIL<span class="token punctuation">,</span>
+    CI<span class="token punctuation">.</span>ID <span class="token keyword keyword-AS">AS</span> CART_ITEM_ID<span class="token punctuation">,</span>
+    PV<span class="token punctuation">.</span>DISPLAY_NAME <span class="token keyword keyword-AS">AS</span> PRODUCT<span class="token punctuation">,</span>
+    CI<span class="token punctuation">.</span>QUANTITY<span class="token punctuation">,</span>
+    CI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span>CI<span class="token punctuation">.</span>UNIT_PRICE_CENTS <span class="token operator">/</span> <span class="token number">100.00</span> <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> UNIT_PRICE_USD<span class="token punctuation">,</span>
+    CI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> CI<span class="token punctuation">.</span>UNIT_PRICE_CENTS <span class="token keyword keyword-AS">AS</span> LINE_TOTAL_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span><span class="token punctuation">(</span>CI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> CI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">100.00</span> 
+         <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> LINE_TOTAL_USD
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CARTS C
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS U <span class="token keyword keyword-ON">ON</span> C<span class="token punctuation">.</span>USER_ID <span class="token operator">=</span> U<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CART_ITEMS CI <span class="token keyword keyword-ON">ON</span> C<span class="token punctuation">.</span>ID <span class="token operator">=</span> CI<span class="token punctuation">.</span>CART_ID
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>INVENTORY I <span class="token keyword keyword-ON">ON</span> CI<span class="token punctuation">.</span>INVENTORY_ID <span class="token operator">=</span> I<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_VARIANTS PV
+  <span class="token keyword keyword-ON">ON</span> I<span class="token punctuation">.</span>SERIES_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>SERIES_CODE
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>STYLE_CODE
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>SERIAL_NUMBER <span class="token operator">=</span> PV<span class="token punctuation">.</span>SERIAL_NUMBER
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>MODIFIER_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>MODIFIER_CODE
+<span class="token keyword keyword-WHERE">WHERE</span> U<span class="token punctuation">.</span>EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span>
+  <span class="token operator">AND</span> C<span class="token punctuation">.</span>IS_ACTIVE <span class="token operator">=</span> <span class="token string">'Y'</span>
+<span class="token keyword keyword-ORDER">ORDER</span> <span class="token keyword keyword-BY">BY</span> CI<span class="token punctuation">.</span>CREATED_AT<span class="token punctuation">;</span>
+</code></pre><h4 id="calculate-cart-total"><strong>Calculate Cart Total</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> 
+    C<span class="token punctuation">.</span>ID <span class="token keyword keyword-AS">AS</span> CART_ID<span class="token punctuation">,</span>
+    U<span class="token punctuation">.</span>EMAIL<span class="token punctuation">,</span>
+    <span class="token function">COUNT</span><span class="token punctuation">(</span>CI<span class="token punctuation">.</span>ID<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> ITEM_COUNT<span class="token punctuation">,</span>
+    <span class="token function">SUM</span><span class="token punctuation">(</span>CI<span class="token punctuation">.</span>QUANTITY<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> TOTAL_UNITS<span class="token punctuation">,</span>
+    <span class="token function">SUM</span><span class="token punctuation">(</span>CI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> CI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> CART_TOTAL_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span><span class="token function">SUM</span><span class="token punctuation">(</span>CI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> CI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">100.00</span> 
+         <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> CART_TOTAL_USD
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CARTS C
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS U <span class="token keyword keyword-ON">ON</span> C<span class="token punctuation">.</span>USER_ID <span class="token operator">=</span> U<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CART_ITEMS CI <span class="token keyword keyword-ON">ON</span> C<span class="token punctuation">.</span>ID <span class="token operator">=</span> CI<span class="token punctuation">.</span>CART_ID
+<span class="token keyword keyword-WHERE">WHERE</span> U<span class="token punctuation">.</span>EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span>
+  <span class="token operator">AND</span> C<span class="token punctuation">.</span>IS_ACTIVE <span class="token operator">=</span> <span class="token string">'Y'</span>
+<span class="token keyword keyword-GROUP">GROUP</span> <span class="token keyword keyword-BY">BY</span> C<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> U<span class="token punctuation">.</span>EMAIL<span class="token punctuation">;</span>
+</code></pre><h4 id="remove-item-from-cart"><strong>Remove Item from Cart</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-DELETE">DELETE</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CART_ITEMS
+<span class="token keyword keyword-WHERE">WHERE</span> CART_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CARTS 
+                 <span class="token keyword keyword-WHERE">WHERE</span> USER_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS 
+                                  <span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span><span class="token punctuation">)</span>
+                   <span class="token operator">AND</span> IS_ACTIVE <span class="token operator">=</span> <span class="token string">'Y'</span>
+                 <span class="token keyword keyword-FETCH">FETCH</span> <span class="token keyword keyword-FIRST">FIRST</span> <span class="token number">1</span> <span class="token keyword keyword-ROW">ROW</span> ONLY<span class="token punctuation">)</span>
+  <span class="token operator">AND</span> INVENTORY_ID <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span>
+</code></pre><h4 id="clear-entire-cart"><strong>Clear Entire Cart</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-DELETE">DELETE</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CART_ITEMS
+<span class="token keyword keyword-WHERE">WHERE</span> CART_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CARTS 
+                 <span class="token keyword keyword-WHERE">WHERE</span> USER_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS 
+                                  <span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span><span class="token punctuation">)</span>
+                   <span class="token operator">AND</span> IS_ACTIVE <span class="token operator">=</span> <span class="token string">'Y'</span>
+                 <span class="token keyword keyword-FETCH">FETCH</span> <span class="token keyword keyword-FIRST">FIRST</span> <span class="token number">1</span> <span class="token keyword keyword-ROW">ROW</span> ONLY<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><h3 id="product-catalog-queries">Product Catalog Queries </h3>
+<h4 id="search-products-by-name"><strong>Search Products by Name</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> 
+    PT<span class="token punctuation">.</span>SERIES_CODE<span class="token punctuation">,</span>
+    PT<span class="token punctuation">.</span>STYLE_CODE<span class="token punctuation">,</span>
+    PT<span class="token punctuation">.</span>SERIAL_NUMBER<span class="token punctuation">,</span>
+    PT<span class="token punctuation">.</span>DESCRIPTION <span class="token keyword keyword-AS">AS</span> PRODUCT_NAME<span class="token punctuation">,</span>
+    PT<span class="token punctuation">.</span>BASE_PRICE_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span>PT<span class="token punctuation">.</span>BASE_PRICE_CENTS <span class="token operator">/</span> <span class="token number">100.00</span> <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> BASE_PRICE_USD<span class="token punctuation">,</span>
+    S<span class="token punctuation">.</span>DESCRIPTION <span class="token keyword keyword-AS">AS</span> STYLE
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_TYPES PT
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>STYLES S <span class="token keyword keyword-ON">ON</span> PT<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> S<span class="token punctuation">.</span>CODE
+<span class="token keyword keyword-WHERE">WHERE</span> PT<span class="token punctuation">.</span>DESCRIPTION <span class="token operator">LIKE</span> <span class="token string">'%Mystery%'</span>
+<span class="token keyword keyword-ORDER">ORDER</span> <span class="token keyword keyword-BY">BY</span> PT<span class="token punctuation">.</span>DESCRIPTION<span class="token punctuation">;</span>
+</code></pre><h4 id="view-product-variants-with-calculated-prices"><strong>View Product Variants with Calculated Prices</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> 
+    PT<span class="token punctuation">.</span>DESCRIPTION <span class="token keyword keyword-AS">AS</span> PRODUCT<span class="token punctuation">,</span>
+    SM<span class="token punctuation">.</span>DESCRIPTION <span class="token keyword keyword-AS">AS</span> MODIFIER<span class="token punctuation">,</span>
+    PV<span class="token punctuation">.</span>DISPLAY_NAME<span class="token punctuation">,</span>
+    PT<span class="token punctuation">.</span>BASE_PRICE_CENTS<span class="token punctuation">,</span>
+    SM<span class="token punctuation">.</span>PRICE_MULTIPLIER<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span>PT<span class="token punctuation">.</span>BASE_PRICE_CENTS <span class="token operator">*</span> SM<span class="token punctuation">.</span>PRICE_MULTIPLIER <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-INTEGER">INTEGER</span><span class="token punctuation">)</span> 
+        <span class="token keyword keyword-AS">AS</span> FINAL_PRICE_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span><span class="token punctuation">(</span>PT<span class="token punctuation">.</span>BASE_PRICE_CENTS <span class="token operator">*</span> SM<span class="token punctuation">.</span>PRICE_MULTIPLIER<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">100.00</span> 
+         <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> FINAL_PRICE_USD
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_VARIANTS PV
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_TYPES PT
+  <span class="token keyword keyword-ON">ON</span> PV<span class="token punctuation">.</span>SERIES_CODE <span class="token operator">=</span> PT<span class="token punctuation">.</span>SERIES_CODE
+ <span class="token operator">AND</span> PV<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> PT<span class="token punctuation">.</span>STYLE_CODE
+ <span class="token operator">AND</span> PV<span class="token punctuation">.</span>SERIAL_NUMBER <span class="token operator">=</span> PT<span class="token punctuation">.</span>SERIAL_NUMBER
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>STYLE_MODIFIERS SM
+  <span class="token keyword keyword-ON">ON</span> PV<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> SM<span class="token punctuation">.</span>STYLE_CODE
+ <span class="token operator">AND</span> PV<span class="token punctuation">.</span>MODIFIER_CODE <span class="token operator">=</span> SM<span class="token punctuation">.</span>MODIFIER_CODE
+<span class="token keyword keyword-WHERE">WHERE</span> PT<span class="token punctuation">.</span>DESCRIPTION <span class="token operator">=</span> <span class="token string">'Ben'</span>
+<span class="token keyword keyword-ORDER">ORDER</span> <span class="token keyword keyword-BY">BY</span> FINAL_PRICE_CENTS <span class="token keyword keyword-DESC">DESC</span><span class="token punctuation">;</span>
+</code></pre><h4 id="find-available-products-with-inventory"><strong>Find Available Products with Inventory</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> 
+    PV<span class="token punctuation">.</span>DISPLAY_NAME <span class="token keyword keyword-AS">AS</span> PRODUCT<span class="token punctuation">,</span>
+    I<span class="token punctuation">.</span>QUANTITY_AVAILABLE<span class="token punctuation">,</span>
+    I<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span>I<span class="token punctuation">.</span>UNIT_PRICE_CENTS <span class="token operator">/</span> <span class="token number">100.00</span> <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> PRICE_USD<span class="token punctuation">,</span>
+    U<span class="token punctuation">.</span>FIRST_NAME <span class="token operator">||</span> <span class="token string">' '</span> <span class="token operator">||</span> U<span class="token punctuation">.</span>LAST_NAME <span class="token keyword keyword-AS">AS</span> SELLER
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_VARIANTS PV
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>INVENTORY I
+  <span class="token keyword keyword-ON">ON</span> PV<span class="token punctuation">.</span>SERIES_CODE <span class="token operator">=</span> I<span class="token punctuation">.</span>SERIES_CODE
+ <span class="token operator">AND</span> PV<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> I<span class="token punctuation">.</span>STYLE_CODE
+ <span class="token operator">AND</span> PV<span class="token punctuation">.</span>SERIAL_NUMBER <span class="token operator">=</span> I<span class="token punctuation">.</span>SERIAL_NUMBER
+ <span class="token operator">AND</span> PV<span class="token punctuation">.</span>MODIFIER_CODE <span class="token operator">=</span> I<span class="token punctuation">.</span>MODIFIER_CODE
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS U <span class="token keyword keyword-ON">ON</span> I<span class="token punctuation">.</span>SELLER_ID <span class="token operator">=</span> U<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-WHERE">WHERE</span> I<span class="token punctuation">.</span>QUANTITY_AVAILABLE <span class="token operator">&gt;</span> <span class="token number">0</span>
+  <span class="token operator">AND</span> PV<span class="token punctuation">.</span>DISPLAY_NAME <span class="token operator">LIKE</span> <span class="token string">'%Mystery%'</span>
+<span class="token keyword keyword-ORDER">ORDER</span> <span class="token keyword keyword-BY">BY</span> I<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">,</span> PV<span class="token punctuation">.</span>DISPLAY_NAME<span class="token punctuation">;</span>
+</code></pre><h3 id="order-management">Order Management </h3>
+<h4 id="create-new-order-from-cart"><strong>Create New Order from Cart</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- Step 1: Create order</span>
+<span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDERS
+  <span class="token punctuation">(</span>USER_ID<span class="token punctuation">,</span> TOTAL_CENTS<span class="token punctuation">,</span> <span class="token keyword keyword-STATUS">STATUS</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-SELECT">SELECT</span> 
+    C<span class="token punctuation">.</span>USER_ID<span class="token punctuation">,</span>
+    <span class="token function">SUM</span><span class="token punctuation">(</span>CI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> CI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> TOTAL_CENTS<span class="token punctuation">,</span>
+    <span class="token string">'PENDING'</span>
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CARTS C
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CART_ITEMS CI <span class="token keyword keyword-ON">ON</span> C<span class="token punctuation">.</span>ID <span class="token operator">=</span> CI<span class="token punctuation">.</span>CART_ID
+<span class="token keyword keyword-WHERE">WHERE</span> C<span class="token punctuation">.</span>USER_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS <span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span><span class="token punctuation">)</span>
+  <span class="token operator">AND</span> C<span class="token punctuation">.</span>IS_ACTIVE <span class="token operator">=</span> <span class="token string">'Y'</span>
+<span class="token keyword keyword-GROUP">GROUP</span> <span class="token keyword keyword-BY">BY</span> C<span class="token punctuation">.</span>USER_ID<span class="token punctuation">;</span>
+
+<span class="token comment">-- Step 2: Copy cart items to order items</span>
+<span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDER_ITEMS
+  <span class="token punctuation">(</span>ORDER_ID<span class="token punctuation">,</span> INVENTORY_ID<span class="token punctuation">,</span> QUANTITY<span class="token punctuation">,</span> UNIT_PRICE_CENTS<span class="token punctuation">)</span>
+<span class="token keyword keyword-SELECT">SELECT</span> 
+    <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> <span class="token function">MAX</span><span class="token punctuation">(</span>ID<span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDERS 
+     <span class="token keyword keyword-WHERE">WHERE</span> USER_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS 
+                      <span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    CI<span class="token punctuation">.</span>INVENTORY_ID<span class="token punctuation">,</span>
+    CI<span class="token punctuation">.</span>QUANTITY<span class="token punctuation">,</span>
+    CI<span class="token punctuation">.</span>UNIT_PRICE_CENTS
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CART_ITEMS CI
+<span class="token keyword keyword-WHERE">WHERE</span> CI<span class="token punctuation">.</span>CART_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CARTS 
+                    <span class="token keyword keyword-WHERE">WHERE</span> USER_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS 
+                                     <span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span><span class="token punctuation">)</span>
+                      <span class="token operator">AND</span> IS_ACTIVE <span class="token operator">=</span> <span class="token string">'Y'</span>
+                    <span class="token keyword keyword-FETCH">FETCH</span> <span class="token keyword keyword-FIRST">FIRST</span> <span class="token number">1</span> <span class="token keyword keyword-ROW">ROW</span> ONLY<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- Step 3: Deactivate cart</span>
+<span class="token keyword keyword-UPDATE">UPDATE</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CARTS
+<span class="token keyword keyword-SET">SET</span> IS_ACTIVE <span class="token operator">=</span> <span class="token string">'N'</span><span class="token punctuation">,</span>
+    UPDATED_AT <span class="token operator">=</span> <span class="token keyword keyword-CURRENT">CURRENT</span> <span class="token keyword keyword-TIMESTAMP">TIMESTAMP</span>
+<span class="token keyword keyword-WHERE">WHERE</span> USER_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS <span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span><span class="token punctuation">)</span>
+  <span class="token operator">AND</span> IS_ACTIVE <span class="token operator">=</span> <span class="token string">'Y'</span><span class="token punctuation">;</span>
+</code></pre><h4 id="view-order-history-for-user"><strong>View Order History for User</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> 
+    O<span class="token punctuation">.</span>ID <span class="token keyword keyword-AS">AS</span> ORDER_ID<span class="token punctuation">,</span>
+    O<span class="token punctuation">.</span><span class="token keyword keyword-STATUS">STATUS</span><span class="token punctuation">,</span>
+    O<span class="token punctuation">.</span>TOTAL_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span>O<span class="token punctuation">.</span>TOTAL_CENTS <span class="token operator">/</span> <span class="token number">100.00</span> <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> TOTAL_USD<span class="token punctuation">,</span>
+    O<span class="token punctuation">.</span>CREATED_AT <span class="token keyword keyword-AS">AS</span> ORDER_DATE<span class="token punctuation">,</span>
+    <span class="token function">COUNT</span><span class="token punctuation">(</span>OI<span class="token punctuation">.</span>ID<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> ITEM_COUNT<span class="token punctuation">,</span>
+    <span class="token function">SUM</span><span class="token punctuation">(</span>OI<span class="token punctuation">.</span>QUANTITY<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> TOTAL_UNITS
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDERS O
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDER_ITEMS OI <span class="token keyword keyword-ON">ON</span> O<span class="token punctuation">.</span>ID <span class="token operator">=</span> OI<span class="token punctuation">.</span>ORDER_ID
+<span class="token keyword keyword-WHERE">WHERE</span> O<span class="token punctuation">.</span>USER_ID <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-SELECT">SELECT</span> ID <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS 
+                   <span class="token keyword keyword-WHERE">WHERE</span> EMAIL <span class="token operator">=</span> <span class="token string">'ben@nxtcg.com'</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-GROUP">GROUP</span> <span class="token keyword keyword-BY">BY</span> O<span class="token punctuation">.</span>ID<span class="token punctuation">,</span> O<span class="token punctuation">.</span><span class="token keyword keyword-STATUS">STATUS</span><span class="token punctuation">,</span> O<span class="token punctuation">.</span>TOTAL_CENTS<span class="token punctuation">,</span> O<span class="token punctuation">.</span>CREATED_AT
+<span class="token keyword keyword-ORDER">ORDER</span> <span class="token keyword keyword-BY">BY</span> O<span class="token punctuation">.</span>CREATED_AT <span class="token keyword keyword-DESC">DESC</span><span class="token punctuation">;</span>
+</code></pre><h4 id="view-order-details-with-line-items"><strong>View Order Details with Line Items</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> 
+    O<span class="token punctuation">.</span>ID <span class="token keyword keyword-AS">AS</span> ORDER_ID<span class="token punctuation">,</span>
+    O<span class="token punctuation">.</span><span class="token keyword keyword-STATUS">STATUS</span><span class="token punctuation">,</span>
+    U<span class="token punctuation">.</span>EMAIL <span class="token keyword keyword-AS">AS</span> CUSTOMER_EMAIL<span class="token punctuation">,</span>
+    PV<span class="token punctuation">.</span>DISPLAY_NAME <span class="token keyword keyword-AS">AS</span> PRODUCT<span class="token punctuation">,</span>
+    OI<span class="token punctuation">.</span>QUANTITY<span class="token punctuation">,</span>
+    OI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span>OI<span class="token punctuation">.</span>UNIT_PRICE_CENTS <span class="token operator">/</span> <span class="token number">100.00</span> <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> UNIT_PRICE_USD<span class="token punctuation">,</span>
+    OI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> OI<span class="token punctuation">.</span>UNIT_PRICE_CENTS <span class="token keyword keyword-AS">AS</span> LINE_TOTAL_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span><span class="token punctuation">(</span>OI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> OI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">100.00</span> 
+         <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> LINE_TOTAL_USD
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDERS O
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS U <span class="token keyword keyword-ON">ON</span> O<span class="token punctuation">.</span>USER_ID <span class="token operator">=</span> U<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDER_ITEMS OI <span class="token keyword keyword-ON">ON</span> O<span class="token punctuation">.</span>ID <span class="token operator">=</span> OI<span class="token punctuation">.</span>ORDER_ID
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>INVENTORY I <span class="token keyword keyword-ON">ON</span> OI<span class="token punctuation">.</span>INVENTORY_ID <span class="token operator">=</span> I<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_VARIANTS PV
+  <span class="token keyword keyword-ON">ON</span> I<span class="token punctuation">.</span>SERIES_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>SERIES_CODE
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>STYLE_CODE
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>SERIAL_NUMBER <span class="token operator">=</span> PV<span class="token punctuation">.</span>SERIAL_NUMBER
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>MODIFIER_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>MODIFIER_CODE
+<span class="token keyword keyword-WHERE">WHERE</span> O<span class="token punctuation">.</span>ID <span class="token operator">=</span> <span class="token number">1</span>
+<span class="token keyword keyword-ORDER">ORDER</span> <span class="token keyword keyword-BY">BY</span> OI<span class="token punctuation">.</span>ID<span class="token punctuation">;</span>
+</code></pre><h4 id="update-order-status"><strong>Update Order Status</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-UPDATE">UPDATE</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDERS
+<span class="token keyword keyword-SET">SET</span> <span class="token keyword keyword-STATUS">STATUS</span> <span class="token operator">=</span> <span class="token string">'SHIPPED'</span><span class="token punctuation">,</span>
+    UPDATED_AT <span class="token operator">=</span> <span class="token keyword keyword-CURRENT">CURRENT</span> <span class="token keyword keyword-TIMESTAMP">TIMESTAMP</span>
+<span class="token keyword keyword-WHERE">WHERE</span> ID <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+</code></pre><h3 id="reporting-queries">Reporting Queries </h3>
+<h4 id="top-selling-products"><strong>Top Selling Products</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> 
+    PV<span class="token punctuation">.</span>DISPLAY_NAME <span class="token keyword keyword-AS">AS</span> PRODUCT<span class="token punctuation">,</span>
+    <span class="token function">COUNT</span><span class="token punctuation">(</span>OI<span class="token punctuation">.</span>ID<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> TIMES_ORDERED<span class="token punctuation">,</span>
+    <span class="token function">SUM</span><span class="token punctuation">(</span>OI<span class="token punctuation">.</span>QUANTITY<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> TOTAL_UNITS_SOLD<span class="token punctuation">,</span>
+    <span class="token function">SUM</span><span class="token punctuation">(</span>OI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> OI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> TOTAL_REVENUE_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span><span class="token function">SUM</span><span class="token punctuation">(</span>OI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> OI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">100.00</span> 
+         <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> TOTAL_REVENUE_USD
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDER_ITEMS OI
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>INVENTORY I <span class="token keyword keyword-ON">ON</span> OI<span class="token punctuation">.</span>INVENTORY_ID <span class="token operator">=</span> I<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_VARIANTS PV
+  <span class="token keyword keyword-ON">ON</span> I<span class="token punctuation">.</span>SERIES_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>SERIES_CODE
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>STYLE_CODE
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>SERIAL_NUMBER <span class="token operator">=</span> PV<span class="token punctuation">.</span>SERIAL_NUMBER
+ <span class="token operator">AND</span> I<span class="token punctuation">.</span>MODIFIER_CODE <span class="token operator">=</span> PV<span class="token punctuation">.</span>MODIFIER_CODE
+<span class="token keyword keyword-GROUP">GROUP</span> <span class="token keyword keyword-BY">BY</span> PV<span class="token punctuation">.</span>DISPLAY_NAME
+<span class="token keyword keyword-ORDER">ORDER</span> <span class="token keyword keyword-BY">BY</span> TOTAL_REVENUE_CENTS <span class="token keyword keyword-DESC">DESC</span>
+<span class="token keyword keyword-FETCH">FETCH</span> <span class="token keyword keyword-FIRST">FIRST</span> <span class="token number">10</span> <span class="token keyword keyword-ROWS">ROWS</span> ONLY<span class="token punctuation">;</span>
+</code></pre><h4 id="sales-by-seller"><strong>Sales by Seller</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> 
+    U<span class="token punctuation">.</span>EMAIL <span class="token keyword keyword-AS">AS</span> SELLER_EMAIL<span class="token punctuation">,</span>
+    U<span class="token punctuation">.</span>FIRST_NAME <span class="token operator">||</span> <span class="token string">' '</span> <span class="token operator">||</span> U<span class="token punctuation">.</span>LAST_NAME <span class="token keyword keyword-AS">AS</span> SELLER_NAME<span class="token punctuation">,</span>
+    <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token keyword keyword-DISTINCT">DISTINCT</span> OI<span class="token punctuation">.</span>ORDER_ID<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> ORDERS_FULFILLED<span class="token punctuation">,</span>
+    <span class="token function">SUM</span><span class="token punctuation">(</span>OI<span class="token punctuation">.</span>QUANTITY<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> UNITS_SOLD<span class="token punctuation">,</span>
+    <span class="token function">SUM</span><span class="token punctuation">(</span>OI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> OI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> REVENUE_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span><span class="token function">SUM</span><span class="token punctuation">(</span>OI<span class="token punctuation">.</span>QUANTITY <span class="token operator">*</span> OI<span class="token punctuation">.</span>UNIT_PRICE_CENTS<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">100.00</span> 
+         <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> REVENUE_USD
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDER_ITEMS OI
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>INVENTORY I <span class="token keyword keyword-ON">ON</span> OI<span class="token punctuation">.</span>INVENTORY_ID <span class="token operator">=</span> I<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS U <span class="token keyword keyword-ON">ON</span> I<span class="token punctuation">.</span>SELLER_ID <span class="token operator">=</span> U<span class="token punctuation">.</span>ID
+<span class="token keyword keyword-GROUP">GROUP</span> <span class="token keyword keyword-BY">BY</span> U<span class="token punctuation">.</span>EMAIL<span class="token punctuation">,</span> U<span class="token punctuation">.</span>FIRST_NAME<span class="token punctuation">,</span> U<span class="token punctuation">.</span>LAST_NAME
+<span class="token keyword keyword-ORDER">ORDER</span> <span class="token keyword keyword-BY">BY</span> REVENUE_CENTS <span class="token keyword keyword-DESC">DESC</span><span class="token punctuation">;</span>
+</code></pre><h3 id="data-verification-queries">Data Verification Queries </h3>
+<h4 id="validate-referential-integrity"><strong>Validate Referential Integrity</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- Check for orphaned inventory (no matching product variant)</span>
+<span class="token keyword keyword-SELECT">SELECT</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> ORPHANED_INVENTORY
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>INVENTORY I
+<span class="token keyword keyword-WHERE">WHERE</span> <span class="token operator">NOT</span> <span class="token keyword keyword-EXISTS">EXISTS</span> <span class="token punctuation">(</span>
+    <span class="token keyword keyword-SELECT">SELECT</span> <span class="token number">1</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_VARIANTS PV
+    <span class="token keyword keyword-WHERE">WHERE</span> PV<span class="token punctuation">.</span>SERIES_CODE <span class="token operator">=</span> I<span class="token punctuation">.</span>SERIES_CODE
+      <span class="token operator">AND</span> PV<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> I<span class="token punctuation">.</span>STYLE_CODE
+      <span class="token operator">AND</span> PV<span class="token punctuation">.</span>SERIAL_NUMBER <span class="token operator">=</span> I<span class="token punctuation">.</span>SERIAL_NUMBER
+      <span class="token operator">AND</span> PV<span class="token punctuation">.</span>MODIFIER_CODE <span class="token operator">=</span> I<span class="token punctuation">.</span>MODIFIER_CODE
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- Check for orphaned cart items (no matching cart)</span>
+<span class="token keyword keyword-SELECT">SELECT</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> ORPHANED_CART_ITEMS
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CART_ITEMS CI
+<span class="token keyword keyword-WHERE">WHERE</span> <span class="token operator">NOT</span> <span class="token keyword keyword-EXISTS">EXISTS</span> <span class="token punctuation">(</span>
+    <span class="token keyword keyword-SELECT">SELECT</span> <span class="token number">1</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CARTS C <span class="token keyword keyword-WHERE">WHERE</span> C<span class="token punctuation">.</span>ID <span class="token operator">=</span> CI<span class="token punctuation">.</span>CART_ID
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><h4 id="database-statistics-summary"><strong>Database Statistics Summary</strong> </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SELECT">SELECT</span> 
+    <span class="token string">'Users'</span> <span class="token keyword keyword-AS">AS</span> TABLE_NAME<span class="token punctuation">,</span>
+    <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> ROW_COUNT
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>USERS
+<span class="token keyword keyword-UNION">UNION</span> <span class="token keyword keyword-ALL">ALL</span>
+<span class="token keyword keyword-SELECT">SELECT</span> <span class="token string">'Product Types'</span><span class="token punctuation">,</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_TYPES
+<span class="token keyword keyword-UNION">UNION</span> <span class="token keyword keyword-ALL">ALL</span>
+<span class="token keyword keyword-SELECT">SELECT</span> <span class="token string">'Product Variants'</span><span class="token punctuation">,</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_VARIANTS
+<span class="token keyword keyword-UNION">UNION</span> <span class="token keyword keyword-ALL">ALL</span>
+<span class="token keyword keyword-SELECT">SELECT</span> <span class="token string">'Inventory Items'</span><span class="token punctuation">,</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>INVENTORY
+<span class="token keyword keyword-UNION">UNION</span> <span class="token keyword keyword-ALL">ALL</span>
+<span class="token keyword keyword-SELECT">SELECT</span> <span class="token string">'Active Carts'</span><span class="token punctuation">,</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>CARTS <span class="token keyword keyword-WHERE">WHERE</span> IS_ACTIVE <span class="token operator">=</span> <span class="token string">'Y'</span>
+<span class="token keyword keyword-UNION">UNION</span> <span class="token keyword keyword-ALL">ALL</span>
+<span class="token keyword keyword-SELECT">SELECT</span> <span class="token string">'Orders'</span><span class="token punctuation">,</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDERS
+<span class="token keyword keyword-UNION">UNION</span> <span class="token keyword keyword-ALL">ALL</span>
+<span class="token keyword keyword-SELECT">SELECT</span> <span class="token string">'Order Items'</span><span class="token punctuation">,</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>ORDER_ITEMS
+<span class="token keyword keyword-ORDER">ORDER</span> <span class="token keyword keyword-BY">BY</span> TABLE_NAME<span class="token punctuation">;</span>
+</code></pre><hr>
+<h2 id="pricing-model">Pricing Model </h2>
+<h3 id="multiplier-based-dynamic-pricing">Multiplier-Based Dynamic Pricing </h3>
+<p>ECOMAPP uses a <strong>multiplier-based pricing system</strong> where each product variant's final price is calculated by multiplying the base price by a modifier-specific multiplier.</p>
+<h4 id="formula">Formula </h4>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Final Price = BASE_PRICE_CENTS × PRICE_MULTIPLIER
+</code></pre><h4 id="schema-design">Schema Design </h4>
+<p><strong>PRODUCT_TYPES Table:</strong></p>
+<ul>
+<li><code>BASE_PRICE_CENTS</code> - Base price for the product type (e.g., 100 cents = $1.00 for cards)</li>
+</ul>
+<p><strong>STYLE_MODIFIERS Table:</strong></p>
+<ul>
+<li><code>PRICE_MULTIPLIER</code> - Decimal multiplier applied to base price (e.g., 1.75 for reverse holofoil)</li>
+</ul>
+<p><strong>PRODUCT_VARIANTS Table:</strong></p>
+<ul>
+<li>Represents sellable SKUs</li>
+<li>Price calculated dynamically from PRODUCT_TYPES.BASE_PRICE_CENTS × STYLE_MODIFIERS.PRICE_MULTIPLIER</li>
+<li>Links directly to STYLE_MODIFIERS (no intermediate junction table)</li>
+</ul>
+<h4 id="pricing-examples">Pricing Examples </h4>
+<p><strong>NextGen America Card (NA-C-SE01 "Ben Card") - Base Price: $1.00</strong></p>
+<table>
+<thead>
+<tr>
+<th>Modifier</th>
+<th>Description</th>
+<th>Multiplier</th>
+<th>Final Price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ENM</td>
+<td>English, Non-Foil, Mint</td>
+<td>1.00</td>
+<td>$1.00</td>
+</tr>
+<tr>
+<td>ENN</td>
+<td>English, Non-Foil, Near-Mint</td>
+<td>0.85</td>
+<td>$0.85</td>
+</tr>
+<tr>
+<td>ENL</td>
+<td>English, Non-Foil, Light Play</td>
+<td>0.60</td>
+<td>$0.60</td>
+</tr>
+<tr>
+<td>ENP</td>
+<td>English, Non-Foil, Moderate Play</td>
+<td>0.40</td>
+<td>$0.40</td>
+</tr>
+<tr>
+<td>ERM</td>
+<td>English, Reverse Holofoil, Mint</td>
+<td>1.75</td>
+<td>$1.75</td>
+</tr>
+<tr>
+<td>ERN</td>
+<td>English, Reverse Holofoil, Near-Mint</td>
+<td>1.49</td>
+<td>$1.49</td>
+</tr>
+<tr>
+<td>ERL</td>
+<td>English, Reverse Holofoil, Light Play</td>
+<td>1.05</td>
+<td>$1.05</td>
+</tr>
+<tr>
+<td>ERP</td>
+<td>English, Reverse Holofoil, Moderate Play</td>
+<td>0.70</td>
+<td>$0.70</td>
+</tr>
+<tr>
+<td>EHM</td>
+<td>English, Holofoil, Mint</td>
+<td>2.50</td>
+<td>$2.50</td>
+</tr>
+<tr>
+<td>EHN</td>
+<td>English, Holofoil, Near-Mint</td>
+<td>2.13</td>
+<td>$2.13</td>
+</tr>
+<tr>
+<td>EHL</td>
+<td>English, Holofoil, Light Play</td>
+<td>1.50</td>
+<td>$1.50</td>
+</tr>
+<tr>
+<td>EHP</td>
+<td>English, Holofoil, Moderate Play</td>
+<td>1.00</td>
+<td>$1.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Mystery Products - Base Prices:</strong></p>
+<ul>
+<li>Mystery Singles (NA-S): <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.00</mn><mo>×</mo><mn>1.00</mn><mo stretchy="false">(</mo><mi>N</mi><mi>I</mi><mi>B</mi><mo stretchy="false">)</mo><mo>=</mo></mrow><annotation encoding="application/x-tex">3.00 × 1.00 (NIB) =</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3.00</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1.00</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span>3.00</li>
+<li>Mystery Midis (NA-M): <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5.00</mn><mo>×</mo><mn>1.00</mn><mo stretchy="false">(</mo><mi>N</mi><mi>I</mi><mi>B</mi><mo stretchy="false">)</mo><mo>=</mo></mrow><annotation encoding="application/x-tex">5.00 × 1.00 (NIB) =</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">5.00</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1.00</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span>5.00</li>
+<li>Mystery Packs (NA-P): <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10.00</mn><mo>×</mo><mn>1.00</mn><mo stretchy="false">(</mo><mi>N</mi><mi>I</mi><mi>B</mi><mo stretchy="false">)</mo><mo>=</mo></mrow><annotation encoding="application/x-tex">10.00 × 1.00 (NIB) =</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">10.00</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1.00</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span></span></span></span>10.00</li>
+</ul>
+<h4 id="price-calculation-in-sql">Price Calculation in SQL </h4>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- Calculate final price for a product variant</span>
+<span class="token keyword keyword-SELECT">SELECT</span> 
+    PV<span class="token punctuation">.</span>SERIES_CODE <span class="token operator">||</span> PV<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">||</span> PV<span class="token punctuation">.</span>SERIAL_NUMBER <span class="token operator">||</span> PV<span class="token punctuation">.</span>MODIFIER_CODE <span class="token keyword keyword-AS">AS</span> SKU<span class="token punctuation">,</span>
+    PT<span class="token punctuation">.</span>DESCRIPTION <span class="token keyword keyword-AS">AS</span> PRODUCT_NAME<span class="token punctuation">,</span>
+    SM<span class="token punctuation">.</span>DESCRIPTION <span class="token keyword keyword-AS">AS</span> MODIFIER_NAME<span class="token punctuation">,</span>
+    PT<span class="token punctuation">.</span>BASE_PRICE_CENTS<span class="token punctuation">,</span>
+    SM<span class="token punctuation">.</span>PRICE_MULTIPLIER<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span>PT<span class="token punctuation">.</span>BASE_PRICE_CENTS <span class="token operator">*</span> SM<span class="token punctuation">.</span>PRICE_MULTIPLIER <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-INTEGER">INTEGER</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> FINAL_PRICE_CENTS<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span>PT<span class="token punctuation">.</span>BASE_PRICE_CENTS <span class="token operator">*</span> SM<span class="token punctuation">.</span>PRICE_MULTIPLIER <span class="token operator">/</span> <span class="token number">100.0</span> <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> FINAL_PRICE_DOLLARS
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_VARIANTS PV
+<span class="token keyword keyword-INNER">INNER</span> <span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_TYPES PT 
+    <span class="token keyword keyword-ON">ON</span> PV<span class="token punctuation">.</span>SERIES_CODE <span class="token operator">=</span> PT<span class="token punctuation">.</span>SERIES_CODE
+   <span class="token operator">AND</span> PV<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> PT<span class="token punctuation">.</span>STYLE_CODE
+   <span class="token operator">AND</span> PV<span class="token punctuation">.</span>SERIAL_NUMBER <span class="token operator">=</span> PT<span class="token punctuation">.</span>SERIAL_NUMBER
+<span class="token keyword keyword-INNER">INNER</span> <span class="token keyword keyword-JOIN">JOIN</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>STYLE_MODIFIERS SM
+    <span class="token keyword keyword-ON">ON</span> PV<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> SM<span class="token punctuation">.</span>STYLE_CODE
+   <span class="token operator">AND</span> PV<span class="token punctuation">.</span>MODIFIER_CODE <span class="token operator">=</span> SM<span class="token punctuation">.</span>MODIFIER_CODE
+<span class="token keyword keyword-WHERE">WHERE</span> PV<span class="token punctuation">.</span>SERIES_CODE <span class="token operator">=</span> <span class="token string">'NA'</span>
+  <span class="token operator">AND</span> PV<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> <span class="token string">'C'</span>
+  <span class="token operator">AND</span> PV<span class="token punctuation">.</span>SERIAL_NUMBER <span class="token operator">=</span> <span class="token string">'SE01'</span><span class="token punctuation">;</span>
+</code></pre><h4 id="benefits-of-multiplier-based-pricing">Benefits of Multiplier-Based Pricing </h4>
+<ol>
+<li><strong>Flexibility</strong> - Easy to adjust pricing for entire modifier categories (e.g., increase all holofoil multipliers by 10%)</li>
+<li><strong>Consistency</strong> - Same multiplier applies to all products with that modifier</li>
+<li><strong>Simplicity</strong> - No per-product price overrides; pricing rules are centralized</li>
+<li><strong>Performance</strong> - Calculation happens at query time; no denormalized price columns to maintain</li>
+<li><strong>Accuracy</strong> - Eliminates rounding errors from additive price deltas</li>
+</ol>
+<h4 id="schema-changes-2026">Schema Changes (2026) </h4>
+<p><strong>Previous Model (Junction Table - Deprecated):</strong></p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- Old schema (removed in 2026)</span>
+PRODUCT_TYPE_MODIFIERS <span class="token keyword keyword-table">table</span> <span class="token punctuation">(</span>junction <span class="token operator">between</span> PRODUCT_TYPES <span class="token operator">and</span> STYLE_MODIFIERS<span class="token punctuation">)</span>
+  <span class="token operator">-</span> Required explicit links <span class="token keyword keyword-for">for</span> every product<span class="token operator">-</span>modifier combination
+  <span class="token operator">-</span> Originally had PRICE_DELTA_CENTS <span class="token keyword keyword-for">for</span> additive pricing
+  <span class="token operator">-</span> Later changed <span class="token keyword keyword-to">to</span> <span class="token keyword keyword-use">use</span> STYLE_MODIFIERS<span class="token punctuation">.</span>PRICE_MULTIPLIER
+
+Final Price <span class="token operator">=</span> BASE_PRICE_CENTS × PRICE_MULTIPLIER
+</code></pre><p><strong>Current Model (Direct Foreign Key):</strong></p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- Current schema (2026)</span>
+PRODUCT_VARIANTS <span class="token keyword keyword-references">references</span> STYLE_MODIFIERS directly
+  <span class="token operator">-</span> <span class="token keyword keyword-No">No</span> intermediate junction <span class="token keyword keyword-table">table</span> needed
+  <span class="token operator">-</span> Cleaner <span class="token keyword keyword-foreign">foreign</span> <span class="token keyword keyword-key">key</span> relationships
+  <span class="token operator">-</span> Assumes <span class="token keyword keyword-all">all</span> products <span class="token operator">in</span> a style support <span class="token keyword keyword-all">all</span> modifiers <span class="token keyword keyword-for">for</span> that style
+
+Final Price <span class="token operator">=</span> BASE_PRICE_CENTS × PRICE_MULTIPLIER
+</code></pre><p><strong>Why We Changed:</strong></p>
+<ul>
+<li>PRODUCT_TYPE_MODIFIERS had identical primary key as PRODUCT_VARIANTS (1:1 relationship)</li>
+<li>Every variant required exactly one modifier - junction table served no purpose</li>
+<li>Simplified schema: 15 tables instead of 16</li>
+<li>Faster queries: No extra join through intermediate table</li>
+<li>Easier maintenance: Sequential file naming (INIT1, INIT2, INIT3)</li>
+<li>Better reflects business logic: Style determines applicable modifiers, not individual products</li>
+</ul>
+<hr>
+<h2 id="database-design">Database Design </h2>
+<h3 id="sku-architecture">SKU Architecture </h3>
+<p>ECOMAPP uses a hierarchical SKU system: <strong>SERIES-STYLE-SERIAL-MODIFIER</strong></p>
+<p><strong>Example SKU:</strong> <code>NAC-SE01-EHM</code></p>
+<ul>
+<li><strong>NA</strong> = Series (NextGen America)</li>
+<li><strong>C</strong> = Style (Card Single)</li>
+<li><strong>SE01</strong> = Serial Number (Ben card)</li>
+<li><strong>EHM</strong> = Modifier (English, Holofoil, Mint)</li>
+</ul>
+<h3 id="product-catalog-summary">Product Catalog Summary </h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Count</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Series</strong></td>
+<td>1</td>
+<td>NextGen America</td>
+</tr>
+<tr>
+<td><strong>Styles</strong></td>
+<td>4</td>
+<td>Card Single, Mystery Single, Mystery Midi, Mystery Pack</td>
+</tr>
+<tr>
+<td><strong>Style Modifiers</strong></td>
+<td>63</td>
+<td>60 card modifiers (5 languages × 3 foil types × 4 conditions) + NIB</td>
+</tr>
+<tr>
+<td><strong>Product Types</strong></td>
+<td>104</td>
+<td>80 individual cards + 24 mystery products</td>
+</tr>
+<tr>
+<td><strong>Product Variants (SKUs)</strong></td>
+<td>4,824</td>
+<td>Sellable items in catalog</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Card Modifiers (60 combinations):</strong></p>
+<ul>
+<li><strong>Languages:</strong> English, Japanese, Korean, Australian, Spanish (5)</li>
+<li><strong>Foil Types:</strong> Holofoil, Reverse Holofoil, Non-Foil (3)</li>
+<li><strong>Conditions:</strong> Mint, Near-Mint, Light Play, Moderate Play (4)</li>
+</ul>
+<p><strong>Mystery Product Modifier:</strong></p>
+<ul>
+<li><strong>NIB</strong> (New In Box) - Only modifier for sealed mystery products</li>
+</ul>
+<h3 id="e-commerce-support-tables">E-Commerce Support Tables </h3>
+<p>The remaining tables support e-commerce operations:</p>
+<ul>
+<li><strong>USERS</strong> - Customer and seller accounts</li>
+<li><strong>TOKENS</strong> - Authentication tokens (placeholder for future implementation)</li>
+<li><strong>VARIANT_IMAGES</strong> - Product images (URLs)</li>
+<li><strong>INVENTORY</strong> - Seller listings with pricing and stock levels (marketplace model)</li>
+<li><strong>CARTS</strong> - Shopping carts</li>
+<li><strong>CART_ITEMS</strong> - Line items in carts (references seller inventory listings)</li>
+<li><strong>ADDRESSES</strong> - Customer shipping/billing addresses</li>
+<li><strong>ORDERS</strong> - Completed purchases (contains FKs to billing and shipping addresses)</li>
+<li><strong>ORDER_ADDRESSES</strong> - Immutable address snapshots per order (billing and shipping)</li>
+<li><strong>ORDER_ITEMS</strong> - Line items in orders with pricing snapshots</li>
+</ul>
+<p><strong>Marketplace Design:</strong></p>
+<ul>
+<li>Each INVENTORY row represents a seller's listing of a product variant at their price</li>
+<li>Multiple sellers can list the same variant at different prices</li>
+<li>CART_ITEMS and ORDER_ITEMS reference specific INVENTORY listings (seller + variant + price)</li>
+</ul>
+<p>These tables are defined in E03TABLE.sql but are NOT populated by ECOMINIT (except sample INVENTORY). They will be populated by the e-commerce application at runtime.</p>
+<hr>
+<h2 id="customization-guide">Customization Guide </h2>
+<h3 id="modifying-the-product-catalog">Modifying the Product Catalog </h3>
+<h4 id="adding-new-cards"><strong>Adding New Cards</strong> </h4>
+<ol>
+<li><strong>Update E07INIT1.sql</strong> - Add new PRODUCT_TYPES INSERT:</li>
+</ol>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_TYPES
+<span class="token punctuation">(</span>SERIES_CODE<span class="token punctuation">,</span> STYLE_CODE<span class="token punctuation">,</span> SERIAL_NUMBER<span class="token punctuation">,</span> DESCRIPTION<span class="token punctuation">,</span> BASE_PRICE_CENTS<span class="token punctuation">)</span>
+<span class="token keyword keyword-VALUES">VALUES</span> <span class="token punctuation">(</span><span class="token string">'NA'</span><span class="token punctuation">,</span> <span class="token string">'C'</span><span class="token punctuation">,</span> <span class="token string">'NEW1'</span><span class="token punctuation">,</span> <span class="token string">'New Card Name'</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><ol start="2">
+<li><strong>Update E07INIT2.sql or E07INIT3.sql</strong> - Create variants for applicable modifiers:</li>
+</ol>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_VARIANTS
+<span class="token punctuation">(</span>SERIES_CODE<span class="token punctuation">,</span> STYLE_CODE<span class="token punctuation">,</span> SERIAL_NUMBER<span class="token punctuation">,</span> MODIFIER_CODE<span class="token punctuation">)</span>
+<span class="token keyword keyword-VALUES">VALUES</span> <span class="token punctuation">(</span><span class="token string">'NA'</span><span class="token punctuation">,</span> <span class="token string">'C'</span><span class="token punctuation">,</span> <span class="token string">'NEW1'</span><span class="token punctuation">,</span> <span class="token string">'ENM'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">-- Repeat for all applicable modifiers</span>
+</code></pre><ol start="3">
+<li><strong>Re-upload and reinitialize:</strong></li>
+</ol>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Submit: ECOMDROP (if rebuilding)
+Submit: ECOMDDL
+Submit: ECOMINIT
+</code></pre><h4 id="changing-prices"><strong>Changing Prices</strong> </h4>
+<p><strong>Option A: Change Base Prices (affects all variants)</strong></p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-UPDATE">UPDATE</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_TYPES
+<span class="token keyword keyword-SET">SET</span> BASE_PRICE_CENTS <span class="token operator">=</span> <span class="token number">150</span>
+<span class="token keyword keyword-WHERE">WHERE</span> SERIES_CODE <span class="token operator">=</span> <span class="token string">'NA'</span> <span class="token operator">AND</span> STYLE_CODE <span class="token operator">=</span> <span class="token string">'C'</span><span class="token punctuation">;</span>
+</code></pre><p><strong>Option B: Change Multipliers (affects specific modifiers)</strong></p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-UPDATE">UPDATE</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>STYLE_MODIFIERS
+<span class="token keyword keyword-SET">SET</span> PRICE_MULTIPLIER <span class="token operator">=</span> <span class="token number">2.75</span>
+<span class="token keyword keyword-WHERE">WHERE</span> STYLE_CODE <span class="token operator">=</span> <span class="token string">'C'</span> <span class="token operator">AND</span> MODIFIER_CODE <span class="token operator">=</span> <span class="token string">'EHM'</span><span class="token punctuation">;</span>
+</code></pre><h3 id="modifying-schema-objects">Modifying Schema Objects </h3>
+<h4 id="adding-a-new-table"><strong>Adding a New Table</strong> </h4>
+<ol>
+<li>
+<p><strong>Update E03TABLE.sql</strong></p>
+<ul>
+<li>Add CREATE TABLE statement in appropriate section</li>
+<li>Add CREATE UNIQUE INDEX for primary key</li>
+<li>Add foreign key constraints if needed</li>
+</ul>
+</li>
+<li>
+<p><strong>Update E04INDEX.sql</strong> (if needed)</p>
+<ul>
+<li>Add performance indexes for new table</li>
+</ul>
+</li>
+<li>
+<p><strong>Update E05CMNT.sql</strong> (if needed)</p>
+<ul>
+<li>Add COMMENT statements for new table/columns</li>
+</ul>
+</li>
+<li>
+<p><strong>Update E06GRANT.sql</strong></p>
+<ul>
+<li>Add GRANT statement for new table</li>
+</ul>
+</li>
+<li>
+<p><strong>Update E07LOAD.sql</strong> (if needed)</p>
+<ul>
+<li>Add INSERT statements for test data</li>
+</ul>
+</li>
+<li>
+<p><strong>Update ECOMDROP.jcl</strong></p>
+<ul>
+<li>Add DROP TABLE statement in appropriate position (drop dependent objects first)</li>
+</ul>
+</li>
+<li>
+<p><strong>Re-upload and re-run</strong></p>
+<ul>
+<li>Upload modified DDL files</li>
+<li>Submit ECOMDROP (if rebuilding)</li>
+<li>Submit ECOMDDL</li>
+</ul>
+</li>
+</ol>
+<h4 id="modifying-existing-table"><strong>Modifying Existing Table</strong> </h4>
+<p><strong>Option A: Rebuild (destructive)</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. Update E03TABLE.sql with new table definition
+2. Submit ECOMDROP
+3. Submit ECOMDDL
+4. Submit ECOMLOAD (reloads test data)
+</code></pre><p><strong>Option B: ALTER (preserves data)</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. Create new DDL member with ALTER TABLE statements
+2. Update ECOMDDL.jcl to include new step
+3. Submit ECOMDDL (or create separate JCL job)
+</code></pre><h4 id="adding-new-indexes"><strong>Adding New Indexes</strong> </h4>
+<ol>
+<li>Update E04INDEX.sql</li>
+<li>Re-upload E04INDEX member</li>
+<li>Submit ECOMDDL (only INDEXES step will add new indexes)
+<ul>
+<li>Existing objects will return RC=8 (-601), new indexes will be created</li>
+</ul>
+</li>
+</ol>
+<h3 id="changing-placeholders-after-installation">Changing Placeholders After Installation </h3>
+<p>If you need to migrate objects to a different schema or Db2 subsystem:</p>
+<ol>
+<li>
+<p><strong>Export Data</strong> (if preserving data)</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- Use UNLOAD or SELECT INTO to export data</span>
+</code></pre></li>
+<li>
+<p><strong>Update All Files</strong></p>
+<ul>
+<li>Perform global find/replace with new values</li>
+<li>Re-upload all DDL and JCL members</li>
+</ul>
+</li>
+<li>
+<p><strong>Drop Old Database</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Submit ECOMDROP (using old values)
+</code></pre></li>
+<li>
+<p><strong>Create New Database</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Submit ECOMDDL (using new values)
+</code></pre></li>
+<li>
+<p><strong>Reload Data</strong> (if applicable)</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>-- Use LOAD or INSERT to restore data
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="troubleshooting">Troubleshooting </h2>
+<h3 id="common-issues-and-solutions">Common Issues and Solutions </h3>
+<h4 id="issue-ecomddl-fails-with-rc12---plan-not-found"><strong>Issue: ECOMDDL Fails with RC=12 - "PLAN NOT FOUND"</strong> </h4>
+<p><strong>Cause:</strong> Db2 plan DSNTEP3 not available or no EXECUTE privilege</p>
+<p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. Verify DSNTEP3 plan exists:
+   -DIS THREAD(*) TYPE(PLAN)
+   
+2. Check your privileges:
+   SELECT GRANTEE, GRANTEETYPE, AUTHHOWGOT
+   FROM SYSIBM.SYSPLANAUTH
+   WHERE NAME = 'DSNTEP3';
+
+3. If missing privilege, have DBA grant:
+   GRANT EXECUTE ON PLAN DSNTEP3 TO &lt;Your HLQ&gt;;
+</code></pre><h4 id="issue-ecomddl-fails-with-rc12---sqlcode-204-object-not-found"><strong>Issue: ECOMDDL Fails with RC=12 - "SQLCODE=-204 OBJECT NOT FOUND"</strong> </h4>
+<p><strong>Cause:</strong> DDL members not uploaded or incorrect dataset names</p>
+<p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. Verify DDL members exist:
+   TSO/ISPF 3.4 → &lt;Your HLQ&gt;.ECOMAPP.DDL
+   
+2. Check member names match exactly:
+   E01STGDB, E02TBSPC, E03TABLE, E04INDEX, E05CMNT, E06GRANT
+   E07INIT1, E07INIT2, E07INIT3
+   
+3. Verify SET HLQ statement in ECOMDDL.jcl matches your dataset name
+</code></pre><h4 id="issue-ecomddl-fails-with-rc8---sqlcode-601-object-already-exists"><strong>Issue: ECOMDDL Fails with RC=8 - "SQLCODE=-601 OBJECT ALREADY EXISTS"</strong> </h4>
+<p><strong>Cause:</strong> Database objects already exist (normal on re-run)</p>
+<p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>This is expected behavior when re-running ECOMDDL on existing database.
+Job will continue and create any missing objects.
+
+To start fresh:
+1. Submit ECOMDROP first
+2. Then submit ECOMDDL
+</code></pre><h4 id="issue-ecominit-fails-with-rc12---rest-api-failure-with-https-status-500"><strong>Issue: ECOMINIT Fails with RC=12 - "Rest API failure with HTTP(S) status 500"</strong> </h4>
+<p><strong>Cause:</strong> SQL files have lines exceeding 72 characters (ISPF limitation)</p>
+<p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>All E07INIT files in zOS_Datasets have been pre-processed to comply
+with 72-character line limits. If you modified them:
+
+1. Check for long lines:
+   Edit member with ISPF
+   COLS ON (show column numbers)
+   Look for lines extending past column 72
+
+2. Split long lines:
+   - Break INSERT statements after table name
+   - Continue column list on next line with leading spaces
+   - Ensure VALUES clause on separate line
+
+3. Re-upload corrected members
+</code></pre><h4 id="issue-ecominit-fails-with-sqlcode-803-duplicate-key"><strong>Issue: ECOMINIT Fails with "SQLCODE=-803 DUPLICATE KEY"</strong> </h4>
+<p><strong>Cause:</strong> Product catalog already loaded (normal on re-run)</p>
+<p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>This is expected behavior with RC=8. Job continues to next step.
+Each step is conditioned on RC &lt; 12.
+
+To reload catalog from scratch:
+1. Submit ECOMDROP first
+2. Submit ECOMDDL
+3. Submit ECOMINIT
+</code></pre><h4 id="issue-ecominit-shows-wrong-row-counts"><strong>Issue: ECOMINIT Shows Wrong Row Counts</strong> </h4>
+<p><strong>Cause:</strong> Previous data not cleared, or partial load</p>
+<p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- Check current counts</span>
+<span class="token keyword keyword-SELECT">SELECT</span> <span class="token string">'PRODUCT_VARIANTS'</span> <span class="token keyword keyword-AS">AS</span> TABLE_NAME<span class="token punctuation">,</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> COUNT
+<span class="token keyword keyword-FROM">FROM</span> <span class="token operator">&lt;</span>Your HLQ<span class="token operator">&gt;</span><span class="token punctuation">.</span>PRODUCT_VARIANTS<span class="token punctuation">;</span>
+
+Expected: <span class="token number">4</span><span class="token punctuation">,</span><span class="token number">824</span>
+
+<span class="token keyword keyword-If">If</span> count doesn't <span class="token keyword keyword-match">match</span>:
+<span class="token number">1.</span> Submit ECOMDROP
+<span class="token number">2.</span> Submit ECOMDDL  
+<span class="token number">3.</span> Submit ECOMINIT
+</code></pre><h4 id="issue-not-authorized-to-create-database"><strong>Issue: "NOT AUTHORIZED TO CREATE DATABASE"</strong> </h4>
+<p><strong>Cause:</strong> Insufficient Db2 privileges</p>
+<p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Contact your Db2 DBA to grant CREATEDB authority:
+
+GRANT CREATEDB ON SYSTEM TO &lt;Your HLQ&gt;;
+</code></pre><h4 id="issue-joblib-libraries-not-found"><strong>Issue: JOBLIB Libraries Not Found</strong> </h4>
+<p><strong>Cause:</strong> Incorrect Db2 software library HLQ</p>
+<p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. Find correct Db2 HLQ on your system:
+   TSO/ISPF 3.4 → DSN* (or DSNV*)
+   Look for: SDSNLOAD, SDSNEXIT, RUNLIB.LOAD
+   
+2. Update JOBLIB statements in all JCL files:
+   //JOBLIB   DD  DISP=SHR,DSN=&lt;Correct HLQ&gt;.SDSNEXIT
+   //         DD  DISP=SHR,DSN=&lt;Correct HLQ&gt;.SDSNLOAD
+   //         DD  DISP=SHR,DSN=&lt;Correct HLQ&gt;.RUNLIB.LOAD
+</code></pre><h4 id="issue-storage-group-not-defined"><strong>Issue: "STORAGE GROUP NOT DEFINED"</strong> </h4>
+<p><strong>Cause:</strong> E01STGDB.sql uses default storage group</p>
+<p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. Find available storage groups:
+   SELECT * FROM SYSIBM.SYSSTOGROUP;
+   
+2. Update E01STGDB.sql:
+   CREATE DATABASE ECOMDB01
+       STOGROUP &lt;Your STOGROUP&gt;
+       BUFFERPOOL BP0
+       ...
+</code></pre><h4 id="issue-price-calculations-return-wrong-values"><strong>Issue: Price Calculations Return Wrong Values</strong> </h4>
+<p><strong>Cause:</strong> Query not joining to STYLE_MODIFIERS table</p>
+<p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- Incorrect (missing PRICE_MULTIPLIER):</span>
+<span class="token keyword keyword-SELECT">SELECT</span> PT<span class="token punctuation">.</span>BASE_PRICE_CENTS
+<span class="token keyword keyword-FROM">FROM</span> PRODUCT_VARIANTS PV
+<span class="token keyword keyword-INNER">INNER</span> <span class="token keyword keyword-JOIN">JOIN</span> PRODUCT_TYPES PT <span class="token keyword keyword-ON">ON</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- Correct (includes multiplier):</span>
+<span class="token keyword keyword-SELECT">SELECT</span> 
+    PT<span class="token punctuation">.</span>BASE_PRICE_CENTS<span class="token punctuation">,</span>
+    SM<span class="token punctuation">.</span>PRICE_MULTIPLIER<span class="token punctuation">,</span>
+    CAST<span class="token punctuation">(</span>PT<span class="token punctuation">.</span>BASE_PRICE_CENTS <span class="token operator">*</span> SM<span class="token punctuation">.</span>PRICE_MULTIPLIER <span class="token keyword keyword-AS">AS</span> <span class="token keyword keyword-INT">INT</span><span class="token punctuation">)</span> <span class="token keyword keyword-AS">AS</span> FINAL_PRICE
+<span class="token keyword keyword-FROM">FROM</span> PRODUCT_VARIANTS PV
+<span class="token keyword keyword-INNER">INNER</span> <span class="token keyword keyword-JOIN">JOIN</span> PRODUCT_TYPES PT <span class="token keyword keyword-ON">ON</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token keyword keyword-INNER">INNER</span> <span class="token keyword keyword-JOIN">JOIN</span> STYLE_MODIFIERS SM 
+    <span class="token keyword keyword-ON">ON</span> PV<span class="token punctuation">.</span>STYLE_CODE <span class="token operator">=</span> SM<span class="token punctuation">.</span>STYLE_CODE
+   <span class="token operator">AND</span> PV<span class="token punctuation">.</span>MODIFIER_CODE <span class="token operator">=</span> SM<span class="token punctuation">.</span>MODIFIER_CODE<span class="token punctuation">;</span>
+</code></pre><h4 id="issue-performance-issues--slow-queries"><strong>Issue: Performance Issues / Slow Queries</strong> </h4>
+<p><strong>Cause:</strong> Statistics not gathered or outdated</p>
+<p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. Submit ECOMRS to gather/refresh statistics
+2. Verify statistics exist:
+   SELECT NAME, CARD, NPAGES
+   FROM SYSIBM.SYSTABLES
+   WHERE CREATOR = '&lt;Your HLQ&gt;';
+   
+   If CARD = -1, statistics not gathered
+</code></pre><hr>
+<h2 id="additional-resources">Additional Resources </h2>
+<h3 id="db2-for-zos-documentation">Db2 for z/OS Documentation </h3>
+<ul>
+<li><a href="https://www.ibm.com/docs/en/db2-for-zos/13">IBM Db2 13 for z/OS Documentation</a></li>
+<li><a href="https://www.ibm.com/docs/en/db2-for-zos/13?topic=guide-sql-reference">Db2 SQL Reference</a></li>
+</ul>
+<h3 id="zowe-cli-documentation">Zowe CLI Documentation </h3>
+<ul>
+<li><a href="https://docs.zowe.org/stable/user-guide/cli-using/">Zowe CLI Documentation</a></li>
+<li><a href="https://docs.zowe.org/stable/web_help/index.html">Zowe Files Commands</a></li>
+</ul>
+<h3 id="contact">Contact </h3>
+<p>For questions, issues, or contributions, please contact:</p>
+<ul>
+<li><strong>Author:</strong> Ben Edens</li>
+<li><strong>Date:</strong> March 16, 2026</li>
+</ul>
+<hr>
+<h2 id="license">License </h2>
+<p>This database implementation is provided as-is for educational and commercial use. Modify as needed for your environment.</p>
+<hr>
+<p><strong>End of README</strong></p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

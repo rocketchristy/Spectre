@@ -4,8 +4,11 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const navLinks = [
-  { path: '/', name: 'Home' },
   { path: '/store', name: 'Store' },
+  { path: '/gallery', name: 'Gallery' },
+  { path: '/cart', name: 'Cart' },
+  { path: '/orders', name: 'Orders' },
+  { path: '/profile', name: 'Profile' },
 ]
 </script>
 
@@ -13,8 +16,8 @@ const navLinks = [
   <nav class="navbar">
     <div class="navbar-brand">
       <router-link to="/" class="brand-link">
-        <img alt="NXT TCG Logo" class="logo" src="../../assets/logo.png" width="50" height="50" />
-        <span class="brand-text">NXT TCG</span>
+        <img alt="NXTCG Logo" class="logo" src="../../assets/logo.png" width="50" height="50" />
+        <span class="brand-text">NXTCG</span>
       </router-link>
     </div>
 

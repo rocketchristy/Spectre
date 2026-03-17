@@ -1,0 +1,298 @@
+/* Gallery Styles */
+@import './modal.css';
+.gallery-shell {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ========== Welcome Section ========== */
+.welcome-section {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 100, 200, 0.1) 100%);
+  border: 1px solid var(--color-border, #333);
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.welcome-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.welcome-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-background, #ffffff);
+  margin: 0 0 1rem 0;
+  background: linear-gradient(135deg, #00d4ff, #0084c8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.welcome-message {
+  font-size: 1.1rem;
+  color: var(--color-background, #ffffff);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ========== Carousel Section ========== */
+.carousel-section {
+  margin-bottom: 3rem;
+}
+
+.carousel-container {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  background: #ffffff;
+  border: 1px solid var(--color-border, #333);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1rem;
+}
+
+.carousel-display {
+  flex: 1;
+  max-width: 600px;
+  min-width: 300px;
+}
+
+.carousel-card {
+  background: linear-gradient(135deg, #2a2a4e 0%, #1a1a3e 100%);
+  border: 2px solid var(--color-primary, #00d4ff);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.carousel-card:hover {
+  box-shadow: 0 12px 48px rgba(0, 212, 255, 0.4);
+  transform: translateY(-4px);
+}
+
+.carousel-image {
+  width: 100%;
+  height: 380px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.carousel-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-background, #ffffff);
+  margin: 1rem 0 0.5rem 0;
+}
+
+.carousel-index {
+  font-size: 0.9rem;
+  color: var(--color-primary, #00d4ff);
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+/* Carousel buttons */
+.carousel-btn {
+  background: var(--color-primary, #00d4ff);
+  color: #000;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 2.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.carousel-btn:hover {
+  background: #00a8cc;
+  transform: scale(1.1);
+  box-shadow: 0 4px 16px rgba(0, 212, 255, 0.4);
+}
+
+.carousel-btn:active {
+  transform: scale(0.95);
+}
+
+/* ========== Static Card Grid ========== */
+.card-grid-section {
+  margin-bottom: 3rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1.25rem;
+}
+
+.grid-card {
+  background: var(--color-background-soft, #1a1a2e);
+  border: 1px solid var(--color-border, #333);
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.grid-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.25);
+  border-color: var(--color-primary, #00d4ff);
+}
+
+.grid-card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.grid-card-name {
+  font-size: 0.85rem;
+  color: var(--color-text, #ccc);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ========== Card Modal ========== */
+.card-modal {
+  position: relative;
+  background: linear-gradient(135deg, #2a2a4e 0%, #1a1a3e 100%);
+  border: 2px solid var(--color-primary, #00d4ff);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 16px 64px rgba(0, 212, 255, 0.3);
+}
+
+.card-modal .modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.modal-card-img {
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.modal-card-name {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
+}
+
+/* ========== Section Headings ========== */
+.section-heading {
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+  border-bottom: 2px solid var(--color-border, #333);
+  padding-bottom: 0.5rem;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ========== Responsive Design ========== */
+@media (max-width: 768px) {
+  .gallery-shell {
+    padding: 1rem;
+  }
+
+  .welcome-section {
+    padding: 2rem 1rem;
+  }
+
+  .welcome-title {
+    font-size: 1.8rem;
+  }
+
+  .welcome-message {
+    font-size: 1rem;
+  }
+
+  .carousel-container {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    min-height: 350px;
+  }
+
+  .carousel-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.8rem;
+  }
+
+  .carousel-image {
+    height: 250px;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .grid-card-img {
+    height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-container {
+    padding: 0.5rem;
+  }
+
+  .carousel-display {
+    max-width: 100%;
+  }
+
+  .carousel-card {
+    padding: 1rem;
+  }
+
+  .carousel-image {
+    height: 180px;
+  }
+
+  .section-heading {
+    font-size: 1.2rem;
+  }
+
+  .welcome-title {
+    font-size: 1.5rem;
+  }
+
+  .welcome-message {
+    font-size: 0.95rem;
+  }
+}

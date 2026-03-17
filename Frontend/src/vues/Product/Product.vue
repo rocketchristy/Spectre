@@ -1,232 +1,252 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import { prices, cardPriceModifiers } from '@/utils/prices.js'
-import { tempCardData } from '@/utils/tempCard.js'
+import { ref, computed, watch, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { getProducts, getInventory, addToCart } from '@/utils/api.js'
 
 const route = useRoute()
+const router = useRouter()
 
-// Get product info from route params
 const productType = computed(() => route.params.type)
-const productId = computed(() => route.params.id)
+const productId   = computed(() => route.params.id)
 
-// For sealed products
-const sealedProducts = {
-  pack: { name: 'Booster Pack', price: prices[0].pack, description: '10 random cards per pack', stock: 50, image: '📦' },
-  bundle: { name: 'Bundle', price: prices[0].bundle, description: '5 packs + 1 promo card', stock: 25, image: '🎁' },
-  box: { name: 'Booster Box', price: prices[0].box, description: '36 packs per box', stock: 10, image: '📦' },
+const products = ref([])
+const inventory = ref([])
+const loading = ref(true)
+
+// Dynamically import all card images
+const cardImageFiles = import.meta.glob('@/assets/Images/Cards/*.png', { eager: true })
+
+function getCardImage(description) {
+  const lowerDesc = description.toLowerCase()
+  if (lowerDesc.includes('mystery') || lowerDesc.includes('booster')) {
+    const boosterKey = Object.keys(cardImageFiles).find(k => k.toLowerCase().endsWith('booster.png'))
+    if (boosterKey) return cardImageFiles[boosterKey].default
+  }
+  for (const [path, mod] of Object.entries(cardImageFiles)) {
+    const fileName = path.split('/').pop().replace('.png', '')
+    if (fileName === description) return mod.default
+  }
+  const blankKey = Object.keys(cardImageFiles).find(k => k.endsWith('Blank.png'))
+  return blankKey ? cardImageFiles[blankKey].default : null
 }
 
-// Filter selections for cards
+async function fetchData() {
+  loading.value = true
+  try {
+    const [productsData, inventoryData] = await Promise.all([
+      getProducts(),
+      getInventory(),
+    ])
+    products.value = productsData
+    inventory.value = inventoryData
+    loading.value = false
+  } catch (e) {
+    router.push({ name: 'error', query: { message: e.message } })
+  }
+}
+
+onMounted(fetchData)
+
+const isCard = computed(() => productType.value === 'card')
+
+// Find the product from the catalog by DESCRIPTION
+const catalogProduct = computed(() => {
+  if (!isCard.value) return null
+  return products.value.find(p => p.DESCRIPTION === productId.value) || null
+})
+
+// Inventory listings for this product (by PRODUCT_NAME, only items with stock)
+const productListings = computed(() => {
+  if (!isCard.value) return []
+  return inventory.value.filter(i =>
+    i.PRODUCT_NAME === productId.value &&
+    i.QUANTITY_AVAILABLE && i.QUANTITY_AVAILABLE > 0
+  )
+})
+
+// Detect booster / mystery products (sold by the company, no variant dropdowns)
+const isBooster = computed(() => {
+  const name = (productId.value || '').toLowerCase()
+  return name.includes('mystery') || name.includes('booster')
+})
+
+// Hardcoded filter options
+const LANGUAGE_OPTIONS = ['English', 'Japanese', 'Korean', 'Australian', 'Spanish']
+const FOIL_OPTIONS = ['Non-Foil', 'Holofoil', 'Reverse Holofoil']
+const CONDITION_OPTIONS = ['Mint', 'Near-Mint', 'Light Play', 'Moderate Play']
+
+const selectedLanguage = ref('')
 const selectedCondition = ref('')
 const selectedFoil = ref('')
-const selectedLanguage = ref('')
 
-// Quantity
-const quantity = ref(1)
-
-// Get available options from the card data for this character
-const cardVariants = computed(() => {
-  if (productType.value !== 'card') return []
-  return tempCardData.filter(card => card.character === productId.value)
-})
-
-const availableConditions = computed(() => [...new Set(cardVariants.value.map(c => c.condition))])
-const availableFoils = computed(() => [...new Set(cardVariants.value.map(c => c.foil))])
-const availableLanguages = computed(() => [...new Set(cardVariants.value.map(c => c.language))])
-
-// Reset filters and quantity when navigating to a different product
 watch(productId, () => {
+  selectedLanguage.value = ''
   selectedCondition.value = ''
   selectedFoil.value = ''
-  selectedLanguage.value = ''
-  quantity.value = 1
 })
 
-
-// Calculate current price based on selections
-const calculatedPrice = computed(() => {
-  if (productType.value !== 'card') return null
-  
-  const basePrice = parseFloat(prices[0].card.replace('$', ''))
-  let modifier = 1
-
-  if (selectedCondition.value) {
-    modifier *= cardPriceModifiers.condition[selectedCondition.value] || 1
-  }
-  if (selectedFoil.value) {
-    modifier *= cardPriceModifiers.foil[selectedFoil.value] || 1
-  }
-  if (selectedLanguage.value) {
-    modifier *= cardPriceModifiers.language[selectedLanguage.value] || 1
-  }
-
-  return (basePrice * modifier).toFixed(2)
-})
-
-// Find matching stock based on current selections
-const matchingCards = computed(() => {
-  if (productType.value !== 'card') return []
-  
-  return cardVariants.value.filter(card => {
-    if (selectedCondition.value && card.condition !== selectedCondition.value) return false
-    if (selectedFoil.value && card.foil !== selectedFoil.value) return false
-    if (selectedLanguage.value && card.language !== selectedLanguage.value) return false
+const filteredListings = computed(() => {
+  return productListings.value.filter(i => {
+    const name = (i.MODIFIER_NAME || '').toLowerCase()
+    if (selectedLanguage.value && !name.includes(selectedLanguage.value.toLowerCase())) return false
+    if (selectedCondition.value && !name.includes(selectedCondition.value.toLowerCase())) return false
+    if (selectedFoil.value && !name.includes(selectedFoil.value.toLowerCase())) return false
     return true
   })
 })
 
-const currentStock = computed(() => matchingCards.value.length)
-
-// Reset quantity when available stock changes
-watch(currentStock, (newStock) => {
-  if (quantity.value > newStock) quantity.value = Math.max(1, newStock)
-})
-
-const hasAllSelections = computed(() => {
-  return selectedCondition.value && selectedFoil.value && selectedLanguage.value
-})
-
-// Check if current selection combination exists
-const selectionExists = computed(() => {
-  if (!hasAllSelections.value) return true
-  return matchingCards.value.length > 0
-})
-
-// Total price
-const totalPrice = computed(() => {
-  if (productType.value === 'card') {
-    return (parseFloat(calculatedPrice.value) * quantity.value).toFixed(2)
+// Product display info
+const currentProduct = computed(() => {
+  if (!isCard.value || loading.value) return null
+  // Try catalog first
+  if (catalogProduct.value) {
+    return {
+      name: catalogProduct.value.DESCRIPTION,
+      sku: catalogProduct.value['1'],
+      price: (catalogProduct.value.BASE_PRICE_CENTS / 100).toFixed(2),
+      image: getCardImage(catalogProduct.value.DESCRIPTION),
+    }
   }
-  if (currentProduct.value) {
-    const base = parseFloat(currentProduct.value.price.replace('$', ''))
-    return (base * quantity.value).toFixed(2)
+  // Fallback: product exists in inventory but not in catalog (mystery/booster)
+  if (productListings.value.length) {
+    const first = productListings.value[0]
+    return {
+      name: first.PRODUCT_NAME,
+      sku: first.SKU,
+      price: (first.BASE_PRICE_CENTS / 100).toFixed(2),
+      image: getCardImage(first.PRODUCT_NAME),
+    }
   }
   return null
 })
 
-// Product display info
-const currentProduct = computed(() => {
-  if (productType.value === 'card') {
-    return {
-      name: `${productId.value} Card`,
-      description: `${productId.value} character card`,
-      image: '🃏',
-      isCard: true
-    }
+// Add to cart handler
+const cartQuantities = ref({})
+
+function getCartQty(listing) {
+  return cartQuantities.value[listing.INVENTORY_ID] || 1
+}
+
+function setCartQty(listing, val) {
+  cartQuantities.value[listing.INVENTORY_ID] = Math.max(1, Math.min(val, listing.QUANTITY_AVAILABLE))
+}
+
+async function handleAddToCart(listing) {
+  const qty = getCartQty(listing)
+  try {
+    await addToCart(
+      listing.INVENTORY_ID,
+      qty,
+      listing.UNIT_PRICE_CENTS,
+      listing.CURRENCY_CODE || 'USD'
+    )
+    alert(`Added ${qty} to cart!`)
+  } catch (e) {
+    alert(e.message || 'Failed to add to cart')
   }
-  return sealedProducts[productType.value] || null
-})
+}
 </script>
 
 <template>
-  <main class="product-page">
+  <main class="page-shell product-page">
     <router-link to="/store" class="back-link">← Back to Store</router-link>
-    
-    <div v-if="currentProduct" class="product-container">
+
+    <p v-if="loading" class="empty-state">Loading product…</p>
+
+    <div v-else-if="currentProduct" class="product-container">
       <div class="product-image-section">
-        <div class="product-image-large">{{ currentProduct.image }}</div>
+        <div class="product-image-large">
+          <img :src="currentProduct.image" :alt="currentProduct.name" class="product-img" />
+        </div>
       </div>
 
       <div class="product-details">
         <h1>{{ currentProduct.name }}</h1>
-        <p class="description">{{ currentProduct.description }}</p>
+        <p class="description">Base Price: ${{ currentProduct.price }}</p>
 
-        <!-- Sealed product (no filters) -->
-        <template v-if="!currentProduct.isCard">
-          <div class="price-section">
-            <span class="price">${{ totalPrice }}</span>
-            <span class="stock" :class="{ 'out-of-stock': currentProduct.stock === 0 }">
-              {{ currentProduct.stock }} in stock
-            </span>
+        <!-- Booster / Mystery packs: company sells directly, no variants -->
+        <template v-if="isBooster">
+          <h2 class="section-heading">Buy</h2>
+          <div v-if="productListings.length" class="booster-listings">
+            <div v-for="listing in productListings" :key="listing.INVENTORY_ID" class="booster-row">
+              <span>{{ listing.QUANTITY_AVAILABLE }} in stock</span>
+              <span class="listing-price">${{ (listing.UNIT_PRICE_CENTS / 100).toFixed(2) }}</span>
+              <input
+                type="number"
+                class="qty-input"
+                :value="getCartQty(listing)"
+                @input="setCartQty(listing, +$event.target.value)"
+                min="1"
+                :max="listing.QUANTITY_AVAILABLE"
+              />
+              <button class="action-btn listing-buy-btn" @click="handleAddToCart(listing)">Buy</button>
+            </div>
           </div>
-          <div class="quantity-control">
-            <button @click="quantity = Math.max(1, quantity - 1)" :disabled="quantity <= 1">−</button>
-            <input
-              type="number"
-              v-model.number="quantity"
-              :min="1"
-              :max="currentProduct.stock"
-              @change="quantity = Math.min(Math.max(1, quantity), currentProduct.stock)"
-            />
-            <button @click="quantity = Math.min(quantity + 1, currentProduct.stock)" :disabled="quantity >= currentProduct.stock">+</button>
-          </div>
-          <button class="buy-btn" :disabled="currentProduct.stock === 0">
-            Add {{ quantity }} to Cart
-          </button>
+          <p v-else class="text-muted">Currently out of stock.</p>
         </template>
 
-        <!-- Card product (with filters) -->
+        <!-- Cards: Language / Condition / Foil filter dropdowns -->
         <template v-else>
           <div class="filters">
             <div class="filter-group">
-              <label>Condition</label>
-              <select v-model="selectedCondition">
-                <option value="">Select condition...</option>
-                <option v-for="cond in availableConditions" :key="cond" :value="cond">
-                  {{ cond }}
-                </option>
+              <label>Language</label>
+              <select v-model="selectedLanguage">
+                <option value="">All</option>
+                <option v-for="l in LANGUAGE_OPTIONS" :key="l" :value="l">{{ l }}</option>
               </select>
             </div>
-
             <div class="filter-group">
               <label>Foil</label>
               <select v-model="selectedFoil">
-                <option value="">Select foil type...</option>
-                <option v-for="foil in availableFoils" :key="foil" :value="foil">
-                  {{ foil }}
-                </option>
+                <option value="">All</option>
+                <option v-for="f in FOIL_OPTIONS" :key="f" :value="f">{{ f }}</option>
               </select>
             </div>
-
             <div class="filter-group">
-              <label>Language</label>
-              <select v-model="selectedLanguage">
-                <option value="">Select language...</option>
-                <option v-for="lang in availableLanguages" :key="lang" :value="lang">
-                  {{ lang }}
-                </option>
+              <label>Condition</label>
+              <select v-model="selectedCondition">
+                <option value="">All</option>
+                <option v-for="c in CONDITION_OPTIONS" :key="c" :value="c">{{ c }}</option>
               </select>
             </div>
           </div>
 
-          <div class="price-section">
-            <span class="price">${{ hasAllSelections ? totalPrice : calculatedPrice }}</span>
-            <span class="stock" :class="{ 'out-of-stock': currentStock === 0 }">
-              <template v-if="hasAllSelections">{{ currentStock }} in stock</template>
-              <template v-else>{{ currentStock }} variants available</template>
-            </span>
-          </div>
+          <!-- Seller listings table -->
+          <h2 class="section-heading">Listings ({{ filteredListings.length }})</h2>
 
-          <div v-if="hasAllSelections && !selectionExists" class="no-match-warning">
-            This combination is not available.
+          <div v-if="filteredListings.length" class="seller-listings">
+            <div class="listing-header">
+              <span>Seller</span>
+              <span>Variant</span>
+              <span>Stock</span>
+              <span>Price</span>
+              <span>Qty</span>
+              <span></span>
+            </div>
+            <div v-for="listing in filteredListings" :key="listing.INVENTORY_ID" class="listing-row">
+              <span class="listing-seller">Seller #{{ listing.SELLER_ID }}</span>
+              <span>{{ listing.MODIFIER_NAME }}</span>
+              <span>{{ listing.QUANTITY_AVAILABLE }}</span>
+              <span class="listing-price">${{ (listing.UNIT_PRICE_CENTS / 100).toFixed(2) }}</span>
+              <span>
+                <input
+                  type="number"
+                  class="qty-input"
+                  :value="getCartQty(listing)"
+                  @input="setCartQty(listing, +$event.target.value)"
+                  min="1"
+                  :max="listing.QUANTITY_AVAILABLE"
+                />
+              </span>
+              <button class="action-btn listing-buy-btn" @click="handleAddToCart(listing)">Add to Cart</button>
+            </div>
           </div>
-
-          <div v-if="hasAllSelections && currentStock > 0" class="quantity-control">
-            <button @click="quantity = Math.max(1, quantity - 1)" :disabled="quantity <= 1">−</button>
-            <input
-              type="number"
-              v-model.number="quantity"
-              :min="1"
-              :max="currentStock"
-              @change="quantity = Math.min(Math.max(1, quantity), currentStock)"
-            />
-            <button @click="quantity = Math.min(quantity + 1, currentStock)" :disabled="quantity >= currentStock">+</button>
-          </div>
-
-          <button 
-            class="buy-btn" 
-            :disabled="!hasAllSelections || currentStock === 0"
-          >
-            <template v-if="!hasAllSelections">Select options</template>
-            <template v-else-if="currentStock === 0">Out of Stock</template>
-            <template v-else>Add {{ quantity }} to Cart</template>
-          </button>
+          <p v-else class="text-muted">No listings available for this product.</p>
         </template>
       </div>
     </div>
 
-    <div v-else class="not-found">
+    <div v-else-if="!loading" class="empty-state">
       <h2>Product not found</h2>
       <router-link to="/store">Return to store</router-link>
     </div>
@@ -235,20 +255,7 @@ const currentProduct = computed(() => {
 
 <style scoped>
 .product-page {
-  padding: 2rem;
   max-width: 1000px;
-  margin: 0 auto;
-}
-
-.back-link {
-  display: inline-block;
-  margin-bottom: 2rem;
-  color: var(--color-text, #ccc);
-  text-decoration: none;
-}
-
-.back-link:hover {
-  color: var(--color-heading, #fff);
 }
 
 .product-container {
@@ -282,158 +289,65 @@ const currentProduct = computed(() => {
   color: var(--color-heading, #fff);
 }
 
-.description {
-  color: var(--color-text-mute, #888);
-  margin-bottom: 2rem;
+.product-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.buy-btn {
+  width: 100%;
+}
+
+.qty-input {
+  width: 60px;
+  padding: 4px 6px;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid var(--color-border, #333);
+  background: var(--color-background, #111);
+  color: var(--color-text, #fff);
 }
 
 .filters {
   display: flex;
-  flex-direction: column;
   gap: 1rem;
-  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
 }
 
 .filter-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.3rem;
 }
 
 .filter-group label {
-  font-weight: bold;
-  color: var(--color-heading, #fff);
-  font-size: 0.875rem;
-  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #aaa);
 }
 
 .filter-group select {
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
+  padding: 6px 10px;
+  border-radius: 4px;
   border: 1px solid var(--color-border, #333);
   background: var(--color-background-soft, #1a1a2e);
-  color: var(--color-text, #ccc);
-  font-size: 1rem;
-  cursor: pointer;
+  color: var(--color-text, #fff);
 }
 
-.filter-group select:focus {
-  outline: none;
-  border-color: var(--color-accent, #646cff);
+.booster-listings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.price-section {
+.booster-row {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.price {
-  font-size: 2rem;
-  font-weight: bold;
-  color: var(--color-accent, #42b883);
-}
-
-.stock {
-  font-size: 1rem;
-  color: var(--color-text-mute, #888);
-  padding: 0.25rem 0.75rem;
-  background: var(--color-background-soft, #1a1a2e);
-  border-radius: 4px;
-}
-
-.stock.out-of-stock {
-  color: #ff6b6b;
-  background: rgba(255, 107, 107, 0.1);
-}
-
-.no-match-warning {
-  color: #ff6b6b;
-  margin-bottom: 1rem;
+  gap: 1rem;
   padding: 0.75rem;
-  background: rgba(255, 107, 107, 0.1);
-  border-radius: 6px;
-}
-
-.buy-btn {
-  width: 100%;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border: none;
+  background: var(--color-background-soft, #1a1a2e);
   border-radius: 8px;
-  background: var(--color-accent, #42b883);
-  color: white;
-  cursor: pointer;
-  transition: background 0.2s, opacity 0.2s;
-}
-
-.buy-btn:hover:not(:disabled) {
-  background: var(--color-accent-hover, #33a06f);
-}
-
-.buy-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.quantity-control {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.quantity-control button {
-  width: 2.25rem;
-  height: 2.25rem;
-  font-size: 1.25rem;
-  line-height: 1;
   border: 1px solid var(--color-border, #333);
-  background: var(--color-background-soft, #1a1a2e);
-  color: var(--color-heading, #fff);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.quantity-control button:hover:not(:disabled) {
-  background: var(--color-background-mute, #2a2a4e);
-}
-
-.quantity-control button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.quantity-control input {
-  width: 4rem;
-  text-align: center;
-  padding: 0.4rem;
-  border: 1px solid var(--color-border, #333);
-  background: var(--color-background-soft, #1a1a2e);
-  color: var(--color-heading, #fff);
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.quantity-control input::-webkit-inner-spin-button,
-.quantity-control input::-webkit-outer-spin-button {
-  opacity: 1;
-}
-
-.not-found {
-  text-align: center;
-  padding: 4rem;
-}
-
-.not-found h2 {
-  color: var(--color-heading, #fff);
-  margin-bottom: 1rem;
-}
-
-.not-found a {
-  color: var(--color-accent, #42b883);
 }
 </style>
