@@ -88,11 +88,6 @@ class CartDAO:
                         AND I.STYLE_CODE = PV.STYLE_CODE
                         AND I.SERIAL_NUMBER = PV.SERIAL_NUMBER
                         AND I.MODIFIER_CODE = PV.MODIFIER_CODE
-                        INNER JOIN USER01.PRODUCT_TYPE_MODIFIERS PTM
-                            ON PV.SERIES_CODE = PTM.SERIES_CODE
-                        AND PV.STYLE_CODE = PTM.STYLE_CODE
-                        AND PV.SERIAL_NUMBER = PTM.SERIAL_NUMBER
-                        AND PV.MODIFIER_CODE = PTM.MODIFIER_CODE
                         INNER JOIN USER01.PRODUCT_TYPES PT
                             ON PV.SERIES_CODE = PT.SERIES_CODE
                         AND PV.STYLE_CODE = PT.STYLE_CODE
@@ -150,17 +145,17 @@ class CartDAO:
         finally:
             self.pool.return_connection(conn)
 
-    def remove_item(self, cart_id, inventory_id):
+    def remove_item(self, cart_id, cart_item_id):
         conn = self.pool.get_connection()
         try:
             sql = """
                     DELETE FROM USER01.CART_ITEMS
                     WHERE CART_ID = ?
-                    AND INVENTORY_ID = ?
+                    AND ID = ?
                  """
             stmt = ibm_db.prepare(conn, sql)
             ibm_db.bind_param(stmt, 1, cart_id)
-            ibm_db.bind_param(stmt, 2, inventory_id)
+            ibm_db.bind_param(stmt, 2, cart_item_id)
             ibm_db.execute(stmt)
             
             num_rows = ibm_db.num_rows(stmt)

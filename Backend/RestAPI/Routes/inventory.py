@@ -103,7 +103,7 @@ def add_item(request: Request, payload: InventoryItemRequest, token: str = Depen
     
     user_id = info.get("output")[0]["USER_ID"]
     logger.info(f"Adding inventory for user ID: {user_id}, SKU: {sku}")
-    
+    logger.info(f"{series_code}, {style_code}, {serial_number}, {modifier_code}")
     # Check if inventory item already exists
     result = inventorydao.get_sku_details(user_id, series_code, style_code, serial_number, modifier_code)
     
