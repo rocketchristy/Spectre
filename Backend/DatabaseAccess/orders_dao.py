@@ -59,27 +59,28 @@ class OrdersDAO:
         finally:
             self.pool.return_connection(conn)
 
-    def add_order_item(self, order_id, variant_id, product_id,
-                    seller_user_id, sku, product_name, unit_price_cents)
+    def add_order_item(self, order_id, inventory_id, seller_id, 
+                       sku, product_name, unit_price_cents,
+                       currency_code, quantity):
 
         conn = self.pool.get_connection()
         try:
             sql="""
                     INSERT INTO USER01.ORDER_ITEMS 
-                        (ORDER_ID, VARIANT_ID, PRODUCT_ID, 
-                        SELLER_USER_ID, SKU, PRODUCT_NAME,
-                        UNIT_PRICE_CENTS)
+                        (ORDER_ID, INVENTORY_ID, SELLER_ID, 
+                        SKU, PRODUCT_NAME, UNIT_PRICE_CENTS,
+                        CURRENCY_CODE, QUANTITY) VALUES
+                        (? ? ? ? ? ? ? ?)
                     """
             stmt=ibm_db.prepare(conn,sql)
             ibm_db.bind_param(stmt,1,order_id)
-            ibm_db.bind_param(stmt,2,variant_id)
-            ibm_db.bind_param(stmt,3,product_id)
-            ibm_db.bind_param(stmt,4,seller_user_id)
-            ibm_db.bind_param(stmt,5,sku)
-            ibm_db.bind_param(stmt,6,product_name)
-            ibm_db.bind_param(stmt,7,unit_price_cents)
-            ibm_db.bind_param(stmt,8, currency_code)
-            ibm_db.bind_param(stmt,9, quantity)
+            ibm_db.bind_param(stmt,2,inventory_id)
+            ibm_db.bind_param(stmt,3,seller_id)
+            ibm_db.bind_param(stmt,4,sku)
+            ibm_db.bind_param(stmt,5,product_name)
+            ibm_db.bind_param(stmt,6,unit_price_cents)
+            ibm_db.bind_param(stmt,7, currency_code)
+            ibm_db.bind_param(stmt,8, quantity)
             ibm_db.execute(stmt)
             ibm_db.commit(conn)
             return {"status": "success"}
@@ -112,3 +113,28 @@ class OrdersDAO:
         finally:
             self.pool.return_connection(conn)
     
+    def update_order_cost(self, cost, order_id):
+        conn = self.pool.get_connection()
+        try:
+            sql = """ UPDATE USER01.ORDERS
+                    SET SUBTOTAL_CENTS = ?,
+                    SET TOTAL_CENTS = ? 
+                    WHERE ID = ?
+                    """
+            stmt = ibm_db.prepare(conn, sql)
+            ibm_db.bind_param(stmt, 1, cost)
+            ibm_db.bind_param(stmt, 2, cost)
+            ibm_db.bind_param(stmt, 3, order_id)
+            ibm_db.execute(stmt)
+            num_rows = ibm_db.num_rows(stmt)
+        
+            if num_rows == 0:
+                return {"status": "error", "reason": "User not found"}
+            
+            ibm_db.commit(conn)
+            return {"status": "success"}
+        except Exception as e:
+            ibm_db.rollback(conn)
+            return {"status": "error", "reason": str(e)}
+        finally:
+            self.pool.return_connection(conn)
