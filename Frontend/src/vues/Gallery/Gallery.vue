@@ -1,43 +1,57 @@
 <script setup>
 import '@/assets/gallery.css'
-import bg from '@/assets/Images/Gallery.png'
-import { ref, computed } from 'vue'
-import { generatedCards } from '@/utils/generateCards.js'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 defineOptions({ name: 'Gallery' })
 
-// Get unique card names for carousel
-const uniqueCardNames = computed(() => [
-  ...new Set(generatedCards.map(c => c.name))
-])
+// Dynamically import all card images from the Cards folder
+const cardFiles = import.meta.glob('@/assets/Images/Cards/*.png', { eager: true })
 
-// Current carousel index
+const allCards = computed(() =>
+  Object.entries(cardFiles)
+    .map(([path, module]) => {
+      const fileName = path.split('/').pop().replace('.png', '')
+      return { id: fileName, name: fileName.replace(/_/g, ' '), image: module.default }
+    })
+    .sort((a, b) => a.name.localeCompare(b.name))
+)
+
+// Carousel state
 const carouselIndex = ref(0)
+const currentCard = computed(() => allCards.value[carouselIndex.value] || { name: '', image: '' })
 
-// Current carousel card
-const currentCarouselCard = computed(() => ({
-  name: uniqueCardNames.value[carouselIndex.value] || 'Card',
-  image: '🎴'
-}))
-
-// Navigate carousel
-const prevCard = () => {
-  carouselIndex.value = (carouselIndex.value - 1 + uniqueCardNames.value.length) % uniqueCardNames.value.length
+function prevCard() {
+  carouselIndex.value = (carouselIndex.value - 1 + allCards.value.length) % allCards.value.length
+}
+function nextCard() {
+  carouselIndex.value = (carouselIndex.value + 1) % allCards.value.length
 }
 
-const nextCard = () => {
-  carouselIndex.value = (carouselIndex.value + 1) % uniqueCardNames.value.length
+// Auto-scroll
+let autoScrollTimer = null
+function startAutoScroll() {
+  stopAutoScroll()
+  autoScrollTimer = setInterval(nextCard, 3000)
+}
+function stopAutoScroll() {
+  if (autoScrollTimer) { clearInterval(autoScrollTimer); autoScrollTimer = null }
 }
 
-// Sample user cards (current user's cards for sale)
-const currentUserCards = computed(() =>
-  generatedCards.filter(c => c.stock > 0 && c.rarity === 'Rare').slice(0, 6)
-)
+onMounted(startAutoScroll)
+onUnmounted(stopAutoScroll)
 
-// Sample other users' cards for sale
-const otherUsersCards = computed(() =>
-  generatedCards.filter(c => c.stock > 0 && c.rarity !== 'Rare').slice(0, 12)
-)
+// Modal
+const showModal = ref(false)
+const modalCard = ref(null)
+
+function openCardModal(card) {
+  modalCard.value = card
+  showModal.value = true
+}
+function closeModal() {
+  showModal.value = false
+  modalCard.value = null
+}
 </script>
 
 <template>
@@ -56,90 +70,41 @@ const otherUsersCards = computed(() =>
     <!-- Carousel Section -->
     <section class="carousel-section">
       <h2 class="section-heading">Featured Cards</h2>
-      <div class="carousel-container" :style="{ backgroundImage: `url(${bg})` }">
-        <button class="carousel-btn carousel-btn--prev" @click="prevCard" aria-label="Previous card">
-          ‹
-        </button>
-
+      <div class="carousel-container" @mouseenter="stopAutoScroll" @mouseleave="startAutoScroll">
+        <button class="carousel-btn carousel-btn--prev" @click="prevCard" aria-label="Previous card">‹</button>
         <div class="carousel-display">
           <div class="carousel-card">
-            <div class="carousel-image">{{ currentCarouselCard.image }}</div>
-            <h3 class="carousel-title">{{ currentCarouselCard.name }}</h3>
-            <p class="carousel-index">
-              {{ carouselIndex + 1 }} of {{ uniqueCardNames.length }}
-            </p>
+            <img :src="currentCard.image" :alt="currentCard.name" class="carousel-image" />
+            <h3 class="carousel-title">{{ currentCard.name }}</h3>
+            <p class="carousel-index">{{ carouselIndex + 1 }} of {{ allCards.length }}</p>
           </div>
         </div>
-
-        <button class="carousel-btn carousel-btn--next" @click="nextCard" aria-label="Next card">
-          ›
-        </button>
-      </div>
-
-      <!-- Carousel indicators -->
-      <div class="carousel-indicators">
-        <button
-          v-for="(_, index) in uniqueCardNames"
-          :key="index"
-          class="indicator"
-          :class="{ active: index === carouselIndex }"
-          @click="carouselIndex = index"
-          :aria-label="`Go to card ${index + 1}`"
-        />
+        <button class="carousel-btn carousel-btn--next" @click="nextCard" aria-label="Next card">›</button>
       </div>
     </section>
 
-    <!-- Other Users' Cards Section -->
-    <section class="marketplace-section">
-      <h2 class="section-heading">Cards from Collectors</h2>
-      <div class="cards-grid">
-        <router-link
-          v-for="card in otherUsersCards"
-          :key="card.id"
-          :to="{ name: 'product', params: { type: 'card', id: card.name } }"
-          class="marketplace-card"
+    <!-- Static Card Grid -->
+    <section class="card-grid-section">
+      <h2 class="section-heading">All Cards</h2>
+      <div class="card-grid">
+        <div
+          v-for="card in allCards" :key="card.id"
+          class="grid-card"
+          @click="openCardModal(card)"
         >
-          <div class="card-image">🎴</div>
-          <div class="card-info">
-            <h3 class="card-name">{{ card.name }}</h3>
-            <p class="card-rarity" :class="`rarity-${card.rarity.toLowerCase().replace(' ', '-')}`">
-              {{ card.rarity }}
-            </p>
-            <p class="card-condition">{{ card.condition }}</p>
-            <p class="card-foil" v-if="card.foil !== 'Non-foil'">{{ card.foil }}</p>
-            <p class="card-price">${{ card.price }}</p>
-          </div>
-        </router-link>
+          <img :src="card.image" :alt="card.name" class="grid-card-img" />
+          <p class="grid-card-name">{{ card.name }}</p>
+        </div>
       </div>
     </section>
 
-    <!-- Current User's Cards Section -->
-    <section class="user-cards-section">
-      <h2 class="section-heading">Your Cards for Sale</h2>
-      <div v-if="currentUserCards.length > 0" class="cards-grid">
-        <router-link
-          v-for="card in currentUserCards"
-          :key="card.id"
-          :to="{ name: 'product', params: { type: 'card', id: card.name } }"
-          class="user-card"
-        >
-          <div class="card-image">🎴</div>
-          <div class="card-info">
-            <h3 class="card-name">{{ card.name }}</h3>
-            <p class="card-rarity" :class="`rarity-${card.rarity.toLowerCase()}`">
-              {{ card.rarity }}
-            </p>
-            <p class="card-condition">{{ card.condition }}</p>
-            <p class="card-foil" v-if="card.foil !== 'Non-foil'">{{ card.foil }}</p>
-            <p class="card-price">${{ card.price }}</p>
-          </div>
-          <button class="edit-btn">Edit</button>
-        </router-link>
+    <!-- Card Modal -->
+    <div v-if="showModal && modalCard" class="modal-overlay" @click="closeModal">
+      <div class="card-modal" @click.stop>
+        <button class="modal-close" @click="closeModal">&times;</button>
+        <img :src="modalCard.image" :alt="modalCard.name" class="modal-card-img" />
+        <h2 class="modal-card-name">{{ modalCard.name }}</h2>
       </div>
-      <div v-else class="no-cards">
-        <p>You don't have any cards listed for sale yet.</p>
-        <router-link to="/store" class="btn-link">Add Cards to Sell</router-link>
-      </div>
-    </section>
+    </div>
   </main>
 </template>
