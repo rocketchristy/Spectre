@@ -11,6 +11,8 @@ from fastapi import APIRouter, Request, Depends, HTTPException, status
 from Backend.Utilities.logger import logger
 from Backend.DatabaseAccess.cart_dao import CartDAO
 from Backend.DatabaseAccess.user_dao import UserDAO
+from Backend.DatabaseAccess.products_dao import ProductsDAO
+from Backend.DatabaseAccess.orders_dao import OrdersDAO
 from Backend.DatabaseAccess.inventory_dao import InventoryDAO
 from Backend.Utilities.utilities import get_token_header
 from Backend.Utilities.validation import CartItemRequest
@@ -61,12 +63,27 @@ def add_item(request: Request, payload: CartItemRequest, token: str = Depends(ge
     user_id = info.get("output")[0]["USER_ID"]
     result = cartdao.get_cart_id(user_id)
     
-    if result.get("status") == "error":
-        logger.error(f"Failed to retrieve cart ID: {result.get('reason')}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to retrieve cart ID"
-        )
+    # Check if cart exists, if not create one
+    if result.get("status") == "error" or len(result.get("output", [])) == 0:
+        logger.info(f"No cart found for user {user_id}, creating new cart")
+        create_result = cartdao.create_cart(user_id)
+        
+        if create_result.get("status") == "error":
+            logger.error(f"Failed to create cart: {create_result.get('reason')}")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to create cart"
+            )
+        
+        # Get the newly created cart ID
+        result = cartdao.get_cart_id(user_id)
+        
+        if result.get("status") == "error":
+            logger.error(f"Failed to retrieve cart ID after creation: {result.get('reason')}")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to retrieve cart ID"
+            )
     
     cart_id = result.get("output")[0]["ID"]
     inventory_id = payload.inventory_id
@@ -87,9 +104,9 @@ def add_item(request: Request, payload: CartItemRequest, token: str = Depends(ge
     return {"message": "Item added to cart successfully"}
 
 
-@router.delete("/item/{inventory_id}", status_code = status.HTTP_204_NO_CONTENT)
-def delete_cart_item(request: Request, inventory_id: int, token: str = Depends(get_token_header)):
-    logger.info(f"Attempting to delete item {inventory_id} from cart")
+@router.delete("/item/{cart_item_id}", status_code = status.HTTP_204_NO_CONTENT)
+def delete_cart_item(request: Request, cart_item_id: int, token: str = Depends(get_token_header)):
+    logger.info(f"Attempting to delete item {cart_item_id} from cart")
     pool = request.app.state.db_pool
     userdao = UserDAO(pool)
     cartdao = CartDAO(pool)
@@ -112,7 +129,7 @@ def delete_cart_item(request: Request, inventory_id: int, token: str = Depends(g
     
     cart_id = result.get("output")[0]["ID"]
 
-    result_1 = cartdao.remove_item(cart_id, inventory_id)
+    result_1 = cartdao.remove_item(cart_id, cart_item_id)
     
     if result_1.get("status") == "error":
         logger.error(f"Failed to remove item from cart: {result_1.get('reason')}")
@@ -121,9 +138,9 @@ def delete_cart_item(request: Request, inventory_id: int, token: str = Depends(g
             detail="Cart item not found"
         )
     
-    logger.info(f"Successfully removed item {inventory_id} from cart {cart_id}")
+    logger.info(f"Successfully removed item {cart_item_id} from cart {cart_id}")
     return {"message": "Successfully remove item from cart"}
-'''
+
 
 class AddressRequest(BaseModel):
     billing_address_id: str
@@ -131,15 +148,6 @@ class AddressRequest(BaseModel):
 
 @router.post("/buy", status_code=status.HTTP_200_OK)
 def buy_cart(request: Request, payload: AddressRequest, token: str = Depends(get_token_header)):
-    #
-    # also pass an address id 
-    # take in token --> userid --> 
-    # 
-    # update orderform --> 
-    # 
-    # update quantity of inventory --> 
-    # 
-    # delete cart
     pool = request.app.state.db_pool
     userdao = UserDAO(pool)
     info = userdao.get_user_id(token)
@@ -154,48 +162,57 @@ def buy_cart(request: Request, payload: AddressRequest, token: str = Depends(get
     cartdao = CartDAO(pool)
     ordersdao = OrdersDAO(pool)
     productsdao = ProductsDAO(pool)
-
+    inventorydao = InventoryDAO(pool)
     cart_result = cartdao.get_cart(user_id)
 
     # create order in orders table here (dont update price yet)
     #get order id to add to 
     # get variant id from product_variants
-    currency_code = result.get("output")[0]["CURRENCY_CODE"]
+    currency_code = cart_result.get("output")[0]["CURRENCY_CODE"]
     billing_address_id = payload.billing_address_id
     shipping_address_id = payload.shipping_address_id
     order_result = ordersdao.add_order(user_id, currency_code, 0,
                             billing_address_id, shipping_address_id)
-    
+    print(order_result)
+    '''
     order_result_1 = ordersdao.get_order_id(user_id) 
     order_id = order_result_1.get("output")[0]["ID"]
     total_cost = 0
+
     for i in range(len(cart_result)):
         # udate quantity
-        inventory_result = inventorydao.get_sku_details(seller_id, series_code, serial_number, modifier_code)
-        quantity_available = result_1.get("output")[0]["QUANTITY_AVAILABLE"]
+        series_code = cart_result.get("output")[i]["SERIES_CODE"]
+        style_code = cart_result.get("output")[i]["STYLE_CODE"]
+        serial_number = cart_result.get("output")[i]["SERIAL_NUMBER"]
+        modifier_code = cart_result.get("output")[i]["MODIFIER_CODE"]
+
+        inventory_result = inventorydao.get_sku_details(seller_id, series_code, serial_number, style_code, modifier_code)
+        quantity_available = inventorydao.get("output")[0]["QUANTITY_AVAILABLE"]
         quantity_requested = cart_result.get("output")[i]["QUANTITY"]
         # check if plenty available
-
+        if quantity_requested > quantity_available:
+            logger.error(f"Insufficient inventory for SKU {sku}: requested {quantity_requested}, available {quantity_available}")
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Insufficient inventory for item. Only {quantity_available} available",
+                headers={"X-Inventory-ID": str(inventory_id), "X-Available-Quantity": str(quantity_available)}
+            )
+        new_quantity = quantity_available - quantity_requested
+        inventorydao.update_quantity(new_quantity, seller_id, series_code, style_code, serial_number, modifier_code)
         # add order to placed order
-        #series_code = cart_result.get("output")[i]["SERIES_CODE"]
-        #style_code = cart_result.get("output")[i]["STYLE_CODE"]
-        #serial_number = cart_result.get("output")[i]["SERIAL_NUMBER"]
-        #modifier_code = cart_result.get("output")[i]["MODIFIER_CODE"]
-        # may just be called sku actually
-        #sku = series_code + style_code + serial_number + modifier_code
         sku = cart_result.get("output")[i]["SKU"]
-        product_result = productsdao.get_product_variant_ids(sku) --> variant_id, product_id
-        variant_id = product_result.get("output")[0]["ID"]
-        product_id = product_result.get("output")[0]["PRODUCT_ID"]
         seller_id = cart_result.get("output")[i]["SELLER_ID"]
         unit_price_cents = cart_result.get("output")[i]["UNIT_PRICE_CENTS"]
-
-        ordersdao.add_order_item(order_id, variant_id, product_id,
-                    seller_user_id, sku, product_name, unit_price_cents)
+        inventory_id = cart_result.get("output")[i]["INVENTORY_ID"]
+        product_name = cart_result.get("output")[i]["PRODUCT_NAME"]
+        quantity = cart_result.get("output")[i]["QUANTITY"]
+        ordersdao.add_order_item(order_id, inventory_id, seller_id, 
+                       sku, product_name, unit_price_cents,
+                       currency_code, quantity)
         
 
-        total_cost += unit_price_cents
+        total_cost += (unit_price_cents)*quantity_requested
 
-    ordersdao.update_order_cost()
+    ordersdao.update_order_cost(total_cost, order_id)
     cartdao.remove_entire_cart(user_id)
     '''

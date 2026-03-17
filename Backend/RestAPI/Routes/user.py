@@ -153,7 +153,6 @@ def update_user_data(request: Request, payload: UpdateUserRequest, token: str = 
     
     user_id = result.get("output")[0]["USER_ID"]
     logger.info(f"User ID {user_id} found, updating user data")
-    userdao.create_cart(user_id)
 
     out = userdao.update_user_data(user_id, email, hashed_password, fname, lname)
     
