@@ -91,8 +91,8 @@ zOS_Datasets/
         │   ├── E05CMNT.sql       (Add catalog comments)
         │   ├── E06GRANT.sql      (Grant privileges)
         │   ├── E07INIT1.sql      (Load reference data + initial users)
-        │   ├── E07INIT3.sql      (Load Product Variants part 1)
-        │   ├── E07INIT5.sql      (Load Product Variants part 2 + Mystery products)
+        │   ├── E07INIT2.sql      (Load Product Variants part 1)
+        │   ├── E07INIT3.sql      (Load Product Variants part 2 + Mystery products)
         │   └── E08INVEN.sql      (Load mystery product inventory for seller)
         └── JCL/                   (Job Control Language jobs)
             ├── ECOMDDL.jcl       (Execute DDL pipeline: create database)
@@ -109,16 +109,16 @@ zOS_Datasets/
 **Data Initialization Files:**
 The product catalog is simplified into three E07INIT files to comply with mainframe 72-character line length limits:
 - **E07INIT1:** Reference tables (1 series, 4 styles, 63 modifiers, 104 product types) + 5 initial users
-- **E07INIT3:** Product variants part 1 (2,412 variants)
-- **E07INIT5:** Product variants part 2 + mystery products (2,412 variants)
+- **E07INIT2:** Product variants part 1 (2,400 variants: cards SE01-UN40)
+- **E07INIT3:** Product variants part 2 + mystery products (2,424 variants: cards UN41-UN80 + 24 mystery products)
 - **E08INVEN:** Inventory data (24 mystery product inventory items, 767 total units, seller: Christy D)
 
 **Schema Simplification (March 2026):**
-E07INIT2 and E07INIT4 were removed to eliminate the redundant PRODUCT_TYPE_MODIFIERS table. This simplification:
-- Reduces files from 5 to 3 (~1.3 MB savings)
+The PRODUCT_TYPE_MODIFIERS table was eliminated to simplify the schema. This change:
+- Reduces initialization files to sequential numbering (INIT1, INIT2, INIT3)
 - Removes 1 unnecessary table and tablespace
 - Simplifies foreign key relationships
-- Maintains all 4,824 product variants
+- Maintains all 4,824 product variants (2,400 + 2,424)
 
 **Initial Users:**
 E07INIT1 creates five starter accounts for testing:
@@ -283,8 +283,8 @@ Upload all SQL DDL files to the `<Your HLQ>.ECOMAPP.DDL` library.
 - E05CMNT (from HLQ/ECOMAPP/DDL/E05CMNT.sql)
 - E06GRANT (from HLQ/ECOMAPP/DDL/E06GRANT.sql)
 - E07INIT1 (from HLQ/ECOMAPP/DDL/E07INIT1.sql)
+- E07INIT2 (from HLQ/ECOMAPP/DDL/E07INIT2.sql)
 - E07INIT3 (from HLQ/ECOMAPP/DDL/E07INIT3.sql)
-- E07INIT5 (from HLQ/ECOMAPP/DDL/E07INIT5.sql)
 - E08INVEN (from HLQ/ECOMAPP/DDL/E08INVEN.sql)
 
 **Method B: Zowe CLI**
@@ -297,8 +297,8 @@ zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E04INDEX.sql" "<Your HLQ>.EC
 zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E05CMNT.sql" "<Your HLQ>.ECOMAPP.DDL(E05CMNT)"
 zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E06GRANT.sql" "<Your HLQ>.ECOMAPP.DDL(E06GRANT)"
 zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E07INIT1.sql" "<Your HLQ>.ECOMAPP.DDL(E07INIT1)"
+zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E07INIT2.sql" "<Your HLQ>.ECOMAPP.DDL(E07INIT2)"
 zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E07INIT3.sql" "<Your HLQ>.ECOMAPP.DDL(E07INIT3)"
-zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E07INIT5.sql" "<Your HLQ>.ECOMAPP.DDL(E07INIT5)"
 zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E08INVEN.sql" "<Your HLQ>.ECOMAPP.DDL(E08INVEN)"
 ```
 
@@ -307,7 +307,7 @@ zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E08INVEN.sql" "<Your HLQ>.EC
 # Upload all DDL files at once
 $hlq = "<Your HLQ>"  # Change to your HLQ
 $ddlFiles = @("E01STGDB", "E02TBSPC", "E03TABLE", "E04INDEX", "E05CMNT", "E06GRANT", 
-              "E07INIT1", "E07INIT3", "E07INIT5", "E08INVEN")
+              "E07INIT1", "E07INIT2", "E07INIT3", "E08INVEN")
 
 foreach ($file in $ddlFiles) {
     zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/$file.sql" "$hlq.ECOMAPP.DDL($file)"
@@ -444,7 +444,7 @@ zowe jobs submit data-set "<Your HLQ>.ECOMAPP.JCL(ECOMINIT)"
 ```
 
 **What ECOMINIT Does:**
-Executes E07INIT1, E07INIT3, and E07INIT5 in sequence to populate the product catalog:
+Executes E07INIT1, E07INIT2, and E07INIT3 in sequence to populate the product catalog:
 
 1. **INIT1 Step** - Loads reference data (E07INIT1):
    - 1 Series (NextGen America)
@@ -452,11 +452,11 @@ Executes E07INIT1, E07INIT3, and E07INIT5 in sequence to populate the product ca
    - 63 Style Modifiers (language, foil, condition combinations + NIB)
    - 104 Product Types (80 cards + 24 mystery products)
 
-2. **INIT3 Step** - Creates product variants part 1 (E07INIT3):
-   - ~2,400 PRODUCT_VARIANTS rows (first 80 cards × 30 modifiers)
+2. **INIT2 Step** - Creates product variants part 1 (E07INIT2):
+   - 2,400 PRODUCT_VARIANTS rows (cards SE01-UN40 × 60 modifiers)
 
-3. **INIT5 Step** - Creates product variants part 2 + mystery products (E07INIT5):
-   - ~2,424 PRODUCT_VARIANTS rows (remaining cards + 24 mystery variants)
+3. **INIT3 Step** - Creates product variants part 2 + mystery products (E07INIT3):
+   - 2,424 PRODUCT_VARIANTS rows (cards UN41-UN80 × 60 modifiers + 24 mystery variants)
 
 **Expected Return Codes:**
 - **RC=0**: Complete success - all 4,824 product variants loaded
@@ -1171,7 +1171,7 @@ Final Price = BASE_PRICE_CENTS × PRICE_MULTIPLIER
 - Every variant required exactly one modifier - junction table served no purpose
 - Simplified schema: 15 tables instead of 16
 - Faster queries: No extra join through intermediate table
-- Easier maintenance: Fewer files to manage (INIT1, INIT3, INIT5 vs original 5 files)
+- Easier maintenance: Sequential file naming (INIT1, INIT2, INIT3)
 - Better reflects business logic: Style determines applicable modifiers, not individual products
 
 ---
@@ -1242,7 +1242,7 @@ INSERT INTO <Your HLQ>.PRODUCT_TYPES
 VALUES ('NA', 'C', 'NEW1', 'New Card Name', 100);
 ```
 
-2. **Update E07INIT3.sql or E07INIT5.sql** - Create variants for applicable modifiers:
+2. **Update E07INIT2.sql or E07INIT3.sql** - Create variants for applicable modifiers:
 ```sql
 INSERT INTO <Your HLQ>.PRODUCT_VARIANTS
 (SERIES_CODE, STYLE_CODE, SERIAL_NUMBER, MODIFIER_CODE)
@@ -1389,7 +1389,7 @@ If you need to migrate objects to a different schema or Db2 subsystem:
    
 2. Check member names match exactly:
    E01STGDB, E02TBSPC, E03TABLE, E04INDEX, E05CMNT, E06GRANT
-   E07INIT1, E07INIT3, E07INIT5
+   E07INIT1, E07INIT2, E07INIT3
    
 3. Verify SET HLQ statement in ECOMDDL.jcl matches your dataset name
 ```
