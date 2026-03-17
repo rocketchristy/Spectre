@@ -19,22 +19,15 @@ MIN_SKU_LENGTH = SERIES_LENGTH + STYLE_LENGTH + SERIAL_LENGTH
 
 router = APIRouter()
 
-@router.get("/test", status_code=status.HTTP_200_OK)
-def test_code(request: Request):
-    pool = request.app.state.db_pool
-    inventorydao = InventoryDAO(pool)
-    info = inventorydao.test()
-    return info
-
 @router.get("/", status_code= status.HTTP_200_OK)
 def get_all_inventory(request: Request):
     pool = request.app.state.db_pool
     inventorydao = InventoryDAO(pool)
     result = inventorydao.get_inventory()
     if result.get("status") == "error":
-        logger.error(f"Failed to retrieve inventory")
+        logger.error(f"Failed to retrieve inventory: {result.get('reason')}")
         raise HTTPException(
-            status_code= status.HTTP_404_NOT_FOUND,
+            status_code= status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail = "Failed to retrieve inventory"
         )
     return result.get("output")

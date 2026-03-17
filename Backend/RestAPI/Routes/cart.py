@@ -124,8 +124,13 @@ def delete_cart_item(request: Request, inventory_id: int, token: str = Depends(g
     logger.info(f"Successfully removed item {inventory_id} from cart {cart_id}")
     return {"message": "Successfully remove item from cart"}
 '''
+
+class AddressRequest(BaseModel):
+    billing_address_id: str
+    shipping_address_id: str
+
 @router.post("/buy", status_code=status.HTTP_200_OK)
-def buy_cart():
+def buy_cart(request: Request, payload: AddressRequest, token: str = Depends(get_token_header)):
     #
     # also pass an address id 
     # take in token --> userid --> 
@@ -135,5 +140,62 @@ def buy_cart():
     # update quantity of inventory --> 
     # 
     # delete cart
+    pool = request.app.state.db_pool
+    userdao = UserDAO(pool)
+    info = userdao.get_user_id(token)
+    if info.get("status") == "error":
+        logger.error(f"Failed to retrieve userid")
+        raise HTTPException(
+            status_code= status.HTTP_404_NOT_FOUND,
+            detail = "Failed to retrieve userid"
+        )
+    user_id = info.get("output")[0]["USER_ID"]
 
+    cartdao = CartDAO(pool)
+    ordersdao = OrdersDAO(pool)
+    productsdao = ProductsDAO(pool)
+
+    cart_result = cartdao.get_cart(user_id)
+
+    # create order in orders table here (dont update price yet)
+    #get order id to add to 
+    # get variant id from product_variants
+    currency_code = result.get("output")[0]["CURRENCY_CODE"]
+    billing_address_id = payload.billing_address_id
+    shipping_address_id = payload.shipping_address_id
+    order_result = ordersdao.add_order(user_id, currency_code, 0,
+                            billing_address_id, shipping_address_id)
+    
+    order_result_1 = ordersdao.get_order_id(user_id) 
+    order_id = order_result_1.get("output")[0]["ID"]
+    total_cost = 0
+    for i in range(len(cart_result)):
+        # udate quantity
+        inventory_result = inventorydao.get_sku_details(seller_id, series_code, serial_number, modifier_code)
+        quantity_available = result_1.get("output")[0]["QUANTITY_AVAILABLE"]
+        quantity_requested = cart_result.get("output")[i]["QUANTITY"]
+        # check if plenty available
+
+        # add order to placed order
+        #series_code = cart_result.get("output")[i]["SERIES_CODE"]
+        #style_code = cart_result.get("output")[i]["STYLE_CODE"]
+        #serial_number = cart_result.get("output")[i]["SERIAL_NUMBER"]
+        #modifier_code = cart_result.get("output")[i]["MODIFIER_CODE"]
+        # may just be called sku actually
+        #sku = series_code + style_code + serial_number + modifier_code
+        sku = cart_result.get("output")[i]["SKU"]
+        product_result = productsdao.get_product_variant_ids(sku) --> variant_id, product_id
+        variant_id = product_result.get("output")[0]["ID"]
+        product_id = product_result.get("output")[0]["PRODUCT_ID"]
+        seller_id = cart_result.get("output")[i]["SELLER_ID"]
+        unit_price_cents = cart_result.get("output")[i]["UNIT_PRICE_CENTS"]
+
+        ordersdao.add_order_item(order_id, variant_id, product_id,
+                    seller_user_id, sku, product_name, unit_price_cents)
+        
+
+        total_cost += unit_price_cents
+
+    ordersdao.update_order_cost()
+    cartdao.remove_entire_cart(user_id)
     '''

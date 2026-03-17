@@ -14,7 +14,6 @@ class InventoryDAO:
         self.pool = pool
 
     def get_inventory(self):
-    #TODO add code to get all user inventory (all they are selling given userid)
         conn = self.pool.get_connection()
         try:
             sql = """
@@ -26,7 +25,6 @@ class InventoryDAO:
                 PT.DESCRIPTION AS PRODUCT_NAME,
                 SM.DESCRIPTION AS MODIFIER_NAME,
                 PT.BASE_PRICE_CENTS,
-                PTM.PRICE_DELTA_CENTS,
                 VI.URL,
                 I.ID AS INVENTORY_ID,
                 I.SELLER_ID,
@@ -34,11 +32,6 @@ class InventoryDAO:
                 I.UNIT_PRICE_CENTS,
                 I.CURRENCY_CODE
             FROM USER01.PRODUCT_VARIANTS PV
-            INNER JOIN USER01.PRODUCT_TYPE_MODIFIERS PTM
-                ON PV.SERIES_CODE = PTM.SERIES_CODE
-            AND PV.STYLE_CODE = PTM.STYLE_CODE
-            AND PV.SERIAL_NUMBER = PTM.SERIAL_NUMBER
-            AND PV.MODIFIER_CODE = PTM.MODIFIER_CODE
             INNER JOIN USER01.PRODUCT_TYPES PT
                 ON PV.SERIES_CODE = PT.SERIES_CODE
             AND PV.STYLE_CODE = PT.STYLE_CODE
@@ -55,7 +48,7 @@ class InventoryDAO:
             AND PV.STYLE_CODE = VI.STYLE_CODE
             AND PV.SERIAL_NUMBER = VI.SERIAL_NUMBER
             AND PV.MODIFIER_CODE = VI.MODIFIER_CODE
-            LEFT JOIN USER01.INVENTORY I
+            INNER JOIN USER01.INVENTORY I
                 ON PV.SERIES_CODE = I.SERIES_CODE
             AND PV.STYLE_CODE = I.STYLE_CODE
             AND PV.SERIAL_NUMBER = I.SERIAL_NUMBER
@@ -77,7 +70,6 @@ class InventoryDAO:
             self.pool.return_connection(conn)
 
     def get_user_inventory(self, user_id):
-        #TODO add code to get all user inventory(all they are selling) given userid
         conn = self.pool.get_connection()
         try:
             sql = """SELECT
@@ -88,7 +80,6 @@ class InventoryDAO:
                 PT.DESCRIPTION AS PRODUCT_NAME,
                 SM.DESCRIPTION AS MODIFIER_NAME,
                 PT.BASE_PRICE_CENTS,
-                PTM.PRICE_DELTA_CENTS,
                 VI.URL,
                 I.ID AS INVENTORY_ID,
                 I.SELLER_ID,
@@ -96,11 +87,6 @@ class InventoryDAO:
                 I.UNIT_PRICE_CENTS,
                 I.CURRENCY_CODE
             FROM USER01.PRODUCT_VARIANTS PV
-            INNER JOIN USER01.PRODUCT_TYPE_MODIFIERS PTM
-                ON PV.SERIES_CODE = PTM.SERIES_CODE
-            AND PV.STYLE_CODE = PTM.STYLE_CODE
-            AND PV.SERIAL_NUMBER = PTM.SERIAL_NUMBER
-            AND PV.MODIFIER_CODE = PTM.MODIFIER_CODE
             INNER JOIN USER01.PRODUCT_TYPES PT
                 ON PV.SERIES_CODE = PT.SERIES_CODE
             AND PV.STYLE_CODE = PT.STYLE_CODE
@@ -152,7 +138,6 @@ class InventoryDAO:
                         PT.DESCRIPTION AS PRODUCT_NAME,
                         SM.DESCRIPTION AS MODIFIER_NAME,
                         PT.BASE_PRICE_CENTS,
-                        PTM.PRICE_DELTA_CENTS,
                         VI.URL,
                         I.ID AS INVENTORY_ID,
                         I.SELLER_ID,
@@ -160,11 +145,6 @@ class InventoryDAO:
                         I.UNIT_PRICE_CENTS,
                         I.CURRENCY_CODE
                     FROM USER01.PRODUCT_VARIANTS PV
-                    INNER JOIN USER01.PRODUCT_TYPE_MODIFIERS PTM
-                        ON PV.SERIES_CODE = PTM.SERIES_CODE
-                    AND PV.STYLE_CODE = PTM.STYLE_CODE
-                    AND PV.SERIAL_NUMBER = PTM.SERIAL_NUMBER
-                    AND PV.MODIFIER_CODE = PTM.MODIFIER_CODE
                     INNER JOIN USER01.PRODUCT_TYPES PT
                         ON PV.SERIES_CODE = PT.SERIES_CODE
                     AND PV.STYLE_CODE = PT.STYLE_CODE

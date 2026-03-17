@@ -237,5 +237,3 @@ def delete_address(request: Request, index: int, token: str = Depends(get_token_
     logger.info(f"Successfully deleted address {index} for user ID {user_id}")
     # Note: 204 NO_CONTENT should not return a body
     return None
-
-#TODO get address
