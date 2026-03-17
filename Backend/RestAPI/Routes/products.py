@@ -20,19 +20,12 @@ FULL_SKU_LENGTH = MIN_SKU_LENGTH + MODIFIER_LENGTH
 router = APIRouter()
 
 
-@router.get("/test", status_code=status.HTTP_200_OK)
-def test_code(request: Request):
-    pool = request.app.state.db_pool
-    productsdao = ProductsDAO(pool)
-    info = productsdao.get_products()
-    return info
-
 @router.get("/", status_code = status.HTTP_200_OK)
-def get_products(request: Request):
+def get_product_types(request: Request):
     logger.info("Attempting to retrieve all products")
     pool = request.app.state.db_pool
     productsdao = ProductsDAO(pool)
-    result = productsdao.get_products()
+    result = productsdao.get_product_types()
     if result.get("status") == "error":
         logger.error(f"Failed to retrieve products: {result.get('reason')}")
         raise HTTPException(
@@ -40,6 +33,22 @@ def get_products(request: Request):
             detail = "Failed to retrieve products"
         )
     logger.info(f"Successfully retrieved {len(result.get('output', []))} products")
+    return result.get("output")
+
+@router.get("/modifier/{style_code}", status_code = status.HTTP_200_OK)
+def get_product_types(request: Request, style_code: str):
+    logger.info("Attempting to retrieve all products")
+    pool = request.app.state.db_pool
+    productsdao = ProductsDAO(pool)
+    #TODO add error checking for style code
+    result = productsdao.get_modifiers(style_code)
+    if result.get("status") == "error":
+        logger.error(f"Failed to retrieve product modifier: {result.get('reason')}")
+        raise HTTPException(
+            status_code= status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail = "Failed to retrieve product modifier"
+        )
+    logger.info(f"Successfully retrieved {len(result.get('output', []))} product modifier")
     return result.get("output")
 
 @router.get("/{sku}", status_code = status.HTTP_200_OK)
