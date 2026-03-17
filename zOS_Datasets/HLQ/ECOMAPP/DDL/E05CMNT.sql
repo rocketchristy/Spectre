@@ -34,9 +34,6 @@ COMMENT ON TABLE <Your HLQ>.STYLES
 COMMENT ON TABLE <Your HLQ>.PRODUCT_TYPES
     IS 'Product type defined by SERIES-STYLE-SERIAL. Base template.';
 
-COMMENT ON TABLE <Your HLQ>.PRODUCT_TYPE_MODIFIERS
-    IS 'Allowed modifier codes per product type with price deltas.';
-
 COMMENT ON TABLE <Your HLQ>.PRODUCT_VARIANTS
     IS 'Concrete SKU: SERIES-STYLE-SERIAL-MODIFIER. Sellable unit.';
 
@@ -128,13 +125,6 @@ COMMENT ON COLUMN <Your HLQ>.PRODUCT_TYPES.SERIAL_NUMBER
 
 COMMENT ON COLUMN <Your HLQ>.PRODUCT_TYPES.BASE_PRICE_CENTS
     IS 'Base price in cents. Multiplied by modifier price multiplier.';
-
--- ==============================================================
--- COLUMN COMMENTS - PRODUCT_TYPE_MODIFIERS
--- ==============================================================
-
-COMMENT ON COLUMN <Your HLQ>.PRODUCT_TYPE_MODIFIERS.MODIFIER_CODE
-    IS '3-char code. Examples: NMF=NearMintFoil, LPR=LPRegular.';
 
 -- ==============================================================
 -- COLUMN COMMENTS - PRODUCT_VARIANTS

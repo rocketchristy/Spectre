@@ -8,14 +8,13 @@
 //* ================================================================
 //* JOB   : ECOMINIT
 //* PURPOSE: Initialize ECOMDB01 with complete product catalog
-//*          Executes E07INIT1 through E07INIT5 in sequence
+//*          Executes E07INIT1, E07INIT2, E07INIT3
 //*
 //*  EXECUTION:
-//*    INIT1 - Series, Styles, Modifiers, Product Types (172 rows)
-//*    INIT2 - Product Type Modifiers Part 1 (1,200 variants)
-//*    INIT3 - Product Type Modifiers Part 2 (1,200 variants)
-//*    INIT4 - Product Type Modifiers Part 3 (1,200 variants)
-//*    INIT5 - Product Type Modifiers Part 4 + All Variants (1,224)
+//*    INIT1 - Users, Series, Styles, Modifiers, Product Types
+//*    INIT2 - Product Variants Part 1: Cards 1-40 (2,400 variants)
+//*    INIT3 - Product Variants Part 2: Cards 41-80 + Mystery (2,424 variants)
+//*    Total: 5 users + 4,824 product variants
 //*
 //*  RETURN CODE BEHAVIOR:
 //*    RC=0  : Complete success, all data loaded
@@ -32,7 +31,7 @@
 //* ================================================================
 //*
 //********************************************************************
-//* STEP 1 - LOAD REFERENCE DATA (INIT1)
+//* STEP 1 - LOAD REFERENCE DATA + USERS (INIT1)
 //********************************************************************
 //INIT1    EXEC PGM=IKJEFT01,DYNAMNBR=20
 //SYSTSPRT DD  SYSOUT=*
@@ -71,33 +70,5 @@
   RUN PROGRAM(DSNTEP3) PLAN(DSNTEP3)
 /*
 //SYSIN    DD  DISP=SHR,DSN=<Your HLQ>.ECOMAPP.DDL(E07INIT3)
-//*
-//********************************************************************
-//* STEP 4 - LOAD PRODUCT VARIANTS PART 3 (INIT4)
-//********************************************************************
-//INIT4    EXEC PGM=IKJEFT01,DYNAMNBR=20,
-//             COND=(12,LT,INIT3)
-//SYSTSPRT DD  SYSOUT=*
-//SYSPRINT DD  SYSOUT=*
-//SYSUDUMP DD  SYSOUT=*
-//SYSTSIN  DD  *
-  DSN SYSTEM(<Your SSID>)
-  RUN PROGRAM(DSNTEP3) PLAN(DSNTEP3)
-/*
-//SYSIN    DD  DISP=SHR,DSN=<Your HLQ>.ECOMAPP.DDL(E07INIT4)
-//*
-//********************************************************************
-//* STEP 5 - LOAD PRODUCT VARIANTS PART 4 (INIT5)
-//********************************************************************
-//INIT5    EXEC PGM=IKJEFT01,DYNAMNBR=20,
-//             COND=(12,LT,INIT4)
-//SYSTSPRT DD  SYSOUT=*
-//SYSPRINT DD  SYSOUT=*
-//SYSUDUMP DD  SYSOUT=*
-//SYSTSIN  DD  *
-  DSN SYSTEM(<Your SSID>)
-  RUN PROGRAM(DSNTEP3) PLAN(DSNTEP3)
-/*
-//SYSIN    DD  DISP=SHR,DSN=<Your HLQ>.ECOMAPP.DDL(E07INIT5)
 //*
 

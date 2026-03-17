@@ -43,8 +43,8 @@ ECOMAPP is a Db2 13 for z/OS database implementation for the NextGen America tra
 
 **Database Components:**
 - **Database:** ECOMDB01
-- **Tablespaces:** 16 tablespaces (one per table for maximum flexibility)
-- **Tables:** USERS, TOKENS, SERIES, STYLES, STYLE_MODIFIERS, PRODUCT_TYPES, PRODUCT_TYPE_MODIFIERS, PRODUCT_VARIANTS, VARIANT_IMAGES, INVENTORY, CARTS, CART_ITEMS, ADDRESSES, ORDERS, ORDER_ADDRESSES, ORDER_ITEMS
+- **Tablespaces:** 15 tablespaces (one per table for maximum flexibility)
+- **Tables:** USERS, TOKENS, SERIES, STYLES, STYLE_MODIFIERS, PRODUCT_TYPES, PRODUCT_VARIANTS, VARIANT_IMAGES, INVENTORY, CARTS, CART_ITEMS, ADDRESSES, ORDERS, ORDER_ADDRESSES, ORDER_ITEMS (15 tables)
 - **Indexes:** Primary key indexes + business key indexes
 - **Sample Data:** 4,824 product variants with complete metadata
 
@@ -85,15 +85,13 @@ zOS_Datasets/
         ├── ECOMALOC.jcl          (Allocate PDS libraries - run first!)
         ├── DDL/                   (SQL Data Definition Language scripts)
         │   ├── E01STGDB.sql      (Create ECOMDB01 database)
-        │   ├── E02TBSPC.sql      (Create 16 tablespaces)
+        │   ├── E02TBSPC.sql      (Create 15 tablespaces)
         │   ├── E03TABLE.sql      (Create all tables with PKs/FKs)
         │   ├── E04INDEX.sql      (Create performance indexes)
         │   ├── E05CMNT.sql       (Add catalog comments)
         │   ├── E06GRANT.sql      (Grant privileges)
         │   ├── E07INIT1.sql      (Load reference data + initial users)
-        │   ├── E07INIT2.sql      (Load Product-Modifier links part 1)
         │   ├── E07INIT3.sql      (Load Product Variants part 1)
-        │   ├── E07INIT4.sql      (Load Product-Modifier links part 2)
         │   ├── E07INIT5.sql      (Load Product Variants part 2 + Mystery products)
         │   └── E08INVEN.sql      (Load mystery product inventory for seller)
         └── JCL/                   (Job Control Language jobs)
@@ -109,11 +107,18 @@ zOS_Datasets/
 **Note:** This directory structure mirrors the z/OS dataset hierarchy. Files must be uploaded to the mainframe as PDS members. ECOMALOC.jcl is located at the `HLQ/ECOMAPP/` level (not under `JCL/`) because it is the bootstrap job that creates the JCL and DDL datasets.
 
 **Data Initialization Files:**
-The product catalog is split across five E07INIT files to comply with mainframe 72-character line length limits:
+The product catalog is simplified into three E07INIT files to comply with mainframe 72-character line length limits:
 - **E07INIT1:** Reference tables (1 series, 4 styles, 63 modifiers, 104 product types) + 5 initial users
-- **E07INIT2-3:** Card product-modifier links (80 cards × 60 modifiers = 4,800 combinations)
-- **E07INIT4-5:** Product variants (4,800 card variants + 24 mystery product variants = 4,824 total)
+- **E07INIT3:** Product variants part 1 (2,412 variants)
+- **E07INIT5:** Product variants part 2 + mystery products (2,412 variants)
 - **E08INVEN:** Inventory data (24 mystery product inventory items, 767 total units, seller: Christy D)
+
+**Schema Simplification (March 2026):**
+E07INIT2 and E07INIT4 were removed to eliminate the redundant PRODUCT_TYPE_MODIFIERS table. This simplification:
+- Reduces files from 5 to 3 (~1.3 MB savings)
+- Removes 1 unnecessary table and tablespace
+- Simplifies foreign key relationships
+- Maintains all 4,824 product variants
 
 **Initial Users:**
 E07INIT1 creates five starter accounts for testing:
@@ -278,10 +283,9 @@ Upload all SQL DDL files to the `<Your HLQ>.ECOMAPP.DDL` library.
 - E05CMNT (from HLQ/ECOMAPP/DDL/E05CMNT.sql)
 - E06GRANT (from HLQ/ECOMAPP/DDL/E06GRANT.sql)
 - E07INIT1 (from HLQ/ECOMAPP/DDL/E07INIT1.sql)
-- E07INIT2 (from HLQ/ECOMAPP/DDL/E07INIT2.sql)
 - E07INIT3 (from HLQ/ECOMAPP/DDL/E07INIT3.sql)
-- E07INIT4 (from HLQ/ECOMAPP/DDL/E07INIT4.sql)
 - E07INIT5 (from HLQ/ECOMAPP/DDL/E07INIT5.sql)
+- E08INVEN (from HLQ/ECOMAPP/DDL/E08INVEN.sql)
 
 **Method B: Zowe CLI**
 ```bash
@@ -293,9 +297,7 @@ zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E04INDEX.sql" "<Your HLQ>.EC
 zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E05CMNT.sql" "<Your HLQ>.ECOMAPP.DDL(E05CMNT)"
 zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E06GRANT.sql" "<Your HLQ>.ECOMAPP.DDL(E06GRANT)"
 zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E07INIT1.sql" "<Your HLQ>.ECOMAPP.DDL(E07INIT1)"
-zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E07INIT2.sql" "<Your HLQ>.ECOMAPP.DDL(E07INIT2)"
 zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E07INIT3.sql" "<Your HLQ>.ECOMAPP.DDL(E07INIT3)"
-zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E07INIT4.sql" "<Your HLQ>.ECOMAPP.DDL(E07INIT4)"
 zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E07INIT5.sql" "<Your HLQ>.ECOMAPP.DDL(E07INIT5)"
 zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E08INVEN.sql" "<Your HLQ>.ECOMAPP.DDL(E08INVEN)"
 ```
@@ -305,7 +307,7 @@ zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/E08INVEN.sql" "<Your HLQ>.EC
 # Upload all DDL files at once
 $hlq = "<Your HLQ>"  # Change to your HLQ
 $ddlFiles = @("E01STGDB", "E02TBSPC", "E03TABLE", "E04INDEX", "E05CMNT", "E06GRANT", 
-              "E07INIT1", "E07INIT2", "E07INIT3", "E07INIT4", "E07INIT5", "E08INVEN")
+              "E07INIT1", "E07INIT3", "E07INIT5", "E08INVEN")
 
 foreach ($file in $ddlFiles) {
     zowe files upload file-to-data-set "HLQ/ECOMAPP/DDL/$file.sql" "$hlq.ECOMAPP.DDL($file)"
@@ -384,7 +386,7 @@ zowe jobs submit data-set "<Your HLQ>.ECOMAPP.JCL(ECOMDDL)"
 This job executes the complete DDL pipeline in dependency order:
 
 1. **STGDB Step** - Creates ECOMDB01 database (E01STGDB)
-2. **TBSPC Step** - Creates 16 tablespaces (E02TBSPC)
+2. **TBSPC Step** - Creates 15 tablespaces (E02TBSPC)
 3. **TABLES Step** - Creates all tables with PKs, FKs, constraints (E03TABLE)
 4. **INDEXES Step** - Creates performance indexes (E04INDEX)
 5. **COMMENTS Step** - Adds catalog comments (E05CMNT)
@@ -411,18 +413,17 @@ Option ==> 2 (SPUFI)
 Enter SQL:
 SELECT * FROM SYSIBM.SYSTABLES WHERE CREATOR = '<Your HLQ>';
 
-You should see 16 tables:
+You should see 15 tables:
 USERS, TOKENS, SERIES, STYLES, STYLE_MODIFIERS, PRODUCT_TYPES,
-PRODUCT_TYPE_MODIFIERS, PRODUCT_VARIANTS, VARIANT_IMAGES,
-INVENTORY, CARTS, CART_ITEMS, ADDRESSES, ORDERS,
-ORDER_ADDRESSES, ORDER_ITEMS
+PRODUCT_VARIANTS, VARIANT_IMAGES, INVENTORY, CARTS, CART_ITEMS,
+ADDRESSES, ORDERS, ORDER_ADDRESSES, ORDER_ITEMS
 ```
 
 **Method B: Db2 Command**
 ```
 -DIS DATABASE(ECOMDB01) SPACENAM(*)
 
-Should show all 16 tablespaces in RW (read-write) status
+Should show all 15 tablespaces in RW (read-write) status
 ```
 
 ---
@@ -443,7 +444,7 @@ zowe jobs submit data-set "<Your HLQ>.ECOMAPP.JCL(ECOMINIT)"
 ```
 
 **What ECOMINIT Does:**
-Executes E07INIT1 through E07INIT5 in sequence to populate the product catalog:
+Executes E07INIT1, E07INIT3, and E07INIT5 in sequence to populate the product catalog:
 
 1. **INIT1 Step** - Loads reference data (E07INIT1):
    - 1 Series (NextGen America)
@@ -451,17 +452,11 @@ Executes E07INIT1 through E07INIT5 in sequence to populate the product catalog:
    - 63 Style Modifiers (language, foil, condition combinations + NIB)
    - 104 Product Types (80 cards + 24 mystery products)
 
-2. **INIT2 Step** - Links cards to modifiers part 1 (E07INIT2):
-   - ~2,400 PRODUCT_TYPE_MODIFIERS rows
+2. **INIT3 Step** - Creates product variants part 1 (E07INIT3):
+   - ~2,400 PRODUCT_VARIANTS rows (first 80 cards × 30 modifiers)
 
-3. **INIT3 Step** - Creates product variants part 1 (E07INIT3):
-   - ~2,400 PRODUCT_VARIANTS rows
-
-4. **INIT4 Step** - Links cards to modifiers part 2 (E07INIT4):
-   - ~2,400 PRODUCT_TYPE_MODIFIERS rows
-
-5. **INIT5 Step** - Creates product variants part 2 + mystery products (E07INIT5):
-   - ~2,424 PRODUCT_VARIANTS rows (includes 24 mystery product variants)
+3. **INIT5 Step** - Creates product variants part 2 + mystery products (E07INIT5):
+   - ~2,424 PRODUCT_VARIANTS rows (remaining cards + 24 mystery variants)
 
 **Expected Return Codes:**
 - **RC=0**: Complete success - all 4,824 product variants loaded
@@ -482,7 +477,6 @@ SELECT
     (SELECT COUNT(*) FROM <Your HLQ>.STYLES) AS STYLES_COUNT,
     (SELECT COUNT(*) FROM <Your HLQ>.STYLE_MODIFIERS) AS MODIFIERS_COUNT,
     (SELECT COUNT(*) FROM <Your HLQ>.PRODUCT_TYPES) AS PRODUCT_TYPES_COUNT,
-    (SELECT COUNT(*) FROM <Your HLQ>.PRODUCT_TYPE_MODIFIERS) AS PTM_COUNT,
     (SELECT COUNT(*) FROM <Your HLQ>.PRODUCT_VARIANTS) AS VARIANTS_COUNT
 FROM SYSIBM.SYSDUMMY1;
 
@@ -491,7 +485,6 @@ SERIES: 1
 STYLES: 4  
 MODIFIERS: 63
 PRODUCT_TYPES: 104
-PTM: 4,800
 VARIANTS: 4,824
 ```
 
@@ -513,7 +506,7 @@ zowe jobs submit data-set "<Your HLQ>.ECOMAPP.JCL(ECOMRS)"
 ```
 
 **What ECOMRS Does:**
-- Runs RUNSTATS on all 16 tablespaces
+- Runs RUNSTATS on all 15 tablespaces
 - Runs RUNSTATS on all indexes (both primary key and performance indexes)
 - Updates Db2 catalog statistics for query optimization
 
@@ -1087,13 +1080,10 @@ Final Price = BASE_PRICE_CENTS × PRICE_MULTIPLIER
 **STYLE_MODIFIERS Table:**
 - `PRICE_MULTIPLIER` - Decimal multiplier applied to base price (e.g., 1.75 for reverse holofoil)
 
-**PRODUCT_TYPE_MODIFIERS Table:**
-- Links product types to applicable modifiers
-- **Note:** Does NOT contain `PRICE_DELTA_CENTS` (removed in March 2026 update)
-
 **PRODUCT_VARIANTS Table:**
 - Represents sellable SKUs
 - Price calculated dynamically from PRODUCT_TYPES.BASE_PRICE_CENTS × STYLE_MODIFIERS.PRICE_MULTIPLIER
+- Links directly to STYLE_MODIFIERS (no intermediate junction table)
 
 #### Pricing Examples
 
@@ -1152,27 +1142,37 @@ WHERE PV.SERIES_CODE = 'NA'
 4. **Performance** - Calculation happens at query time; no denormalized price columns to maintain
 5. **Accuracy** - Eliminates rounding errors from additive price deltas
 
-#### Schema Changes (March 2026)
+#### Schema Changes (2026)
 
-**Previous Model (Additive - Deprecated):**
+**Previous Model (Junction Table - Deprecated):**
 ```sql
--- Old schema (removed)
-PRODUCT_TYPE_MODIFIERS.PRICE_DELTA_CENTS INT
-Final Price = BASE_PRICE_CENTS + PRICE_DELTA_CENTS
+-- Old schema (removed in 2026)
+PRODUCT_TYPE_MODIFIERS table (junction between PRODUCT_TYPES and STYLE_MODIFIERS)
+  - Required explicit links for every product-modifier combination
+  - Originally had PRICE_DELTA_CENTS for additive pricing
+  - Later changed to use STYLE_MODIFIERS.PRICE_MULTIPLIER
+
+Final Price = BASE_PRICE_CENTS × PRICE_MULTIPLIER
 ```
 
-**Current Model (Multiplicative):**
+**Current Model (Direct Foreign Key):**
 ```sql
--- Current schema
-STYLE_MODIFIERS.PRICE_MULTIPLIER DECIMAL(5,2)
+-- Current schema (2026)
+PRODUCT_VARIANTS references STYLE_MODIFIERS directly
+  - No intermediate junction table needed
+  - Cleaner foreign key relationships
+  - Assumes all products in a style support all modifiers for that style
+
 Final Price = BASE_PRICE_CENTS × PRICE_MULTIPLIER
 ```
 
 **Why We Changed:**
-- Additive model doesn't scale (must set delta for every product-modifier combination)
-- Multiplier model is more intuitive (damaged cards are 40% of base, not "minus X cents")
-- Easier to maintain (change one multiplier vs. thousands of deltas)
-- Better reflects real-world pricing (condition affects percentage, not fixed amount)
+- PRODUCT_TYPE_MODIFIERS had identical primary key as PRODUCT_VARIANTS (1:1 relationship)
+- Every variant required exactly one modifier - junction table served no purpose
+- Simplified schema: 15 tables instead of 16
+- Faster queries: No extra join through intermediate table
+- Easier maintenance: Fewer files to manage (INIT1, INIT3, INIT5 vs original 5 files)
+- Better reflects business logic: Style determines applicable modifiers, not individual products
 
 ---
 
@@ -1196,7 +1196,6 @@ ECOMAPP uses a hierarchical SKU system: **SERIES-STYLE-SERIAL-MODIFIER**
 | **Styles** | 4 | Card Single, Mystery Single, Mystery Midi, Mystery Pack |
 | **Style Modifiers** | 63 | 60 card modifiers (5 languages × 3 foil types × 4 conditions) + NIB |
 | **Product Types** | 104 | 80 individual cards + 24 mystery products |
-| **Product-Modifier Links** | 4,824 | PRODUCT_TYPE_MODIFIERS entries |
 | **Product Variants (SKUs)** | 4,824 | Sellable items in catalog |
 
 **Card Modifiers (60 combinations):**
@@ -1210,18 +1209,23 @@ ECOMAPP uses a hierarchical SKU system: **SERIES-STYLE-SERIAL-MODIFIER**
 ### E-Commerce Support Tables
 
 The remaining tables support e-commerce operations:
-- **USERS** - Customer accounts
-- **TOKENS** - Authentication tokens
+- **USERS** - Customer and seller accounts
+- **TOKENS** - Authentication tokens (placeholder for future implementation)
 - **VARIANT_IMAGES** - Product images (URLs)
-- **INVENTORY** - Stock levels per variant
-- **CARTS** - Shopping carts (1 per user)
-- **CART_ITEMS** - Line items in carts
-- **ADDRESSES** - Customer shipping addresses
+- **INVENTORY** - Seller listings with pricing and stock levels (marketplace model)
+- **CARTS** - Shopping carts
+- **CART_ITEMS** - Line items in carts (references seller inventory listings)
+- **ADDRESSES** - Customer shipping/billing addresses
 - **ORDERS** - Completed purchases
-- **ORDER_ADDRESSES** - Shipping details for orders
-- **ORDER_ITEMS** - Line items in orders
+- **ORDER_ADDRESSES** - Shipping/billing address snapshots for orders
+- **ORDER_ITEMS** - Line items in orders with pricing snapshots
 
-These tables are defined in E03TABLE.sql but are NOT populated by ECOMINIT. They will be populated by the e-commerce application at runtime.
+**Marketplace Design:**
+- Each INVENTORY row represents a seller's listing of a product variant at their price
+- Multiple sellers can list the same variant at different prices
+- CART_ITEMS and ORDER_ITEMS reference specific INVENTORY listings (seller + variant + price)
+
+These tables are defined in E03TABLE.sql but are NOT populated by ECOMINIT (except sample INVENTORY). They will be populated by the e-commerce application at runtime.
 
 ---
 
@@ -1238,11 +1242,15 @@ INSERT INTO <Your HLQ>.PRODUCT_TYPES
 VALUES ('NA', 'C', 'NEW1', 'New Card Name', 100);
 ```
 
-2. **Update E07INIT2.sql or E07INIT4.sql** - Link to 60 modifiers (repeat for all 60 card modifiers)
+2. **Update E07INIT3.sql or E07INIT5.sql** - Create variants for applicable modifiers:
+```sql
+INSERT INTO <Your HLQ>.PRODUCT_VARIANTS
+(SERIES_CODE, STYLE_CODE, SERIAL_NUMBER, MODIFIER_CODE)
+VALUES ('NA', 'C', 'NEW1', 'ENM');
+-- Repeat for all applicable modifiers
+```
 
-3. **Update E07INIT3.sql or E07INIT5.sql** - Create variants (repeat for all 60 modifiers)
-
-4. **Re-upload and reinitialize:**
+3. **Re-upload and reinitialize:**
 ```
 Submit: ECOMDROP (if rebuilding)
 Submit: ECOMDDL
@@ -1381,7 +1389,7 @@ If you need to migrate objects to a different schema or Db2 subsystem:
    
 2. Check member names match exactly:
    E01STGDB, E02TBSPC, E03TABLE, E04INDEX, E05CMNT, E06GRANT
-   E07INIT1, E07INIT2, E07INIT3, E07INIT4, E07INIT5
+   E07INIT1, E07INIT3, E07INIT5
    
 3. Verify SET HLQ statement in ECOMDDL.jcl matches your dataset name
 ```
@@ -1445,16 +1453,11 @@ To reload catalog from scratch:
 ```sql
 -- Check current counts
 SELECT 'PRODUCT_VARIANTS' AS TABLE_NAME, COUNT(*) AS COUNT
-FROM <Your HLQ>.PRODUCT_VARIANTS
-UNION ALL
-SELECT 'PRODUCT_TYPE_MODIFIERS', COUNT(*) 
-FROM <Your HLQ>.PRODUCT_TYPE_MODIFIERS;
+FROM <Your HLQ>.PRODUCT_VARIANTS;
 
-Expected:
-PRODUCT_VARIANTS: 4,824
-PRODUCT_TYPE_MODIFIERS: 4,824
+Expected: 4,824
 
-If counts don't match:
+If count doesn't match:
 1. Submit ECOMDROP
 2. Submit ECOMDDL  
 3. Submit ECOMINIT

@@ -179,44 +179,9 @@ ALTER TABLE <Your HLQ>.PRODUCT_TYPES
         ON DELETE RESTRICT;
 
 -- ==============================================================
--- PRODUCT_TYPE_MODIFIERS - Allowed modifiers per type
--- ==============================================================
-CREATE TABLE <Your HLQ>.PRODUCT_TYPE_MODIFIERS
-  (
-    SERIES_CODE       CHAR(2)      NOT NULL,
-    STYLE_CODE        CHAR(1)      NOT NULL,
-    SERIAL_NUMBER     CHAR(4)      NOT NULL,
-    MODIFIER_CODE     CHAR(3)      NOT NULL,
-    CREATED_AT        TIMESTAMP    NOT NULL WITH DEFAULT
-  )
-  IN ECOMDB01.TSPRDMOD
-  CCSID UNICODE;
-
-CREATE UNIQUE INDEX <Your HLQ>.IXPRDMOD 
-    ON <Your HLQ>.PRODUCT_TYPE_MODIFIERS 
-    (SERIES_CODE, STYLE_CODE, SERIAL_NUMBER, MODIFIER_CODE);
-
-ALTER TABLE <Your HLQ>.PRODUCT_TYPE_MODIFIERS
-    ADD CONSTRAINT PK_PRODUCT_TYPE_MODIFIERS
-        PRIMARY KEY (SERIES_CODE, STYLE_CODE, SERIAL_NUMBER, 
-                     MODIFIER_CODE);
-
-ALTER TABLE <Your HLQ>.PRODUCT_TYPE_MODIFIERS
-    ADD CONSTRAINT FK_PRDMOD_TYPE
-        FOREIGN KEY (SERIES_CODE, STYLE_CODE, SERIAL_NUMBER) 
-        REFERENCES <Your HLQ>.PRODUCT_TYPES 
-                   (SERIES_CODE, STYLE_CODE, SERIAL_NUMBER)
-        ON DELETE CASCADE;
-
-ALTER TABLE <Your HLQ>.PRODUCT_TYPE_MODIFIERS
-    ADD CONSTRAINT FK_PRDMOD_STYLE_MODIFIER
-        FOREIGN KEY (STYLE_CODE, MODIFIER_CODE)
-        REFERENCES <Your HLQ>.STYLE_MODIFIERS 
-                   (STYLE_CODE, MODIFIER_CODE)
-        ON DELETE RESTRICT;
-
--- ==============================================================
 -- PRODUCT_VARIANTS - Concrete SKUs
+-- Directly links product types with style modifiers
+-- Note: PRODUCT_TYPE_MODIFIERS table removed (was redundant)
 -- ==============================================================
 CREATE TABLE <Your HLQ>.PRODUCT_VARIANTS
   (
@@ -251,12 +216,10 @@ ALTER TABLE <Your HLQ>.PRODUCT_VARIANTS
         ON DELETE CASCADE;
 
 ALTER TABLE <Your HLQ>.PRODUCT_VARIANTS
-    ADD CONSTRAINT FK_PRDVAR_MODIFIER
-        FOREIGN KEY (SERIES_CODE, STYLE_CODE, SERIAL_NUMBER, 
-                     MODIFIER_CODE) 
-        REFERENCES <Your HLQ>.PRODUCT_TYPE_MODIFIERS 
-                   (SERIES_CODE, STYLE_CODE, SERIAL_NUMBER, 
-                    MODIFIER_CODE)
+    ADD CONSTRAINT FK_PRDVAR_STYLE_MODIFIER
+        FOREIGN KEY (STYLE_CODE, MODIFIER_CODE)
+        REFERENCES <Your HLQ>.STYLE_MODIFIERS 
+                   (STYLE_CODE, MODIFIER_CODE)
         ON DELETE RESTRICT;
 
 -- ==============================================================

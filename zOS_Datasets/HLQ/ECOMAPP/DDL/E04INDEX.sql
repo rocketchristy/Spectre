@@ -46,15 +46,6 @@ CREATE INDEX <Your HLQ>.IX_PRDTYP_STYLE
     CLOSE NO;
 
 -- ==============================================================
--- PRODUCT_TYPE_MODIFIERS: Find modifiers by type
--- ==============================================================
-CREATE INDEX <Your HLQ>.IX_PRDMOD_TYPE
-    ON <Your HLQ>.PRODUCT_TYPE_MODIFIERS 
-    (SERIES_CODE ASC, STYLE_CODE ASC, SERIAL_NUMBER ASC)
-    BUFFERPOOL BP0
-    CLOSE NO;
-
--- ==============================================================
 -- PRODUCT_VARIANTS: Find variants by type
 -- ==============================================================
 CREATE INDEX <Your HLQ>.IX_PRDVAR_TYPE
