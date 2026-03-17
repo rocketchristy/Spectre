@@ -318,7 +318,7 @@ async function submitSell() {
               <label class="form-label">Card</label>
               <select v-model="sellForm.productSku" class="form-input">
                 <option value="">Select a card…</option>
-                <option v-for="p in productCards" :key="p.sku" :value="p.sku">{{ p.name }} (${{ p.price }})</option>
+                <option v-for="p in productCards" :key="p.sku" :value="p.sku">{{ p.name }}</option>
               </select>
             </div>
             <div class="form-group">
