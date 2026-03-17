@@ -93,11 +93,15 @@ zOS_Datasets/
         │   ├── E07INIT1.sql      (Load reference data + initial users)
         │   ├── E07INIT2.sql      (Load Product Variants part 1)
         │   ├── E07INIT3.sql      (Load Product Variants part 2 + Mystery products)
-        │   └── E08INVEN.sql      (Load mystery product inventory for seller)
+        │   ├── E08INVEN.sql      (Load mystery product inventory for seller)
+        │   ├── E09RPTO1.sql      (Report: Order history by day and user)
+        │   ├── E09RPTO2.sql      (Report: Per-item order summaries)
+        │   └── E09RPTO3.sql      (Report: Database and table statistics)
         └── JCL/                   (Job Control Language jobs)
             ├── ECOMDDL.jcl       (Execute DDL pipeline: create database)
             ├── ECOMINIT.jcl      (Execute INIT pipeline: load product catalog + users)
             ├── ECOMFILL.jcl      (Load inventory: 767 units of mystery products)
+            ├── ECOMRPTS.jcl      (Generate reports: orders, sales, statistics)
             ├── ECOMDROP.jcl      (Drop all database objects)
             ├── ECOMGRNT.jcl      (Apply grants only)
             ├── ECOMLOAD.jcl      (Reserved for future test data)
@@ -227,8 +231,9 @@ zowe files upload file-to-data-set "HLQ/ECOMAPP/ECOMALOC.jcl" \
 This job creates the two main PDS libraries for your DDL and JCL files.
 
 **What ECOMALOC Does:**
-- Creates `<Your HLQ>.ECOMAPP.DDL` (for SQL scripts)
-- Creates `<Your HLQ>.ECOMAPP.JCL` (for JCL jobs)
+- Creates `<Your HLQ>.ECOMAPP.DDL` (for SQL scripts, LRECL=80)
+- Creates `<Your HLQ>.ECOMAPP.JCL` (for JCL jobs, LRECL=80)
+- Creates `<Your HLQ>.ECOMAPP.REPORTS` (for report output, LRECL=133)
 
 **To Submit:**
 
@@ -258,6 +263,7 @@ You should see:
 <Your HLQ>.ECOMAPP.DDL
 <Your HLQ>.ECOMAPP.ECOMALOC
 <Your HLQ>.ECOMAPP.JCL
+<Your HLQ>.ECOMAPP.REPORTS
 ```
 
 ---
@@ -560,6 +566,54 @@ Time: ~2-5 minutes
 Prerequisites: Database created (ECOMDDL completed)
 Frequency: After data loads, weekly/monthly
 ```
+
+#### **Generate Reports**
+```
+Submit: ECOMRPTS
+Purpose: Generate business intelligence and database statistics reports
+Time: <2 minutes
+Prerequisites: ECOMINIT completed (requires order data for meaningful results)
+Frequency: On-demand or scheduled (weekly/monthly)
+```
+
+**What ECOMRPTS Generates:**
+
+1. **Report RPTO1: Order History by Day and User**
+   - Groups orders by calendar day and user
+   - Shows order count and total revenue (last 90 days)
+   - Breaks down orders by status (pending, confirmed, fulfilled, canceled, refunded)
+   - Output: `<Your HLQ>.ECOMAPP.REPORTS(RPTO1)`
+
+2. **Report RPTO2: Per-Item Order Summaries**
+   - Aggregates sales by SKU and seller
+   - Shows total quantity sold and total revenue (last 90 days)
+   - Includes average, min, and max unit prices
+   - Excludes canceled and refunded orders
+   - Output: `<Your HLQ>.ECOMAPP.REPORTS(RPTO2)`
+
+3. **Report RPTO3: Database and Table Statistics**
+   - Lists all tables with column counts and row counts
+   - Shows table status, page utilization, and index counts
+   - Provides database-level summary statistics
+   - Output: `<Your HLQ>.ECOMAPP.REPORTS(RPTO3)`
+
+**To View Report Output:**
+```
+TSO/ISPF Option 1 (VIEW)
+Dataset: <Your HLQ>.ECOMAPP.REPORTS
+Members: RPTO1, RPTO2, RPTO3
+```
+
+Or using Zowe CLI:
+```bash
+# View specific report
+zowe files view data-set "<Your HLQ>.ECOMAPP.REPORTS(RPTO1)"
+
+# Download all reports
+zowe files download all-members "<Your HLQ>.ECOMAPP.REPORTS" --directory ./reports
+```
+
+**Note:** Reports can be run multiple times and will overwrite previous results. For historical tracking, copy reports to dated datasets before re-running.
 
 #### **Apply Grants Only**
 ```
@@ -1216,8 +1270,8 @@ The remaining tables support e-commerce operations:
 - **CARTS** - Shopping carts
 - **CART_ITEMS** - Line items in carts (references seller inventory listings)
 - **ADDRESSES** - Customer shipping/billing addresses
-- **ORDERS** - Completed purchases
-- **ORDER_ADDRESSES** - Shipping/billing address snapshots for orders
+- **ORDERS** - Completed purchases (contains FKs to billing and shipping addresses)
+- **ORDER_ADDRESSES** - Immutable address snapshots per order (billing and shipping)
 - **ORDER_ITEMS** - Line items in orders with pricing snapshots
 
 **Marketplace Design:**

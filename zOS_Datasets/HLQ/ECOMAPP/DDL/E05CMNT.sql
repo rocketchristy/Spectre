@@ -182,6 +182,12 @@ COMMENT ON COLUMN <Your HLQ>.CART_ITEMS.UNIT_PRICE_CENTS
 COMMENT ON COLUMN <Your HLQ>.ORDERS.STATUS
     IS 'pending|confirmed|fulfilled|canceled|refunded.';
 
+COMMENT ON COLUMN <Your HLQ>.ORDERS.BILLING_ADDRESS_ID
+    IS 'FK to ORDER_ADDRESSES where TYPE=billing. Required after order.';
+
+COMMENT ON COLUMN <Your HLQ>.ORDERS.SHIPPING_ADDRESS_ID
+    IS 'FK to ORDER_ADDRESSES where TYPE=shipping. Required after order.';
+
 COMMENT ON COLUMN <Your HLQ>.ORDERS.PLACED_AT
     IS 'Timestamp order confirmed. NULL while status=pending.';
 
