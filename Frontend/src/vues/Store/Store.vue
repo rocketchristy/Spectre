@@ -2,31 +2,14 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getProducts, getInventory, addInventoryItem, getModifiers } from '@/utils/api.js'
+import { getCardImage } from '@/utils/cardImages.js'
+import { getRandomAd } from '@/utils/ads.js'
 
 const router = useRouter()
+const randomAd = getRandomAd()
 const products = ref([])
 const inventory = ref([])
 const loading = ref(true)
-
-// Dynamically import all card images
-const cardImageFiles = import.meta.glob('@/assets/Images/Cards/*.png', { eager: true })
-
-function getCardImage(description) {
-  // Check if this is a booster/mystery product
-  const lowerDesc = description.toLowerCase()
-  if (lowerDesc.includes('mystery') || lowerDesc.includes('booster')) {
-    const boosterKey = Object.keys(cardImageFiles).find(k => k.toLowerCase().endsWith('booster.png'))
-    if (boosterKey) return cardImageFiles[boosterKey].default
-  }
-  // Try to find exact match by description (strip periods for filename matching)
-  for (const [path, mod] of Object.entries(cardImageFiles)) {
-    const fileName = path.split('/').pop().replace('.png', '')
-    if (fileName === description || fileName === description.replace(/\./g, '')) return mod.default
-  }
-  // Fallback to Blank
-  const blankKey = Object.keys(cardImageFiles).find(k => k.endsWith('Blank.png'))
-  return blankKey ? cardImageFiles[blankKey].default : null
-}
 
 onMounted(async () => {
   try {
@@ -240,6 +223,7 @@ async function submitSell() {
 </script>
 
 <template>
+  <div class="page-with-ad">
   <main class="page-shell">
     <h1 class="page-title">Store</h1>
 
@@ -392,9 +376,34 @@ async function submitSell() {
       </div>
     </template>
   </main>
+  <aside v-if="randomAd" class="ad-column">
+    <img :src="randomAd" alt="Advertisement" class="ad-img" />
+  </aside>
+  </div>
 </template>
 
 <style scoped>
+.page-with-ad {
+  display: flex;
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.page-shell { flex: 1; min-width: 0; }
+.ad-column {
+  width: 160px;
+  flex-shrink: 0;
+  position: fixed;
+  right: 1.5rem;
+  top: 5rem;
+}
+.ad-img {
+  width: 100%;
+  border-radius: 8px;
+}
+@media (max-width: 900px) {
+  .ad-column { display: none; }
+}
 .product-section {
   margin-bottom: 3rem;
 }

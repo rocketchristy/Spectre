@@ -4,28 +4,11 @@ import logo from '@/assets/logo.png'
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getUser, updateUser, addAddress, deleteAddress, getUserInventory, deleteInventoryItem } from '@/utils/api.js'
+import { getCardImage } from '@/utils/cardImages.js'
 
 defineOptions({ name: 'UserProfile' })
 
 const router = useRouter()
-
-// Card images
-const cardImageFiles = import.meta.glob('@/assets/Images/Cards/*.png', { eager: true })
-
-function getCardImage(description) {
-  if (!description) return null
-  const lowerDesc = description.toLowerCase()
-  if (lowerDesc.includes('mystery') || lowerDesc.includes('booster')) {
-    const boosterKey = Object.keys(cardImageFiles).find(k => k.toLowerCase().endsWith('booster.png'))
-    if (boosterKey) return cardImageFiles[boosterKey].default
-  }
-  for (const [path, mod] of Object.entries(cardImageFiles)) {
-    const fileName = path.split('/').pop().replace('.png', '')
-    if (fileName === description || fileName === description.replace(/\./g, '')) return mod.default
-  }
-  const blankKey = Object.keys(cardImageFiles).find(k => k.endsWith('Blank.png'))
-  return blankKey ? cardImageFiles[blankKey].default : null
-}
 
 const userInfo = ref(null)
 const addresses = ref([])

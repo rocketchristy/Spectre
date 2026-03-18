@@ -2,9 +2,12 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getProducts, getInventory, addToCart } from '@/utils/api.js'
+import { getCardImage } from '@/utils/cardImages.js'
+import { getRandomAd } from '@/utils/ads.js'
 
 const route = useRoute()
 const router = useRouter()
+const randomAd = getRandomAd()
 
 const productType = computed(() => route.params.type)
 const productId   = computed(() => route.params.id)
@@ -12,23 +15,6 @@ const productId   = computed(() => route.params.id)
 const products = ref([])
 const inventory = ref([])
 const loading = ref(true)
-
-// Dynamically import all card images
-const cardImageFiles = import.meta.glob('@/assets/Images/Cards/*.png', { eager: true })
-
-function getCardImage(description) {
-  const lowerDesc = description.toLowerCase()
-  if (lowerDesc.includes('mystery') || lowerDesc.includes('booster')) {
-    const boosterKey = Object.keys(cardImageFiles).find(k => k.toLowerCase().endsWith('booster.png'))
-    if (boosterKey) return cardImageFiles[boosterKey].default
-  }
-  for (const [path, mod] of Object.entries(cardImageFiles)) {
-    const fileName = path.split('/').pop().replace('.png', '')
-    if (fileName === description || fileName === description.replace(/\./g, '')) return mod.default
-  }
-  const blankKey = Object.keys(cardImageFiles).find(k => k.endsWith('Blank.png'))
-  return blankKey ? cardImageFiles[blankKey].default : null
-}
 
 async function fetchData() {
   loading.value = true
@@ -149,6 +135,7 @@ async function handleAddToCart(listing) {
 </script>
 
 <template>
+  <div class="page-with-ad">
   <main class="page-shell product-page">
     <router-link to="/store" class="back-link">← Back to Store</router-link>
 
@@ -263,9 +250,34 @@ async function handleAddToCart(listing) {
       </div>
     </div>
   </main>
+  <aside v-if="randomAd" class="ad-column">
+    <img :src="randomAd" alt="Advertisement" class="ad-img" />
+  </aside>
+  </div>
 </template>
 
 <style scoped>
+.page-with-ad {
+  display: flex;
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.page-shell { flex: 1; min-width: 0; }
+.ad-column {
+  width: 160px;
+  flex-shrink: 0;
+  position: fixed;
+  right: 1.5rem;
+  top: 5rem;
+}
+.ad-img {
+  width: 100%;
+  border-radius: 8px;
+}
+@media (max-width: 900px) {
+  .ad-column { display: none; }
+}
 .product-page {
   max-width: 1000px;
 }
