@@ -196,3 +196,48 @@ class CartDAO:
         finally:
             self.pool.return_connection(conn)
 
+    def check_existing_cart_item(self, cart_id, inventory_id):
+        conn = self.pool.get_connection()
+        try:
+            sql =  """
+                    SELECT ID, QUANTITY FROM USER01.CART_ITEMS 
+                    WHERE CART_ID =? AND INVENTORY_ID = ?
+                    """
+            stmt = ibm_db.prepare(conn, sql)
+            ibm_db.bind_param(stmt, 1, cart_id)
+            ibm_db.bind_param(stmt, 2, inventory_id)
+            ibm_db.execute(stmt)
+            results = []
+            row = ibm_db.fetch_assoc(stmt)
+            while row:
+                results.append(row)
+                row = ibm_db.fetch_assoc(stmt)
+            return {"status": "success", "output": results}
+        except Exception as e:
+            return {"status": "error", "reason": str(e)}
+        finally:
+            self.pool.return_connection(conn)
+
+    def update_quantity(self, cart_items_id, quantity):
+        conn = self.pool.get_connection()
+        try:
+            sql = """ UPDATE USER01.CART_ITEMS
+                    SET QUANTITY = ?
+                    WHERE ID = ?  
+                    """
+            stmt = ibm_db.prepare(conn, sql)
+            ibm_db.bind_param(stmt, 1, quantity)
+            ibm_db.bind_param(stmt, 2, cart_items_id)
+            ibm_db.execute(stmt)
+            num_rows = ibm_db.num_rows(stmt)
+        
+            if num_rows == 0:
+                return {"status": "error", "reason": "Order not found"}
+            
+            ibm_db.commit(conn)
+            return {"status": "success"}
+        except Exception as e:
+            ibm_db.rollback(conn)
+            return {"status": "error", "reason": str(e)}
+        finally:
+            self.pool.return_connection(conn)
