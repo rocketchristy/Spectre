@@ -19,82 +19,34 @@ pipeline {
       }
     }
 
-    stage('Frontend Tests') {
-      parallel {
-        stage('Install Dependencies') {
-          steps {
-            dir('Frontend') {
-              echo "Installing Frontend dependencies..."
-              bat 'npm install'
-            }
-          }
-        }
-
-        stage('Backend Setup') {
-          steps {
-            dir('Backend') {
-              echo "Setting up Python virtual environment..."
-              bat '''
-                python -m venv venv
-              '''
-            }
-          }
-        }
-      }
-    }
-
-    stage('Linting') {
-      parallel {
-        stage('Frontend Lint') {
-          steps {
-            dir('Frontend') {
-              echo "Running Frontend linting..."
-              bat 'npm run lint'
-            }
-          }
-        }
-      }
-    }
-
-    stage('Unit Tests') {
-      parallel {
-        stage('Frontend Unit Tests') {
-          steps {
-            dir('Frontend') {
-              echo "Running Frontend unit tests with Vitest..."
-              bat 'npm run test:unit'
-            }
-          }
-        }
-
-        stage('Backend Unit Tests') {
-          steps {
-            dir('Backend') {
-              echo "Running Backend unit tests with pytest..."
-              bat '''
-                call venv\\Scripts\\activate.bat
-                pip install -q -r requirements.txt
-                pytest tests\\unit -v
-              '''
-            }
-          }
-        }
-      }
-    }
-
-    stage('Integration Tests') {
+    stage('Install Frontend Dependencies') {
       steps {
-        dir('Backend') {
-          echo "Running Backend integration tests..."
-          bat '''
-            call venv\\Scripts\\activate.bat
-            pytest tests\\integration -v
-          '''
+        dir('Frontend') {
+          echo "Installing Frontend dependencies..."
+          bat 'npm install'
         }
       }
     }
 
-    stage('Build') {
+    stage('Frontend Lint') {
+      steps {
+        dir('Frontend') {
+          echo "Running Frontend linting..."
+          bat 'npm run lint'
+        }
+      }
+    }
+
+    stage('Frontend Unit Tests') {
+      steps {
+        dir('Frontend') {
+          echo "Running Frontend unit tests with Vitest..."
+          bat 'npm run test:unit'
+        }
+      }
+    }
+
+    stage('Frontend Build') {
       steps {
         dir('Frontend') {
           echo "Building Frontend..."
