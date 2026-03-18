@@ -1,0 +1,95 @@
+pipeline {
+  agent any
+
+  options {
+    timeout(time: 15, unit: 'MINUTES')
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+  }
+
+  environment {
+    PYTHON_VERSION = '3.11'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Setup Python Environment') {
+      steps {
+        echo "Setting up Python virtual environment..."
+        sh '''
+          cd Backend
+          python -m venv venv || true
+          . venv/bin/activate 2>/dev/null || . venv/Scripts/activate 2>/dev/null || true
+        '''
+      }
+    }
+
+    stage('Install Dependencies') {
+      steps {
+        echo "Installing Python dependencies..."
+        sh '''
+          cd Backend
+          . venv/bin/activate 2>/dev/null || . venv/Scripts/activate 2>/dev/null || true
+          pip install -q -r requirements.txt
+        '''
+      }
+    }
+
+    stage('Unit Tests') {
+      steps {
+        echo "Running unit tests with pytest..."
+        sh '''
+          cd Backend
+          . venv/bin/activate 2>/dev/null || . venv/Scripts/activate 2>/dev/null || true
+          pytest tests/unit -v --tb=short
+        '''
+      }
+    }
+
+    stage('Integration Tests') {
+      steps {
+        echo "Running integration tests..."
+        sh '''
+          cd Backend
+          . venv/bin/activate 2>/dev/null || . venv/Scripts/activate 2>/dev/null || true
+          pytest tests/integration -v --tb=short
+        '''
+      }
+    }
+
+    stage('All Tests') {
+      steps {
+        echo "Running all tests together..."
+        sh '''
+          cd Backend
+          . venv/bin/activate 2>/dev/null || . venv/Scripts/activate 2>/dev/null || true
+          pytest tests/ -v --tb=short
+        '''
+      }
+    }
+  }
+
+  post {
+    always {
+      echo "Backend pipeline completed"
+      // Collect pytest reports if they exist
+      junit testResults: 'Backend/test-results/**/*.xml', allowEmptyResults: true
+    }
+
+    success {
+      echo "✓ All backend tests passed"
+    }
+
+    failure {
+      echo "✗ Backend pipeline failed"
+    }
+
+    cleanup {
+      cleanWs()
+    }
+  }
+}

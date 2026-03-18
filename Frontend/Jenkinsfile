@@ -1,0 +1,62 @@
+pipeline {
+  agent any
+
+  options {
+    timeout(time: 15, unit: 'MINUTES')
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Install Dependencies') {
+      steps {
+        echo "Installing dependencies..."
+        sh 'npm install'
+      }
+    }
+
+    stage('Lint') {
+      steps {
+        echo "Running ESLint and code quality checks..."
+        sh 'npm run lint'
+      }
+    }
+
+    stage('Unit Tests') {
+      steps {
+        echo "Running unit tests with Vitest..."
+        sh 'npm run test:unit'
+      }
+    }
+
+    stage('Build') {
+      steps {
+        echo "Building application..."
+        sh 'npm run build'
+      }
+    }
+  }
+
+  post {
+    always {
+      echo "Frontend pipeline completed"
+    }
+
+    success {
+      echo "✓ Frontend tests and build passed"
+    }
+
+    failure {
+      echo "✗ Frontend pipeline failed"
+    }
+
+    cleanup {
+      cleanWs()
+    }
+  }
+}
