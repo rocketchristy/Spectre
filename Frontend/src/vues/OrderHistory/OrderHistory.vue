@@ -1,14 +1,65 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { getOrders } from '@/utils/api.js'
 
-const orders = ref([
-  // Example shape:
-  // { id: 101, date: '2026-03-10', items: [ { name: 'Booster Pack', qty: 2, price: 10 } ], total: 20 }
-])
-const loading = ref(false)
+const rawOrders = ref([])
+const loading = ref(true)
+const errorMsg = ref('')
 
-// TODO: replace with real API call
-// async function fetchOrders() { ... }
+async function fetchOrders() {
+  loading.value = true
+  errorMsg.value = ''
+  try {
+    const data = await getOrders()
+    rawOrders.value = data || []
+  } catch (e) {
+    errorMsg.value = e.message
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(fetchOrders)
+
+// Group flat joined rows by ORDER_ID
+const orders = computed(() => {
+  const map = {}
+  for (const row of rawOrders.value) {
+    const id = row.ORDER_ID ?? row.ID
+    if (!map[id]) {
+      map[id] = {
+        ID: id,
+        CREATED_AT: row.CREATED_AT,
+        STATUS: row.STATUS,
+        items: []
+      }
+    }
+    if (row.PRODUCT_NAME) {
+      map[id].items.push({
+        PRODUCT_NAME: row.PRODUCT_NAME,
+        QUANTITY: row.QUANTITY,
+        UNIT_PRICE_CENTS: row.UNIT_PRICE_CENTS,
+      })
+    }
+  }
+  return Object.values(map)
+})
+
+function formatDate(dateStr) {
+  if (!dateStr) return ''
+  const d = new Date(dateStr)
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+}
+
+function orderTotal(order) {
+  const cents = order.items.reduce((sum, i) => sum + i.UNIT_PRICE_CENTS * i.QUANTITY, 0)
+  return (cents / 100).toFixed(2)
+}
+
+function itemsSummary(order) {
+  if (!order.items.length) return '—'
+  return order.items.map(i => `${i.QUANTITY}× ${i.PRODUCT_NAME}`).join(', ')
+}
 </script>
 
 <template>
@@ -17,25 +68,38 @@ const loading = ref(false)
 
     <p v-if="loading" class="empty-state">Loading…</p>
 
-    <template v-else-if="orders.length">
-      <div class="card-list">
-        <details v-for="order in orders" :key="order.id" class="list-row list-row--expandable">
-          <summary class="list-row__summary">
-            <span><strong>Order #{{ order.id }}</strong></span>
-            <span class="text-muted">{{ order.date }}</span>
-            <span class="list-row__price">${{ order.total.toFixed(2) }}</span>
-          </summary>
+    <p v-if="errorMsg" class="empty-state" style="color: #f44336;">{{ errorMsg }}</p>
 
-          <ul class="order-items">
-            <li v-for="(item, idx) in order.items" :key="idx">
-              {{ item.qty }}× {{ item.name }} — ${{ (item.qty * item.price).toFixed(2) }}
-            </li>
-          </ul>
-        </details>
+    <template v-else-if="orders.length">
+      <div class="orders-table-wrapper">
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>Date / Time</th>
+              <th>Items Purchased</th>
+              <th>Cost</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="order in orders" :key="order.ID">
+              <td class="col-order">{{ order.ID }}</td>
+              <td class="col-date">{{ formatDate(order.CREATED_AT) }}</td>
+              <td class="col-items">{{ itemsSummary(order) }}</td>
+              <td class="col-cost">${{ orderTotal(order) }}</td>
+              <td class="col-status">
+                <span class="status-badge" :class="'status-' + (order.STATUS || 'completed').toLowerCase()">
+                  {{ order.STATUS || 'Completed' }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </template>
 
-    <div v-else class="empty-state">
+    <div v-else-if="!loading" class="empty-state">
       <h2>No orders yet</h2>
       <router-link to="/store" class="action-btn">Start Shopping</router-link>
     </div>
@@ -43,27 +107,98 @@ const loading = ref(false)
 </template>
 
 <style scoped>
-.list-row--expandable {
-  cursor: pointer;
+.orders-table-wrapper {
+  overflow-x: auto;
 }
 
-.list-row__summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  list-style: none;
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
 }
 
-.list-row__summary::-webkit-details-marker {
-  display: none;
+.orders-table th,
+.orders-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border, #333);
 }
 
-.order-items {
-  margin: 0.75rem 0 0 1.25rem;
-  padding: 0;
-  list-style: disc;
+.orders-table th {
+  color: var(--color-heading, #fff);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  background: var(--color-background-soft, #1a1a2e);
+  position: sticky;
+  top: 0;
+}
+
+.orders-table tbody tr:hover {
+  background: rgba(0, 212, 255, 0.05);
+}
+
+.col-order {
+  font-weight: 600;
+  color: var(--color-primary, #00d4ff);
+  white-space: nowrap;
+}
+
+.col-date {
+  white-space: nowrap;
+  color: var(--color-text-muted, #aaa);
+}
+
+.col-items {
+  max-width: 300px;
   color: var(--color-text, #ccc);
-  font-size: 0.9rem;
+}
+
+.col-cost {
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--color-heading, #fff);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-completed {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+}
+
+.status-pending {
+  background: rgba(255, 193, 7, 0.2);
+  color: #ffc107;
+}
+
+.status-cancelled {
+  background: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+}
+
+.status-processing {
+  background: rgba(33, 150, 243, 0.2);
+  color: #2196f3;
+}
+
+@media (max-width: 768px) {
+  .orders-table th,
+  .orders-table td {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .col-items {
+    max-width: 150px;
+  }
 }
 </style>
