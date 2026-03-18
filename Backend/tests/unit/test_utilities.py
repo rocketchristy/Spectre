@@ -89,9 +89,9 @@ class TestSKUParsing:
         modifier_code = sample_sku[serial_end:]
         
         assert series_code == "PC"
-        assert style_code == "0002"
-        assert len(serial_number) <= serial_length
-        assert len(modifier_code) >= 0
+        assert style_code == "0"
+        assert serial_number == "0002"
+        assert modifier_code == "ENN"
     
     def test_sku_minimum_length(self, sample_sku):
         """Test that SKU meets minimum length"""

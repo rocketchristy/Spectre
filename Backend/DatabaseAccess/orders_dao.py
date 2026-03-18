@@ -1,7 +1,7 @@
 import os
 import configparser
 config = configparser.ConfigParser()
-config.read('Backend/DatabaseAccess/config.ini')
+config.read('DatabaseAccess/config.ini')
 clidriver_path=config['database']['clidriver_path']
 os.add_dll_directory(f"{clidriver_path}/bin")
 driver_path = f"{clidriver_path}/bin/amd64.VC12.CRT"

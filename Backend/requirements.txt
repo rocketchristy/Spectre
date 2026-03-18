@@ -2,3 +2,6 @@ ibm_db
 fastapi
 uvicorn
 pydantic[email]
+httpx
+pytest
+pytest-mock

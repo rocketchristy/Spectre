@@ -3,18 +3,21 @@ import sys
 import os
 from pathlib import Path
 
-# Add Backend directory to Python path so imports work
-backend_dir = Path(__file__).parent.parent
-sys.path.insert(0, str(backend_dir))
+# Add Spectre root directory to Python path so Backend imports work
+# This allows: from Backend.RestAPI... from Backend.Utilities...
+spectre_root = Path(__file__).parent.parent.parent  # tests -> Backend -> Spectre root
+sys.path.insert(0, str(spectre_root))
 
 # Also ensure we're in the Backend directory for config.ini access
+backend_dir = Path(__file__).parent.parent
 os.chdir(backend_dir)
 
 # Shared fixtures for all tests
 @pytest.fixture
 def sample_sku():
-    """Sample SKU for testing"""
-    return "PC0002ENN"
+
+    """Sample SKU for testing: series(2) + style(1) + serial(4) + modifier(3) = 10 chars"""
+    return "PC00002ENN"
 
 @pytest.fixture
 def sample_user_data():

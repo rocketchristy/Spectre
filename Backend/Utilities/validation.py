@@ -2,6 +2,23 @@ from pydantic import BaseModel, EmailStr, Field, field_validator
 import re
 from Backend.Utilities.utilities import sanitize_input
 
+#---------------------- VALIDATION FUNCTIONS -----------------------------------
+def validate_email(email: str) -> bool:
+    """Validate email format."""
+    try:
+        EmailStr.validate(email)
+        return True
+    except Exception:
+        return False
+
+
+def validate_password(password: str) -> bool:
+    """Validate password requirements (8-100 characters)."""
+    if not isinstance(password, str):
+        return False
+    return 8 <= len(password) <= 100
+
+
 #---------------------- LOGIN VALDATION -----------------------------------
 class LoginRequest(BaseModel):
     email: EmailStr  # Automatically validates email format

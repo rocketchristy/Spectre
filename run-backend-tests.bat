@@ -8,19 +8,18 @@ echo Backend Tests with pytest
 echo ====================================
 echo.
 
-
-REM Activate virtual environment
-call venv\Scripts\activate.bat
-
-cd Backend
+REM Get the directory where this batch file is located
+setlocal enabledelayedexpansion
+set SCRIPT_DIR=%~dp0
+cd /d "%SCRIPT_DIR%Backend"
 
 REM Install dependencies
 echo Installing dependencies...
-pip install -q -r requirements.txt
+"%SCRIPT_DIR%venv\Scripts\python.exe" -m pip install --upgrade -r requirements.txt
 
-REM Run tests
+REM Run tests using venv python
 echo.
 echo Running tests...
-pytest tests -v --tb=short
+"%SCRIPT_DIR%venv\Scripts\python.exe" -m pytest tests -v --tb=short
 
 pause
