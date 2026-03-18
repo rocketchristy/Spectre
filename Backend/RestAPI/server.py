@@ -11,7 +11,7 @@ from contextlib import asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup logic
     config = configparser.ConfigParser()
-    config.read('Backend/DatabaseAccess/config.ini')
+    config.read('DatabaseAccess/config.ini')
     username = config['database']['username']
     password = config['database']['password']
     database = config['database']['database']

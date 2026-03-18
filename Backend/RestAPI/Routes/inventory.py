@@ -10,7 +10,7 @@ import configparser
 
 # Load SKU configuration
 config = configparser.ConfigParser()
-config.read('Backend/DatabaseAccess/config.ini')
+config.read('DatabaseAccess/config.ini')
 SERIES_LENGTH = int(config['sku']['series_length'])
 STYLE_LENGTH = int(config['sku']['style_length'])
 SERIAL_LENGTH = int(config['sku']['serial_length'])
