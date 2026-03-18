@@ -25,7 +25,7 @@ pipeline {
           steps {
             dir('Frontend') {
               echo "Installing Frontend dependencies..."
-              sh 'npm install'
+              bat 'npm install'
             }
           }
         }
@@ -34,9 +34,8 @@ pipeline {
           steps {
             dir('Backend') {
               echo "Setting up Python virtual environment..."
-              sh '''
-                python -m venv venv || true
-                . venv/bin/activate 2>/dev/null || . venv/Scripts/activate 2>/dev/null || true
+              bat '''
+                python -m venv venv
               '''
             }
           }
@@ -50,7 +49,7 @@ pipeline {
           steps {
             dir('Frontend') {
               echo "Running Frontend linting..."
-              sh 'npm run lint'
+              bat 'npm run lint'
             }
           }
         }
@@ -63,7 +62,7 @@ pipeline {
           steps {
             dir('Frontend') {
               echo "Running Frontend unit tests with Vitest..."
-              sh 'npm run test:unit'
+              bat 'npm run test:unit'
             }
           }
         }
@@ -72,10 +71,10 @@ pipeline {
           steps {
             dir('Backend') {
               echo "Running Backend unit tests with pytest..."
-              sh '''
-                . venv/bin/activate 2>/dev/null || . venv/Scripts/activate 2>/dev/null || true
+              bat '''
+                call venv\\Scripts\\activate.bat
                 pip install -q -r requirements.txt
-                pytest tests/unit -v
+                pytest tests\\unit -v
               '''
             }
           }
@@ -87,9 +86,9 @@ pipeline {
       steps {
         dir('Backend') {
           echo "Running Backend integration tests..."
-          sh '''
-            . venv/bin/activate 2>/dev/null || . venv/Scripts/activate 2>/dev/null || true
-            pytest tests/integration -v
+          bat '''
+            call venv\\Scripts\\activate.bat
+            pytest tests\\integration -v
           '''
         }
       }
@@ -99,7 +98,7 @@ pipeline {
       steps {
         dir('Frontend') {
           echo "Building Frontend..."
-          sh 'npm run build'
+          bat 'npm run build'
         }
       }
     }
