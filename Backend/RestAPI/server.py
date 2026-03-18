@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from Backend.RestAPI.Routes import inventory, user, products, cart
+from Backend.RestAPI.Routes import inventory, user, products, cart, orders
 from Backend.DatabaseAccess.connection_pool import IBMDBConnectionPool
 import configparser
 from Backend.Utilities.logger import logger
@@ -63,6 +63,7 @@ app.include_router(user.router, prefix = path + "/user")
 app.include_router(inventory.router, prefix = path + "/inventory")
 app.include_router(products.router, prefix = path + "/products")
 app.include_router(cart.router, prefix = path + "/cart")
+app.include_router(orders.router, prefix = path + "/orders")
 
 @app.get("/hello_world")
 def hello_world():
