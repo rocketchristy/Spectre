@@ -39,7 +39,8 @@ class ProductsDAO:
         try:
             sql =  """
                         SELECT SM.MODIFIER_CODE, 
-                        SM.DESCRIPTION
+                        SM.DESCRIPTION,
+                        SM.PRICE_MODIFIERS
                         FROM USER01.STYLE_MODIFIERS AS SM
                         WHERE SM.IS_ACTIVE = 'Y'AND
                         SM.STYLE_CODE = ?

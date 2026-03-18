@@ -17,7 +17,10 @@ class OrdersDAO:
         conn = self.pool.get_connection()
         try:
             sql =  """
-                    SELECT * FROM USER01.ORDERS WHERE USER_ID =?
+                    SELECT * FROM USER01.ORDERS
+                     JOIN USER01.ORDER_ITEMS 
+                     ON USER01.ORDERS.ID = USER01.ORDER_ITEMS.ORDER_ID
+                     WHERE USER_ID =?
                     """
             stmt = ibm_db.prepare(conn, sql)
             ibm_db.bind_param(stmt, 1, user_id)
