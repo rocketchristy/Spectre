@@ -1,3 +1,16 @@
+"""
+================================================================================
+File: inventory.py
+Description: Inventory management API endpoints
+Author: Rocket Software NextGen Academy
+Date: 2026
+================================================================================
+This module defines FastAPI routes for inventory operations including viewing
+all inventory, managing user's inventory (add/delete), and SKU parsing. Uses
+configuration-based SKU format for flexible product identification.
+================================================================================
+"""
+
 from fastapi import APIRouter, Body
 from fastapi import APIRouter, Request, Depends, HTTPException, status
 from Backend.Utilities.logger import logger
@@ -21,6 +34,21 @@ router = APIRouter()
 
 @router.get("/", status_code= status.HTTP_200_OK)
 def get_all_inventory(request: Request):
+    """
+    Retrieve all inventory items from all sellers.
+    
+    Response:
+        200 OK: Array of inventory items with full product details
+        500 Internal Server Error: Database error
+    
+    Authentication:
+        None required (public endpoint)
+    
+    Notes:
+        Returns inventory from all users/sellers
+        Includes product details via INNER JOIN with INVENTORY table
+        Used for marketplace browsing
+    """
     pool = request.app.state.db_pool
     inventorydao = InventoryDAO(pool)
     result = inventorydao.get_inventory()
@@ -34,6 +62,24 @@ def get_all_inventory(request: Request):
 
 @router.get("/me", status_code=status.HTTP_200_OK)
 def get_user_inventory(request: Request,  token: str = Depends(get_token_header)):
+    """
+    Retrieve authenticated user's inventory items.
+    
+    Request Headers:
+        Authorization: Bearer <token>
+    
+    Response:
+        200 OK: Array of user's inventory items with product details
+        401 Unauthorized: Invalid or expired token (implied by get_token_header)
+        404 Not Found: User not found or failed to retrieve inventory
+    
+    Authentication:
+        Required - Bearer token in Authorization header
+    
+    Notes:
+        Filters inventory to only items belonging to authenticated user
+        Used for seller dashboard/inventory management
+    """
     pool = request.app.state.db_pool
     inventorydao = InventoryDAO(pool)
     userdao = UserDAO(pool)
@@ -56,6 +102,44 @@ def get_user_inventory(request: Request,  token: str = Depends(get_token_header)
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
 def add_item(request: Request, payload: InventoryItemRequest, token: str = Depends(get_token_header)):
+    """
+    Add inventory item or update quantity if item already exists.
+    
+    Request Headers:
+        Authorization: Bearer <token>
+    
+    Request Body:
+        sku (str): Product SKU (format: series+style+serial+modifier)
+        quantity (int): Quantity to add
+        unitPriceCents (int): Price per unit in cents
+        currencyCode (str): ISO currency code
+    
+    Response:
+        201 Created: {
+            "message": "Inventory item added successfully", 
+            "quantity": int
+        } or {
+            "message": "Inventory quantity updated successfully", 
+            "new_quantity": int
+        }
+        400 Bad Request: Invalid SKU format
+        401 Unauthorized: Invalid or expired token
+        404 Not Found: User not found
+        500 Internal Server Error: Database error
+    
+    Authentication:
+        Required - Bearer token in Authorization header
+    
+    Side Effects:
+        If SKU doesn't exist for user: adds new inventory record
+        If SKU already exists for user: adds quantity to existing amount
+    
+    Notes:
+        SKU parsing uses config.ini for field lengths
+        Minimum SKU length validated (series+style+serial)
+        Modifier code is optional (empty string if not provided)
+        Idempotent - calling multiple times adds quantities
+    """
     logger.info("Attempting to add inventory item")
     
     # Parse SKU
@@ -155,6 +239,32 @@ def add_item(request: Request, payload: InventoryItemRequest, token: str = Depen
 
 @router.delete("/me/{inventory_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_item(request: Request, inventory_id: int, token: str = Depends(get_token_header)):
+    """
+    Soft delete user's inventory item (set quantity to 0).
+    
+    Request Headers:
+        Authorization: Bearer <token>
+    
+    Path Parameters:
+        inventory_id (int): Inventory item's unique identifier
+    
+    Response:
+        204 No Content: Item deleted successfully (no body)
+        401 Unauthorized: Invalid or expired token
+        404 Not Found: Item not found or doesn't belong to user
+    
+    Authentication:
+        Required - Bearer token in Authorization header
+    
+    Side Effects:
+        Sets QUANTITY_AVAILABLE to 0 in INVENTORY table
+        Does NOT actually delete the record (soft delete)
+    
+    Notes:
+        Verifies inventory belongs to authenticated user
+        Soft delete preserves historical data
+        Item will not appear in marketplace listings (quantity = 0)
+    """
     logger.info(f"Attempting to delete inventory item {inventory_id}")
     pool = request.app.state.db_pool
     inventorydao = InventoryDAO(pool)

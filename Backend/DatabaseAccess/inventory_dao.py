@@ -1,19 +1,72 @@
+"""
+================================================================================
+File: inventory_dao.py
+Description: Data Access Object for inventory management operations
+Author: Rocket Software NextGen Academy
+Date: 2026
+================================================================================
+This module provides database operations for inventory management including:
+- Retrieving all available inventory
+- Managing user-specific inventory
+- Adding/updating/removing inventory items
+- Getting detailed product SKU information
+================================================================================
+"""
+
 import os
 import configparser
+
+# Load database configuration
 config = configparser.ConfigParser()
 config.read('Backend/DatabaseAccess/config.ini')
-clidriver_path=config['database']['clidriver_path']
+clidriver_path = config['database']['clidriver_path']
+
+# Set up IBM Db2 CLI driver paths
 os.add_dll_directory(f"{clidriver_path}/bin")
 clidriver_path = f"{clidriver_path}/bin/amd64.VC12.CRT"
 os.environ["PATH"] = clidriver_path + ";" + os.environ.get("PATH", "")
 
 import ibm_db
 
+
 class InventoryDAO:
+    """
+    Data Access Object for Inventory table operations.
+    
+    Handles all database interactions related to product inventory including
+    stock management, pricing, and product variant details.
+    """
+    
     def __init__(self, pool):
+        """
+        Initialize InventoryDAO with a database connection pool.
+        
+        Inputs:
+            pool (IBMDBConnectionPool): Database connection pool instance
+        
+        Outputs:
+            None
+        """
         self.pool = pool
 
     def get_inventory(self):
+        """
+        Retrieve all available inventory items with complete product details.
+        
+        Inputs:
+            None
+        
+        Outputs:
+            dict: {"status": "success", "output": list of inventory items}
+                  {"status": "error", "reason": str} on failure
+        
+        Notes:
+            Returns only products that:
+            - Have active inventory records (INNER JOIN on INVENTORY)
+            - Are marked as active (IS_ACTIVE = 'Y')
+            Includes SKU, product details, pricing, seller info, and images
+            Uses multi-table JOIN for complete product information
+        """
         conn = self.pool.get_connection()
         try:
             sql = """
@@ -56,7 +109,6 @@ class InventoryDAO:
             WHERE PV.IS_ACTIVE = 'Y'
 """
             stmt = ibm_db.prepare(conn, sql)
-            #ibm_db.bind_param(stmt, 1, email)
             ibm_db.execute(stmt)
             results = []
             row = ibm_db.fetch_assoc(stmt)
@@ -70,6 +122,20 @@ class InventoryDAO:
             self.pool.return_connection(conn)
 
     def get_user_inventory(self, user_id):
+        """
+        Retrieve all inventory items for a specific seller.
+        
+        Inputs:
+            user_id (int): Seller's user ID
+        
+        Outputs:
+            dict: {"status": "success", "output": list of seller's inventory}
+                  {"status": "error", "reason": str} on failure
+        
+        Notes:
+            Similar to get_inventory but filtered by seller ID
+            Used for seller's inventory management page
+        """
         conn = self.pool.get_connection()
         try:
             sql = """SELECT
@@ -126,7 +192,28 @@ class InventoryDAO:
             self.pool.return_connection(conn)
 
     def get_sku_details(self, seller_id, series_code, style_code, serial_number, modifier_code):
-        #TODO code to get quantity of products left
+        """
+        Retrieve detailed information for a specific SKU from a specific seller.
+        
+        Inputs:
+            seller_id (int): Seller's user ID
+            series_code (str): Product series code (e.g., 'PC')
+            style_code (str): Product style code (e.g., 'E001')
+            serial_number (int): Product serial number
+            modifier_code (str): Style modifier code (e.g., 'EHM')
+        
+        Outputs:
+            dict: {"status": "success", "output": list with SKU details}
+                  {"status": "error", "reason": str} on failure
+        
+        Notes:
+            Returns complete product information including:
+            - SKU, names, descriptions
+            - Pricing (base and unit)
+            - Inventory availability
+            - Product images
+            Used for checking if seller has specific product in stock
+        """
         conn = self.pool.get_connection()
         try:
             sql = """ 
@@ -192,6 +279,29 @@ class InventoryDAO:
             self.pool.return_connection(conn)
 
     def update_quantity(self, quantity, seller_id, series_code, style_code, serial_number, modifier_code):
+        """
+        Update the available quantity for a specific inventory item.
+        
+        Inputs:
+            quantity (int): New quantity available
+            seller_id (int): Seller's user ID
+            series_code (str): Product series code
+            style_code (str): Product style code
+            serial_number (int): Product serial number
+            modifier_code (str): Style modifier code
+        
+        Outputs:
+            dict: {"status": "success"} if quantity updated
+                  {"status": "error", "reason": "Inventory item not found"} if item doesn't exist
+                  {"status": "error", "reason": str} on other failure
+        
+        Side Effects:
+            Updates QUANTITY_AVAILABLE in INVENTORY table
+            Commits transaction on success, rolls back on failure
+        
+        Notes:
+            Used for inventory adjustments and stock updates after sales
+        """
         conn = self.pool.get_connection()
         try:
             sql = """ 
@@ -227,6 +337,31 @@ class InventoryDAO:
     def add_inventory(self, seller_id, series_code, style_code, 
                       serial_number, modifier_code, quantity_available, 
                       unit_price_cents, currency_code):
+        """
+        Add a new inventory item for a seller.
+        
+        Inputs:
+            seller_id (int): Seller's user ID
+            series_code (str): Product series code
+            style_code (str): Product style code
+            serial_number (int): Product serial number
+            modifier_code (str): Style modifier code
+            quantity_available (int): Initial quantity in stock
+            unit_price_cents (int): Price per unit in cents
+            currency_code (str): Currency code (e.g., 'USD')
+        
+        Outputs:
+            dict: {"status": "success"} on success
+                  {"status": "error", "reason": str} on failure
+        
+        Side Effects:
+            Inserts new inventory record in INVENTORY table
+            Commits transaction on success, rolls back on failure
+        
+        Notes:
+            Product variant must already exist in PRODUCT_VARIANTS table
+            Serial number should be integer (not string with leading zeros)
+        """
         conn = self.pool.get_connection()
         try:
             sql="""
@@ -254,6 +389,29 @@ class InventoryDAO:
             self.pool.return_connection(conn)
 
     def remove_inventory(self, seller_id, series_code, style_code, serial_number, modifier_code):
+        """
+        Delete an inventory item by SKU components.
+        
+        Inputs:
+            seller_id (int): Seller's user ID
+            series_code (str): Product series code
+            style_code (str): Product style code
+            serial_number (int): Product serial number
+            modifier_code (str): Style modifier code
+        
+        Outputs:
+            dict: {"status": "success"} if item deleted
+                  {"status": "error", "reason": "Inventory item not found"} if item doesn't exist
+                  {"status": "error", "reason": str} on other failure
+        
+        Side Effects:
+            Deletes inventory record from INVENTORY table
+            Commits transaction on success, rolls back on failure
+        
+        Notes:
+            Permanently removes inventory item
+            Verifies seller_id for security
+        """
         conn = self.pool.get_connection()
         try:
             sql = """
@@ -284,6 +442,27 @@ class InventoryDAO:
             self.pool.return_connection(conn)
     
     def remove_user_inventory(self, seller_id, inventory_id):
+        """
+        Mark an inventory item as out of stock (set quantity to 0).
+        
+        Inputs:
+            seller_id (int): Seller's user ID
+            inventory_id (int): Inventory item's unique identifier
+        
+        Outputs:
+            dict: {"status": "success"} if quantity set to 0
+                  {"status": "error", "reason": "Inventory item not found"} if item doesn't exist
+                  {"status": "error", "reason": str} on other failure
+        
+        Side Effects:
+            Sets QUANTITY_AVAILABLE to 0 in INVENTORY table
+            Commits transaction on success, rolls back on failure
+        
+        Notes:
+            Soft delete - keeps record but marks as unavailable
+            Verifies seller_id for security
+            Item remains in database for historical records
+        """
         conn = self.pool.get_connection()
         try:
             sql = """ 
