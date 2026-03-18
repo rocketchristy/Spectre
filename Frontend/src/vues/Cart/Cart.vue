@@ -29,23 +29,10 @@ const addressForm = ref({
 const promoBooster = ref(null)
 const addingPromo = ref(false)
 
-// Card images
-const cardImageFiles = import.meta.glob('@/assets/Images/Cards/*.png', { eager: true })
+import { getCardImage } from '@/utils/cardImages.js'
+import { getRandomAd } from '@/utils/ads.js'
 
-function getCardImage(description) {
-  if (!description) return null
-  const lowerDesc = description.toLowerCase()
-  if (lowerDesc.includes('mystery') || lowerDesc.includes('booster')) {
-    const boosterKey = Object.keys(cardImageFiles).find(k => k.toLowerCase().endsWith('booster.png'))
-    if (boosterKey) return cardImageFiles[boosterKey].default
-  }
-  for (const [path, mod] of Object.entries(cardImageFiles)) {
-    const fileName = path.split('/').pop().replace('.png', '')
-    if (fileName === description || fileName === description.replace(/\./g, '')) return mod.default
-  }
-  const blankKey = Object.keys(cardImageFiles).find(k => k.endsWith('Blank.png'))
-  return blankKey ? cardImageFiles[blankKey].default : null
-}
+const randomAd = getRandomAd()
 
 async function fetchCart() {
   loading.value = true
@@ -159,6 +146,7 @@ async function addPromoToCart() {
 </script>
 
 <template>
+  <div class="page-with-ad">
   <main class="page-shell">
     <h1 class="page-title">Your Cart</h1>
 
@@ -332,9 +320,34 @@ async function addPromoToCart() {
 
     <p v-if="errorMsg && !showAddAddress" class="modal-error" style="text-align:center;margin-top:1rem;">{{ errorMsg }}</p>
   </main>
+  <aside v-if="randomAd" class="ad-column">
+    <img :src="randomAd" alt="Advertisement" class="ad-img" />
+  </aside>
+  </div>
 </template>
 
 <style scoped>
+.page-with-ad {
+  display: flex;
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.page-shell { flex: 1; min-width: 0; }
+.ad-column {
+  width: 160px;
+  flex-shrink: 0;
+  position: fixed;
+  right: 1.5rem;
+  top: 5rem;
+}
+.ad-img {
+  width: 100%;
+  border-radius: 8px;
+}
+@media (max-width: 900px) {
+  .ad-column { display: none; }
+}
 .cart-layout {
   display: grid;
   grid-template-columns: 1fr 360px;
