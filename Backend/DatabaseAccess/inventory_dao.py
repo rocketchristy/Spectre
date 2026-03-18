@@ -282,6 +282,33 @@ class InventoryDAO:
             return {"status": "error", "reason": str(e)}
         finally:
             self.pool.return_connection(conn)
+    
+    def remove_user_inventory(self, seller_id, inventory_id):
+        conn = self.pool.get_connection()
+        try:
+            sql = """ 
+                    UPDATE USER01.INVENTORY
+                    SET QUANTITY_AVAILABLE = 0
+                    WHERE ID = ?
+                    AND SELLER_ID = ?
+                    """
+            stmt = ibm_db.prepare(conn, sql)
+            ibm_db.bind_param(stmt, 1, inventory_id)
+            ibm_db.bind_param(stmt, 2, seller_id)
+            ibm_db.execute(stmt)
+            num_rows = ibm_db.num_rows(stmt)
+        
+            if num_rows == 0:
+                return {"status": "error", "reason": "Inventory item not found"}
+            
+            ibm_db.commit(conn)
+            return {"status": "success"}
+        except Exception as e:
+            ibm_db.rollback(conn)
+            return {"status": "error", "reason": str(e)}
+        finally:
+            self.pool.return_connection(conn)
+    
 '''
     def add_inventory(self, seller_id, series_code, style_code,
                     serial_number, modifier_code,

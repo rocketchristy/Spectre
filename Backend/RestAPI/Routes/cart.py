@@ -1,11 +1,3 @@
-#TODO: /cart get all of shopping cart given token
-# delete item in cart based on id
-
-# TODO get past orders 
-
-# TODO checkout from cart 
-'''take in token --> userid --> update orderform --> update quantity of inventory --> delete cart'''
-
 from fastapi import APIRouter, Body
 from fastapi import APIRouter, Request, Depends, HTTPException, status
 from Backend.Utilities.logger import logger
@@ -91,16 +83,43 @@ def add_item(request: Request, payload: CartItemRequest, token: str = Depends(ge
     unit_price_cents = payload.unit_price_cents
     currency_code = payload.currency_code
     
-    result_1 = cartdao.add_item(cart_id, inventory_id, quantity, unit_price_cents, currency_code)
+    # check if inventory_id exists then update quantity instead
+    result_existing_cart_item = cartdao.check_existing_cart_item(cart_id, inventory_id)
     
-    if result_1.get("status") == "error":
-        logger.error(f"Failed to add item to cart: {result_1.get('reason')}")
+    # Check for error
+    if result_existing_cart_item.get("status") == "error":
+        logger.error(f"Failed to check existing cart item: {result_existing_cart_item.get('reason')}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to add item to cart"
+            detail="Failed to check existing cart item"
         )
+
+    # check if output = [] then you do the add item
+    if len(result_existing_cart_item.get('output', [])) == 0:
+        logger.info(f"Adding new item to cart {cart_id}")
+        result_1 = cartdao.add_item(cart_id, inventory_id, quantity, unit_price_cents, currency_code)
+        
+        if result_1.get("status") == "error":
+            logger.error(f"Failed to add item to cart: {result_1.get('reason')}")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to add item to cart"
+            )
+    else:
+        logger.info(f"Item already exists in cart, updating quantity")
+        original_quantity = result_existing_cart_item.get('output')[0]["QUANTITY"]
+        new_quantity = original_quantity + quantity
+        result_1 = cartdao.update_quantity(result_existing_cart_item.get('output')[0]["ID"],
+                                           new_quantity)
+        
+        if result_1.get("status") == "error":
+            logger.error(f"Failed to update cart item quantity: {result_1.get('reason')}")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to update cart item quantity"
+            )
     
-    logger.info(f"Successfully added item to cart {cart_id}")
+    logger.info(f"Successfully added/updated item in cart {cart_id}")
     return {"message": "Item added to cart successfully"}
 
 
@@ -140,7 +159,6 @@ def delete_cart_item(request: Request, cart_item_id: int, token: str = Depends(g
     
     logger.info(f"Successfully removed item {cart_item_id} from cart {cart_id}")
     return {"message": "Successfully remove item from cart"}
-
 
 class AddressRequest(BaseModel):
     billing_address_id: str

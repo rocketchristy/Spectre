@@ -152,3 +152,34 @@ def add_item(request: Request, payload: InventoryItemRequest, token: str = Depen
         
         logger.info(f"Successfully updated inventory quantity for SKU: {sku}")
         return {"message": "Inventory quantity updated successfully", "new_quantity": new_quantity}
+
+@router.delete("/me/{inventory_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_item(request: Request, inventory_id: int, token: str = Depends(get_token_header)):
+    logger.info(f"Attempting to delete inventory item {inventory_id}")
+    pool = request.app.state.db_pool
+    inventorydao = InventoryDAO(pool)
+    userdao = UserDAO(pool)
+    
+    info = userdao.get_user_id(token)
+    if info.get("status") == "error":
+        logger.error(f"Failed to retrieve user ID: {info.get('reason')}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired token"
+        )
+    
+    user_id = info.get("output")[0]["USER_ID"]
+    logger.info(f"Deleting inventory item {inventory_id} for user {user_id}")
+    
+    inventory_result = inventorydao.remove_user_inventory(user_id, inventory_id)
+    
+    if inventory_result.get("status") == "error":
+        logger.error(f"Failed to delete inventory item {inventory_id}: {inventory_result.get('reason')}")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Inventory item not found or you don't have permission to delete it"
+        )
+    
+    logger.info(f"Successfully deleted inventory item {inventory_id}")
+    return {"message": "Inventory item deleted successfully"}
+
