@@ -93,11 +93,15 @@ zOS_Datasets/
         │   ├── E07INIT1.sql      (Load reference data + initial users)
         │   ├── E07INIT2.sql      (Load Product Variants part 1)
         │   ├── E07INIT3.sql      (Load Product Variants part 2 + Mystery products)
-        │   └── E08INVEN.sql      (Load mystery product inventory for seller)
+        │   ├── E08INVEN.sql      (Load mystery product inventory for seller)
+        │   ├── E09RPTO1.sql      (Report: Order history by day and user)
+        │   ├── E09RPTO2.sql      (Report: Per-item order summaries)
+        │   └── E09RPTO3.sql      (Report: Database and table statistics)
         └── JCL/                   (Job Control Language jobs)
             ├── ECOMDDL.jcl       (Execute DDL pipeline: create database)
             ├── ECOMINIT.jcl      (Execute INIT pipeline: load product catalog + users)
             ├── ECOMFILL.jcl      (Load inventory: 767 units of mystery products)
+            ├── ECOMRPTS.jcl      (Generate reports: orders, sales, statistics)
             ├── ECOMDROP.jcl      (Drop all database objects)
             ├── ECOMGRNT.jcl      (Apply grants only)
             ├── ECOMLOAD.jcl      (Reserved for future test data)
@@ -227,8 +231,9 @@ zowe files upload file-to-data-set "HLQ/ECOMAPP/ECOMALOC.jcl" \
 This job creates the two main PDS libraries for your DDL and JCL files.
 
 **What ECOMALOC Does:**
-- Creates `<Your HLQ>.ECOMAPP.DDL` (for SQL scripts)
-- Creates `<Your HLQ>.ECOMAPP.JCL` (for JCL jobs)
+- Creates `<Your HLQ>.ECOMAPP.DDL` (for SQL scripts, LRECL=80)
+- Creates `<Your HLQ>.ECOMAPP.JCL` (for JCL jobs, LRECL=80)
+- Creates `<Your HLQ>.ECOMAPP.REPORTS` (for report output, LRECL=133)
 
 **To Submit:**
 
@@ -258,6 +263,7 @@ You should see:
 <Your HLQ>.ECOMAPP.DDL
 <Your HLQ>.ECOMAPP.ECOMALOC
 <Your HLQ>.ECOMAPP.JCL
+<Your HLQ>.ECOMAPP.REPORTS
 ```
 
 ---
@@ -560,6 +566,54 @@ Time: ~2-5 minutes
 Prerequisites: Database created (ECOMDDL completed)
 Frequency: After data loads, weekly/monthly
 ```
+
+#### **Generate Reports**
+```
+Submit: ECOMRPTS
+Purpose: Generate business intelligence and database statistics reports
+Time: <2 minutes
+Prerequisites: ECOMINIT completed (requires order data for meaningful results)
+Frequency: On-demand or scheduled (weekly/monthly)
+```
+
+**What ECOMRPTS Generates:**
+
+1. **Report RPTO1: Order History by Day and User**
+   - Groups orders by calendar day and user
+   - Shows order count and total revenue (last 90 days)
+   - Breaks down orders by status (pending, confirmed, fulfilled, canceled, refunded)
+   - Output: `<Your HLQ>.ECOMAPP.REPORTS(RPTO1)`
+
+2. **Report RPTO2: Per-Item Order Summaries**
+   - Aggregates sales by SKU and seller
+   - Shows total quantity sold and total revenue (last 90 days)
+   - Includes average, min, and max unit prices
+   - Excludes canceled and refunded orders
+   - Output: `<Your HLQ>.ECOMAPP.REPORTS(RPTO2)`
+
+3. **Report RPTO3: Database and Table Statistics**
+   - Lists all tables with column counts and row counts
+   - Shows table status, page utilization, and index counts
+   - Provides database-level summary statistics
+   - Output: `<Your HLQ>.ECOMAPP.REPORTS(RPTO3)`
+
+**To View Report Output:**
+```
+TSO/ISPF Option 1 (VIEW)
+Dataset: <Your HLQ>.ECOMAPP.REPORTS
+Members: RPTO1, RPTO2, RPTO3
+```
+
+Or using Zowe CLI:
+```bash
+# View specific report
+zowe files view data-set "<Your HLQ>.ECOMAPP.REPORTS(RPTO1)"
+
+# Download all reports
+zowe files download all-members "<Your HLQ>.ECOMAPP.REPORTS" --directory ./reports
+```
+
+**Note:** Reports can be run multiple times and will overwrite previous results. For historical tracking, copy reports to dated datasets before re-running.
 
 #### **Apply Grants Only**
 ```
@@ -884,42 +938,73 @@ ORDER BY I.UNIT_PRICE_CENTS, PV.DISPLAY_NAME;
 
 #### **Create New Order from Cart**
 ```sql
--- Step 1: Create order
+-- Step 1: Create billing address snapshot
+INSERT INTO <Your HLQ>.ORDER_ADDRESSES
+  (FULL_NAME, LINE1, LINE2, CITY, REGION, POSTAL_CODE, COUNTRY_CODE, PHONE)
+SELECT 
+    A.FULL_NAME, A.LINE1, A.LINE2, A.CITY, A.REGION, 
+    A.POSTAL_CODE, A.COUNTRY_CODE, A.PHONE
+FROM <Your HLQ>.ADDRESSES A
+WHERE A.ID = 1;  -- User's billing address ID
+
+-- Step 2: Create shipping address snapshot (can reference same address)
+INSERT INTO <Your HLQ>.ORDER_ADDRESSES
+  (FULL_NAME, LINE1, LINE2, CITY, REGION, POSTAL_CODE, COUNTRY_CODE, PHONE)
+SELECT 
+    A.FULL_NAME, A.LINE1, A.LINE2, A.CITY, A.REGION, 
+    A.POSTAL_CODE, A.COUNTRY_CODE, A.PHONE
+FROM <Your HLQ>.ADDRESSES A
+WHERE A.ID = 2;  -- User's shipping address ID
+
+-- Step 3: Create order with address references
 INSERT INTO <Your HLQ>.ORDERS
-  (USER_ID, TOTAL_CENTS, STATUS)
+  (USER_ID, TOTAL_CENTS, STATUS, BILLING_ADDRESS_ID, SHIPPING_ADDRESS_ID)
 SELECT 
     C.USER_ID,
     SUM(CI.QUANTITY * CI.UNIT_PRICE_CENTS) AS TOTAL_CENTS,
-    'PENDING'
+    'PENDING',
+    (SELECT MAX(ID) - 1 FROM <Your HLQ>.ORDER_ADDRESSES),  -- Billing address
+    (SELECT MAX(ID) FROM <Your HLQ>.ORDER_ADDRESSES)       -- Shipping address
 FROM <Your HLQ>.CARTS C
 JOIN <Your HLQ>.CART_ITEMS CI ON C.ID = CI.CART_ID
 WHERE C.USER_ID = (SELECT ID FROM <Your HLQ>.USERS WHERE EMAIL = 'ben@nxtcg.com')
-  AND C.IS_ACTIVE = 'Y'
+  AND C.STATUS = 'active'
 GROUP BY C.USER_ID;
 
--- Step 2: Copy cart items to order items
+-- Step 4: Copy cart items to order items
 INSERT INTO <Your HLQ>.ORDER_ITEMS
-  (ORDER_ID, INVENTORY_ID, QUANTITY, UNIT_PRICE_CENTS)
+  (ORDER_ID, INVENTORY_ID, SELLER_ID, SKU, PRODUCT_NAME, 
+   UNIT_PRICE_CENTS, QUANTITY, TOTAL_CENTS)
 SELECT 
     (SELECT MAX(ID) FROM <Your HLQ>.ORDERS 
      WHERE USER_ID = (SELECT ID FROM <Your HLQ>.USERS 
                       WHERE EMAIL = 'ben@nxtcg.com')),
     CI.INVENTORY_ID,
+    I.SELLER_ID,
+    CONCAT(CONCAT(CONCAT(I.SERIES_CODE, I.STYLE_CODE), I.SERIAL_NUMBER), I.MODIFIER_CODE),
+    PV.DISPLAY_NAME,
+    CI.UNIT_PRICE_CENTS,
     CI.QUANTITY,
-    CI.UNIT_PRICE_CENTS
+    CI.QUANTITY * CI.UNIT_PRICE_CENTS
 FROM <Your HLQ>.CART_ITEMS CI
+JOIN <Your HLQ>.INVENTORY I ON CI.INVENTORY_ID = I.ID
+JOIN <Your HLQ>.PRODUCT_VARIANTS PV
+  ON I.SERIES_CODE = PV.SERIES_CODE
+ AND I.STYLE_CODE = PV.STYLE_CODE
+ AND I.SERIAL_NUMBER = PV.SERIAL_NUMBER
+ AND I.MODIFIER_CODE = PV.MODIFIER_CODE
 WHERE CI.CART_ID = (SELECT ID FROM <Your HLQ>.CARTS 
                     WHERE USER_ID = (SELECT ID FROM <Your HLQ>.USERS 
                                      WHERE EMAIL = 'ben@nxtcg.com')
-                      AND IS_ACTIVE = 'Y'
+                      AND STATUS = 'active'
                     FETCH FIRST 1 ROW ONLY);
 
--- Step 3: Deactivate cart
+-- Step 5: Mark cart as converted
 UPDATE <Your HLQ>.CARTS
-SET IS_ACTIVE = 'N',
+SET STATUS = 'converted',
     UPDATED_AT = CURRENT TIMESTAMP
 WHERE USER_ID = (SELECT ID FROM <Your HLQ>.USERS WHERE EMAIL = 'ben@nxtcg.com')
-  AND IS_ACTIVE = 'Y';
+  AND STATUS = 'active';
 ```
 
 #### **View Order History for User**
@@ -946,24 +1031,48 @@ SELECT
     O.ID AS ORDER_ID,
     O.STATUS,
     U.EMAIL AS CUSTOMER_EMAIL,
-    PV.DISPLAY_NAME AS PRODUCT,
+    OI.PRODUCT_NAME AS PRODUCT,
+    OI.SKU,
     OI.QUANTITY,
     OI.UNIT_PRICE_CENTS,
     CAST(OI.UNIT_PRICE_CENTS / 100.00 AS DECIMAL(10,2)) AS UNIT_PRICE_USD,
-    OI.QUANTITY * OI.UNIT_PRICE_CENTS AS LINE_TOTAL_CENTS,
-    CAST((OI.QUANTITY * OI.UNIT_PRICE_CENTS) / 100.00 
-         AS DECIMAL(10,2)) AS LINE_TOTAL_USD
+    OI.TOTAL_CENTS AS LINE_TOTAL_CENTS,
+    CAST(OI.TOTAL_CENTS / 100.00 AS DECIMAL(10,2)) AS LINE_TOTAL_USD,
+    SELLER.EMAIL AS SELLER_EMAIL
 FROM <Your HLQ>.ORDERS O
 JOIN <Your HLQ>.USERS U ON O.USER_ID = U.ID
 JOIN <Your HLQ>.ORDER_ITEMS OI ON O.ID = OI.ORDER_ID
-JOIN <Your HLQ>.INVENTORY I ON OI.INVENTORY_ID = I.ID
-JOIN <Your HLQ>.PRODUCT_VARIANTS PV
-  ON I.SERIES_CODE = PV.SERIES_CODE
- AND I.STYLE_CODE = PV.STYLE_CODE
- AND I.SERIAL_NUMBER = PV.SERIAL_NUMBER
- AND I.MODIFIER_CODE = PV.MODIFIER_CODE
+JOIN <Your HLQ>.USERS SELLER ON OI.SELLER_ID = SELLER.ID
 WHERE O.ID = 1
 ORDER BY OI.ID;
+```
+
+#### **View Order with Addresses**
+```sql
+SELECT 
+    O.ID AS ORDER_ID,
+    O.STATUS,
+    O.TOTAL_CENTS,
+    CAST(O.TOTAL_CENTS / 100.00 AS DECIMAL(10,2)) AS TOTAL_USD,
+    U.EMAIL AS CUSTOMER_EMAIL,
+    -- Billing Address
+    BA.FULL_NAME AS BILL_NAME,
+    BA.LINE1 AS BILL_LINE1,
+    BA.CITY AS BILL_CITY,
+    BA.REGION AS BILL_REGION,
+    BA.POSTAL_CODE AS BILL_ZIP,
+    -- Shipping Address
+    SA.FULL_NAME AS SHIP_NAME,
+    SA.LINE1 AS SHIP_LINE1,
+    SA.CITY AS SHIP_CITY,
+    SA.REGION AS SHIP_REGION,
+    SA.POSTAL_CODE AS SHIP_ZIP,
+    O.CREATED_AT AS ORDER_DATE
+FROM <Your HLQ>.ORDERS O
+JOIN <Your HLQ>.USERS U ON O.USER_ID = U.ID
+LEFT JOIN <Your HLQ>.ORDER_ADDRESSES BA ON O.BILLING_ADDRESS_ID = BA.ID
+LEFT JOIN <Your HLQ>.ORDER_ADDRESSES SA ON O.SHIPPING_ADDRESS_ID = SA.ID
+WHERE O.ID = 1;
 ```
 
 #### **Update Order Status**
@@ -1216,14 +1325,20 @@ The remaining tables support e-commerce operations:
 - **CARTS** - Shopping carts
 - **CART_ITEMS** - Line items in carts (references seller inventory listings)
 - **ADDRESSES** - Customer shipping/billing addresses
-- **ORDERS** - Completed purchases
-- **ORDER_ADDRESSES** - Shipping/billing address snapshots for orders
+- **ORDERS** - Completed purchases (contains FKs to billing and shipping addresses)
+- **ORDER_ADDRESSES** - Immutable address snapshots (reusable across orders)
 - **ORDER_ITEMS** - Line items in orders with pricing snapshots
 
 **Marketplace Design:**
 - Each INVENTORY row represents a seller's listing of a product variant at their price
 - Multiple sellers can list the same variant at different prices
 - CART_ITEMS and ORDER_ITEMS reference specific INVENTORY listings (seller + variant + price)
+
+**Order Address Design:**
+- ORDER_ADDRESSES stores immutable address snapshots
+- ORDERS references two ORDER_ADDRESSES records (BILLING_ADDRESS_ID and SHIPPING_ADDRESS_ID)
+- Same address snapshot can be reused across multiple orders if unchanged
+- Address snapshots prevent data loss if customer updates their ADDRESSES after order placement
 
 These tables are defined in E03TABLE.sql but are NOT populated by ECOMINIT (except sample INVENTORY). They will be populated by the e-commerce application at runtime.
 

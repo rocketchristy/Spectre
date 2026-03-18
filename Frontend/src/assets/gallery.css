@@ -1,5 +1,5 @@
 /* Gallery Styles */
-
+@import './modal.css';
 .gallery-shell {
   padding: 2rem;
   max-width: 1400px;
@@ -46,25 +46,22 @@
 }
 
 .carousel-container {
-  min-height: 300px;
+  min-height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  background: var(--color-background-soft, #1a1a2e);
+  background: #ffffff;
   border: 1px solid var(--color-border, #333);
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 1rem;
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .carousel-display {
   flex: 1;
-  max-width: 400px;
-  min-width: 250px;
+  max-width: 600px;
+  min-width: 300px;
 }
 
 .carousel-card {
@@ -83,22 +80,11 @@
 }
 
 .carousel-image {
-  font-size: 6rem;
+  width: 100%;
+  height: 380px;
+  object-fit: contain;
   margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 200px;
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  display: block;
 }
 
 .carousel-title {
@@ -120,10 +106,10 @@
   background: var(--color-primary, #00d4ff);
   color: #000;
   border: none;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -143,239 +129,97 @@
   transform: scale(0.95);
 }
 
-/* Carousel indicators */
-.carousel-indicators {
-  display: flex;
-  justify-content: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  max-height: 100px;
-  overflow-y: auto;
-  padding: 0 1rem;
+/* ========== Static Card Grid ========== */
+.card-grid-section {
+  margin-bottom: 3rem;
 }
 
-.indicator {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--color-border, #333);
-  border: 2px solid transparent;
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1.25rem;
+}
+
+.grid-card {
+  background: var(--color-background-soft, #1a1a2e);
+  border: 1px solid var(--color-border, #333);
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.indicator:hover {
-  background: var(--color-primary, #00d4ff);
-  transform: scale(1.2);
+.grid-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.25);
+  border-color: var(--color-primary, #00d4ff);
 }
 
-.indicator.active {
-  background: var(--color-primary, #00d4ff);
-  border-color: var(--color-heading, #fff);
-  width: 14px;
-  height: 14px;
+.grid-card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
 }
 
-/* ========== Cards Grids ========== */
+.grid-card-name {
+  font-size: 0.85rem;
+  color: var(--color-text, #ccc);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ========== Card Modal ========== */
+.card-modal {
+  position: relative;
+  background: linear-gradient(135deg, #2a2a4e 0%, #1a1a3e 100%);
+  border: 2px solid var(--color-primary, #00d4ff);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 16px 64px rgba(0, 212, 255, 0.3);
+}
+
+.card-modal .modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.modal-card-img {
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.modal-card-name {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
+}
+
+/* ========== Section Headings ========== */
 .section-heading {
   margin-bottom: 1.5rem;
-  color: var(--vt-c-text);
+  color: #ffffff;
   border-bottom: 2px solid var(--color-border, #333);
   padding-bottom: 0.5rem;
   font-size: 1.5rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-}
-
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-/* ========== Marketplace Cards ========== */
-.marketplace-section {
-  margin-bottom: 3rem;
-}
-
-.marketplace-card {
-  background: var(--color-background-soft, #1a1a2e);
-  border: 1px solid var(--color-border, #333);
-  border-radius: 8px;
-  overflow: hidden;
-  text-decoration: none;
-  color: var(--color-background, #ffffff);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.marketplace-card:hover {
-  border-color: var(--color-primary, #00d4ff);
-  box-shadow: 0 8px 24px rgba(0, 212, 255, 0.2);
-  transform: translateY(-4px);
-}
-
-.card-image {
-  font-size: 4rem;
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #2a2a4e 0%, #1a1a3e 100%);
-  border-bottom: 1px solid var(--color-border, #333);
-}
-
-.card-info {
-  padding: 1rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-name {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-heading, #fff);
-  margin: 0 0 0.5rem 0;
-  line-height: 1.3;
-}
-
-.card-rarity {
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin: 0 0 0.5rem 0;
-}
-
-.rarity-common {
-  color: #888;
-}
-
-.rarity-uncommon {
-  color: #00d4ff;
-}
-
-.rarity-rare {
-  color: #ffaa00;
-}
-
-.rarity-super-rare {
-  color: #ff0055;
-}
-
-
-.card-condition {
-  font-size: 0.9rem;
-  color: var(--color-text, #ccc);
-  margin: 0 0 0.25rem 0;
-}
-
-.card-foil {
-  font-size: 0.85rem;
-  color: var(--color-primary, #00d4ff);
-  font-style: italic;
-  margin: 0 0 0.5rem 0;
-}
-
-.card-price {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--color-primary, #00d4ff);
-  margin: auto 0 0 0;
-}
-
-/* ========== User Cards Section ========== */
-.user-cards-section {
-  background: var(--color-background-soft, #1a1a2e);
-  border: 1px solid var(--color-border, #333);
-  border-radius: 8px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-}
-
-.user-card {
-  position: relative;
-  background: var(--color-background, #0f0f1e);
-  border: 1px solid var(--color-border, #333);
-  border-radius: 8px;
-  overflow: hidden;
-  text-decoration: none;
-  color: var(--color-background, #ffffff);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.user-card:hover {
-  border-color: var(--color-primary, #00d4ff);
-  box-shadow: 0 8px 24px rgba(0, 212, 255, 0.2);
-  transform: translateY(-4px);
-}
-
-.user-card:hover .edit-btn {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.edit-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: var(--color-primary, #00d4ff);
-  color: #000;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
-}
-
-.edit-btn:hover {
-  background: #00a8cc;
-  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
-}
-
-/* ========== No Cards State ========== */
-.no-cards {
-  text-align: center;
-  padding: 3rem;
-  color: var(--color-text, #ccc);
-}
-
-.no-cards p {
-  font-size: 1.1rem;
-  margin: 0 0 1.5rem 0;
-  color: var(--color-text, #ccc);
-}
-
-.btn-link {
-  display: inline-block;
-  background: var(--color-primary, #00d4ff);
-  color: #000;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
-}
-
-.btn-link:hover {
-  background: #00a8cc;
-  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
-  transform: translateY(-2px);
 }
 
 /* ========== Responsive Design ========== */
@@ -400,44 +244,26 @@
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
+    min-height: 350px;
   }
 
   .carousel-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 1.5rem;
+    width: 44px;
+    height: 44px;
+    font-size: 1.8rem;
   }
 
   .carousel-image {
-    font-size: 4rem;
-    height: 150px;
+    height: 250px;
   }
 
-  .cards-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 1rem;
+  .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.75rem;
   }
 
-  .card-image {
-    font-size: 3rem;
+  .grid-card-img {
     height: 120px;
-  }
-
-  .card-name {
-    font-size: 0.9rem;
-  }
-
-  .card-price {
-    font-size: 1rem;
-  }
-
-  .user-cards-section {
-    padding: 1.5rem;
-  }
-
-  .edit-btn {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.75rem;
   }
 }
 
@@ -455,18 +281,7 @@
   }
 
   .carousel-image {
-    font-size: 3rem;
-    height: 120px;
-  }
-
-  .cards-grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 0.75rem;
-  }
-
-  .card-image {
-    font-size: 2rem;
-    height: 100px;
+    height: 180px;
   }
 
   .section-heading {

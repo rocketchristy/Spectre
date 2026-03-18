@@ -436,6 +436,8 @@ CREATE TABLE <Your HLQ>.ORDERS
     SHIPPING_CENTS   INT          NOT NULL DEFAULT 0,
     DISCOUNT_CENTS   INT          NOT NULL DEFAULT 0,
     TOTAL_CENTS      INT          NOT NULL DEFAULT 0,
+    BILLING_ADDRESS_ID  BIGINT,
+    SHIPPING_ADDRESS_ID BIGINT,
     PLACED_AT        TIMESTAMP,
     CREATED_AT       TIMESTAMP    NOT NULL WITH DEFAULT,
     UPDATED_AT       TIMESTAMP    NOT NULL WITH DEFAULT,
@@ -458,7 +460,7 @@ ALTER TABLE <Your HLQ>.ORDERS
         ON DELETE SET NULL;
 
 -- ==============================================================
--- ORDER_ADDRESSES - Immutable address snapshots per order
+-- ORDER_ADDRESSES - Immutable address snapshots for orders
 -- ==============================================================
 CREATE TABLE <Your HLQ>.ORDER_ADDRESSES
   (
@@ -466,8 +468,6 @@ CREATE TABLE <Your HLQ>.ORDER_ADDRESSES
                                   GENERATED ALWAYS AS IDENTITY
                                   (START WITH 1 INCREMENT BY 1
                                    CACHE 20 NO CYCLE NO ORDER),
-    ORDER_ID         BIGINT       NOT NULL,
-    TYPE             VARCHAR(10)  NOT NULL,
     FULL_NAME        VARCHAR(80)  NOT NULL,
     LINE1            VARCHAR(64)  NOT NULL,
     LINE2            VARCHAR(64),
@@ -478,9 +478,7 @@ CREATE TABLE <Your HLQ>.ORDER_ADDRESSES
     PHONE            VARCHAR(30),
     CREATED_AT       TIMESTAMP    NOT NULL WITH DEFAULT,
     CONSTRAINT PK_ORDER_ADDRESSES
-        PRIMARY KEY (ID),
-    CONSTRAINT CK_ORDADDR_TYPE
-        CHECK (TYPE IN ('billing', 'shipping'))
+        PRIMARY KEY (ID)
   )
   IN ECOMDB01.TSORDADR
   CCSID UNICODE;
@@ -488,18 +486,18 @@ CREATE TABLE <Your HLQ>.ORDER_ADDRESSES
 CREATE UNIQUE INDEX <Your HLQ>.IXORDADR 
     ON <Your HLQ>.ORDER_ADDRESSES (ID);
 
-CREATE UNIQUE INDEX <Your HLQ>.IXORDTYPE 
-    ON <Your HLQ>.ORDER_ADDRESSES (ORDER_ID, TYPE);
+-- Add foreign keys from ORDERS to ORDER_ADDRESSES
+ALTER TABLE <Your HLQ>.ORDERS
+    ADD CONSTRAINT FK_ORDERS_BILLADDR
+        FOREIGN KEY (BILLING_ADDRESS_ID)
+        REFERENCES <Your HLQ>.ORDER_ADDRESSES (ID)
+        ON DELETE RESTRICT;
 
-ALTER TABLE <Your HLQ>.ORDER_ADDRESSES
-    ADD CONSTRAINT UQ_ORDER_ADDRESS_TYPE
-        UNIQUE (ORDER_ID, TYPE);
-
-ALTER TABLE <Your HLQ>.ORDER_ADDRESSES
-    ADD CONSTRAINT FK_ORDADDR_ORDER
-        FOREIGN KEY (ORDER_ID) 
-        REFERENCES <Your HLQ>.ORDERS (ID)
-        ON DELETE CASCADE;
+ALTER TABLE <Your HLQ>.ORDERS
+    ADD CONSTRAINT FK_ORDERS_SHIPADDR
+        FOREIGN KEY (SHIPPING_ADDRESS_ID)
+        REFERENCES <Your HLQ>.ORDER_ADDRESSES (ID)
+        ON DELETE RESTRICT;
 
 -- ==============================================================
 -- ORDER_ITEMS - Snapshot of items in orders
