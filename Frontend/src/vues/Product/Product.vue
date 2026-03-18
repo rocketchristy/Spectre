@@ -24,7 +24,7 @@ function getCardImage(description) {
   }
   for (const [path, mod] of Object.entries(cardImageFiles)) {
     const fileName = path.split('/').pop().replace('.png', '')
-    if (fileName === description) return mod.default
+    if (fileName === description || fileName === description.replace(/\./g, '')) return mod.default
   }
   const blankKey = Object.keys(cardImageFiles).find(k => k.endsWith('Blank.png'))
   return blankKey ? cardImageFiles[blankKey].default : null
@@ -122,6 +122,7 @@ const currentProduct = computed(() => {
 
 // Add to cart handler
 const cartQuantities = ref({})
+const showCartPrompt = ref(false)
 
 function getCartQty(listing) {
   return cartQuantities.value[listing.INVENTORY_ID] || 1
@@ -140,7 +141,7 @@ async function handleAddToCart(listing) {
       listing.UNIT_PRICE_CENTS,
       listing.CURRENCY_CODE || 'USD'
     )
-    alert(`Added ${qty} to cart!`)
+    showCartPrompt.value = true
   } catch (e) {
     alert(e.message || 'Failed to add to cart')
   }
@@ -250,6 +251,17 @@ async function handleAddToCart(listing) {
       <h2>Product not found</h2>
       <router-link to="/store">Return to store</router-link>
     </div>
+
+    <!-- Cart prompt overlay -->
+    <div v-if="showCartPrompt" class="modal-overlay" @click="showCartPrompt = false">
+      <div class="cart-prompt" @click.stop>
+        <h3>Added to cart!</h3>
+        <div class="cart-prompt-actions">
+          <router-link to="/cart" class="action-btn">Go to Cart</router-link>
+          <button class="action-btn cart-prompt-continue" @click="showCartPrompt = false">Continue Shopping</button>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 
@@ -349,5 +361,40 @@ async function handleAddToCart(listing) {
   background: var(--color-background-soft, #1a1a2e);
   border-radius: 8px;
   border: 1px solid var(--color-border, #333);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.cart-prompt {
+  background: var(--color-background, #111);
+  border: 1px solid var(--color-border, #333);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  min-width: 300px;
+}
+
+.cart-prompt h3 {
+  margin: 0 0 1.25rem;
+  color: #4caf50;
+}
+
+.cart-prompt-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.cart-prompt-continue {
+  background: var(--color-background-soft, #1a1a2e) !important;
+  border: 1px solid var(--color-border, #333) !important;
 }
 </style>
