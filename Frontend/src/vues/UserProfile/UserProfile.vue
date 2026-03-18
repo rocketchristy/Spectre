@@ -3,11 +3,29 @@ import '@/assets/profile.css'
 import logo from '@/assets/logo.png'
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getUser, updateUser, addAddress, deleteAddress, getUserInventory } from '@/utils/api.js'
+import { getUser, updateUser, addAddress, deleteAddress, getUserInventory, deleteInventoryItem } from '@/utils/api.js'
 
 defineOptions({ name: 'UserProfile' })
 
 const router = useRouter()
+
+// Card images
+const cardImageFiles = import.meta.glob('@/assets/Images/Cards/*.png', { eager: true })
+
+function getCardImage(description) {
+  if (!description) return null
+  const lowerDesc = description.toLowerCase()
+  if (lowerDesc.includes('mystery') || lowerDesc.includes('booster')) {
+    const boosterKey = Object.keys(cardImageFiles).find(k => k.toLowerCase().endsWith('booster.png'))
+    if (boosterKey) return cardImageFiles[boosterKey].default
+  }
+  for (const [path, mod] of Object.entries(cardImageFiles)) {
+    const fileName = path.split('/').pop().replace('.png', '')
+    if (fileName === description || fileName === description.replace(/\./g, '')) return mod.default
+  }
+  const blankKey = Object.keys(cardImageFiles).find(k => k.endsWith('Blank.png'))
+  return blankKey ? cardImageFiles[blankKey].default : null
+}
 
 const userInfo = ref(null)
 const addresses = ref([])
@@ -144,6 +162,7 @@ const removeAddress = async (id) => {
 
 // User's cards for sale (from API)
 const currentUserCards = ref([])
+const removingCard = ref(null)
 
 async function fetchUserCards() {
   try {
@@ -151,6 +170,18 @@ async function fetchUserCards() {
     currentUserCards.value = data
   } catch {
     // Not logged in or failed — leave empty
+  }
+}
+
+async function removeCard(inventoryId) {
+  removingCard.value = inventoryId
+  try {
+    await deleteInventoryItem(inventoryId)
+    currentUserCards.value = currentUserCards.value.filter(c => c.INVENTORY_ID !== inventoryId)
+  } catch (e) {
+    errorMsg.value = e.message
+  } finally {
+    removingCard.value = null
   }
 }
 
@@ -207,24 +238,34 @@ const redirectToLogin = () => {
           <div class="addresses-header">
             <h2>Your Cards for Sale</h2>
           </div>
-          <div v-if="currentUserCards.length > 0" class="cards-grid">
-            <router-link
-              v-for="card in currentUserCards"
+          <div v-if="currentUserCards.some(c => c.QUANTITY_AVAILABLE > 0)" class="cards-grid">
+            <div
+              v-for="card in currentUserCards.filter(c => c.QUANTITY_AVAILABLE > 0)"
               :key="card.INVENTORY_ID || card.SKU"
-              :to="{ name: 'product', params: { type: 'card', id: card.PRODUCT_NAME } }"
               class="user-card"
             >
-              <div class="card-image">
-                <img v-if="card.URL" :src="card.URL" :alt="card.PRODUCT_NAME" style="max-width:60px;border-radius:4px" />
-                <span v-else>🎴</span>
-              </div>
-              <div class="card-info">
-                <h3 class="card-name">{{ card.PRODUCT_NAME }}</h3>
-                <p class="card-rarity">{{ card.MODIFIER_NAME }}</p>
-                <p class="card-condition">Qty: {{ card.QUANTITY_AVAILABLE }}</p>
-                <p class="card-price">${{ (card.UNIT_PRICE_CENTS / 100).toFixed(2) }}</p>
-              </div>
-            </router-link>
+              <router-link
+                :to="{ name: 'product', params: { type: 'card', id: card.PRODUCT_NAME } }"
+                class="user-card-link"
+              >
+                <div class="card-image">
+                  <img :src="getCardImage(card.PRODUCT_NAME)" :alt="card.PRODUCT_NAME" class="card-img" />
+                </div>
+                <div class="card-info">
+                  <h3 class="card-name">{{ card.PRODUCT_NAME }}</h3>
+                  <p class="card-rarity">{{ card.MODIFIER_NAME }}</p>
+                  <p class="card-condition">Qty: {{ card.QUANTITY_AVAILABLE }}</p>
+                  <p class="card-price">${{ (card.UNIT_PRICE_CENTS / 100).toFixed(2) }}</p>
+                </div>
+              </router-link>
+              <button
+                class="btn btn-danger btn-remove-card"
+                @click="removeCard(card.INVENTORY_ID)"
+                :disabled="removingCard === card.INVENTORY_ID"
+              >
+                {{ removingCard === card.INVENTORY_ID ? 'Removing…' : 'Remove Listing' }}
+              </button>
+            </div>
           </div>
           <p v-else class="info-value">You don't have any cards listed for sale yet.</p>
         </div>

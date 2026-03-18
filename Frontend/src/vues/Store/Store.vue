@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getProducts, getInventory, addInventoryItem } from '@/utils/api.js'
+import { getProducts, getInventory, addInventoryItem, getModifiers } from '@/utils/api.js'
 
 const router = useRouter()
 const products = ref([])
@@ -18,10 +18,10 @@ function getCardImage(description) {
     const boosterKey = Object.keys(cardImageFiles).find(k => k.toLowerCase().endsWith('booster.png'))
     if (boosterKey) return cardImageFiles[boosterKey].default
   }
-  // Try to find exact match by description
+  // Try to find exact match by description (strip periods for filename matching)
   for (const [path, mod] of Object.entries(cardImageFiles)) {
     const fileName = path.split('/').pop().replace('.png', '')
-    if (fileName === description) return mod.default
+    if (fileName === description || fileName === description.replace(/\./g, '')) return mod.default
   }
   // Fallback to Blank
   const blankKey = Object.keys(cardImageFiles).find(k => k.endsWith('Blank.png'))
@@ -163,12 +163,43 @@ const CONDITION_OPTIONS = [
   { label: 'Moderate Play', code: 'P' },
 ]
 
+const suggestedPrice = ref(null)
+
 function openSellModal() {
   sellForm.value = { productSku: '', language: '', condition: '', foil: '', quantity: 1, price: '' }
   sellError.value = ''
+  suggestedPrice.value = null
   showSellModal.value = true
 }
 function closeSellModal() { showSellModal.value = false }
+
+// Watch for card + all modifiers selected, then suggest a price
+watch(
+  () => [sellForm.value.productSku, sellForm.value.language, sellForm.value.foil, sellForm.value.condition],
+  async ([sku, lang, foil, cond]) => {
+    if (!sku || !lang || !foil || !cond) {
+      suggestedPrice.value = null
+      return
+    }
+    const product = products.value.find(p => p['1'] === sku)
+    if (!product) return
+    try {
+      const modifiers = await getModifiers('C')
+      const code = lang + foil + cond
+      const match = modifiers.find(m => m.MODIFIER_CODE === code)
+      if (match) {
+        const cents = product.BASE_PRICE_CENTS * parseFloat(match.PRICE_MULTIPLIER)
+        const suggested = (cents / 100).toFixed(2)
+        suggestedPrice.value = suggested
+        sellForm.value.price = suggested
+      } else {
+        suggestedPrice.value = null
+      }
+    } catch {
+      suggestedPrice.value = null
+    }
+  }
+)
 
 // Build modifier code (3 chars) from the 3 dropdown selections
 // Order: Language + Foil + Condition
@@ -349,6 +380,7 @@ async function submitSell() {
             <div class="form-group">
               <label class="form-label">Your Price ($)</label>
               <input v-model="sellForm.price" type="number" step="0.01" min="0.01" class="form-input" placeholder="Enter price" />
+              <p v-if="suggestedPrice" class="suggested-price">Suggested: ${{ suggestedPrice }}</p>
             </div>
             <p v-if="sellError" class="modal-error">{{ sellError }}</p>
             <div class="modal-actions">
@@ -375,5 +407,11 @@ async function submitSell() {
 .product-stock {
   font-size: 0.8rem;
   color: var(--color-text-muted, #888);
+}
+.suggested-price {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #aaa);
+  font-style: italic;
 }
 </style>
