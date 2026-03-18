@@ -1,3 +1,17 @@
+"""
+================================================================================
+File: cart.py
+Description: Shopping cart and checkout API endpoints
+Author: Rocket Software NextGen Academy
+Date: 2026
+================================================================================
+This module defines FastAPI routes for shopping cart operations (get cart,
+add/remove items) and checkout processing. Checkout includes inventory
+validation, order creation, and cart clearing. All endpoints require
+authentication via bearer token.
+================================================================================
+"""
+
 from fastapi import APIRouter, Body
 from fastapi import APIRouter, Request, Depends, HTTPException, status
 from Backend.Utilities.logger import logger
@@ -14,6 +28,24 @@ router = APIRouter()
 
 @router.get("/", status_code=status.HTTP_200_OK)
 def get_cart(request: Request, token: str = Depends(get_token_header)):
+    """
+    Retrieve user's shopping cart with complete item details.
+    
+    Request Headers:
+        Authorization: Bearer <token>
+    
+    Response:
+        200 OK: Array of cart items with full details (SKU, product name, price, quantity, etc.)
+        401 Unauthorized: Invalid or expired token
+        500 Internal Server Error: Database error
+    
+    Authentication:
+        Required - Bearer token in Authorization header
+    
+    Notes:
+        Returns empty array if cart is empty
+        Includes product details via 10-table JOIN
+    """
     logger.info("Attempting to retrieve cart")
     pool = request.app.state.db_pool
     userdao = UserDAO(pool)
@@ -41,6 +73,35 @@ def get_cart(request: Request, token: str = Depends(get_token_header)):
 
 @router.post("/item", status_code=status.HTTP_201_CREATED)
 def add_item(request: Request, payload: CartItemRequest, token: str = Depends(get_token_header)):
+    """
+    Add an item to user's cart or update quantity if item already exists.
+    
+    Request Headers:
+        Authorization: Bearer <token>
+    
+    Request Body:
+        inventory_id (int): Inventory item's unique identifier
+        quantity (int): Quantity to add
+        unit_price_cents (int): Price per unit in cents
+        currency_code (str): ISO currency code
+    
+    Response:
+        201 Created: {"message": "Item added to cart successfully"}
+        401 Unauthorized: Invalid or expired token
+        500 Internal Server Error: Database error
+    
+    Authentication:
+        Required - Bearer token in Authorization header
+    
+    Side Effects:
+        Creates cart if user doesn't have one
+        If item already in cart, adds quantity to existing amount
+        If new item, inserts new cart item record
+    
+    Notes:
+        Automatically handles cart creation for new users
+        Idempotent - calling multiple times adds quantities
+    """
     logger.info("Attempting to add item to cart")
     pool = request.app.state.db_pool
     userdao = UserDAO(pool)
@@ -125,6 +186,31 @@ def add_item(request: Request, payload: CartItemRequest, token: str = Depends(ge
 
 @router.delete("/item/{cart_item_id}", status_code = status.HTTP_204_NO_CONTENT)
 def delete_cart_item(request: Request, cart_item_id: int, token: str = Depends(get_token_header)):
+    """
+    Remove a specific item from user's cart.
+    
+    Request Headers:
+        Authorization: Bearer <token>
+    
+    Path Parameters:
+        cart_item_id (int): Cart item's unique identifier
+    
+    Response:
+        204 No Content: Item removed successfully (no body)
+        401 Unauthorized: Invalid or expired token
+        404 Not Found: Cart item not found
+        500 Internal Server Error: Database error
+    
+    Authentication:
+        Required - Bearer token in Authorization header
+    
+    Side Effects:
+        Deletes cart item record from CART_ITEMS table
+    
+    Notes:
+        Verifies cart belongs to authenticated user
+        Returns no response body (204 No Content per HTTP spec)
+    """
     logger.info(f"Attempting to delete item {cart_item_id} from cart")
     pool = request.app.state.db_pool
     userdao = UserDAO(pool)
@@ -166,6 +252,40 @@ class AddressRequest(BaseModel):
 
 @router.post("/buy", status_code=status.HTTP_200_OK)
 def buy_cart(request: Request, payload: AddressRequest, token: str = Depends(get_token_header)):
+    """
+    Process cart checkout - validate inventory, create order, update stock, clear cart.
+    
+    Request Headers:
+        Authorization: Bearer <token>
+    
+    Request Body:
+        billing_address_id (str): User's billing address ID
+        shipping_address_id (str): User's shipping address ID
+    
+    Response:
+        200 OK: {"message": "Order placed successfully", "order_id": int, "total_cost": int}
+        400 Bad Request: Cart empty or insufficient inventory
+        401 Unauthorized: Invalid or expired token
+        404 Not Found: Inventory not found for SKU
+        500 Internal Server Error: Database error
+    
+    Authentication:
+        Required - Bearer token in Authorization header
+    
+    Side Effects:
+        Creates order in ORDERS table
+        Adds order items to ORDER_ITEMS table
+        Copies addresses to ORDER_ADDRESSES (if not already present)
+        Decrements inventory quantities for all items
+        Clears user's cart after successful order
+    
+    Notes:
+        CRITICAL: Validates inventory availability before processing
+        Fails entire checkout if any item has insufficient stock
+        Returns specific SKU and available quantity in error headers
+        All operations are atomic - order only created if all items available
+        Total cost calculated from cart items (unit_price * quantity)
+    """
     logger.info("Attempting to process cart checkout")
     pool = request.app.state.db_pool
     userdao = UserDAO(pool)
