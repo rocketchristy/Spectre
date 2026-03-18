@@ -91,9 +91,9 @@ class InventoryItemRequest(BaseModel):
     quantity: int
     unitPriceCents: str
     currencyCode: str
-    seller: str
     
-    @field_validator('sku', 'currencyCode', 'seller')
+    
+    @field_validator('sku', 'currencyCode')
     @classmethod
     def sanitize_string_fields(cls, v):
         # Sanitize string fields to prevent XSS

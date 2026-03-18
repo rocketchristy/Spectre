@@ -170,14 +170,18 @@ class CartDAO:
         finally:
             self.pool.return_connection(conn)
 
-    def remove_entire_cart(self, cart_id):
+    def remove_entire_cart(self, user_id):
         conn = self.pool.get_connection()
         try:
             sql = """
                 DELETE FROM USER01.CART_ITEMS
-                WHERE CART_ID = ?"""
+                WHERE CART_ID IN (
+                    SELECT ID 
+                    FROM USER01.CARTS 
+                    WHERE USER_ID = ?
+                )"""
             stmt = ibm_db.prepare(conn, sql)
-            ibm_db.bind_param(stmt, 1, cart_id)
+            ibm_db.bind_param(stmt, 1, user_id)
             ibm_db.execute(stmt)
             
             num_rows = ibm_db.num_rows(stmt)
