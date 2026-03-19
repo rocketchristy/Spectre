@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { getProducts, getInventory, addToCart } from '@/utils/api.js'
 import { getCardImage } from '@/utils/cardImages.js'
 import { getRandomAd } from '@/utils/ads.js'
+import HiddenCard from '@/vues/EasterEgg/HiddenCard.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -119,6 +120,10 @@ function setCartQty(listing, val) {
 }
 
 async function handleAddToCart(listing) {
+  if (!localStorage.getItem('token')) {
+    router.push({ name: 'landing' })
+    return
+  }
   const qty = getCartQty(listing)
   try {
     await addToCart(
@@ -138,6 +143,7 @@ async function handleAddToCart(listing) {
   <div class="page-with-ad">
   <main class="page-shell product-page">
     <router-link to="/store" class="back-link">← Back to Store</router-link>
+    <HiddenCard name="Jessalyn" style="float: right; margin-top: -1.6rem;" />
 
     <p v-if="loading" class="empty-state">Loading product…</p>
 

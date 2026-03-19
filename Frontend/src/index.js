@@ -25,4 +25,14 @@ const router = createRouter({
   ],
 })
 
+const REQUIRED_CARDS = ['Claire', 'Ben', 'Bryce', 'Jessalyn', 'Christy']
+router.beforeEach((to) => {
+  if (to.name === 'about') {
+    const found = JSON.parse(localStorage.getItem('nxtcg_found_cards') || '[]')
+    if (!REQUIRED_CARDS.every(n => found.includes(n))) {
+      return { name: 'store' }
+    }
+  }
+})
+
 export default router

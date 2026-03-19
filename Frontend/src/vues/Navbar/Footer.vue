@@ -1,8 +1,23 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useEasterEgg } from '@/utils/easterEgg.js'
 
 const showCelebration = ref(false)
 const celebrationLines = ref([])
+
+const router = useRouter()
+const { isUnlocked } = useEasterEgg()
+const showAboutPrompt = ref(false)
+
+function handleAboutClick() {
+  if (isUnlocked.value) {
+    router.push({ name: 'about' })
+  } else {
+    showAboutPrompt.value = true
+    setTimeout(() => { showAboutPrompt.value = false }, 3500)
+  }
+}
 
 async function onCommunityClick() {
   try {
@@ -46,7 +61,7 @@ function closeCelebration() { showCelebration.value = false }
       <div class="footer-col footer-links">
         <h4>Company</h4>
         <ul>
-          <li><router-link :to="{ name: 'about' }">About</router-link></li>
+          <li><a href="#" @click.prevent="handleAboutClick">About</a></li>
           <li><a href="#">Careers</a></li>
           <li><a href="#">Contact</a></li>
         </ul>
@@ -70,6 +85,13 @@ function closeCelebration() { showCelebration.value = false }
         <div class="celebration-emoji">🥳✨🎶</div>
       </div>
     </div>
+    <Teleport to="body">
+      <Transition name="egg-toast">
+        <div v-if="showAboutPrompt" class="egg-toast" style="border-color: var(--fire, #c0392b); box-shadow: 4px 4px 0 var(--fire, #c0392b); color: var(--fire, #c0392b);">
+          🔒 Find all 5 hidden cards to unlock About Us!
+        </div>
+      </Transition>
+    </Teleport>
   </footer>
 </template>
 
