@@ -7,6 +7,7 @@ import OrderHistory from '@/vues/OrderHistory/OrderHistory.vue'
 import UserProfile from '@/vues/UserProfile/UserProfile.vue'
 import Gallery from '@/vues/Gallery/Gallery.vue'
 import ErrorPage from '@/vues/Error/Error.vue'
+import AboutUs from '@/vues/AboutUs/AboutUs.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,6 +20,8 @@ const router = createRouter({
     { path: '/orders', name: 'orderHistory', component: OrderHistory },
     { path: '/profile', name: 'profile', component: UserProfile },
     { path: '/error', name: 'error', component: ErrorPage },
+    { path: '/about', name: 'about', component: AboutUs }
+
   ],
 })
 

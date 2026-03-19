@@ -1,39 +1,409 @@
+/* ================================================================
+   landingPage.css — TCG Landing Page
+   Keeps 90s fonts & login form; reverts card visual to original
+   ================================================================ */
 
-/* Landing page styles - centers a hero heading and CTA button */
 :root {
-	--landing-bg-a: #0f172a;
-	--landing-bg-b: #071124;
-	--accent: #14b8a6; /* teal */
-	--accent-2: #7c3aed; /* purple */
+  --landing-bg: #071124;
 }
 
-html, body, #app {
-	height: 100%;
-    background: var(--landing-bg-b);
-}
+
 
 .landing {
-	position: fixed;
-	inset: 0; 
-    width: 100vw;
-	height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	color: white;
-	padding: 0;
-	background-size: contain;
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-blend-mode: overlay;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 0;
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: overlay;
+  background-color: var(--landing-bg);
 }
 
 .landing__inner {
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing__card {
+  width: min(780px, 94%);
+  padding: 2.2rem 1.6rem;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.4));
+  box-shadow: 0 10px 40px rgba(3, 7, 18, 0.7);
+  position: relative;
+}
+
+/* bottom rainbow accent bar */
+.landing__card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--fire) 0%, var(--shadow) 33%, var(--water) 66%, var(--grass) 100%);
+  border-radius: 0 0 14px 14px;
+  pointer-events: none;
+}
+
+.landing__title {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.95rem, 2.5vw, 1.7rem);
+  line-height: 1.8;
+  margin: 0 0 1.8rem 0;
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(4, 6, 23, 0.8);
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.landing__sub {
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 1.6rem;
+  font-size: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* CTA buttons — original rounded gradient style */
+.landing__cta,
+.btn {
+  display: inline-block;
+  background: linear-gradient(90deg, #14b8a6 0%, #7c3aed 100%);
+  color: white;
+  padding: 0.8rem 1.4rem;
+  border-radius: 10px;
+  font-family: var(--font-head);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  box-shadow: 0 4px 24px rgba(2, 6, 23, 0.6);
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  position: relative;
+  z-index: 1;
+}
+
+.landing__cta:hover,
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(2, 6, 23, 0.7);
+  background: linear-gradient(90deg, #0c9dd7 0%, #eb9bf9 100%);
+}
+
+/* Login strip */
+.login-strip {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0 auto 0.5rem auto;
+  width: min(480px, 90%);
+  justify-items: center;
+  z-index: 1;
+  position: relative;
+}
+
+.login-strip__row {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.auth-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.auth-error {
+  color: #f87171;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  padding: 0.4rem 0.75rem;
+  background: rgba(248, 113, 113, 0.1);
+  border-left: 3px solid #f87171;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-fields, .initial-options {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.login-input {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  background: rgba(7, 0, 8, 0.7);
+  border: 2px solid var(--water);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  border-radius: 6px;
+  outline: none;
+  box-shadow: 0 0 8px rgba(12, 157, 215, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.login-input::placeholder { color: rgba(255,255,255,0.4); }
+.login-input:focus { border-color: var(--grass); box-shadow: 0 0 12px rgba(181, 216, 13, 0.3); }
+
+@media (min-width: 1024px) {
+  .landing__title { font-size: 2rem; }
+}
+
+html, body, #app { height: 100%; }
+
+/* ── Landing container ─────────────────────────────── */
+.landing {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 0;
+  background-color: #070008;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-blend-mode: overlay;
+  overflow: hidden;
+}
+
+/* glow blobs in corners */
+.landing::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, rgba(235, 155, 249, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+  animation: pulseglow 4s ease-in-out infinite;
+}
+
+.landing::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  right: -100px;
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, rgba(12, 157, 215, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+  animation: pulseglow 4s ease-in-out infinite reverse;
+}
+
+@keyframes pulseglow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ── Inner wrapper ────────────────────────────────── */
+.landing__inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Card panel ──────────────────────────────────── */
+.landing__card {
+  width: min(720px, 94%);
+  padding: 2.5rem 2rem;
+  background: rgba(17, 0, 22, 0.95);
+  border: 4px solid var(--shadow);
+  box-shadow:
+    8px 8px 0 var(--shadow),
+    0 0 60px rgba(235, 155, 249, 0.15);
+  position: relative;
+}
+
+/* decorative dots top */
+.landing__card::before {
+  content: '◆ ◆ ◆';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.5rem;
+  color: var(--shadow);
+  letter-spacing: 8px;
+  opacity: 0.6;
+  z-index: 1;
+}
+
+/* bottom accent bar */
+.landing__card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--fire) 0%, var(--shadow) 33%, var(--water) 66%, var(--grass) 100%);
+  pointer-events: none;
+}
+
+/* ── Title ──────────────────────────────────────── */
+.landing__title {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.95rem, 2.5vw, 1.7rem);
+  color: var(--stone);
+  text-shadow:
+    3px 3px 0 var(--fire),
+    6px 6px 0 rgba(128, 21, 2, 0.3);
+  line-height: 1.8;
+  margin: 0.5rem 0 1.8rem 0;
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Sub text ───────────────────────────────────── */
+.landing__sub {
+  color: var(--neutral);
+  margin-bottom: 1.6rem;
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── CTA / button base ──────────────────────────── */
+.landing__cta,
+.btn {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 0.65rem 1.5rem;
+  border: 3px solid;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 60ms, box-shadow 60ms;
+  background: var(--water);
+  color: #fff;
+  border-color: #fff;
+  box-shadow: 4px 4px 0 var(--shadow);
+  position: relative;
+  z-index: 1;
+}
+
+.landing__cta:hover,
+.btn:hover {
+  background: var(--grass);
+  color: #000;
+  border-color: #000;
+  box-shadow: 4px 4px 0 var(--stone);
+}
+
+.landing__cta:active,
+.btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0;
+}
+
+/* ── Login strip ───────────────────────────────── */
+.login-strip {
+  justify-items: center;
+  z-index: 1;
+  display: grid;
+  gap: 0.6rem;
+  margin: 0 auto 0.5rem auto;
+  width: min(480px, 90%);
+  position: relative;
+}
+
+.login-strip__row {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.auth-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.auth-error {
+  color: var(--fire);
+  font-size: 0.88rem;
+  margin-bottom: 0.75rem;
+  padding: 0.4rem 0.75rem;
+  background: rgba(128, 21, 2, 0.2);
+  border-left: 3px solid var(--fire);
+  text-align: left;
+  font-family: var(--font-body);
+  position: relative;
+  z-index: 1;
+}
+
+.auth-fields {
+  position: relative;
+  z-index: 1;
+}
+
+.initial-options {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ── Inputs on landing page ────────────────────── */
+.login-input {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  background: var(--bg-input);
+  border: 3px solid var(--water);
+  color: var(--text-bright);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  outline: none;
+  box-shadow: 3px 3px 0 var(--shadow);
+  position: relative;
+  z-index: 1;
+}
+
+.login-input::placeholder { color: var(--text-muted); }
+.login-input:focus { border-color: var(--grass); box-shadow: 3px 3px 0 var(--grass); }
+
+@media (min-width: 1024px) {
+  .landing__title { font-size: 2rem; }
 }
 
 .landing__card {
