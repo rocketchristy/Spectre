@@ -31,8 +31,10 @@ const addingPromo = ref(false)
 
 import { getCardImage } from '@/utils/cardImages.js'
 import { getRandomAd } from '@/utils/ads.js'
+import { getRandomAdRow } from '@/utils/adRows.js'
 
 const randomAd = getRandomAd()
+const adRow = getRandomAdRow()
 
 async function fetchCart() {
   loading.value = true
@@ -153,6 +155,12 @@ async function addPromoToCart() {
     <p v-if="loading" class="empty-state">Loading…</p>
 
     <template v-else>
+      <!-- Ad row banner -->
+      <div v-if="adRow" class="ad-row-banner">
+        <video v-if="adRow.isVideo" :src="adRow.src" autoplay loop muted playsinline class="ad-row-media" />
+        <img v-else :src="adRow.src" alt="Advertisement" class="ad-row-media" />
+      </div>
+
       <!-- Checkout success message -->
       <div v-if="checkoutSuccess" class="checkout-success">
         <h2>Order placed successfully!</h2>
@@ -330,249 +338,68 @@ async function addPromoToCart() {
 .page-with-ad {
   display: flex;
   gap: 1.5rem;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
+  height:100%;
+}
+.ad-column {
+  width: 180px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 50%;
+  transform: translateY(-50%);
+  align-self: center;
+  height: fit-content;
 }
 .page-shell { flex: 1; min-width: 0; }
-.ad-column {
-  width: 160px;
-  flex-shrink: 0;
-  position: fixed;
-  right: 1.5rem;
-  top: 5rem;
-}
-.ad-img {
-  width: 100%;
-  border-radius: 8px;
-}
-@media (max-width: 900px) {
-  .ad-column { display: none; }
-}
+.ad-img { width: 100%; border: 3px solid var(--shadow); box-shadow: 4px 4px 0 var(--shadow); }
+@media (max-width: 900px) { .ad-column { display: none; } }
+
 .cart-layout {
   display: grid;
-  grid-template-columns: 1fr 360px;
+  grid-template-columns: 1fr 340px;
   gap: 2rem;
   align-items: start;
 }
+@media (max-width: 768px) { .cart-layout { grid-template-columns: 1fr; } }
 
-@media (max-width: 768px) {
-  .cart-layout {
-    grid-template-columns: 1fr;
-  }
-}
-
-.cart-items-col {
-  min-width: 0;
-}
-
-.empty-cart-notice {
-  text-align: center;
-  padding: 2rem;
-  background: var(--color-background-soft, #1a1a2e);
-  border: 1px solid var(--color-border, #333);
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
-}
-
-.empty-cart-notice h2 {
-  margin: 0 0 1rem;
-  color: var(--color-heading, #fff);
-}
-
-.cart-item-img {
-  width: 50px;
-  height: auto;
-  border-radius: 4px;
-}
+.cart-items-col { min-width: 0; }
 
 .promo-section {
   margin: 1.5rem 0;
   padding: 1rem;
-  border: 1px dashed var(--color-border, #444);
-  border-radius: 8px;
-  background: var(--color-background-soft, #1a1a2e);
+  border: 2px dashed var(--shadow);
+  background: rgba(235, 155, 249, 0.05);
 }
+.promo-section h3 { margin: 0 0 0.75rem; color: var(--shadow); }
+.promo-card { display: flex; align-items: center; gap: 1rem; }
+.promo-img { width: 60px; height: auto; }
+.promo-info { flex: 1; display: flex; flex-direction: column; gap: 0.2rem; }
 
-.promo-section h3 {
-  margin: 0 0 0.75rem;
-  color: var(--color-heading, #fff);
-}
-
-.promo-card {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.promo-img {
-  width: 60px;
-  height: auto;
-  border-radius: 4px;
-}
-
-.promo-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-/* Checkout panel */
 .checkout-panel {
   position: sticky;
   top: 2rem;
-  background: var(--color-background-soft, #1a1a2e);
-  border: 1px solid var(--color-border, #333);
-  border-radius: 12px;
+  background: linear-gradient(160deg, var(--bg-card), var(--bg-panel));
+  border: 3px solid var(--stone);
+  box-shadow: var(--drop-stone);
   padding: 1.5rem;
 }
+.checkout-panel h2 { margin: 0 0 1rem; color: var(--stone); border-bottom: 2px solid var(--stone); padding-bottom: 0.6rem; }
+.checkout-form { display: flex; flex-direction: column; gap: 1rem; }
+.checkout-total { text-align: center; font-family: var(--font-head); font-size: 1.3rem; letter-spacing: 2px; margin: 0.75rem 0; color: var(--grass); }
+.checkout-actions { display: flex; justify-content: flex-end; gap: 0.75rem; }
 
-.checkout-panel h2 {
-  margin: 0 0 1rem;
-  color: var(--color-heading, #fff);
-}
+.checkout-success { text-align: center; padding: 2rem; margin-bottom: 1.5rem; border: 3px solid var(--grass); box-shadow: var(--drop-grass); }
+.checkout-success h2 { color: var(--grass); margin-bottom: 1rem; }
+.checkout-success-actions { display: flex; justify-content: center; gap: 1rem; }
 
-.checkout-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
+.no-address-notice { text-align: center; padding: 1rem 0; color: var(--text-muted); }
+.no-address-notice p { margin-bottom: 1rem; }
 
-.checkout-total {
-  text-align: center;
-  font-size: 1.1rem;
-  margin: 1rem 0;
-  color: var(--color-heading, #fff);
-}
+.cart-item-img { width: 50px; height: auto; }
 
-.checkout-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-.checkout-success {
-  text-align: center;
-  padding: 2rem;
-  margin-bottom: 1.5rem;
-}
-
-.checkout-success h2 {
-  color: #4caf50;
-  margin-bottom: 1rem;
-}
-
-.checkout-success-actions {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.no-address-notice {
-  text-align: center;
-  padding: 1rem 0;
-  color: var(--color-text-muted, #aaa);
-}
-
-.no-address-notice p {
-  margin-bottom: 1rem;
-}
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal {
-  background: var(--color-background, #111);
-  border: 1px solid var(--color-border, #333);
-  border-radius: 12px;
-  padding: 2rem;
-  max-width: 480px;
-  width: 90%;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.modal-header h2 {
-  margin: 0;
-  color: var(--color-heading, #fff);
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  color: var(--color-text, #ccc);
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.modal-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.btn-link {
-  background: none;
-  border: none;
-  color: var(--color-primary, #00d4ff);
-  cursor: pointer;
-  font-size: 0.9rem;
-  margin-top: 0.75rem;
-  padding: 0;
-}
-
-.btn-link:hover {
-  text-decoration: underline;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.form-label {
-  font-size: 0.9rem;
-  color: var(--color-text-muted, #aaa);
-}
-
-.form-input {
-  padding: 8px 10px;
-  border-radius: 4px;
-  border: 1px solid var(--color-border, #333);
-  background: var(--color-background, #111);
-  color: var(--color-text, #fff);
-}
-
-.modal-error {
-  color: #f44336;
-  font-size: 0.9rem;
-}
-
-.btn-secondary {
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: 1px solid var(--color-border, #333);
-  background: var(--color-background-soft, #1a1a2e);
-  color: var(--color-text, #ccc);
-  cursor: pointer;
-}
+.ad-row-banner { margin: 1.5rem 0; border: 3px solid var(--water); box-shadow: 4px 4px 0 var(--water); overflow: hidden; }
+.ad-row-media { display: block; width: 100%; height: auto; }
 </style>

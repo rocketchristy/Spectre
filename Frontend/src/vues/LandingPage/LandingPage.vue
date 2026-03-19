@@ -87,8 +87,8 @@ const onSignup = async () => {
 
 <template>
   <div class="landing" :style="{ backgroundImage: `url(${bg})` }">
-    <div class="landing__inner">
-      <div class="landing__card" role="region">
+    <div class="landing__inner" :style="{ height: '100%', width: '100%'}">
+      <div class="landing__card" role="region" :style="{ height: '75%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundImage: `url(${bg})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">
         
         <h1 class="landing__title">Welcome to NextGen Trading Card Game™</h1>
 

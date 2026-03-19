@@ -107,98 +107,29 @@ function itemsSummary(order) {
 </template>
 
 <style scoped>
-.orders-table-wrapper {
-  overflow-x: auto;
-}
-
-.orders-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.95rem;
-}
-
-.orders-table th,
-.orders-table td {
-  padding: 0.75rem 1rem;
-  text-align: left;
-  border-bottom: 1px solid var(--color-border, #333);
-}
-
+/* Override global page.css to make table opaque with retro tokens */
 .orders-table th {
-  color: var(--color-heading, #fff);
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
-  background: var(--color-background-soft, #1a1a2e);
+  background: linear-gradient(90deg, var(--water) 0%, #064a70 100%);
+  color: #000;
   position: sticky;
   top: 0;
 }
 
-.orders-table tbody tr:hover {
-  background: rgba(0, 212, 255, 0.05);
-}
+.orders-table tbody tr { background: var(--bg-panel); }
+.orders-table tbody tr:hover { background: rgba(181, 216, 13, 0.06); }
 
-.col-order {
-  font-weight: 600;
-  color: var(--color-primary, #00d4ff);
-  white-space: nowrap;
-}
+.col-order { color: var(--shadow); }
+.col-date { color: var(--neutral); white-space: nowrap; }
+.col-items { max-width: 300px; }
+.col-cost { color: var(--grass); }
 
-.col-date {
-  white-space: nowrap;
-  color: var(--color-text-muted, #aaa);
-}
-
-.col-items {
-  max-width: 300px;
-  color: var(--color-text, #ccc);
-}
-
-.col-cost {
-  font-weight: 600;
-  white-space: nowrap;
-  color: var(--color-heading, #fff);
-}
-
-.status-badge {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.status-completed {
-  background: rgba(76, 175, 80, 0.2);
-  color: #4caf50;
-}
-
-.status-pending {
-  background: rgba(255, 193, 7, 0.2);
-  color: #ffc107;
-}
-
-.status-cancelled {
-  background: rgba(244, 67, 54, 0.2);
-  color: #f44336;
-}
-
-.status-processing {
-  background: rgba(33, 150, 243, 0.2);
-  color: #2196f3;
-}
+.status-completed { background: rgba(181, 216, 13, 0.15); color: var(--grass); }
+.status-pending   { background: rgba(255, 224, 151, 0.15); color: var(--stone); }
+.status-cancelled { background: rgba(128, 21, 2, 0.15); color: var(--fire); }
+.status-processing{ background: rgba(12, 157, 215, 0.15); color: var(--water); }
 
 @media (max-width: 768px) {
-  .orders-table th,
-  .orders-table td {
-    padding: 0.5rem;
-    font-size: 0.85rem;
-  }
-
-  .col-items {
-    max-width: 150px;
-  }
+  .orders-table th, .orders-table td { padding: 0.5rem; font-size: 0.85rem; }
+  .col-items { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 }
 </style>
