@@ -1,3 +1,17 @@
+"""
+================================================================================
+File: user.py
+Description: User authentication and profile management API endpoints
+Author: Rocket Software NextGen Academy
+Date: 2026
+================================================================================
+This module defines FastAPI routes for user authentication (login/register),
+profile management (get/update user data), and address management (add/delete
+addresses). All endpoints except login and register require authentication via
+bearer token.
+================================================================================
+"""
+
 from fastapi import APIRouter, Request, Depends, HTTPException, status
 from Backend.Utilities.logger import logger
 from Backend.DatabaseAccess.user_dao import UserDAO
@@ -10,6 +24,26 @@ router = APIRouter()
 
 @router.post("/login", status_code=status.HTTP_200_OK)
 def login(request: Request, payload: LoginRequest):
+    """
+    Authenticate user with email and password.
+    
+    Request Body:
+        email (str): User's email address
+        password (str): User's password (will be hashed)
+    
+    Response:
+        200 OK: {"token": str, "first_name": str}
+        401 Unauthorized: Invalid email or password
+        500 Internal Server Error: Database error
+    
+    Authentication:
+        None required (public endpoint)
+    
+    Notes:
+        Password is hashed using SHA-256 before comparison
+        On success, creates new token and returns latest token ID
+        Token is used for subsequent authenticated requests
+    """
     email = payload.email
     password = payload.password
     password_hash = hash_password(password)
@@ -49,6 +83,32 @@ def login(request: Request, payload: LoginRequest):
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
 def register(request: Request, payload: RegisterRequest):
+    """
+    Register a new user account.
+    
+    Request Body:
+        email (str): User's email address (must be unique)
+        password (str): User's password (will be hashed)
+        first_name (str): User's first name
+        last_name (str): User's last name
+    
+    Response:
+        201 Created: {"message": "User registered successfully"}
+        400 Bad Request: Email already exists or invalid data
+        500 Internal Server Error: Database error
+    
+    Authentication:
+        None required (public endpoint)
+    
+    Side Effects:
+        Creates new user in USERS table
+        Automatically creates empty cart for new user
+        Password is hashed using SHA-256 before storage
+    
+    Notes:
+        Email must be unique (enforced by database)
+        Cart creation is automatic (required for shopping functionality)
+    """
     # TODO create a cart too
     email = payload.email
     password = payload.password
@@ -96,6 +156,27 @@ def register(request: Request, payload: RegisterRequest):
 
 @router.get("/", status_code=status.HTTP_200_OK)
 def get_user_data(request: Request, token: str = Depends(get_token_header)):
+    """
+    Retrieve user profile data and addresses.
+    
+    Request Headers:
+        Authorization: Bearer <token>
+    
+    Response:
+        200 OK: {
+            "info": [{"ID": int, "EMAIL": str, "FIRST_NAME": str, "LAST_NAME": str, ...}],
+            "addresses": [{"ID": int, "FULL_NAME": str, "LINE1": str, ...}, ...]
+        }
+        401 Unauthorized: Invalid or expired token
+        500 Internal Server Error: Database error
+    
+    Authentication:
+        Required - Bearer token in Authorization header
+    
+    Notes:
+        Returns user info and all associated addresses
+        Token is validated via get_token_header dependency
+    """
     logger.info("Attempting to retrieve user data")
     pool = request.app.state.db_pool
     userdao = UserDAO(pool)
@@ -134,6 +215,30 @@ def get_user_data(request: Request, token: str = Depends(get_token_header)):
 
 @router.put("/", status_code=status.HTTP_200_OK)
 def update_user_data(request: Request, payload: UpdateUserRequest, token: str = Depends(get_token_header)):
+    """
+    Update user profile information.
+    
+    Request Headers:
+        Authorization: Bearer <token>
+    
+    Request Body:
+        email (str): New email address
+        password (str): New password (will be hashed)
+        fname (str): New first name
+        lname (str): New last name
+    
+    Response:
+        200 OK: {"message": "User data updated successfully"}
+        400 Bad Request: Invalid data
+        401 Unauthorized: Invalid or expired token
+    
+    Authentication:
+        Required - Bearer token in Authorization header
+    
+    Side Effects:
+        Updates user record in USERS table
+        Password is hashed before storage
+    """
     email = payload.email
     password = payload.password
     hashed_password = hash_password(password)
@@ -168,6 +273,34 @@ def update_user_data(request: Request, payload: UpdateUserRequest, token: str = 
 
 @router.post("/address", status_code=status.HTTP_201_CREATED)
 def add_address(request: Request, payload: AddressRequest, token: str = Depends(get_token_header)):
+    """
+    Add a new address to user's address book.
+    
+    Request Headers:
+        Authorization: Bearer <token>
+    
+    Request Body:
+        full_name (str): Recipient's full name
+        line1 (str): Address line 1
+        line2 (str): Address line 2 (optional)
+        city (str): City name
+        region (str): State/province
+        postal_code (str): ZIP/postal code
+        country_code (str): ISO country code
+        phone (str): Contact phone number
+    
+    Response:
+        201 Created: {"message": "Address added successfully"}
+        400 Bad Request: Invalid address data
+        401 Unauthorized: Invalid or expired token
+        404 Not Found: User not found
+    
+    Authentication:
+        Required - Bearer token in Authorization header
+    
+    Side Effects:
+        Inserts new address into ADDRESSES table associated with user
+    """
     full_name = payload.full_name
     line1 = payload.line1
     line2 = payload.line2
@@ -210,6 +343,30 @@ def add_address(request: Request, payload: AddressRequest, token: str = Depends(
 
 @router.delete("/address/{index}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_address(request: Request, index: int, token: str = Depends(get_token_header)):
+    """
+    Delete an address from user's address book.
+    
+    Request Headers:
+        Authorization: Bearer <token>
+    
+    Path Parameters:
+        index (int): Address ID to delete
+    
+    Response:
+        204 No Content: Address deleted successfully (no body)
+        401 Unauthorized: Invalid or expired token
+        404 Not Found: Address not found or doesn't belong to user
+    
+    Authentication:
+        Required - Bearer token in Authorization header
+    
+    Side Effects:
+        Deletes address record from ADDRESSES table
+    
+    Notes:
+        Verifies address belongs to authenticated user before deletion
+        Returns no response body (204 No Content per HTTP spec)
+    """
     logger.info(f"Attempting to delete address with index {index}")
     pool = request.app.state.db_pool
     userdao = UserDAO(pool)

@@ -102,18 +102,18 @@ export function shallowMountWithDefaults(component, options = {}) {
 }
 
 /**
- * Creates mock cart data for testing
+ * Creates mock cart data for testing (in backend format)
  * @param {number} count - Number of items to create
  * @returns {Array} Array of cart items
  */
 export function createMockCartItems(count = 3) {
   return Array.from({ length: count }, (_, i) => ({
-    id: i + 1,
-    name: `Product ${i + 1}`,
-    type: i % 2 === 0 ? 'pack' : 'card',
-    price: 10 + i * 5,
-    quantity: i + 1,
-    image: i % 2 === 0 ? '📦' : '🎴',
+    CART_ITEM_ID: i + 1,
+    PRODUCT_NAME: `Product ${i + 1}`,
+    MODIFIER_NAME: i % 2 === 0 ? 'Standard' : 'Foil',
+    UNIT_PRICE_CENTS: (1000 + i * 500), // Prices in cents: 1000, 1500, 2000...
+    QUANTITY: i + 1,
+    INVENTORY_ID: i + 1
   }))
 }
 

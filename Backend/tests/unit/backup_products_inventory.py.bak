@@ -1,0 +1,929 @@
+import pytest
+from unittest.mock import Mock, patch, MagicMock, call
+import sys
+
+
+# Mock ibm_db module before any DAO imports
+sys.modules['ibm_db'] = MagicMock()
+
+
+# Mock the config loading BEFORE importing DAO modules
+@pytest.fixture(scope="module", autouse=True)
+def mock_config_for_all_tests():
+    """Mock configuration loading to prevent import-time failures"""
+    mock_config = MagicMock()
+    mock_config.__getitem__.return_value = {
+        'clidriver_path': 'C:/mock/path',
+        'username': 'testuser',
+        'password': 'testpass',
+        'database': 'testdb',
+        'hostname': 'localhost',
+        'port': '50000'
+    }
+    
+    with patch('configparser.ConfigParser') as mock_parser:
+        mock_parser_instance = MagicMock()
+        mock_parser_instance.__getitem__ = mock_config.__getitem__
+        mock_parser.return_value = mock_parser_instance
+        
+        with patch('os.add_dll_directory'):
+            yield
+
+
+@pytest.fixture
+def mock_connection_pool():
+    """Mock database connection pool - shared fixture"""
+    pool = Mock()
+    mock_conn = MagicMock()
+    pool.get_connection = Mock(return_value=mock_conn)
+    pool.return_connection = Mock()
+    return pool
+
+
+@pytest.fixture
+def cart_dao(mock_connection_pool):
+    """Initialize CartDAO with mock connection pool"""
+    from Backend.DatabaseAccess.cart_dao import CartDAO
+    return CartDAO(mock_connection_pool)
+
+
+@pytest.fixture
+def orders_dao(mock_connection_pool):
+    """Initialize OrdersDAO with mock connection pool"""
+    from Backend.DatabaseAccess.orders_dao import OrdersDAO
+    return OrdersDAO(mock_connection_pool)
+
+
+class TestCartDAO:
+    """Unit tests for CartDAO class - Testing individual DAO methods"""
+    
+    @pytest.mark.unit
+    def test_create_cart_success(self, cart_dao, mock_connection_pool):
+        """Test creating a new cart for user - verifies SQL, binding, commit"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            
+            result = cart_dao.create_cart(user_id=123)
+            
+            # Verify result
+            assert result['status'] == 'success'
+            
+            # Verify SQL contains correct table and columns
+            sql_call = mock_db.prepare.call_args[0][1]
+            assert 'USER01.CARTS' in sql_call
+            assert 'USER_ID' in sql_call
+            assert 'INSERT' in sql_call
+            
+            # Verify parameter binding
+            mock_db.bind_param.assert_called_once_with(mock_stmt, 1, 123)
+            
+            # Verify execution and commit
+            mock_db.execute.assert_called_once_with(mock_stmt)
+            mock_db.commit.assert_called_once_with(mock_conn)
+            
+            # Verify connection returned to pool
+            mock_connection_pool.return_connection.assert_called_once_with(mock_conn)
+
+    @pytest.mark.unit
+    def test_create_cart_error_with_rollback(self, cart_dao, mock_connection_pool):
+        """Test error handling when creating cart - verifies rollback and connection cleanup"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_db.prepare.side_effect = Exception("Database connection lost")
+            
+            result = cart_dao.create_cart(user_id=123)
+            
+            # Verify error response
+            assert result['status'] == 'error'
+            assert 'reason' in result
+            assert 'Database connection lost' in str(result['reason'])
+            
+            # Verify rollback was called on error
+            mock_db.rollback.assert_called_once_with(mock_conn)
+            
+            # Verify connection still returned to pool (finally block)
+            mock_connection_pool.return_connection.assert_called_once_with(mock_conn)
+            
+            # Verify commit was never called
+            mock_db.commit.assert_not_called()
+    
+    @pytest.mark.unit
+    @pytest.mark.parametrize("user_id,description", [
+        (1, "minimum user ID"),
+        (999999, "large user ID"),
+        (0, "zero user ID - edge case"),
+        (-1, "negative user ID - edge case"),
+    ])
+    def test_create_cart_various_user_ids(self, cart_dao, mock_connection_pool, user_id, description):
+        """Test creating cart with various user ID edge cases"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            
+            result = cart_dao.create_cart(user_id=user_id)
+            
+            assert result['status'] == 'success', f"Failed for {description}"
+            mock_db.bind_param.assert_called_with(mock_stmt, 1, user_id)
+
+    @pytest.mark.unit
+    def test_get_cart_id_found(self, cart_dao, mock_connection_pool):
+        """Test retrieving cart ID for user - single cart"""
+        expected_cart = {'ID': 42}
+        
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.fetch_assoc.side_effect = [expected_cart, None]
+            
+            result = cart_dao.get_cart_id(123)
+            
+            # Verify result structure
+            assert result['status'] == 'success'
+            assert len(result['output']) == 1
+            assert result['output'][0]['ID'] == 42
+            
+            # Verify SQL query
+            sql_call = mock_db.prepare.call_args[0][1]
+            assert 'SELECT ID' in sql_call
+            assert 'USER01.CARTS' in sql_call
+            assert 'USER_ID' in sql_call
+            
+            # Verify parameter binding
+            mock_db.bind_param.assert_called_once_with(mock_stmt, 1, 123)
+            
+            # Verify connection management
+            mock_connection_pool.return_connection.assert_called_once_with(mock_conn)
+    
+    @pytest.mark.unit
+    def test_get_cart_id_not_found(self, cart_dao, mock_connection_pool):
+        """Test retrieving cart ID when user has no cart"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.fetch_assoc.return_value = None  # No rows returned
+            
+            result = cart_dao.get_cart_id(999)
+            
+            assert result['status'] == 'success'
+            assert result['output'] == []  # Empty list, not error
+    
+    @pytest.mark.unit
+    def test_get_cart_id_database_error(self, cart_dao, mock_connection_pool):
+        """Test error handling when database query fails"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_db.prepare.side_effect = Exception("Connection timeout")
+            
+            result = cart_dao.get_cart_id(123)
+            
+            assert result['status'] == 'error'
+            assert 'Connection timeout' in str(result['reason'])
+            mock_connection_pool.return_connection.assert_called_once_with(mock_conn)
+
+    @pytest.mark.unit
+    def test_get_cart_with_items(self, cart_dao, mock_connection_pool):
+        """Test retrieving full cart with items - verifies complex JOIN query"""
+        expected_items = [
+            {
+                'CART_ITEM_ID': 1,
+                'SKU': '001ST001SN001A',
+                'PRODUCT_NAME': 'Premium Watch',
+                'QUANTITY': 2,
+                'UNIT_PRICE_CENTS': 9999,
+                'SERIES_NAME': 'Classic',
+                'STYLE_NAME': 'Sport',
+                'MODIFIER_NAME': 'Gold',
+                'URL': 'http://example.com/watch.jpg'
+            },
+            {
+                'CART_ITEM_ID': 2,
+                'SKU': '002ST002SN002B',
+                'PRODUCT_NAME': 'Designer Watch',
+                'QUANTITY': 1,
+                'UNIT_PRICE_CENTS': 15999,
+                'SERIES_NAME': 'Modern',
+                'STYLE_NAME': 'Casual',
+                'MODIFIER_NAME': 'Silver',
+                'URL': 'http://example.com/watch2.jpg'
+            }
+        ]
+        
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.fetch_assoc.side_effect = expected_items + [None]
+            
+            result = cart_dao.get_cart(123)
+            
+            # Verify result
+            assert result['status'] == 'success'
+            assert len(result['output']) == 2
+            assert result['output'][0]['SKU'] == '001ST001SN001A'
+            assert result['output'][1]['SKU'] == '002ST002SN002B'
+            
+            # Verify SQL contains all necessary JOINs
+            sql_call = mock_db.prepare.call_args[0][1]
+            assert 'INNER JOIN USER01.CART_ITEMS' in sql_call
+            assert 'INNER JOIN USER01.INVENTORY' in sql_call
+            assert 'INNER JOIN USER01.PRODUCT_VARIANTS' in sql_call
+            assert 'WHERE C.USER_ID' in sql_call
+            assert 'STATUS' in sql_call  # Should filter by cart status
+            
+            # Verify parameter binding
+            mock_db.bind_param.assert_called_once_with(mock_stmt, 1, 123)
+    
+    @pytest.mark.unit
+    def test_get_cart_empty(self, cart_dao, mock_connection_pool):
+        """Test retrieving cart when it's empty (no items)"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.fetch_assoc.return_value = None  # No items
+            
+            result = cart_dao.get_cart(123)
+            
+            assert result['status'] == 'success'
+            assert result['output'] == []  # Empty list, not error
+
+    @pytest.mark.unit
+    def test_add_item_success(self, cart_dao, mock_connection_pool):
+        """Test adding item to cart - verifies all parameter bindings"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            
+            result = cart_dao.add_item(
+                cart_id=1,
+                inventory_id=5,
+                quantity=2,
+                unit_price_cents=9999,
+                currency_code='USD'
+            )
+            
+            assert result['status'] == 'success'
+            
+            # Verify SQL structure
+            sql_call = mock_db.prepare.call_args[0][1]
+            assert 'INSERT INTO USER01.CART_ITEMS' in sql_call
+            assert 'CART_ID' in sql_call
+            assert 'INVENTORY_ID' in sql_call
+            assert 'QUANTITY' in sql_call
+            assert 'UNIT_PRICE_CENTS' in sql_call
+            assert 'CURRENCY_CODE' in sql_call
+            
+            # Verify all parameters bound in correct order
+            expected_calls = [
+                call(mock_stmt, 1, 1),      # cart_id
+                call(mock_stmt, 2, 5),      # inventory_id
+                call(mock_stmt, 3, 2),      # quantity
+                call(mock_stmt, 4, 9999),   # unit_price_cents
+                call(mock_stmt, 5, 'USD'),  # currency_code
+            ]
+            mock_db.bind_param.assert_has_calls(expected_calls, any_order=False)
+            
+            # Verify transaction management
+            mock_db.execute.assert_called_once_with(mock_stmt)
+            mock_db.commit.assert_called_once_with(mock_conn)
+            mock_connection_pool.return_connection.assert_called_once()
+
+    @pytest.mark.unit
+    @pytest.mark.parametrize("quantity,price,currency", [
+        (1, 100, 'USD'),           # Minimum quantity
+        (999, 999999, 'USD'),      # Large values
+        (0, 0, 'USD'),             # Zero edge case (should succeed at DAO level)
+        (-1, -100, 'USD'),         # Negative edge case (should succeed at DAO level)
+        (1, 100, 'EUR'),           # Different currency
+        (1, 100, 'JPY'),           # Another currency
+    ])
+    def test_add_item_edge_cases(self, cart_dao, mock_connection_pool, quantity, price, currency):
+        """Test adding items with various edge case values"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            
+            result = cart_dao.add_item(1, 5, quantity, price, currency)
+            
+            assert result['status'] == 'success'
+            # Verify the values were passed correctly
+            calls = mock_db.bind_param.call_args_list
+            assert calls[2] == call(mock_stmt, 3, quantity)
+            assert calls[3] == call(mock_stmt, 4, price)
+            assert calls[4] == call(mock_stmt, 5, currency)
+
+    @pytest.mark.unit
+    def test_add_item_error_with_rollback(self, cart_dao, mock_connection_pool):
+        """Test error handling when adding item - verifies rollback"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_db.prepare.side_effect = Exception("Duplicate entry")
+            
+            result = cart_dao.add_item(1, 5, 2, 9999, 'USD')
+            
+            assert result['status'] == 'error'
+            assert 'Duplicate entry' in str(result['reason'])
+            
+            # Verify rollback called
+            mock_db.rollback.assert_called_once_with(mock_conn)
+            
+            # Verify commit never called
+            mock_db.commit.assert_not_called()
+            
+            # Verify connection returned
+            mock_connection_pool.return_connection.assert_called_once()
+
+    @pytest.mark.unit
+    def test_remove_item_success(self, cart_dao, mock_connection_pool):
+        """Test removing item from cart - verifies deletion and row count check"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.num_rows.return_value = 1
+            
+            result = cart_dao.remove_item(cart_id=1, cart_item_id=5)
+            
+            assert result['status'] == 'success'
+            
+            # Verify SQL structure
+            sql_call = mock_db.prepare.call_args[0][1]
+            assert 'DELETE FROM USER01.CART_ITEMS' in sql_call
+            assert 'CART_ID' in sql_call
+            assert 'ID' in sql_call  # cart_item_id
+            
+            # Verify parameters
+            expected_calls = [
+                call(mock_stmt, 1, 1),  # cart_id
+                call(mock_stmt, 2, 5),  # cart_item_id
+            ]
+            mock_db.bind_param.assert_has_calls(expected_calls)
+            
+            # Verify execution and commit
+            mock_db.execute.assert_called_once()
+            mock_db.num_rows.assert_called_once_with(mock_stmt)
+            mock_db.commit.assert_called_once_with(mock_conn)
+
+    @pytest.mark.unit
+    def test_remove_item_not_found(self, cart_dao, mock_connection_pool):
+        """Test removing item when it doesn't exist - should return error"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.num_rows.return_value = 0  # No rows affected
+            
+            result = cart_dao.remove_item(1, 5)
+            
+            assert result['status'] == 'error'
+            assert 'not found' in result['reason'].lower()
+            
+            # Verify no commit when item not found
+            mock_db.commit.assert_not_called()
+    
+    @pytest.mark.unit
+    def test_remove_item_wrong_cart(self, cart_dao, mock_connection_pool):
+        """Test removing item from wrong cart (security check)"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.num_rows.return_value = 0  # Item exists but not in this cart
+            
+            result = cart_dao.remove_item(cart_id=999, cart_item_id=5)
+            
+            # Should fail - protecting against removing items from other users' carts
+            assert result['status'] == 'error'
+
+    @pytest.mark.unit
+    def test_remove_entire_cart_with_items(self, cart_dao, mock_connection_pool):
+        """Test clearing all items from cart - verifies bulk delete"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.num_rows.return_value = 3
+            
+            result = cart_dao.remove_entire_cart(1)
+            
+            assert result['status'] == 'success'
+            assert result['rows_deleted'] == 3
+            
+            # Verify SQL structure
+            sql_call = mock_db.prepare.call_args[0][1]
+            assert 'DELETE FROM USER01.CART_ITEMS' in sql_call
+            assert 'CART_ID' in sql_call
+            
+            # Verify parameter binding
+            mock_db.bind_param.assert_called_once_with(mock_stmt, 1, 1)
+            
+            # Verify transaction
+            mock_db.execute.assert_called_once()
+            mock_db.commit.assert_called_once_with(mock_conn)
+
+    @pytest.mark.unit
+    def test_remove_entire_cart_already_empty(self, cart_dao, mock_connection_pool):
+        """Test error when cart is already empty"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.num_rows.return_value = 0
+            
+            result = cart_dao.remove_entire_cart(1)
+            
+            assert result['status'] == 'error'
+            assert 'empty' in result['reason'].lower()
+            
+            # Should not commit when nothing to delete
+            mock_db.commit.assert_not_called()
+    
+    @pytest.mark.unit
+    @pytest.mark.parametrize("num_items", [1, 5, 100, 1000])
+    def test_remove_entire_cart_various_sizes(self, cart_dao, mock_connection_pool, num_items):
+        """Test clearing carts of various sizes"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.num_rows.return_value = num_items
+            
+            result = cart_dao.remove_entire_cart(1)
+            
+            assert result['status'] == 'success'
+            assert result['rows_deleted'] == num_items
+
+
+# ============================================================================
+# USE CASE TESTS - Testing business scenarios, not just individual methods
+# ============================================================================
+
+@pytest.mark.unit
+@pytest.mark.integration
+class TestCartUseCases:
+    """Test real-world cart usage scenarios"""
+    
+    def test_complete_cart_lifecycle(self, cart_dao, mock_connection_pool):
+        """
+        USE CASE: Complete cart flow
+        1. Create cart for new user
+        2. Add multiple items
+        3. Remove one item
+        4. Clear entire cart
+        """
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            
+            # Step 1: Create cart
+            mock_db.num_rows.return_value = 1
+            result1 = cart_dao.create_cart(user_id=123)
+            assert result1['status'] == 'success'
+            
+            # Step 2: Add items
+            result2 = cart_dao.add_item(1, 10, 2, 9999, 'USD')
+            assert result2['status'] == 'success'
+            
+            result3 = cart_dao.add_item(1, 20, 1, 15999, 'USD')
+            assert result3['status'] == 'success'
+            
+            # Step 3: Remove one item
+            result4 = cart_dao.remove_item(1, 10)
+            assert result4['status'] == 'success'
+            
+            # Step 4: Clear cart
+            result5 = cart_dao.remove_entire_cart(1)
+            assert result5['status'] == 'success'
+    
+    def test_abandoned_cart_scenario(self, cart_dao, mock_connection_pool):
+        """
+        USE CASE: User adds items but never checks out
+        Verify we can retrieve cart later
+        """
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.cart_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            
+            # Add items
+            cart_dao.add_item(1, 5, 3, 5999, 'USD')
+            
+            # Later: retrieve cart
+            mock_db.fetch_assoc.side_effect = [
+                {'CART_ITEM_ID': 1, 'SKU': '001', 'QUANTITY': 3},
+                None
+            ]
+            result = cart_dao.get_cart(user_id=123)
+            
+            assert result['status'] == 'success'
+            assert len(result['output']) == 1
+
+
+@pytest.fixture
+def orders_dao(mock_connection_pool):
+    """Initialize OrdersDAO with mock connection pool"""
+    from Backend.DatabaseAccess.orders_dao import OrdersDAO
+    return OrdersDAO(mock_connection_pool)
+
+
+class TestOrdersDAO:
+    """Unit tests for OrdersDAO class"""
+
+    @pytest.mark.unit
+    def test_get_user_orders_multiple(self, orders_dao, mock_connection_pool):
+        """Test retrieving all orders for a user with order history"""
+        user_orders = [
+            {'ID': 101, 'TOTAL_CENTS': 15997, 'USER_ID': 123, 'PLACED_AT': '2026-01-15'},
+            {'ID': 102, 'TOTAL_CENTS': 29999, 'USER_ID': 123, 'PLACED_AT': '2026-02-20'},
+            {'ID': 103, 'TOTAL_CENTS': 5999, 'USER_ID': 123, 'PLACED_AT': '2026-03-10'}
+        ]
+        
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.fetch_assoc.side_effect = user_orders + [None]
+            
+            result = orders_dao.get_user_orders(user_id=123)
+            
+            assert result['status'] == 'success'
+            assert len(result['output']) == 3
+            assert result['output'][0]['ID'] == 101
+            assert result['output'][1]['TOTAL_CENTS'] == 29999
+            
+            # Verify SQL
+            sql_call = mock_db.prepare.call_args[0][1]
+            assert 'SELECT' in sql_call
+            assert 'FROM USER01.ORDERS' in sql_call
+            assert 'USER_ID' in sql_call
+            
+            # Verify parameter binding
+            mock_db.bind_param.assert_called_once_with(mock_stmt, 1, 123)
+    
+    @pytest.mark.unit
+    def test_get_user_orders_empty_history(self, orders_dao, mock_connection_pool):
+        """Test retrieving orders for user with no order history"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.fetch_assoc.return_value = None  # No orders
+            
+            result = orders_dao.get_user_orders(user_id=999)
+            
+            assert result['status'] == 'success'
+            assert result['output'] == []  # Empty list, not error
+
+    @pytest.mark.unit
+    def test_get_user_orders_database_error(self, orders_dao, mock_connection_pool):
+        """Test error handling when retrieving orders"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_db.prepare.side_effect = Exception("Query timeout")
+            
+            result = orders_dao.get_user_orders(user_id=123)
+            
+            assert result['status'] == 'error'
+            assert 'Query timeout' in str(result['reason'])
+            
+            # Verify connection cleanup
+            mock_connection_pool.return_connection.assert_called_once_with(mock_conn)
+
+    @pytest.mark.unit
+    def test_add_order_success(self, orders_dao, mock_connection_pool):
+        """Test creating new order - verifies parameter binding and defaults"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            
+            result = orders_dao.add_order(
+                user_id=123,
+                currency_code='USD',
+                subtotal_cents=15997,
+                billing_address_id=1,
+                shipping_address_id=2
+            )
+            
+            assert result['status'] == 'success'
+            
+            # Verify SQL structure
+            sql_call = mock_db.prepare.call_args[0][1]
+            assert 'INSERT INTO USER01.ORDERS' in sql_call
+            assert 'USER_ID' in sql_call
+            assert 'SUBTOTAL_CENTS' in sql_call
+            assert 'TOTAL_CENTS' in sql_call
+            assert 'TAX_CENTS' in sql_call
+            assert 'SHIPPING_CENTS' in sql_call
+            assert 'DISCOUNT_CENTS' in sql_call
+            
+            # Verify all parameters bound correctly
+            expected_calls = [
+                call(mock_stmt, 1, 123),     # user_id
+                call(mock_stmt, 2, 'USD'),   # currency_code
+                call(mock_stmt, 3, 15997),   # subtotal_cents
+                call(mock_stmt, 4, 15997),   # total_cents (same as subtotal initially)
+                call(mock_stmt, 5, 1),       # billing_address_id
+                call(mock_stmt, 6, 2),       # shipping_address_id
+            ]
+            mock_db.bind_param.assert_has_calls(expected_calls, any_order=False)
+            
+            # Verify transaction
+            mock_db.execute.assert_called_once()
+            mock_db.commit.assert_called_once_with(mock_conn)
+    
+    @pytest.mark.unit
+    @pytest.mark.parametrize("subtotal,currency", [
+        (100, 'USD'),
+        (999999, 'EUR'),
+        (1, 'JPY'),
+        (0, 'USD'),  # Edge case: free order
+    ])
+    def test_add_order_various_amounts(self, orders_dao, mock_connection_pool, subtotal, currency):
+        """Test creating orders with various subtotals and currencies"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            
+            result = orders_dao.add_order(123, currency, subtotal, 1, 2)
+            
+            assert result['status'] == 'success'
+            # Verify subtotal parameter
+            calls = mock_db.bind_param.call_args_list
+            assert calls[2] == call(mock_stmt, 3, subtotal)
+            assert calls[1] == call(mock_stmt, 2, currency)
+
+    @pytest.mark.unit
+    def test_add_order_error_with_rollback(self, orders_dao, mock_connection_pool):
+        """Test error handling when creating order - verifies rollback"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_db.prepare.side_effect = Exception("Foreign key constraint")
+            
+            result = orders_dao.add_order(123, 'USD', 15997, 1, 2)
+            
+            assert result['status'] == 'error'
+            assert 'Foreign key constraint' in str(result['reason'])
+            
+            # Verify rollback
+            mock_db.rollback.assert_called_once_with(mock_conn)
+            mock_db.commit.assert_not_called()
+
+    @pytest.mark.unit
+    def test_add_order_item_success(self, orders_dao, mock_connection_pool):
+        """Test adding item to order - verifies all 8 parameters"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            
+            result = orders_dao.add_order_item(
+                order_id=101,
+                inventory_id=5,
+                seller_id=1,
+                sku='001ST001SN001A',
+                product_name='Premium Watch',
+                unit_price_cents=9999,
+                currency_code='USD',
+                quantity=2
+            )
+            
+            assert result['status'] == 'success'
+            
+            # Verify SQL structure
+            sql_call = mock_db.prepare.call_args[0][1]
+            assert 'INSERT INTO USER01.ORDER_ITEMS' in sql_call
+            
+            # Verify all 9 parameters bound (including total_cents)
+            expected_calls = [
+                call(mock_stmt, 1, 101),                # order_id
+                call(mock_stmt, 2, 5),                  # inventory_id
+                call(mock_stmt, 3, 1),                  # seller_id
+                call(mock_stmt, 4, '001ST001SN001A'),   # sku
+                call(mock_stmt, 5, 'Premium Watch'),    # product_name
+                call(mock_stmt, 6, 9999),               # unit_price_cents
+                call(mock_stmt, 7, 'USD'),              # currency_code
+                call(mock_stmt, 8, 2),                  # quantity
+                call(mock_stmt, 9, 19998),              # total_cents (9999 * 2)
+            ]
+            mock_db.bind_param.assert_has_calls(expected_calls, any_order=False)
+            assert mock_db.bind_param.call_count == 9
+            
+            # Verify transaction
+            mock_db.execute.assert_called_once()
+            mock_db.commit.assert_called_once()
+
+    @pytest.mark.unit
+    def test_add_order_item_with_long_product_name(self, orders_dao, mock_connection_pool):
+        """Test adding order item with very long product name (edge case)"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            
+            long_name = "A" * 200  # Very long product name
+            result = orders_dao.add_order_item(101, 5, 1, 'SKU123', long_name, 9999, 'USD', 1)
+            
+            assert result['status'] == 'success'
+            # Verify long name was passed
+            calls = mock_db.bind_param.call_args_list
+            assert calls[4] == call(mock_stmt, 5, long_name)
+
+    @pytest.mark.unit
+    def test_add_order_item_error_with_rollback(self, orders_dao, mock_connection_pool):
+        """Test error handling when adding order item"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_db.prepare.side_effect = Exception("Foreign key violation")
+            
+            result = orders_dao.add_order_item(101, 5, 1, 'SKU', 'Product', 9999, 'USD', 2)
+            
+            assert result['status'] == 'error'
+            mock_db.rollback.assert_called_once()
+            mock_db.commit.assert_not_called()
+
+    @pytest.mark.unit
+    def test_get_order_id_most_recent(self, orders_dao, mock_connection_pool):
+        """Test retrieving most recent order ID for user - verifies ORDER BY DESC"""
+        expected_order = {'ID': 102}
+        
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.fetch_assoc.side_effect = [expected_order, None]
+            
+            result = orders_dao.get_order_id(123)
+            
+            assert result['status'] == 'success'
+            assert len(result['output']) == 1
+            assert result['output'][0]['ID'] == 102
+            
+            # Verify SQL gets most recent order
+            sql_call = mock_db.prepare.call_args[0][1]
+            assert 'ORDER BY CREATED_AT DESC' in sql_call
+            assert 'FETCH FIRST 1 ROW ONLY' in sql_call
+            
+            # Verify parameter
+            mock_db.bind_param.assert_called_once_with(mock_stmt, 1, 123)
+    
+    @pytest.mark.unit
+    def test_get_order_id_no_orders(self, orders_dao, mock_connection_pool):
+        """Test get_order_id when user has no orders"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.fetch_assoc.return_value = None  # No orders
+            
+            result = orders_dao.get_order_id(999)
+            
+            assert result['status'] == 'success'
+            assert result['output'] == []
+
+    @pytest.mark.unit
+    def test_update_order_cost_success(self, orders_dao, mock_connection_pool):
+        """Test updating order cost - verifies both SUBTOTAL and TOTAL updated"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.num_rows.return_value = 1
+            
+            result = orders_dao.update_order_cost(cost=19997, order_id=101)
+            
+            assert result['status'] == 'success'
+            
+            # Verify SQL updates both subtotal and total
+            sql_call = mock_db.prepare.call_args[0][1]
+            assert 'UPDATE USER01.ORDERS' in sql_call
+            assert 'SUBTOTAL_CENTS' in sql_call
+            assert 'TOTAL_CENTS' in sql_call
+            assert 'WHERE ID' in sql_call
+            
+            # Verify parameters (cost appears twice: subtotal and total)
+            expected_calls = [
+                call(mock_stmt, 1, 19997),  # subtotal
+                call(mock_stmt, 2, 19997),  # total
+                call(mock_stmt, 3, 101),    # order_id
+            ]
+            mock_db.bind_param.assert_has_calls(expected_calls)
+            
+            # Verify transaction
+            mock_db.execute.assert_called_once()
+            mock_db.commit.assert_called_once()
+
+    @pytest.mark.unit
+    def test_update_order_cost_not_found(self, orders_dao, mock_connection_pool):
+        """Test error when order not found"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.num_rows.return_value = 0
+            
+            result = orders_dao.update_order_cost(19997, 9999)
+            
+            assert result['status'] == 'error'
+            assert 'not found' in result['reason'].lower()
+            
+            # No commit when order not found
+            mock_db.commit.assert_not_called()
+    
+    @pytest.mark.unit
+    @pytest.mark.parametrize("cost", [0, 1, 100, 999999, -100])
+    def test_update_order_cost_various_values(self, orders_dao, mock_connection_pool, cost):
+        """Test updating order with various cost values including edge cases"""
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.num_rows.return_value = 1
+            
+            result = orders_dao.update_order_cost(cost, 101)
+            
+            assert result['status'] == 'success'
+            # Verify cost parameter
+            calls = mock_db.bind_param.call_args_list
+            assert calls[0] == call(mock_stmt, 1, cost)
+            assert calls[1] == call(mock_stmt, 2, cost)
+
+
+# ============================================================================
+# ORDER USE CASE TESTS - Testing checkout and order creation scenarios
+# ============================================================================
+
+@pytest.mark.unit
+@pytest.mark.integration
+class TestOrderUseCases:
+    """Test real-world order and checkout scenarios"""
+    
+    def test_complete_checkout_flow(self, orders_dao, cart_dao, mock_connection_pool):
+        """
+        USE CASE: User completes checkout
+        1. Create order from cart
+        2. Add all cart items to order
+        3. Update order total
+        4. Clear cart (tested in CartDAO)
+        """
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            mock_db.num_rows.return_value = 1
+            
+            # Step 1: Create order
+            result1 = orders_dao.add_order(
+                user_id=123,
+                currency_code='USD',
+                subtotal_cents=25998,  # 2 items
+                billing_address_id=1,
+                shipping_address_id=1
+            )
+            assert result1['status'] == 'success'
+            
+            # Step 2: Add order items (simulating cart -> order transfer)
+            result2 = orders_dao.add_order_item(101, 5, 1, 'SKU1', 'Watch', 9999, 'USD', 1)
+            assert result2['status'] == 'success'
+            
+            result3 = orders_dao.add_order_item(101, 6, 1, 'SKU2', 'Band', 15999, 'USD', 1)
+            assert result3['status'] == 'success'
+            
+            # Step 3: Update total (if tax/shipping added)
+            result4 = orders_dao.update_order_cost(28998, 101)
+            assert result4['status'] == 'success'
+    
+    def test_order_history_retrieval(self, orders_dao, mock_connection_pool):
+        """
+        USE CASE: User views past orders
+        """
+        mock_conn = mock_connection_pool.get_connection.return_value
+        with patch('Backend.DatabaseAccess.orders_dao.ibm_db') as mock_db:
+            mock_stmt = Mock()
+            mock_db.prepare.return_value = mock_stmt
+            
+            # User has 3 past orders
+            orders = [
+                {'ID': 1, 'TOTAL_CENTS': 10000, 'PLACED_AT': '2026-01-01'},
+                {'ID': 2, 'TOTAL_CENTS': 20000, 'PLACED_AT': '2026-02-01'},
+                {'ID': 3, 'TOTAL_CENTS': 30000, 'PLACED_AT': '2026-03-01'},
+            ]
+            mock_db.fetch_assoc.side_effect = orders + [None]
+            
+            result = orders_dao.get_user_orders(123)
+            
+            assert result['status'] == 'success'
+            assert len(result['output']) == 3
+            # Verify chronological order
+            assert result['output'][0]['ID'] == 1
+            assert result['output'][2]['ID'] == 3
+

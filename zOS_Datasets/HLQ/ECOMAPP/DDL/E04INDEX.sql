@@ -115,14 +115,6 @@ CREATE INDEX <Your HLQ>.IX_ORDERS_USER_CREAT
     CLOSE NO;
 
 -- ==============================================================
--- ORDER_ADDRESSES: Find addresses by order
--- ==============================================================
-CREATE INDEX <Your HLQ>.IX_ORDADDR_ORDER
-    ON <Your HLQ>.ORDER_ADDRESSES (ORDER_ID ASC)
-    BUFFERPOOL BP0
-    CLOSE NO;
-
--- ==============================================================
 -- ORDER_ITEMS: All items for an order
 -- ==============================================================
 CREATE INDEX <Your HLQ>.IX_ORDITM_ORDERID

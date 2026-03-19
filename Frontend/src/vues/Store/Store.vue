@@ -1,32 +1,15 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getProducts, getInventory, addInventoryItem } from '@/utils/api.js'
+import { getProducts, getInventory, addInventoryItem, getModifiers } from '@/utils/api.js'
+import { getCardImage } from '@/utils/cardImages.js'
+import { getRandomAd } from '@/utils/ads.js'
 
 const router = useRouter()
+const randomAd = getRandomAd()
 const products = ref([])
 const inventory = ref([])
 const loading = ref(true)
-
-// Dynamically import all card images
-const cardImageFiles = import.meta.glob('@/assets/Images/Cards/*.png', { eager: true })
-
-function getCardImage(description) {
-  // Check if this is a booster/mystery product
-  const lowerDesc = description.toLowerCase()
-  if (lowerDesc.includes('mystery') || lowerDesc.includes('booster')) {
-    const boosterKey = Object.keys(cardImageFiles).find(k => k.toLowerCase().endsWith('booster.png'))
-    if (boosterKey) return cardImageFiles[boosterKey].default
-  }
-  // Try to find exact match by description
-  for (const [path, mod] of Object.entries(cardImageFiles)) {
-    const fileName = path.split('/').pop().replace('.png', '')
-    if (fileName === description) return mod.default
-  }
-  // Fallback to Blank
-  const blankKey = Object.keys(cardImageFiles).find(k => k.endsWith('Blank.png'))
-  return blankKey ? cardImageFiles[blankKey].default : null
-}
 
 onMounted(async () => {
   try {
@@ -163,12 +146,43 @@ const CONDITION_OPTIONS = [
   { label: 'Moderate Play', code: 'P' },
 ]
 
+const suggestedPrice = ref(null)
+
 function openSellModal() {
   sellForm.value = { productSku: '', language: '', condition: '', foil: '', quantity: 1, price: '' }
   sellError.value = ''
+  suggestedPrice.value = null
   showSellModal.value = true
 }
 function closeSellModal() { showSellModal.value = false }
+
+// Watch for card + all modifiers selected, then suggest a price
+watch(
+  () => [sellForm.value.productSku, sellForm.value.language, sellForm.value.foil, sellForm.value.condition],
+  async ([sku, lang, foil, cond]) => {
+    if (!sku || !lang || !foil || !cond) {
+      suggestedPrice.value = null
+      return
+    }
+    const product = products.value.find(p => p['1'] === sku)
+    if (!product) return
+    try {
+      const modifiers = await getModifiers('C')
+      const code = lang + foil + cond
+      const match = modifiers.find(m => m.MODIFIER_CODE === code)
+      if (match) {
+        const cents = product.BASE_PRICE_CENTS * parseFloat(match.PRICE_MULTIPLIER)
+        const suggested = (cents / 100).toFixed(2)
+        suggestedPrice.value = suggested
+        sellForm.value.price = suggested
+      } else {
+        suggestedPrice.value = null
+      }
+    } catch {
+      suggestedPrice.value = null
+    }
+  }
+)
 
 // Build modifier code (3 chars) from the 3 dropdown selections
 // Order: Language + Foil + Condition
@@ -209,6 +223,7 @@ async function submitSell() {
 </script>
 
 <template>
+  <div class="page-with-ad">
   <main class="page-shell">
     <h1 class="page-title">Store</h1>
 
@@ -318,7 +333,7 @@ async function submitSell() {
               <label class="form-label">Card</label>
               <select v-model="sellForm.productSku" class="form-input">
                 <option value="">Select a card…</option>
-                <option v-for="p in productCards" :key="p.sku" :value="p.sku">{{ p.name }} (${{ p.price }})</option>
+                <option v-for="p in productCards" :key="p.sku" :value="p.sku">{{ p.name }}</option>
               </select>
             </div>
             <div class="form-group">
@@ -349,6 +364,7 @@ async function submitSell() {
             <div class="form-group">
               <label class="form-label">Your Price ($)</label>
               <input v-model="sellForm.price" type="number" step="0.01" min="0.01" class="form-input" placeholder="Enter price" />
+              <p v-if="suggestedPrice" class="suggested-price">Suggested: ${{ suggestedPrice }}</p>
             </div>
             <p v-if="sellError" class="modal-error">{{ sellError }}</p>
             <div class="modal-actions">
@@ -360,9 +376,34 @@ async function submitSell() {
       </div>
     </template>
   </main>
+  <aside v-if="randomAd" class="ad-column">
+    <img :src="randomAd" alt="Advertisement" class="ad-img" />
+  </aside>
+  </div>
 </template>
 
 <style scoped>
+.page-with-ad {
+  display: flex;
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.page-shell { flex: 1; min-width: 0; }
+.ad-column {
+  width: 160px;
+  flex-shrink: 0;
+  position: fixed;
+  right: 1.5rem;
+  top: 5rem;
+}
+.ad-img {
+  width: 100%;
+  border-radius: 8px;
+}
+@media (max-width: 900px) {
+  .ad-column { display: none; }
+}
 .product-section {
   margin-bottom: 3rem;
 }
@@ -375,5 +416,11 @@ async function submitSell() {
 .product-stock {
   font-size: 0.8rem;
   color: var(--color-text-muted, #888);
+}
+.suggested-price {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #aaa);
+  font-style: italic;
 }
 </style>

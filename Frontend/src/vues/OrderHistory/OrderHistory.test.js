@@ -1,12 +1,19 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
 import { nextTick } from 'vue'
 import OrderHistory from './OrderHistory.vue'
 import { mountWithDefaults } from '../../test/utils'
+import * as api from '@/utils/api.js'
+
+// Mock the API module
+vi.mock('@/utils/api.js', () => ({
+  getOrders: vi.fn().mockResolvedValue([])
+}))
 
 describe('OrderHistory Component', () => {
   let wrapper
 
   beforeEach(() => {
+    vi.clearAllMocks()
     wrapper = mountWithDefaults(OrderHistory)
   })
 
@@ -20,7 +27,11 @@ describe('OrderHistory Component', () => {
       expect(wrapper.find('.page-title').text()).toBe('Order History')
     })
 
-    it('should display empty state when no orders', () => {
+    it('should display empty state when no orders', async () => {
+      wrapper.vm.loading = false
+      wrapper.vm.rawOrders = []
+      await nextTick()
+      
       expect(wrapper.vm.orders).toHaveLength(0)
       
       const emptyState = wrapper.find('.empty-state')
@@ -28,7 +39,11 @@ describe('OrderHistory Component', () => {
       expect(emptyState.text()).toContain('No orders yet')
     })
 
-    it('should show link to store when no orders', () => {
+    it('should show link to store when no orders', async () => {
+      wrapper.vm.loading = false
+      wrapper.vm.rawOrders = []
+      await nextTick()
+      
       const storeLink = wrapper.find('.action-btn')
       expect(storeLink.exists()).toBe(true)
       expect(storeLink.text()).toBe('Start Shopping')
@@ -37,114 +52,148 @@ describe('OrderHistory Component', () => {
 
   describe('Orders Display', () => {
     it('should display orders when they exist', async () => {
-      const mockOrders = [
+      // Set raw orders (backend format: flat joined rows)
+      const mockRawOrders = [
         {
-          id: 101,
-          date: '2026-03-10',
-          items: [
-            { name: 'Booster Pack', qty: 2, price: 10 }
-          ],
-          total: 20
+          ORDER_ID: 101,
+          CREATED_AT: '2026-03-10T12:00:00Z',
+          STATUS: 'Completed',
+          PRODUCT_NAME: 'Booster Pack',
+          QUANTITY: 2,
+          UNIT_PRICE_CENTS: 1000
         },
         {
-          id: 102,
-          date: '2026-03-15',
-          items: [
-            { name: 'Rare Card', qty: 1, price: 25 }
-          ],
-          total: 25
+          ORDER_ID: 102,
+          CREATED_AT: '2026-03-15T14:30:00Z',
+          STATUS: 'Shipped',
+          PRODUCT_NAME: 'Rare Card',
+          QUANTITY: 1,
+          UNIT_PRICE_CENTS: 2500
         }
       ]
 
-      wrapper.vm.orders = mockOrders
+      wrapper.vm.loading = false
+      wrapper.vm.rawOrders = mockRawOrders
       await nextTick()
 
-      const orderElements = wrapper.findAll('.list-row')
-      expect(orderElements).toHaveLength(2)
+      // Should have 2 orders in computed property
+      expect(wrapper.vm.orders).toHaveLength(2)
+
+      // Should render table rows
+      const orderRows = wrapper.findAll('tbody tr')
+      expect(orderRows).toHaveLength(2)
     })
 
     it('should display order ID correctly', async () => {
-      const mockOrders = [{
-        id: 101,
-        date: '2026-03-10',
-        items: [{ name: 'Test', qty: 1, price: 10 }],
-        total: 10
+      const mockRawOrders = [{
+        ORDER_ID: 101,
+        CREATED_AT: '2026-03-10T12:00:00Z',
+        STATUS: 'Completed',
+        PRODUCT_NAME: 'Test Item',
+        QUANTITY: 1,
+        UNIT_PRICE_CENTS: 1000
       }]
 
-      wrapper.vm.orders = mockOrders
+      wrapper.vm.loading = false
+      wrapper.vm.rawOrders = mockRawOrders
       await nextTick()
 
-      const orderElement = wrapper.find('.list-row__summary')
-      expect(orderElement.text()).toContain('Order #101')
+      const orderRow = wrapper.find('tbody tr')
+      expect(orderRow.find('.col-order').text()).toBe('101')
     })
 
     it('should display order date', async () => {
-      const mockOrders = [{
-        id: 101,
-        date: '2026-03-10',
-        items: [{ name: 'Test', qty: 1, price: 10 }],
-        total: 10
+      const mockRawOrders = [{
+        ORDER_ID: 101,
+        CREATED_AT: '2026-03-10T12:00:00Z',
+        STATUS: 'Completed',
+        PRODUCT_NAME: 'Test Item',
+        QUANTITY: 1,
+        UNIT_PRICE_CENTS: 1000
       }]
 
-      wrapper.vm.orders = mockOrders
+      wrapper.vm.loading = false
+      wrapper.vm.rawOrders = mockRawOrders
       await nextTick()
 
-      const orderElement = wrapper.find('.list-row__summary')
-      expect(orderElement.text()).toContain('2026-03-10')
+      const orderRow = wrapper.find('tbody tr')
+      const dateText = orderRow.find('.col-date').text()
+      // Date should be formatted (contains Mar and 10)
+      expect(dateText).toContain('Mar')
+      expect(dateText).toContain('10')
     })
 
     it('should display order total', async () => {
-      const mockOrders = [{
-        id: 101,
-        date: '2026-03-10',
-        items: [{ name: 'Test', qty: 2, price: 15 }],
-        total: 30
+      const mockRawOrders = [{
+        ORDER_ID: 101,
+        CREATED_AT: '2026-03-10T12:00:00Z',
+        STATUS: 'Completed',
+        PRODUCT_NAME: 'Test Item',
+        QUANTITY: 2,
+        UNIT_PRICE_CENTS: 1500
       }]
 
-      wrapper.vm.orders = mockOrders
+      wrapper.vm.loading = false
+      wrapper.vm.rawOrders = mockRawOrders
       await nextTick()
 
-      const orderElement = wrapper.find('.list-row__price')
-      expect(orderElement.text()).toBe('$30.00')
+      // Total should be 2 * 1500 = 3000 cents = $30.00
+      const orderRow = wrapper.find('tbody tr')
+      expect(orderRow.find('.col-cost').text()).toBe('$30.00')
     })
   })
 
   describe('Order Items', () => {
     it('should display order items in details', async () => {
-      const mockOrders = [{
-        id: 101,
-        date: '2026-03-10',
-        items: [
-          { name: 'Booster Pack', qty: 2, price: 10 },
-          { name: 'Rare Card', qty: 1, price: 25 }
-        ],
-        total: 45
-      }]
+      // Multiple items for same order
+      const mockRawOrders = [
+        {
+          ORDER_ID: 101,
+          CREATED_AT: '2026-03-10T12:00:00Z',
+          STATUS: 'Completed',
+          PRODUCT_NAME: 'Booster Pack',
+          QUANTITY: 2,
+          UNIT_PRICE_CENTS: 1000
+        },
+        {
+          ORDER_ID: 101,
+          CREATED_AT: '2026-03-10T12:00:00Z',
+          STATUS: 'Completed',
+          PRODUCT_NAME: 'Rare Card',
+          QUANTITY: 1,
+          UNIT_PRICE_CENTS: 2500
+        }
+      ]
 
-      wrapper.vm.orders = mockOrders
+      wrapper.vm.loading = false
+      wrapper.vm.rawOrders = mockRawOrders
       await nextTick()
 
-      const orderItems = wrapper.findAll('.order-items li')
-      expect(orderItems).toHaveLength(2)
+      // Should be grouped into 1 order with 2 items
+      expect(wrapper.vm.orders).toHaveLength(1)
+      expect(wrapper.vm.orders[0].items).toHaveLength(2)
     })
 
     it('should display item details correctly', async () => {
-      const mockOrders = [{
-        id: 101,
-        date: '2026-03-10',
-        items: [
-          { name: 'Booster Pack', qty: 2, price: 10 }
-        ],
-        total: 20
+      const mockRawOrders = [{
+        ORDER_ID: 101,
+        CREATED_AT: '2026-03-10T12:00:00Z',
+        STATUS: 'Completed',
+        PRODUCT_NAME: 'Booster Pack',
+        QUANTITY: 2,
+        UNIT_PRICE_CENTS: 1000
       }]
 
-      wrapper.vm.orders = mockOrders
+      wrapper.vm.loading = false
+      wrapper.vm.rawOrders = mockRawOrders
       await nextTick()
 
-      const itemElement = wrapper.find('.order-items li')
-      expect(itemElement.text()).toContain('2×')
-      expect(itemElement.text()).toContain('Booster Pack')
-      expect(itemElement.text()).toContain('$20.00')
+      const orderRow = wrapper.find('tbody tr')
+      const itemsSummary = orderRow.find('.col-items').text()
+      
+      // Should show "2× Booster Pack"
+      expect(itemsSummary).toContain('2×')
+      expect(itemsSummary).toContain('Booster Pack')
     })
   })
 
@@ -160,45 +209,57 @@ describe('OrderHistory Component', () => {
 
     it('should not display orders when loading', async () => {
       wrapper.vm.loading = true
-      wrapper.vm.orders = [{ id: 1, date: '2026-03-10', items: [], total: 0 }]
+      wrapper.vm.errorMsg = ''  // Important: errorMsg must be falsy for the v-else-if chain
+      wrapper.vm.rawOrders = []  // Set NO raw orders
       await nextTick()
 
-      const orderElements = wrapper.findAll('.list-row')
-      expect(orderElements).toHaveLength(0)
+      // With loading=true and no orders, table wrapper should not exist
+      const tableWrapper = wrapper.find('.orders-table-wrapper')
+      expect(tableWrapper.exists()).toBe(false)
+      
+      // Loading message should be displayed
+      expect(wrapper.find('.empty-state').text()).toBe('Loading…')
     })
   })
 
   describe('Expandable Orders', () => {
     it('should render orders as details elements', async () => {
-      const mockOrders = [{
-        id: 101,
-        date: '2026-03-10',
-        items: [{ name: 'Test', qty: 1, price: 10 }],
-        total: 10
+      const mockRawOrders = [{
+        ORDER_ID: 101,
+        CREATED_AT: '2026-03-10T12:00:00Z',
+        STATUS: 'Completed',
+        PRODUCT_NAME: 'Test Item',
+        QUANTITY: 1,
+        UNIT_PRICE_CENTS: 1000
       }]
 
-      wrapper.vm.orders = mockOrders
+      wrapper.vm.loading = false
+      wrapper.vm.rawOrders = mockRawOrders
       await nextTick()
 
-      const detailsElement = wrapper.find('details')
-      expect(detailsElement.exists()).toBe(true)
-      expect(detailsElement.classes()).toContain('list-row--expandable')
+      // Component uses table format, not details/summary
+      const table = wrapper.find('.orders-table')
+      expect(table.exists()).toBe(true)
     })
 
     it('should have summary element for order header', async () => {
-      const mockOrders = [{
-        id: 101,
-        date: '2026-03-10',
-        items: [{ name: 'Test', qty: 1, price: 10 }],
-        total: 10
+      const mockRawOrders = [{
+        ORDER_ID: 101,
+        CREATED_AT: '2026-03-10T12:00:00Z',
+        STATUS: 'Completed',
+        PRODUCT_NAME: 'Test Item',
+        QUANTITY: 1,
+        UNIT_PRICE_CENTS: 1000
       }]
 
-      wrapper.vm.orders = mockOrders
+      wrapper.vm.loading = false
+      wrapper.vm.rawOrders = mockRawOrders
       await nextTick()
 
-      const summary = wrapper.find('summary')
-      expect(summary.exists()).toBe(true)
-      expect(summary.classes()).toContain('list-row__summary')
+      // Component uses table headers
+      const headers = wrapper.findAll('thead th')
+      expect(headers.length).toBeGreaterThan(0)
+      expect(headers[0].text()).toBe('Order #')
     })
   })
 })

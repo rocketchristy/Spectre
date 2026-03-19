@@ -4,13 +4,13 @@ import Product from './Product.vue'
 import { mountWithDefaults, createMockRouter, flushPromises } from '../../test/utils'
 
 // Mock the API module
-vi.mock('../../utils/api.js', () => ({
+vi.mock('@/utils/api.js', () => ({
   getProducts: vi.fn(),
   getInventory: vi.fn(),
   addToCart: vi.fn()
 }))
 
-import * as api from '../../utils/api.js'
+import * as api from '@/utils/api.js'
 
 describe('Product Component', () => {
   let wrapper
@@ -389,9 +389,6 @@ describe('Product Component', () => {
     it('should call addToCart API when handleAddToCart is called', async () => {
       await flushPromises()
       
-      // Mock alert
-      global.alert = vi.fn()
-      
       const testListing = {
         INVENTORY_ID: 1,
         QUANTITY_AVAILABLE: 10,
@@ -399,13 +396,17 @@ describe('Product Component', () => {
         CURRENCY_CODE: 'USD'
       }
       
-      api.addToCart.mockResolvedValue({ success: true })
+      // Clear previous mock calls and set new expectation
+      api.addToCart.mockClear()
+      api.addToCart.mockResolvedValueOnce({ success: true })
       
       await wrapper.vm.handleAddToCart(testListing)
       await flushPromises()
       
       expect(api.addToCart).toHaveBeenCalledWith(1, 1, 500, 'USD')
-      expect(global.alert).toHaveBeenCalled()
+      
+      // Verify showCartPrompt is set
+      expect(wrapper.vm.showCartPrompt).toBe(true)
     })
 
     it('should handle addToCart errors', async () => {

@@ -1,0 +1,191 @@
+Table USERS {
+  ID BIGINT [pk, increment]
+  EMAIL VARCHAR(320) [not null, unique]
+  HASHED_PASSWORD VARCHAR(255) [not null]
+  PASSWORD_ALG VARCHAR(32)
+  FIRST_NAME VARCHAR(40) [not null]
+  LAST_NAME VARCHAR(40) [not null]
+  IS_ACTIVE CHAR(1) [not null, default: 'Y']
+  CREATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  UPDATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table TOKENS {
+  ID BIGINT [pk, increment]
+  USER_ID BIGINT [not null]
+}
+
+Table SERIES {
+  CODE CHAR(2) [pk]
+  DESCRIPTION VARCHAR(255) [not null]
+  CREATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table STYLES {
+  CODE CHAR(1) [pk]
+  DESCRIPTION VARCHAR(255) [not null]
+  CREATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table STYLE_MODIFIERS {
+  STYLE_CODE CHAR(1) [pk]
+  MODIFIER_CODE CHAR(3) [pk]
+  DESCRIPTION VARCHAR(100) [not null]
+  PRICE_MULTIPLIER DECIMAL(5,2) [not null, default: 1.00]
+  DISPLAY_ORDER INT [not null, default: 1]
+  IS_ACTIVE CHAR(1) [not null, default: 'Y']
+  CREATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table PRODUCT_TYPES {
+  SERIES_CODE CHAR(2) [pk]
+  STYLE_CODE CHAR(1) [pk]
+  SERIAL_NUMBER CHAR(4) [pk]
+  DESCRIPTION VARCHAR(255) [not null]
+  BASE_PRICE_CENTS INT [not null]
+  CREATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  UPDATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table PRODUCT_VARIANTS {
+  SERIES_CODE CHAR(2) [pk]
+  STYLE_CODE CHAR(1) [pk]
+  SERIAL_NUMBER CHAR(4) [pk]
+  MODIFIER_CODE CHAR(3) [pk]
+  DISPLAY_NAME VARCHAR(255)
+  IS_ACTIVE CHAR(1) [not null, default: 'Y']
+  CREATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  UPDATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table VARIANT_IMAGES {
+  ID BIGINT [pk, increment]
+  SERIES_CODE CHAR(2) [not null]
+  STYLE_CODE CHAR(1) [not null]
+  SERIAL_NUMBER CHAR(4) [not null]
+  MODIFIER_CODE CHAR(3) [not null]
+  URL VARCHAR(2048) [not null]
+  ALT_TEXT VARCHAR(255)
+  SORT_ORDER INT [default: 0]
+  CREATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table INVENTORY {
+  ID BIGINT [pk, increment]
+  SELLER_ID BIGINT [not null]
+  SERIES_CODE CHAR(2) [not null]
+  STYLE_CODE CHAR(1) [not null]
+  SERIAL_NUMBER CHAR(4) [not null]
+  MODIFIER_CODE CHAR(3) [not null]
+  QUANTITY_AVAILABLE INT [not null, default: 0]
+  UNIT_PRICE_CENTS INT [not null]
+  CURRENCY_CODE CHAR(3) [not null, default: 'USD']
+  CREATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  UPDATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  
+  indexes {
+    (SELLER_ID, SERIES_CODE, STYLE_CODE, SERIAL_NUMBER, MODIFIER_CODE) [unique]
+  }
+}
+
+Table CARTS {
+  ID BIGINT [pk, increment]
+  USER_ID BIGINT
+  STATUS VARCHAR(20) [not null, default: 'active']
+  CURRENCY_CODE CHAR(3) [not null, default: 'USD']
+  CREATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  UPDATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table CART_ITEMS {
+  ID BIGINT [pk, increment]
+  CART_ID BIGINT [not null]
+  INVENTORY_ID BIGINT [not null]
+  QUANTITY INT [not null, default: 1]
+  UNIT_PRICE_CENTS INT [not null]
+  CURRENCY_CODE CHAR(3) [not null, default: 'USD']
+  CREATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  UPDATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  
+  indexes {
+    (CART_ID, INVENTORY_ID) [unique]
+  }
+}
+
+Table ADDRESSES {
+  ID BIGINT [pk, increment]
+  USER_ID BIGINT
+  FULL_NAME VARCHAR(80) [not null]
+  LINE1 VARCHAR(64) [not null]
+  LINE2 VARCHAR(64)
+  CITY VARCHAR(64) [not null]
+  REGION VARCHAR(64)
+  POSTAL_CODE VARCHAR(16) [not null]
+  COUNTRY_CODE CHAR(2) [not null, default: 'US']
+  PHONE VARCHAR(30)
+  CREATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table ORDERS {
+  ID BIGINT [pk, increment]
+  USER_ID BIGINT
+  STATUS VARCHAR(20) [not null, default: 'pending']
+  CURRENCY_CODE CHAR(3) [not null, default: 'USD']
+  SUBTOTAL_CENTS INT [not null, default: 0]
+  TAX_CENTS INT [not null, default: 0]
+  SHIPPING_CENTS INT [not null, default: 0]
+  DISCOUNT_CENTS INT [not null, default: 0]
+  TOTAL_CENTS INT [not null, default: 0]
+  BILLING_ADDRESS_ID BIGINT
+  SHIPPING_ADDRESS_ID BIGINT
+  PLACED_AT TIMESTAMP
+  CREATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  UPDATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table ORDER_ADDRESSES {
+  ID BIGINT [pk, increment]
+  FULL_NAME VARCHAR(80) [not null]
+  LINE1 VARCHAR(64) [not null]
+  LINE2 VARCHAR(64)
+  CITY VARCHAR(64) [not null]
+  REGION VARCHAR(64)
+  POSTAL_CODE VARCHAR(16) [not null]
+  COUNTRY_CODE CHAR(2) [not null, default: 'US']
+  PHONE VARCHAR(30)
+  CREATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table ORDER_ITEMS {
+  ID BIGINT [pk, increment]
+  ORDER_ID BIGINT [not null]
+  INVENTORY_ID BIGINT [not null]
+  SELLER_ID BIGINT [not null]
+  SKU VARCHAR(100) [not null]
+  PRODUCT_NAME VARCHAR(255) [not null]
+  UNIT_PRICE_CENTS INT [not null]
+  CURRENCY_CODE CHAR(3) [not null, default: 'USD']
+  QUANTITY INT [not null, default: 1]
+  TOTAL_CENTS INT [not null]
+  CREATED_AT TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Ref: TOKENS.USER_ID > USERS.ID [delete: cascade]
+Ref: STYLE_MODIFIERS.STYLE_CODE > STYLES.CODE
+Ref: PRODUCT_TYPES.SERIES_CODE > SERIES.CODE [delete: restrict]
+Ref: PRODUCT_TYPES.STYLE_CODE > STYLES.CODE [delete: restrict]
+Ref: PRODUCT_VARIANTS.(SERIES_CODE, STYLE_CODE, SERIAL_NUMBER) > PRODUCT_TYPES.(SERIES_CODE, STYLE_CODE, SERIAL_NUMBER) [delete: cascade]
+Ref: PRODUCT_VARIANTS.(STYLE_CODE, MODIFIER_CODE) > STYLE_MODIFIERS.(STYLE_CODE, MODIFIER_CODE) [delete: restrict]
+Ref: VARIANT_IMAGES.(SERIES_CODE, STYLE_CODE, SERIAL_NUMBER, MODIFIER_CODE) > PRODUCT_VARIANTS.(SERIES_CODE, STYLE_CODE, SERIAL_NUMBER, MODIFIER_CODE) [delete: cascade]
+Ref: INVENTORY.SELLER_ID > USERS.ID [delete: cascade]
+Ref: INVENTORY.(SERIES_CODE, STYLE_CODE, SERIAL_NUMBER, MODIFIER_CODE) > PRODUCT_VARIANTS.(SERIES_CODE, STYLE_CODE, SERIAL_NUMBER, MODIFIER_CODE) [delete: restrict]
+Ref: CARTS.USER_ID > USERS.ID [delete: cascade]
+Ref: CART_ITEMS.CART_ID > CARTS.ID [delete: cascade]
+Ref: CART_ITEMS.INVENTORY_ID > INVENTORY.ID [delete: cascade]
+Ref: ADDRESSES.USER_ID > USERS.ID [delete: cascade]
+Ref: ORDERS.USER_ID > USERS.ID [delete: set null]
+Ref: ORDERS.BILLING_ADDRESS_ID > ORDER_ADDRESSES.ID [delete: restrict]
+Ref: ORDERS.SHIPPING_ADDRESS_ID > ORDER_ADDRESSES.ID [delete: restrict]
+Ref: ORDER_ITEMS.ORDER_ID > ORDERS.ID [delete: cascade]
+Ref: ORDER_ITEMS.INVENTORY_ID > INVENTORY.ID [delete: restrict]
+Ref: ORDER_ITEMS.SELLER_ID > USERS.ID [delete: restrict]

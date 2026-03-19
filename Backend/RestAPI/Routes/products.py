@@ -1,3 +1,16 @@
+"""
+================================================================================
+File: products.py
+Description: Product catalog API endpoints
+Author: Rocket Software NextGen Academy
+Date: 2026
+================================================================================
+This module defines FastAPI routes for product catalog browsing including
+retrieving all products, product modifiers, and specific product variants.
+Uses configuration-based SKU parsing for flexible product identification.
+================================================================================
+"""
+
 from fastapi import APIRouter, Body
 from fastapi import APIRouter, Request, Depends, HTTPException, status
 from Backend.Utilities.logger import logger
@@ -22,6 +35,21 @@ router = APIRouter()
 
 @router.get("/", status_code = status.HTTP_200_OK)
 def get_product_types(request: Request):
+    """
+    Retrieve all product types with SKU, price, and description.
+    
+    Response:
+        200 OK: Array of product types with SKU, BASE_PRICE_CENTS, DESCRIPTION
+        500 Internal Server Error: Database error
+    
+    Authentication:
+        None required (public endpoint)
+    
+    Notes:
+        Returns all base product types (without modifiers)
+        SKU format: SERIES_CODE + STYLE_CODE + SERIAL_NUMBER
+        Used for product catalog browsing
+    """
     logger.info("Attempting to retrieve all products")
     pool = request.app.state.db_pool
     productsdao = ProductsDAO(pool)
@@ -37,6 +65,25 @@ def get_product_types(request: Request):
 
 @router.get("/modifier/{style_code}", status_code = status.HTTP_200_OK)
 def get_product_types(request: Request, style_code: str):
+    """
+    Retrieve active modifiers for a specific product style.
+    
+    Path Parameters:
+        style_code (str): Product style code
+    
+    Response:
+        200 OK: Array of modifiers with MODIFIER_CODE, DESCRIPTION, PRICE_MULTIPLIER
+        500 Internal Server Error: Database error
+    
+    Authentication:
+        None required (public endpoint)
+    
+    Notes:
+        Returns only active modifiers (IS_ACTIVE = 'Y')
+        Modifiers represent variants like colorways or special editions
+        Price multiplier used to calculate variant-specific pricing
+        TODO: Add validation for style_code format
+    """
     logger.info("Attempting to retrieve all products")
     pool = request.app.state.db_pool
     productsdao = ProductsDAO(pool)
@@ -53,6 +100,30 @@ def get_product_types(request: Request, style_code: str):
 
 @router.get("/{sku}", status_code = status.HTTP_200_OK)
 def get_specific_products(request: Request, sku: str):
+    """
+    Retrieve product details by SKU - supports partial or complete SKU.
+    
+    Path Parameters:
+        sku (str): Product SKU - either:
+                   - MIN_SKU_LENGTH chars (series+style+serial) - returns all variants
+                   - FULL_SKU_LENGTH chars (includes modifier) - returns specific variant
+    
+    Response:
+        200 OK: Array of product variant(s) with full details:
+                SKU, SERIES_NAME, STYLE_NAME, PRODUCT_NAME, MODIFIER_NAME,
+                BASE_PRICE_CENTS, URL (image)
+        404 Not Found: Invalid SKU format or product not found
+    
+    Authentication:
+        None required (public endpoint)
+    
+    Notes:
+        Partial SKU (MIN length): Returns all color/edition variants of product
+        Complete SKU (FULL length): Returns single specific variant
+        SKU parsing uses config.ini for field lengths
+        Validates SKU length before processing
+        Used for product detail pages and variant selection
+    """
     logger.info(f"Attempting to retrieve product(s) with SKU: {sku}")
     pool = request.app.state.db_pool
     productsdao = ProductsDAO(pool)
