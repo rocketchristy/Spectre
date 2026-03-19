@@ -1,16 +1,20 @@
 <script setup>
 import '@/assets/gallery.css'
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import HiddenCard from '@/vues/EasterEgg/HiddenCard.vue'
 
 defineOptions({ name: 'Gallery' })
 
 // Dynamically import all card images from the Cards folder
-const cardFiles = import.meta.glob('@/assets/Images/Cards/*.png', { eager: true })
+const cardFiles = {
+  ...import.meta.glob('@/assets/Images/Cards/*.png', { eager: true }),
+  ...import.meta.glob('@/assets/Images/Cards/*.jpg', { eager: true }),
+}
 
 const allCards = computed(() =>
   Object.entries(cardFiles)
     .map(([path, module]) => {
-      const fileName = path.split('/').pop().replace('.png', '')
+      const fileName = path.split('/').pop().replace(/\.(png|jpg)$/i, '')
       return { id: fileName, name: fileName.replace(/_/g, ' '), image: module.default }
     })
     .sort((a, b) => a.name.localeCompare(b.name))
@@ -57,7 +61,10 @@ function closeModal() {
 <template>
   <main class="gallery-shell">
     <!-- Welcome Section -->
-    <section class="welcome-section">
+    <section class="welcome-section" style="position: relative;">
+      <div style="position: absolute; top: 0.5rem; right: 0.75rem;">
+        <HiddenCard name="Christy" />
+      </div>
       <div class="welcome-content">
         <h1 class="welcome-title">Welcome to the Card Gallery</h1>
         <p class="welcome-message">

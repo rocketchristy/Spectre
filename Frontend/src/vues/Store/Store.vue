@@ -5,6 +5,7 @@ import { getProducts, getInventory, addInventoryItem, getModifiers } from '@/uti
 import { getCardImage } from '@/utils/cardImages.js'
 import { getRandomAd, getRandomAdPair } from '@/utils/ads.js'
 import { getRandomAdRow } from '@/utils/adRows.js'
+import HiddenCard from '@/vues/EasterEgg/HiddenCard.vue'
 
 const router = useRouter()
 const [randomAd, randomAd2] = getRandomAdPair()
@@ -158,6 +159,10 @@ const CONDITION_OPTIONS = [
 const suggestedPrice = ref(null)
 
 function openSellModal() {
+  if (!localStorage.getItem('token')) {
+    router.push({ name: 'landing' })
+    return
+  }
   sellForm.value = { productSku: '', language: '', condition: '', foil: '', quantity: 1, price: '' }
   sellError.value = ''
   suggestedPrice.value = null
@@ -412,6 +417,9 @@ async function submitSell() {
         </div>
       </div>
     </template>
+    <div style="margin-top: 0.5rem; text-align: right; padding-right: 1rem;">
+      <HiddenCard name="Ben" />
+    </div>
   </main>
   <div class="store-ads-col">
     <aside class="store-ad-item">

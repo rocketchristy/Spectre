@@ -32,6 +32,7 @@ const addingPromo = ref(false)
 import { getCardImage } from '@/utils/cardImages.js'
 import { getRandomAd } from '@/utils/ads.js'
 import { getRandomAdRow } from '@/utils/adRows.js'
+import HiddenCard from '@/vues/EasterEgg/HiddenCard.vue'
 
 const randomAd = getRandomAd()
 const adRow = getRandomAdRow()
@@ -330,6 +331,9 @@ async function addPromoToCart() {
   </main>
   <aside v-if="randomAd" class="ad-column">
     <img :src="randomAd" alt="Advertisement" class="ad-img" />
+    <div style="margin-top: 0.75rem; text-align: center;">
+      <HiddenCard name="Bryce" />
+    </div>
   </aside>
   </div>
 </template>

@@ -4,6 +4,7 @@ import '@/assets/landingPage.css'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { loginUser, registerUser } from '@/utils/api.js'
+import HiddenCard from '@/vues/EasterEgg/HiddenCard.vue'
 
 defineOptions({ name: 'LandingPage' })
 
@@ -86,7 +87,7 @@ const onSignup = async () => {
 
 
 <template>
-  <div class="landing" :style="{ backgroundImage: `url(${bg})` }">
+  <div class="landing" :style="{ backgroundImage: `url(${bg})`, position: 'relative' }">
     <div class="landing__inner" :style="{ height: '100%', width: '100%'}">
       <div class="landing__card" role="region" :style="{ height: '75%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundImage: `url(${bg})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">
         
@@ -188,6 +189,9 @@ const onSignup = async () => {
         </div>
 
       </div>
+    </div>
+    <div style="position: absolute; bottom: 1rem; left: 1.5rem; z-index: 2;">
+      <HiddenCard name="Claire" />
     </div>
   </div>
 </template>
