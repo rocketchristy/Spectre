@@ -241,6 +241,28 @@
   flex: 1;
 }
 
+.card-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.user-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.btn-remove-card {
+  margin: 0.5rem 1rem 1rem;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
 .card-info {
   padding: 0.85rem;
   flex: 1;

@@ -239,4 +239,64 @@ function closeCelebration() { showCelebration.value = false }
   from { transform: scale(0.6); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+.celebration-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+.celebration-card {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border: 2px solid gold;
+  border-radius: 16px;
+  padding: 2.5rem 3rem;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
+  animation: popIn 0.4s ease;
+  position: relative;
+}
+
+.celebration-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.celebration-close:hover {
+  color: #fff;
+}
+
+.celebration-emoji {
+  font-size: 2.5rem;
+  margin: 0.5rem 0;
+}
+
+.celebration-text {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: gold;
+  margin: 0.75rem 0;
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
 </style>

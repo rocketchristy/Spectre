@@ -1,6 +1,8 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { getCart, removeFromCart, checkout as apiCheckout, getUser, getInventory, addToCart, addAddress } from '@/utils/api.js'
 import { getCart, removeFromCart, checkout as apiCheckout, getUser, getInventory, addToCart, addAddress } from '@/utils/api.js'
 
 const router = useRouter()
@@ -144,10 +146,74 @@ async function addPromoToCart() {
   } finally {
     addingPromo.value = false
   }
+  cartItems.value.reduce((sum, item) => sum + (item.UNIT_PRICE_CENTS * item.QUANTITY), 0)
+)
+
+async function handleRemove(cartItemId) {
+  removing.value = cartItemId
+  try {
+    await removeFromCart(cartItemId)
+    cartItems.value = cartItems.value.filter(item => item.CART_ITEM_ID !== cartItemId)
+  } catch (e) {
+    errorMsg.value = e.message
+  } finally {
+    removing.value = null
+  }
+}
+
+async function submitNewAddress() {
+  addingAddress.value = true
+  errorMsg.value = ''
+  try {
+    await addAddress(addressForm.value)
+    await fetchAddresses()
+    showAddAddress.value = false
+    addressForm.value = { full_name: '', line1: '', line2: '', city: '', region: '', postal_code: '', country_code: '', phone: '' }
+    billingAddressId.value = addresses.value[0].ID
+    shippingAddressId.value = addresses.value[0].ID
+  } catch (e) {
+    errorMsg.value = e.message
+  } finally {
+    addingAddress.value = false
+  }
+}
+
+async function handleCheckout() {
+  checkingOut.value = true
+  errorMsg.value = ''
+  try {
+    await apiCheckout(billingAddressId.value, shippingAddressId.value)
+    checkoutSuccess.value = true
+    cartItems.value = []
+  } catch (e) {
+    errorMsg.value = e.message
+  } finally {
+    checkingOut.value = false
+  }
+}
+
+async function addPromoToCart() {
+  if (!promoBooster.value) return
+  addingPromo.value = true
+  try {
+    await addToCart(
+      promoBooster.value.INVENTORY_ID,
+      1,
+      promoBooster.value.UNIT_PRICE_CENTS,
+      promoBooster.value.CURRENCY_CODE || 'USD'
+    )
+    promoBooster.value = null
+    await fetchCart()
+  } catch (e) {
+    errorMsg.value = e.message
+  } finally {
+    addingPromo.value = false
+  }
 }
 </script>
 
 <template>
+  <div class="page-with-ad">
   <div class="page-with-ad">
   <main class="page-shell">
     <h1 class="page-title">Your Cart</h1>
@@ -209,6 +275,32 @@ async function addPromoToCart() {
           <div class="empty-cart-notice">
             <h2>Your cart is empty</h2>
             <router-link to="/store" class="action-btn">Browse the Store</router-link>
+            <div class="list-row__info">
+              <strong>{{ item.PRODUCT_NAME }}</strong>
+              <span class="text-muted">{{ item.MODIFIER_NAME }}</span>
+              <span class="text-muted">${{ (item.UNIT_PRICE_CENTS / 100).toFixed(2) }} each × {{ item.QUANTITY }}</span>
+            </div>
+
+            <span class="list-row__price">${{ (item.UNIT_PRICE_CENTS * item.QUANTITY / 100).toFixed(2) }}</span>
+
+            <button
+              class="btn-icon btn-danger"
+              @click="handleRemove(item.CART_ITEM_ID)"
+              :disabled="removing === item.CART_ITEM_ID"
+              title="Remove"
+            >✕</button>
+          </div>
+        </div>
+
+        <div class="summary-bar">
+          <span class="summary-bar__total">Total: <strong>${{ (cartTotal / 100).toFixed(2) }}</strong></span>
+        </div>
+        </template>
+
+        <template v-else>
+          <div class="empty-cart-notice">
+            <h2>Your cart is empty</h2>
+            <router-link to="/store" class="action-btn">Browse the Store</router-link>
           </div>
         </template>
 
@@ -224,6 +316,62 @@ async function addPromoToCart() {
             <button class="action-btn" @click="addPromoToCart" :disabled="addingPromo">
               {{ addingPromo ? 'Adding…' : 'Add to Cart' }}
             </button>
+        </template>
+
+        <!-- Promo booster -->
+        <div v-if="promoBooster" class="promo-section">
+          <h3>Why not add a booster?</h3>
+          <div class="promo-card">
+            <img :src="getCardImage(promoBooster.PRODUCT_NAME)" :alt="promoBooster.PRODUCT_NAME" class="promo-img" />
+            <div class="promo-info">
+              <strong>{{ promoBooster.PRODUCT_NAME }}</strong>
+              <span class="text-muted">${{ (promoBooster.UNIT_PRICE_CENTS / 100).toFixed(2) }}</span>
+            </div>
+            <button class="action-btn" @click="addPromoToCart" :disabled="addingPromo">
+              {{ addingPromo ? 'Adding…' : 'Add to Cart' }}
+            </button>
+          </div>
+        </div>
+       </div>
+
+        <!-- Checkout panel (always visible) -->
+        <div class="checkout-panel">
+          <h2>Checkout</h2>
+
+          <template v-if="addresses.length">
+            <form @submit.prevent="handleCheckout" class="checkout-form">
+              <div class="form-group">
+                <label class="form-label">Billing Address</label>
+                <select v-model="billingAddressId" class="form-input">
+                  <option v-for="addr in addresses" :key="addr.ID" :value="addr.ID">
+                    {{ addr.FULL_NAME }} — {{ addr.LINE1 }}, {{ addr.CITY }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Shipping Address</label>
+                <select v-model="shippingAddressId" class="form-input">
+                  <option v-for="addr in addresses" :key="addr.ID" :value="addr.ID">
+                    {{ addr.FULL_NAME }} — {{ addr.LINE1 }}, {{ addr.CITY }}
+                  </option>
+                </select>
+              </div>
+              <p class="checkout-total">Order Total: <strong>${{ (cartTotal / 100).toFixed(2) }}</strong></p>
+              <p v-if="errorMsg" class="modal-error">{{ errorMsg }}</p>
+              <div class="checkout-actions">
+                <button type="submit" class="action-btn" :disabled="checkingOut">
+                  {{ checkingOut ? 'Processing…' : 'Place Order' }}
+                </button>
+              </div>
+            </form>
+            <button class="btn-link" @click="showAddAddress = true">
+              + Add another address
+            </button>
+          </template>
+
+          <div v-else class="no-address-notice">
+            <p>You need an address to check out.</p>
+            <button class="action-btn" @click="showAddAddress = true">Add Address</button>
           </div>
         </div>
        </div>
@@ -323,11 +471,69 @@ async function addPromoToCart() {
             </div>
           </form>
         </div>
+      <!-- Add Address Modal -->
+      <div v-if="showAddAddress" class="modal-overlay" @click="showAddAddress = false">
+        <div class="modal" @click.stop>
+          <div class="modal-header">
+            <h2>Add Address</h2>
+            <button class="modal-close" @click="showAddAddress = false">&times;</button>
+          </div>
+          <form @submit.prevent="submitNewAddress" class="modal-form">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input v-model.trim="addressForm.full_name" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Address Line 1</label>
+              <input v-model.trim="addressForm.line1" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Address Line 2</label>
+              <input v-model.trim="addressForm.line2" class="form-input" />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">City</label>
+                <input v-model.trim="addressForm.city" class="form-input" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">State / Region</label>
+                <input v-model.trim="addressForm.region" class="form-input" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Postal Code</label>
+                <input v-model.trim="addressForm.postal_code" class="form-input" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Country Code</label>
+                <input v-model.trim="addressForm.country_code" class="form-input" maxlength="3" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone</label>
+              <input v-model.trim="addressForm.phone" class="form-input" required />
+            </div>
+            <p v-if="errorMsg" class="modal-error">{{ errorMsg }}</p>
+            <div class="checkout-actions">
+              <button type="button" class="btn btn-secondary" @click="showAddAddress = false">Cancel</button>
+              <button type="submit" class="action-btn" :disabled="addingAddress">
+                {{ addingAddress ? 'Saving…' : 'Save Address' }}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </template>
 
     <p v-if="errorMsg && !showAddAddress" class="modal-error" style="text-align:center;margin-top:1rem;">{{ errorMsg }}</p>
+    <p v-if="errorMsg && !showAddAddress" class="modal-error" style="text-align:center;margin-top:1rem;">{{ errorMsg }}</p>
   </main>
+  <aside v-if="randomAd" class="ad-column">
+    <img :src="randomAd" alt="Advertisement" class="ad-img" />
+  </aside>
+  </div>
   <aside v-if="randomAd" class="ad-column">
     <img :src="randomAd" alt="Advertisement" class="ad-img" />
   </aside>

@@ -938,42 +938,73 @@ ORDER BY I.UNIT_PRICE_CENTS, PV.DISPLAY_NAME;
 
 #### **Create New Order from Cart**
 ```sql
--- Step 1: Create order
+-- Step 1: Create billing address snapshot
+INSERT INTO <Your HLQ>.ORDER_ADDRESSES
+  (FULL_NAME, LINE1, LINE2, CITY, REGION, POSTAL_CODE, COUNTRY_CODE, PHONE)
+SELECT 
+    A.FULL_NAME, A.LINE1, A.LINE2, A.CITY, A.REGION, 
+    A.POSTAL_CODE, A.COUNTRY_CODE, A.PHONE
+FROM <Your HLQ>.ADDRESSES A
+WHERE A.ID = 1;  -- User's billing address ID
+
+-- Step 2: Create shipping address snapshot (can reference same address)
+INSERT INTO <Your HLQ>.ORDER_ADDRESSES
+  (FULL_NAME, LINE1, LINE2, CITY, REGION, POSTAL_CODE, COUNTRY_CODE, PHONE)
+SELECT 
+    A.FULL_NAME, A.LINE1, A.LINE2, A.CITY, A.REGION, 
+    A.POSTAL_CODE, A.COUNTRY_CODE, A.PHONE
+FROM <Your HLQ>.ADDRESSES A
+WHERE A.ID = 2;  -- User's shipping address ID
+
+-- Step 3: Create order with address references
 INSERT INTO <Your HLQ>.ORDERS
-  (USER_ID, TOTAL_CENTS, STATUS)
+  (USER_ID, TOTAL_CENTS, STATUS, BILLING_ADDRESS_ID, SHIPPING_ADDRESS_ID)
 SELECT 
     C.USER_ID,
     SUM(CI.QUANTITY * CI.UNIT_PRICE_CENTS) AS TOTAL_CENTS,
-    'PENDING'
+    'PENDING',
+    (SELECT MAX(ID) - 1 FROM <Your HLQ>.ORDER_ADDRESSES),  -- Billing address
+    (SELECT MAX(ID) FROM <Your HLQ>.ORDER_ADDRESSES)       -- Shipping address
 FROM <Your HLQ>.CARTS C
 JOIN <Your HLQ>.CART_ITEMS CI ON C.ID = CI.CART_ID
 WHERE C.USER_ID = (SELECT ID FROM <Your HLQ>.USERS WHERE EMAIL = 'ben@nxtcg.com')
-  AND C.IS_ACTIVE = 'Y'
+  AND C.STATUS = 'active'
 GROUP BY C.USER_ID;
 
--- Step 2: Copy cart items to order items
+-- Step 4: Copy cart items to order items
 INSERT INTO <Your HLQ>.ORDER_ITEMS
-  (ORDER_ID, INVENTORY_ID, QUANTITY, UNIT_PRICE_CENTS)
+  (ORDER_ID, INVENTORY_ID, SELLER_ID, SKU, PRODUCT_NAME, 
+   UNIT_PRICE_CENTS, QUANTITY, TOTAL_CENTS)
 SELECT 
     (SELECT MAX(ID) FROM <Your HLQ>.ORDERS 
      WHERE USER_ID = (SELECT ID FROM <Your HLQ>.USERS 
                       WHERE EMAIL = 'ben@nxtcg.com')),
     CI.INVENTORY_ID,
+    I.SELLER_ID,
+    CONCAT(CONCAT(CONCAT(I.SERIES_CODE, I.STYLE_CODE), I.SERIAL_NUMBER), I.MODIFIER_CODE),
+    PV.DISPLAY_NAME,
+    CI.UNIT_PRICE_CENTS,
     CI.QUANTITY,
-    CI.UNIT_PRICE_CENTS
+    CI.QUANTITY * CI.UNIT_PRICE_CENTS
 FROM <Your HLQ>.CART_ITEMS CI
+JOIN <Your HLQ>.INVENTORY I ON CI.INVENTORY_ID = I.ID
+JOIN <Your HLQ>.PRODUCT_VARIANTS PV
+  ON I.SERIES_CODE = PV.SERIES_CODE
+ AND I.STYLE_CODE = PV.STYLE_CODE
+ AND I.SERIAL_NUMBER = PV.SERIAL_NUMBER
+ AND I.MODIFIER_CODE = PV.MODIFIER_CODE
 WHERE CI.CART_ID = (SELECT ID FROM <Your HLQ>.CARTS 
                     WHERE USER_ID = (SELECT ID FROM <Your HLQ>.USERS 
                                      WHERE EMAIL = 'ben@nxtcg.com')
-                      AND IS_ACTIVE = 'Y'
+                      AND STATUS = 'active'
                     FETCH FIRST 1 ROW ONLY);
 
--- Step 3: Deactivate cart
+-- Step 5: Mark cart as converted
 UPDATE <Your HLQ>.CARTS
-SET IS_ACTIVE = 'N',
+SET STATUS = 'converted',
     UPDATED_AT = CURRENT TIMESTAMP
 WHERE USER_ID = (SELECT ID FROM <Your HLQ>.USERS WHERE EMAIL = 'ben@nxtcg.com')
-  AND IS_ACTIVE = 'Y';
+  AND STATUS = 'active';
 ```
 
 #### **View Order History for User**
@@ -1000,24 +1031,48 @@ SELECT
     O.ID AS ORDER_ID,
     O.STATUS,
     U.EMAIL AS CUSTOMER_EMAIL,
-    PV.DISPLAY_NAME AS PRODUCT,
+    OI.PRODUCT_NAME AS PRODUCT,
+    OI.SKU,
     OI.QUANTITY,
     OI.UNIT_PRICE_CENTS,
     CAST(OI.UNIT_PRICE_CENTS / 100.00 AS DECIMAL(10,2)) AS UNIT_PRICE_USD,
-    OI.QUANTITY * OI.UNIT_PRICE_CENTS AS LINE_TOTAL_CENTS,
-    CAST((OI.QUANTITY * OI.UNIT_PRICE_CENTS) / 100.00 
-         AS DECIMAL(10,2)) AS LINE_TOTAL_USD
+    OI.TOTAL_CENTS AS LINE_TOTAL_CENTS,
+    CAST(OI.TOTAL_CENTS / 100.00 AS DECIMAL(10,2)) AS LINE_TOTAL_USD,
+    SELLER.EMAIL AS SELLER_EMAIL
 FROM <Your HLQ>.ORDERS O
 JOIN <Your HLQ>.USERS U ON O.USER_ID = U.ID
 JOIN <Your HLQ>.ORDER_ITEMS OI ON O.ID = OI.ORDER_ID
-JOIN <Your HLQ>.INVENTORY I ON OI.INVENTORY_ID = I.ID
-JOIN <Your HLQ>.PRODUCT_VARIANTS PV
-  ON I.SERIES_CODE = PV.SERIES_CODE
- AND I.STYLE_CODE = PV.STYLE_CODE
- AND I.SERIAL_NUMBER = PV.SERIAL_NUMBER
- AND I.MODIFIER_CODE = PV.MODIFIER_CODE
+JOIN <Your HLQ>.USERS SELLER ON OI.SELLER_ID = SELLER.ID
 WHERE O.ID = 1
 ORDER BY OI.ID;
+```
+
+#### **View Order with Addresses**
+```sql
+SELECT 
+    O.ID AS ORDER_ID,
+    O.STATUS,
+    O.TOTAL_CENTS,
+    CAST(O.TOTAL_CENTS / 100.00 AS DECIMAL(10,2)) AS TOTAL_USD,
+    U.EMAIL AS CUSTOMER_EMAIL,
+    -- Billing Address
+    BA.FULL_NAME AS BILL_NAME,
+    BA.LINE1 AS BILL_LINE1,
+    BA.CITY AS BILL_CITY,
+    BA.REGION AS BILL_REGION,
+    BA.POSTAL_CODE AS BILL_ZIP,
+    -- Shipping Address
+    SA.FULL_NAME AS SHIP_NAME,
+    SA.LINE1 AS SHIP_LINE1,
+    SA.CITY AS SHIP_CITY,
+    SA.REGION AS SHIP_REGION,
+    SA.POSTAL_CODE AS SHIP_ZIP,
+    O.CREATED_AT AS ORDER_DATE
+FROM <Your HLQ>.ORDERS O
+JOIN <Your HLQ>.USERS U ON O.USER_ID = U.ID
+LEFT JOIN <Your HLQ>.ORDER_ADDRESSES BA ON O.BILLING_ADDRESS_ID = BA.ID
+LEFT JOIN <Your HLQ>.ORDER_ADDRESSES SA ON O.SHIPPING_ADDRESS_ID = SA.ID
+WHERE O.ID = 1;
 ```
 
 #### **Update Order Status**
@@ -1271,13 +1326,19 @@ The remaining tables support e-commerce operations:
 - **CART_ITEMS** - Line items in carts (references seller inventory listings)
 - **ADDRESSES** - Customer shipping/billing addresses
 - **ORDERS** - Completed purchases (contains FKs to billing and shipping addresses)
-- **ORDER_ADDRESSES** - Immutable address snapshots per order (billing and shipping)
+- **ORDER_ADDRESSES** - Immutable address snapshots (reusable across orders)
 - **ORDER_ITEMS** - Line items in orders with pricing snapshots
 
 **Marketplace Design:**
 - Each INVENTORY row represents a seller's listing of a product variant at their price
 - Multiple sellers can list the same variant at different prices
 - CART_ITEMS and ORDER_ITEMS reference specific INVENTORY listings (seller + variant + price)
+
+**Order Address Design:**
+- ORDER_ADDRESSES stores immutable address snapshots
+- ORDERS references two ORDER_ADDRESSES records (BILLING_ADDRESS_ID and SHIPPING_ADDRESS_ID)
+- Same address snapshot can be reused across multiple orders if unchanged
+- Address snapshots prevent data loss if customer updates their ADDRESSES after order placement
 
 These tables are defined in E03TABLE.sql but are NOT populated by ECOMINIT (except sample INVENTORY). They will be populated by the e-commerce application at runtime.
 

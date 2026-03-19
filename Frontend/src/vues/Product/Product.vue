@@ -4,9 +4,12 @@ import { useRoute, useRouter } from 'vue-router'
 import { getProducts, getInventory, addToCart } from '@/utils/api.js'
 import { getCardImage } from '@/utils/cardImages.js'
 import { getRandomAd } from '@/utils/ads.js'
+import { getCardImage } from '@/utils/cardImages.js'
+import { getRandomAd } from '@/utils/ads.js'
 
 const route = useRoute()
 const router = useRouter()
+const randomAd = getRandomAd()
 const randomAd = getRandomAd()
 
 const productType = computed(() => route.params.type)
@@ -109,6 +112,7 @@ const currentProduct = computed(() => {
 // Add to cart handler
 const cartQuantities = ref({})
 const showCartPrompt = ref(false)
+const showCartPrompt = ref(false)
 
 function getCartQty(listing) {
   return cartQuantities.value[listing.INVENTORY_ID] || 1
@@ -128,6 +132,7 @@ async function handleAddToCart(listing) {
       listing.CURRENCY_CODE || 'USD'
     )
     showCartPrompt.value = true
+    showCartPrompt.value = true
   } catch (e) {
     alert(e.message || 'Failed to add to cart')
   }
@@ -135,6 +140,7 @@ async function handleAddToCart(listing) {
 </script>
 
 <template>
+  <div class="page-with-ad">
   <div class="page-with-ad">
   <main class="page-shell product-page">
     <router-link to="/store" class="back-link">← Back to Store</router-link>
@@ -249,7 +255,22 @@ async function handleAddToCart(listing) {
         </div>
       </div>
     </div>
+
+    <!-- Cart prompt overlay -->
+    <div v-if="showCartPrompt" class="modal-overlay" @click="showCartPrompt = false">
+      <div class="cart-prompt" @click.stop>
+        <h3>Added to cart!</h3>
+        <div class="cart-prompt-actions">
+          <router-link to="/cart" class="action-btn">Go to Cart</router-link>
+          <button class="action-btn cart-prompt-continue" @click="showCartPrompt = false">Continue Shopping</button>
+        </div>
+      </div>
+    </div>
   </main>
+  <aside v-if="randomAd" class="ad-column">
+    <img :src="randomAd" alt="Advertisement" class="ad-img" />
+  </aside>
+  </div>
   <aside v-if="randomAd" class="ad-column">
     <img :src="randomAd" alt="Advertisement" class="ad-img" />
   </aside>

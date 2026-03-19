@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getProducts, getInventory, addInventoryItem, getModifiers } from '@/utils/api.js'
 import { getCardImage } from '@/utils/cardImages.js'
@@ -157,13 +158,44 @@ const CONDITION_OPTIONS = [
 
 const suggestedPrice = ref(null)
 
+const suggestedPrice = ref(null)
+
 function openSellModal() {
   sellForm.value = { productSku: '', language: '', condition: '', foil: '', quantity: 1, price: '' }
   sellError.value = ''
   suggestedPrice.value = null
+  suggestedPrice.value = null
   showSellModal.value = true
 }
 function closeSellModal() { showSellModal.value = false }
+
+// Watch for card + all modifiers selected, then suggest a price
+watch(
+  () => [sellForm.value.productSku, sellForm.value.language, sellForm.value.foil, sellForm.value.condition],
+  async ([sku, lang, foil, cond]) => {
+    if (!sku || !lang || !foil || !cond) {
+      suggestedPrice.value = null
+      return
+    }
+    const product = products.value.find(p => p['1'] === sku)
+    if (!product) return
+    try {
+      const modifiers = await getModifiers('C')
+      const code = lang + foil + cond
+      const match = modifiers.find(m => m.MODIFIER_CODE === code)
+      if (match) {
+        const cents = product.BASE_PRICE_CENTS * parseFloat(match.PRICE_MULTIPLIER)
+        const suggested = (cents / 100).toFixed(2)
+        suggestedPrice.value = suggested
+        sellForm.value.price = suggested
+      } else {
+        suggestedPrice.value = null
+      }
+    } catch {
+      suggestedPrice.value = null
+    }
+  }
+)
 
 // Watch for card + all modifiers selected, then suggest a price
 watch(
@@ -232,6 +264,7 @@ async function submitSell() {
 </script>
 
 <template>
+  <div class="page-with-ad">
   <div class="page-with-ad">
   <main class="page-shell">
     <h1 class="page-title">Store</h1>
@@ -371,6 +404,7 @@ async function submitSell() {
               <select v-model="sellForm.productSku" class="form-input">
                 <option value="">Select a card…</option>
                 <option v-for="p in productCards" :key="p.sku" :value="p.sku">{{ p.name }}</option>
+                <option v-for="p in productCards" :key="p.sku" :value="p.sku">{{ p.name }}</option>
               </select>
             </div>
             <div class="form-group">
@@ -401,6 +435,7 @@ async function submitSell() {
             <div class="form-group">
               <label class="form-label">Your Price ($)</label>
               <input v-model="sellForm.price" type="number" step="0.01" min="0.01" class="form-input" placeholder="Enter price" />
+              <p v-if="suggestedPrice" class="suggested-price">Suggested: ${{ suggestedPrice }}</p>
               <p v-if="suggestedPrice" class="suggested-price">Suggested: ${{ suggestedPrice }}</p>
             </div>
             <p v-if="sellError" class="modal-error">{{ sellError }}</p>
