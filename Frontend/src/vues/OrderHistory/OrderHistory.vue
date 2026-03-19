@@ -60,67 +60,6 @@ function itemsSummary(order) {
   if (!order.items.length) return '—'
   return order.items.map(i => `${i.QUANTITY}× ${i.PRODUCT_NAME}`).join(', ')
 }
-import { ref, computed, onMounted } from 'vue'
-import { getOrders } from '@/utils/api.js'
-
-const rawOrders = ref([])
-const loading = ref(true)
-const errorMsg = ref('')
-
-async function fetchOrders() {
-  loading.value = true
-  errorMsg.value = ''
-  try {
-    const data = await getOrders()
-    rawOrders.value = data || []
-  } catch (e) {
-    errorMsg.value = e.message
-  } finally {
-    loading.value = false
-  }
-}
-
-onMounted(fetchOrders)
-
-// Group flat joined rows by ORDER_ID
-const orders = computed(() => {
-  const map = {}
-  for (const row of rawOrders.value) {
-    const id = row.ORDER_ID ?? row.ID
-    if (!map[id]) {
-      map[id] = {
-        ID: id,
-        CREATED_AT: row.CREATED_AT,
-        STATUS: row.STATUS,
-        items: []
-      }
-    }
-    if (row.PRODUCT_NAME) {
-      map[id].items.push({
-        PRODUCT_NAME: row.PRODUCT_NAME,
-        QUANTITY: row.QUANTITY,
-        UNIT_PRICE_CENTS: row.UNIT_PRICE_CENTS,
-      })
-    }
-  }
-  return Object.values(map)
-})
-
-function formatDate(dateStr) {
-  if (!dateStr) return ''
-  const d = new Date(dateStr)
-  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-}
-
-function orderTotal(order) {
-  const cents = order.items.reduce((sum, i) => sum + i.UNIT_PRICE_CENTS * i.QUANTITY, 0)
-  return (cents / 100).toFixed(2)
-}
-
-function itemsSummary(order) {
-  if (!order.items.length) return '—'
-  return order.items.map(i => `${i.QUANTITY}× ${i.PRODUCT_NAME}`).join(', ')
-}
 </script>
 
 <template>
@@ -128,8 +67,6 @@ function itemsSummary(order) {
     <h1 class="page-title">Order History</h1>
 
     <p v-if="loading" class="empty-state">Loading…</p>
-
-    <p v-if="errorMsg" class="empty-state" style="color: #f44336;">{{ errorMsg }}</p>
 
     <p v-if="errorMsg" class="empty-state" style="color: #f44336;">{{ errorMsg }}</p>
 
@@ -159,35 +96,9 @@ function itemsSummary(order) {
             </tr>
           </tbody>
         </table>
-      <div class="orders-table-wrapper">
-        <table class="orders-table">
-          <thead>
-            <tr>
-              <th>Order #</th>
-              <th>Date / Time</th>
-              <th>Items Purchased</th>
-              <th>Cost</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="order in orders" :key="order.ID">
-              <td class="col-order">{{ order.ID }}</td>
-              <td class="col-date">{{ formatDate(order.CREATED_AT) }}</td>
-              <td class="col-items">{{ itemsSummary(order) }}</td>
-              <td class="col-cost">${{ orderTotal(order) }}</td>
-              <td class="col-status">
-                <span class="status-badge" :class="'status-' + (order.STATUS || 'completed').toLowerCase()">
-                  {{ order.STATUS || 'Completed' }}
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </template>
 
-    <div v-else-if="!loading" class="empty-state">
     <div v-else-if="!loading" class="empty-state">
       <h2>No orders yet</h2>
       <router-link to="/store" class="action-btn">Start Shopping</router-link>
