@@ -74,10 +74,10 @@ watch(productId, () => {
 
 const filteredListings = computed(() => {
   return productListings.value.filter(i => {
-    const name = (i.MODIFIER_NAME || '').toLowerCase()
-    if (selectedLanguage.value && !name.includes(selectedLanguage.value.toLowerCase())) return false
-    if (selectedCondition.value && !name.includes(selectedCondition.value.toLowerCase())) return false
-    if (selectedFoil.value && !name.includes(selectedFoil.value.toLowerCase())) return false
+    const segments = (i.MODIFIER_NAME || '').split(',').map(s => s.trim().toLowerCase())
+    if (selectedLanguage.value && !segments.some(s => s === selectedLanguage.value.toLowerCase())) return false
+    if (selectedCondition.value && !segments.some(s => s === selectedCondition.value.toLowerCase())) return false
+    if (selectedFoil.value && !segments.some(s => s === selectedFoil.value.toLowerCase())) return false
     return true
   })
 })
