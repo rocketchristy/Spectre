@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useEasterEgg } from '@/utils/easterEgg.js'
+import docsPdf from '@/assets/docs/placeholder.pdf'
 
 const showCelebration = ref(false)
 const celebrationLines = ref([])
@@ -52,7 +53,7 @@ function closeCelebration() { showCelebration.value = false }
       <div class="footer-col footer-links">
         <h4>Resources</h4>
         <ul>
-          <li><a href="#">Docs</a></li>
+          <li><a :href="docsPdf" target="_blank" rel="noopener noreferrer">Docs</a></li>
           <li><a href="#">Tutorials</a></li>
           <li><a href="#" @click.prevent="onCommunityClick">Community</a></li>
         </ul>
