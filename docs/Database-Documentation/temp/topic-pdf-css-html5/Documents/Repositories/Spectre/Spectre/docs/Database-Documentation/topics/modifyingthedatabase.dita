@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /C:\Users\jheckel\Documents\Repositories\Spectre\Spectre\docs\Database-Documentation\temp\topic-pdf-css-html5\Documents\Repositories\Spectre\Spectre\docs\Database-Documentation\topics?><?workdir-uri file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/temp/topic-pdf-css-html5/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/?><?path2project ..\?><?path2project-uri ../?><?path2rootmap-uri ../?><?doctype-public -//OASIS//DTD DITA Task//EN?><?doctype-system task.dtd?><task xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" class="- topic/topic task/task " ditaarch:DITAArchVersion="1.3" domains="(topic task) (topic abbrev-d) a(props deliveryTarget) (topic equation-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic mathml-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic svg-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d) (topic task strictTaskbody-c)" id="modifyingthedatabase" specializations="@props/deliveryTarget" xml:lang="en" xtrc="task:1;3:47" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+<title class="- topic/title " xtrc="title:1;4:8" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Adding tables to the ECOMAPP Database</title>
+<shortdesc class="- topic/shortdesc " xtrc="shortdesc:1;5:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">In the ECOMAPP database you can add new tables by using TSO/ISPF in the Db2 z/OS
+      platform. </shortdesc>
+<prolog class="- topic/prolog " xtrc="prolog:1;7:9" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+<critdates class="- topic/critdates " xtrc="critdates:1;11:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;12:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates><metadata class="- topic/metadata " xtrc="metadata:1;8:11" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita"><keywords class="- topic/keywords " xtrc="keywords:1;8:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita"><indexterm class="- topic/indexterm " xtrc="indexterm:1;8:32" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita"/></keywords></metadata>
+</prolog>
+<taskbody class="- topic/body task/taskbody " xtrc="taskbody:1;10:11" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+<prereq class="- topic/section task/prereq " xtrc="prereq:1;11:9" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita"/>
+<context class="- topic/section task/context " xtrc="context:1;12:11" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita"/>
+<steps class="- topic/ol task/steps " xtrc="steps:1;13:8" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+<step class="- topic/li task/step " xtrc="step:1;14:7" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:1;15:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Update EO3TABLE.sql</cmd>
+            <substeps class="- topic/ol task/substeps " xtrc="substeps:1;16:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+               <substep class="- topic/li task/substep " xtrc="substep:1;17:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:2;18:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Add <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:1;18:36" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">CREATE TABLE</codeph> statement.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:2;20:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:3;21:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Add <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:2;21:36" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">CREATE UNIQUE INDEX</codeph> for the primary key.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:3;23:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:4;24:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Add foreign key constraints if applicable.</cmd>
+               </substep>
+            </substeps>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:2;28:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:5;29:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Update E04INDEX.sql</cmd>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:3;31:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:6;32:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Add performance indexes for new table in E04INDEX.sql.</cmd>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:4;34:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:7;35:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Update E05CMNT.sql by adding a <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:3;35:57" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">COMMENT</codeph> statement for the new table
+               and columns.</cmd>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:5;38:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:8;39:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Add <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:4;39:30" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">COMMENT</codeph> statements for new tables and columns in
+               E05CMNT.sql.</cmd>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:6;42:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:9;43:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Update E06GRANT.sql by adding a <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:5;43:58" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">GRANT</codeph> statement for the new
+               table.</cmd>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:7;46:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:10;47:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Update E07LOAD.sql by adding an <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:6;47:58" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">INSERT</codeph> statement for the test
+               data.</cmd>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:8;50:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:11;51:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Update ECOMDROP.jcl by adding a <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:7;51:58" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">DROP TABLE</codeph> statement.</cmd>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:9;53:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:12;54:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Re-upload and re-run.</cmd>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:10;56:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:13;57:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Upload all the modified DDL files.</cmd>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:11;59:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:14;60:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/modifyingthedatabase.dita">Submit ECOMDROP and ECOMDDL.</cmd>
+         </step>
+</steps>
+</taskbody>
+</task>

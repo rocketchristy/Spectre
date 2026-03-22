@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /C:\Users\jheckel\Documents\Repositories\Spectre\Spectre\docs\Database-Documentation\temp\topic-pdf-css-html5\Documents\Repositories\Spectre\Spectre\docs\Database-Documentation\topics?><?workdir-uri file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/temp/topic-pdf-css-html5/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/?><?path2project ..\?><?path2project-uri ../?><?path2rootmap-uri ../?><?doctype-public -//OASIS//DTD DITA Topic//EN?><?doctype-system topic.dtd?><topic xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" class="- topic/topic " ditaarch:DITAArchVersion="1.3" domains="(topic abbrev-d) a(props deliveryTarget) (topic equation-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic mathml-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic svg-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)" id="troubleshootingspectredb" specializations="@props/deliveryTarget" xml:lang="en" xtrc="topic:1;3:52" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+<title class="- topic/title " xtrc="title:1;4:8" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Troubleshooting the NXTCG ECOMAPP database</title>
+<shortdesc class="- topic/shortdesc " xtrc="shortdesc:1;5:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">There are common SQL and API error codes when configuring the ECOMAPP database. Solutions
+        are provided for each issue.  </shortdesc>
+<prolog class="- topic/prolog " xtrc="prolog:1;7:9" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+<critdates class="- topic/critdates " xtrc="critdates:1;11:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;12:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates><metadata class="- topic/metadata " xtrc="metadata:1;8:11" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><keywords class="- topic/keywords " xtrc="keywords:1;8:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <indexterm class="- topic/indexterm " xtrc="indexterm:1;9:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">ECOMAPP</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:2;10:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Database Architecture</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:3;11:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Indexes</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:4;12:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Tablespaces</indexterm></keywords></metadata>
+</prolog>
+<body class="- topic/body " xtrc="body:1;14:7" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+        <bodydiv class="- topic/bodydiv " xtrc="bodydiv:1;15:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+            <section class="- topic/section " id="issue-ecomddl-fails-with-rc12---plan-not-found" xtrc="section:1;16:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:2;17:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:1;17:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">ECOMDDL Fails with RC=12 - PLAN NOT FOUND</b></title>
+                <p class="- topic/p " xtrc="p:1;18:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:2;18:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Db2 plan DSNTEP3 not available or no EXECUTE privilege.</p>
+                <p class="- topic/p " xtrc="p:2;19:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:3;19:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="codeblock_hjb_dl3_q3c" xml:space="preserve" xtrc="codeblock:1;19:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">1. Verify DSNTEP3 plan exists:
+   -DIS THREAD(*) TYPE(PLAN)
+   
+2. Check your privileges:
+   SELECT GRANTEE, GRANTEETYPE, AUTHHOWGOT
+   FROM SYSIBM.SYSPLANAUTH
+   WHERE NAME = 'DSNTEP3';
+
+3. If missing privilege, have DBA grant:
+   GRANT EXECUTE ON PLAN DSNTEP3 TO &lt;Your HLQ&gt;;
+</codeblock></p>
+            </section>
+            <section class="- topic/section " id="issue-ecomddl-fails-with-rc12---sqlcode-204-object-not-found" xtrc="section:2;31:88" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:3;32:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:4;32:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">ECOMDDL Fails with RC=12 - SQLCODE=-204 OBJECT NOT FOUND</b></title>
+                <p class="- topic/p " xtrc="p:3;33:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:5;33:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> DDL members not uploaded or incorrect dataset names.</p>
+                <p class="- topic/p " xtrc="p:4;34:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:6;34:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="codeblock_rmy_dl3_q3c" xml:space="preserve" xtrc="codeblock:2;34:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">1. Verify DDL members exist:
+   TSO/ISPF 3.4 → &lt;Your HLQ&gt;.ECOMAPP.DDL
+   
+2. Check member names match exactly:
+   E01STGDB, E02TBSPC, E03TABLE, E04INDEX, E05CMNT, E06GRANT
+   E07INIT1, E07INIT2, E07INIT3
+   
+3. Verify SET HLQ statement in ECOMDDL.jcl matches your dataset name
+</codeblock></p>
+            </section>
+            <section class="- topic/section " id="issue-ecomddl-fails-with-rc8---sqlcode-601-object-already-exists" xtrc="section:3;44:92" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:4;45:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:7;45:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">ECOMDDL Fails with RC=8 - SQLCODE=-601 OBJECT ALREADY EXISTS</b></title>
+                <p class="- topic/p " xtrc="p:5;46:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:8;46:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Database objects already exist.</p>
+                <p class="- topic/p " xtrc="p:6;47:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:9;47:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="codeblock_qp5_gl3_q3c" xml:space="preserve" xtrc="codeblock:3;47:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">This is expected behavior when re-running ECOMDDL on existing database.
+Job will continue and create any missing objects.
+
+To start fresh:
+1. Submit ECOMDROP first
+2. Then submit ECOMDDL</codeblock></p>
+            </section>
+            <section class="- topic/section " id="issue-ecominit-fails-with-rc12---rest-api-failure-with-https-status-500" xtrc="section:4;54:99" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:5;55:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:10;55:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">ECOMINIT Fails with RC=12 - Rest API failure with HTTP(S) status
+                    500</b></title>
+                <p class="- topic/p " xtrc="p:7;57:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:11;57:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> SQL files have lines exceeding 72 characters.</p>
+                <p class="- topic/p " xtrc="p:8;58:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:12;58:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="codeblock_nm5_3l3_q3c" xml:space="preserve" xtrc="codeblock:4;58:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">All E07INIT files in zOS_Datasets have been pre-processed to comply
+with 72-character line limits. If you modified them:
+
+1. Check for long lines:
+   Edit member with ISPF
+   COLS ON (show column numbers)
+   Look for lines extending past column 72
+
+2. Split long lines:
+   - Break INSERT statements after table name
+   - Continue column list on next line with leading spaces
+   - Ensure VALUES clause on separate line
+
+3. Re-upload corrected members</codeblock></p>
+            </section>
+            <section class="- topic/section " id="issue-ecominit-fails-with-sqlcode-803-duplicate-key" xtrc="section:5;73:79" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:6;74:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:13;74:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">ECOMINIT Fails with SQLCODE=-803 DUPLICATE KEY</b></title>
+                <p class="- topic/p " xtrc="p:9;75:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:14;75:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Product catalog already loaded.</p>
+                <p class="- topic/p " xtrc="p:10;76:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:15;76:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="codeblock_aln_jl3_q3c" xml:space="preserve" xtrc="codeblock:5;76:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">This is expected behavior with RC=8. Job continues to next step.
+Each step is conditioned on RC &lt; 12.
+
+To reload catalog from scratch:
+1. Submit ECOMDROP first
+2. Submit ECOMDDL
+3. Submit ECOMINIT
+</codeblock></p>
+            </section>
+            <section class="- topic/section " id="issue-ecominit-shows-wrong-row-counts" xtrc="section:6;85:65" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:7;86:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:16;86:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">ECOMINIT Shows Wrong Row Counts</b></title>
+                <p class="- topic/p " xtrc="p:11;87:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:17;87:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Previous data not cleared, or partial load.</p>
+                <p class="- topic/p " xtrc="p:12;88:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:18;88:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="codeblock_zyx_ml3_q3c" xml:space="preserve" xtrc="codeblock:6;88:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">-- Check current countsSELECT'PRODUCT_VARIANTS'AS TABLE_NAME,COUNT(*)AS COUNT
+FROM&lt;Your HLQ&gt;.PRODUCT_VARIANTS;
+
+Expected: 4,824If count doesn't match:
+1. Submit ECOMDROP
+2. Submit ECOMDDL  
+3. Submit ECOMINIT</codeblock></p>
+            </section>
+            <section class="- topic/section " id="issue-not-authorized-to-create-database" xtrc="section:7;96:67" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:8;97:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:19;97:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">NOT AUTHORIZED TO CREATE DATABASE</b></title>
+                <p class="- topic/p " xtrc="p:13;98:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:20;98:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Insufficient Db2 privileges.</p>
+                <p class="- topic/p " xtrc="p:14;99:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:21;99:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="codeblock_wzg_4l3_q3c" xml:space="preserve" xtrc="codeblock:7;99:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Contact your Db2 DBA to grant CREATEDB authority:
+
+GRANT CREATEDB ON SYSTEM TO &lt;Your HLQ&gt;;
+</codeblock></p>
+            </section>
+            <section class="- topic/section " id="issue-joblib-libraries-not-found" xtrc="section:8;104:60" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:9;105:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:22;105:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">JOBLIB Libraries Not Found</b></title>
+                <p class="- topic/p " xtrc="p:15;106:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:23;106:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Incorrect Db2 software library HLQ.</p>
+                <p class="- topic/p " xtrc="p:16;107:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:24;107:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="codeblock_jqz_4l3_q3c" xml:space="preserve" xtrc="codeblock:8;107:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">1. Find correct Db2 HLQ on your system:
+   TSO/ISPF 3.4 → DSN* (or DSNV*)
+   Look for: SDSNLOAD, SDSNEXIT, RUNLIB.LOAD
+   
+2. Update JOBLIB statements in all JCL files:
+   //JOBLIB   DD  DISP=SHR,DSN=&lt;Correct HLQ&gt;.SDSNEXIT
+   //         DD  DISP=SHR,DSN=&lt;Correct HLQ&gt;.SDSNLOAD
+   //         DD  DISP=SHR,DSN=&lt;Correct HLQ&gt;.RUNLIB.LOAD</codeblock></p>
+            </section>
+            <section class="- topic/section " id="issue-storage-group-not-defined" xtrc="section:9;116:59" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:10;117:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:25;117:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">STORAGE GROUP NOT DEFINED</b></title>
+                <p class="- topic/p " xtrc="p:17;118:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:26;118:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> E01STGDB.sql uses default storage group.</p>
+                <p class="- topic/p " xtrc="p:18;119:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:27;119:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="codeblock_rws_pl3_q3c" xml:space="preserve" xtrc="codeblock:9;119:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">1. Find available storage groups:
+   SELECT * FROM SYSIBM.SYSSTOGROUP;
+   
+2. Update E01STGDB.sql:
+   CREATE DATABASE ECOMDB01
+       STOGROUP &lt;Your STOGROUP&gt;
+       BUFFERPOOL BP0
+       ...
+</codeblock></p>
+            </section>
+            <section class="- topic/section " id="issue-price-calculations-return-wrong-values" xtrc="section:10;129:72" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:11;130:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:28;130:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Price Calculations Return Wrong Values</b></title>
+                <p class="- topic/p " xtrc="p:19;131:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:29;131:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Query not joining to STYLE_MODIFIERS table.</p>
+                <p class="- topic/p " xtrc="p:20;132:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:30;132:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="codeblock_msj_ql3_q3c" xml:space="preserve" xtrc="codeblock:10;132:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">-- Incorrect (missing PRICE_MULTIPLIER):SELECT PT.BASE_PRICE_CENTS
+FROM PRODUCT_VARIANTS PV
+INNERJOIN PRODUCT_TYPES PT ON...;-- Correct (includes multiplier):SELECT 
+    PT.BASE_PRICE_CENTS,
+    SM.PRICE_MULTIPLIER,
+    CAST(PT.BASE_PRICE_CENTS * SM.PRICE_MULTIPLIER ASINT)AS FINAL_PRICE
+FROM PRODUCT_VARIANTS PV
+INNERJOIN PRODUCT_TYPES PT ON...INNERJOIN STYLE_MODIFIERS SM 
+    ON PV.STYLE_CODE = SM.STYLE_CODE
+   AND PV.MODIFIER_CODE = SM.MODIFIER_CODE;</codeblock></p>
+            </section>
+            <section class="- topic/section " id="issue-performance-issues--slow-queries" xtrc="section:11;143:66" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:12;144:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:31;144:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Slow Queries</b></title>
+                <p class="- topic/p " xtrc="p:21;145:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:32;145:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Statistics not gathered or outdated.</p>
+                <p class="- topic/p " xtrc="p:22;146:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:33;146:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="codeblock_t2f_rl3_q3c" xml:space="preserve" xtrc="codeblock:11;146:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">1. Submit ECOMRS to gather/refresh statistics
+2. Verify statistics exist:
+   SELECT NAME, CARD, NPAGES
+   FROM SYSIBM.SYSTABLES
+   WHERE CREATOR = '&lt;Your HLQ&gt;';
+   
+   If CARD = -1, statistics not gathered</codeblock></p>
+            </section>
+        </bodydiv>
+</body>
+</topic>
