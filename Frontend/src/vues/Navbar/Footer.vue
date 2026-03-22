@@ -3,7 +3,9 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useEasterEgg } from '@/utils/easterEgg.js'
 import docsPdf from '@/assets/docs/placeholder.pdf'
+import apiDemoGif from '@/assets/demo/API-Demo.gif'
 
+const showApiDiagram = ref(false)
 const showCelebration = ref(false)
 const celebrationLines = ref([])
 
@@ -60,6 +62,14 @@ function closeCelebration() { showCelebration.value = false }
       </div>
 
       <div class="footer-col footer-links">
+        <h4>Demo Links</h4>
+        <ul>
+          <li><a href="#" @click.prevent="showApiDiagram = true">API Diagram</a></li>
+          <li><a href="http://127.0.0.1:8000/docs#/default/add_item_spectre_api_cart_item_post" target="_blank" rel="noopener noreferrer">Cart API</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-links">
         <h4>Company</h4>
         <ul>
           <li><a href="#" @click.prevent="handleAboutClick">About</a></li>
@@ -77,6 +87,17 @@ function closeCelebration() { showCelebration.value = false }
         <a href="#">Contact</a>
       </div>
     </div>
+    <!-- API Diagram modal -->
+    <Teleport to="body">
+      <div v-if="showApiDiagram" class="api-modal-overlay" @click.self="showApiDiagram = false">
+        <div class="api-modal-card">
+          <button class="api-modal-close" @click="showApiDiagram = false">&times;</button>
+          <h3>API Diagram</h3>
+          <img :src="apiDemoGif" alt="API Demo" class="api-modal-gif" />
+        </div>
+      </div>
+    </Teleport>
+
     <!-- Celebration overlay -->
     <div v-if="showCelebration" class="celebration-overlay" @click="closeCelebration">
       <div class="celebration-card" @click.stop>
@@ -112,9 +133,63 @@ function closeCelebration() { showCelebration.value = false }
   margin-left: -50vw;
 }
 
+.api-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.api-modal-card {
+  background: var(--bg-panel);
+  border: 3px solid var(--water);
+  box-shadow: 6px 6px 0 var(--shadow);
+  border-radius: 4px;
+  padding: 1.5rem;
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.api-modal-card h3 {
+  margin: 0;
+  font-family: var(--font-title);
+  color: var(--water);
+}
+
+.api-modal-gif {
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+  border: 2px solid var(--shadow);
+}
+
+.api-modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text);
+  line-height: 1;
+}
+
+.api-modal-close:hover {
+  color: var(--fire, #c0392b);
+}
+
 .footer-content {
   display: grid;
-  grid-template-columns: 2fr repeat(2, 1fr);
+  grid-template-columns: 2fr repeat(3, 1fr);
   gap: 2rem 3rem;
   max-width: 920px;
   margin: 0 auto 1.5rem;
