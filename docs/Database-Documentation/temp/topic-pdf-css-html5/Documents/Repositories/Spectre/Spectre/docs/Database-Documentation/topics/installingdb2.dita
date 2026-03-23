@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /C:\Users\jheckel\Documents\Repositories\Spectre\Spectre\docs\Database-Documentation\temp\topic-pdf-css-html5\Documents\Repositories\Spectre\Spectre\docs\Database-Documentation\topics?><?workdir-uri file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/temp/topic-pdf-css-html5/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/?><?path2project ..\?><?path2project-uri ../?><?path2rootmap-uri ../?><?doctype-public -//OASIS//DTD DITA Task//EN?><?doctype-system task.dtd?><task xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" class="- topic/topic task/task " ditaarch:DITAArchVersion="1.3" domains="(topic task) (topic abbrev-d) a(props deliveryTarget) (topic equation-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic mathml-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic svg-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d) (topic task strictTaskbody-c)" id="installingdb2" specializations="@props/deliveryTarget" xml:lang="en" xtrc="task:1;3:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+<title class="- topic/title " xtrc="title:1;4:8" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Installing the ECOMAPP database</title>
+<shortdesc class="- topic/shortdesc " xtrc="shortdesc:1;5:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">ECOMAPP database is hosted on Db2 for z/OS platform. You can install the ECOMAPP database
+      within TSO/ISPF.</shortdesc>
+<prolog class="- topic/prolog " xtrc="prolog:1;7:9" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+<critdates class="- topic/critdates " xtrc="critdates:1;11:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;12:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates><metadata class="- topic/metadata " xtrc="metadata:1;8:11" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><keywords class="- topic/keywords " xtrc="keywords:1;8:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><indexterm class="- topic/indexterm " xtrc="indexterm:1;8:32" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"/></keywords></metadata>
+</prolog>
+<taskbody class="- topic/body task/taskbody " xtrc="taskbody:1;10:11" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+<prereq class="- topic/section task/prereq " xtrc="prereq:1;11:9" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+         <p class="- topic/p " xtrc="p:1;12:13" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Before installing ECOMAPP, you must have these requirements: </p>
+         <ul class="- topic/ul " id="ul_ncw_xcd_q3c" xtrc="ul:1;13:34" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <li class="- topic/li " xtrc="li:1;14:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Access: You must have access to TSO/ISPF. </li>
+            <li class="- topic/li " xtrc="li:2;15:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Db2: Version 13, subsystem ID <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:1;15:55" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your SSID&gt;</codeph>, Db2 software HLQ
+                  <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:2;16:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your DB2HLQ&gt;</codeph>, and a Db2 Connect license.</li>
+            <li class="- topic/li " xtrc="li:3;17:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">User Privileges: SYSADM/SYSCTRL or CREATEDB.</li>
+            <li class="- topic/li " xtrc="li:4;18:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Storage: 100 tracks for DDL library, 50 tracks for JCL library, 500 MB DASD for
+               tablespaces and indexes.</li>
+         </ul>
+      </prereq>
+<context class="- topic/section task/context " xtrc="context:1;22:10" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Below are steps instructing you on how to install ECOMAPP database within
+         TSO/ISPF.</context>
+<steps class="- topic/ol task/steps " xtrc="steps:1;24:8" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+<step class="- topic/li task/step " xtrc="step:1;25:7" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:1;26:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Before uploading any files, you must customize the following placeholders
+               throughout all DDL and JCL files:</cmd>
+            <choicetable class="- topic/simpletable task/choicetable " frame="all" id="choicetable_frz_qjr_q3c" keycol="1" relcolwidth="1* 1*" xtrc="choicetable:1;28:87" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <chhead class="- topic/sthead task/chhead " xtrc="chhead:1;29:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <choptionhd class="- topic/stentry task/choptionhd " dita-ot:x="1" dita-ot:y="1" xtrc="choptionhd:1;30:31" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Placeholder</choptionhd>
+                  <chdeschd class="- topic/stentry task/chdeschd " dita-ot:x="2" dita-ot:y="1" xtrc="chdeschd:1;31:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Description</chdeschd>
+               </chhead>
+               <chrow class="- topic/strow task/chrow " xtrc="chrow:1;33:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <choption class="- topic/stentry task/choption " dita-ot:x="1" dita-ot:y="2" xtrc="choption:1;34:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;</choption>
+                  <chdesc class="- topic/stentry task/chdesc " dita-ot:x="2" dita-ot:y="2" xtrc="chdesc:1;35:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Your z/OS High-Level Qualifier</chdesc>
+               </chrow>
+               <chrow class="- topic/strow task/chrow " xtrc="chrow:2;37:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <choption class="- topic/stentry task/choption " dita-ot:x="1" dita-ot:y="3" xtrc="choption:2;38:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your USERGRP&gt;</choption>
+                  <chdesc class="- topic/stentry task/chdesc " dita-ot:x="2" dita-ot:y="3" xtrc="chdesc:2;39:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Application user group for DML access</chdesc>
+               </chrow>
+               <chrow class="- topic/strow task/chrow " xtrc="chrow:3;41:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <choption class="- topic/stentry task/choption " dita-ot:x="1" dita-ot:y="4" xtrc="choption:3;42:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your SSID&gt;</choption>
+                  <chdesc class="- topic/stentry task/chdesc " dita-ot:x="2" dita-ot:y="4" xtrc="chdesc:3;43:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Db2 subsystem ID</chdesc>
+               </chrow>
+               <chrow class="- topic/strow task/chrow " xtrc="chrow:4;45:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <choption class="- topic/stentry task/choption " dita-ot:x="1" dita-ot:y="5" xtrc="choption:4;46:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your DB2HLQ&gt;</choption>
+                  <chdesc class="- topic/stentry task/chdesc " dita-ot:x="2" dita-ot:y="5" xtrc="chdesc:4;47:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Db2 Software Library</chdesc>
+               </chrow>
+            </choicetable>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:2;51:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:2;52:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Create an Initial Partitioned Data Set (PDS) in <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:3;52:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your
+                  HLQ&gt;.ECOMAPP.ALOC</codeph>. You must create one dataset and upload the
+                  <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:4;54:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">ECOMALOC.jcl</codeph> as a member of that dataset.Your new dataset can be
+               accessed by <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:5;55:36" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.ALLOC(ECOMALOC)</codeph>. Configure your
+               new dataset with the appropriate quantities, blocks, and record formattings below. </cmd>
+            <info class="- topic/itemgroup task/info " xtrc="info:1;57:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <codeblock class="+ topic/pre pr-d/codeblock " id="codeblock_edw_lty_q3c" xml:space="preserve" xtrc="codeblock:1;58:54" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Command ===&gt; A
+Dataset Name: &lt;Your HLQ&gt;.ECOMAPP.ECOMALOC
+Management class . . . &lt;blank&gt;
+Storage class  . . . . &lt;blank&gt;
+Volume serial  . . . . &lt;blank&gt;
+Device type  . . . . . &lt;blank or SYSDA&gt;
+Data class . . . . . . &lt;blank&gt;
+Space units  . . . . . TRKS
+Primary quantity . . . 5
+Secondary quantity . . 2
+Directory blocks . . . 2
+Record format  . . . . FB
+Record length  . . . . 80
+Block size . . . . . . 3120
+Data set name type . . PDS</codeblock>
+            </info>
+            <substeps class="- topic/ol task/substeps " id="substeps_l5x_c5w_q3c" xtrc="substeps:1;74:49" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <substep class="- topic/li task/substep " xtrc="substep:1;75:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:3;76:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Log into TSO/ISPF and allocate the Initial PDS. </cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:2;78:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:4;79:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Upload ECOMALOC.jcl via Zowe or by pasting in the code in ISPF. You can find
+                     and edit it by using option 3.4 to find <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:6;80:70" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your
+                        HLQ&gt;.ECOMAPP.ALLOC(ECOMALLOC)</codeph>.</cmd>
+               </substep>
+            </substeps>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:3;85:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:5;86:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Run ECOMALOC to create DDL and JCL libraries. This job creates the two main PDS
+               libraries for the DDL and JCL files. </cmd>
+            <substeps class="- topic/ol task/substeps " id="substeps_s1s_ytw_q3c" xtrc="substeps:2;88:49" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <substep class="- topic/li task/substep " xtrc="substep:3;89:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:6;90:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Insert option 3.4 in DSLIST.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:4;92:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:7;93:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Navigate to <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:7;93:44" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.ALLOC(ECOMALOC)</codeph>.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:5;95:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:8;96:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Type <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:8;96:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">SUB</codeph> next to the ECOMALOC member.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:6;98:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:9;99:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Click Enter.</cmd>
+               </substep>
+            </substeps>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:4;103:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:10;104:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Upload all SQL DDL files to the <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:9;104:58" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.DDL</codeph> library.
+               You can use Zowe to upload members directly from the project repository into the
+               dataset.</cmd>
+            <substeps class="- topic/ol task/substeps " id="substeps_cl4_ttw_q3c" xtrc="substeps:3;107:49" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <substep class="- topic/li task/substep " xtrc="substep:7;108:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:11;109:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Insert option 3.4 in DSLIST.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:8;111:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:12;112:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Navigate to <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:10;112:44" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.DDL</codeph>.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:9;114:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:13;115:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Click Enter.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:10;117:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:14;118:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Navigate to the ISPF main menu and insert Option 2.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:11;120:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:15;121:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Insert <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:11;121:39" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.DDL(&lt;membername&gt;)</codeph>.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:12;123:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:16;124:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Paste in the new member contents.</cmd>
+               </substep>
+            </substeps>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:5;128:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:17;129:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Upload all JCL job files to the <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:12;129:58" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.JCL</codeph> library
+               using TSO/ISPF. </cmd>
+            <substeps class="- topic/ol task/substeps " id="substeps_scq_ktw_q3c" xtrc="substeps:4;131:49" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <substep class="- topic/li task/substep " xtrc="substep:13;132:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:18;133:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Insert option 3.4 in DSLIST.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:14;135:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:19;136:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Navigate to <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:13;136:44" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.JCL</codeph>.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:15;138:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:20;139:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Click Enter.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:16;141:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:21;142:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Navigate to the ISPF main menu and insert Option 2.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:17;144:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:22;145:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Insert <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:14;145:39" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.DDL(&lt;membername&gt;)</codeph>.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:18;147:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:23;148:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Paste in the new member contents.</cmd>
+               </substep>
+            </substeps>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:6;152:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:24;153:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Submit the ECOMDDL job to create the database. Submit an ECOMDDL Job in
+               TSO/ISPF.</cmd>
+            <substeps class="- topic/ol task/substeps " id="substeps_m1q_2tw_q3c" xtrc="substeps:5;155:49" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <substep class="- topic/li task/substep " xtrc="substep:19;156:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:25;157:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Insert option 3.4 in DSLIST.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:20;159:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:26;160:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Navigate to <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:15;160:44" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.JCL</codeph>.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:21;162:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:27;163:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Insert <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:16;163:39" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">B</codeph> for browsing to see the members.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:22;165:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:28;166:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Type <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:17;166:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">SUB</codeph> next to the ECOMDDL member.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:23;168:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:29;169:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Click Enter</cmd>
+               </substep>
+            </substeps>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:7;173:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:30;174:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Verify the database creation in TSO/ISPF. </cmd>
+            <substeps class="- topic/ol task/substeps " id="substeps_y5h_m5w_q3c" xtrc="substeps:6;175:49" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <substep class="- topic/li task/substep " xtrc="substep:24;176:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:31;177:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Insert option 2 in SPUFI.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:25;179:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:32;180:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Enter <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:18;180:38" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">SELECT * FROM SYSIBM.SYSTABLES WHERE CREATOR = '&lt;Your
+                        HLQ&gt;';</codeph>.</cmd>
+                  <stepresult class="- topic/itemgroup task/stepresult " xtrc="stepresult:1;182:31" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">The result will show all of the tables in the database.</stepresult>
+               </substep>
+            </substeps>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:8;186:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:33;187:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Initialize the Product catalog by submitting an ECPMINIT Job in TSO/ISPF.</cmd>
+            <substeps class="- topic/ol task/substeps " id="substeps_qpk_mfs_q3c" xtrc="substeps:7;188:49" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <substep class="- topic/li task/substep " xtrc="substep:26;189:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:34;190:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Navigate to <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:19;190:44" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.JCL</codeph>.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:27;192:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:35;193:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Type <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:20;193:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">SUB</codeph>next to ECOMINIT member.</cmd>
+               </substep>
+            </substeps>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:9;197:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:36;198:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Run statistics for optimal query performance by running ECOMRS.</cmd>
+            <substeps class="- topic/ol task/substeps " id="substeps_u5f_hfs_q3c" xtrc="substeps:8;199:49" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <substep class="- topic/li task/substep " xtrc="substep:28;200:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:37;201:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Navigate to <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:21;201:44" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.JCL</codeph>.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:29;203:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:38;204:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Type <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:22;204:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">SUB</codeph> next to ECOMRS member.</cmd>
+               </substep>
+               <substep class="- topic/li task/substep " xtrc="substep:30;206:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <cmd class="- topic/ph task/cmd " xtrc="cmd:39;207:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Check the job output in SDSF job status menu.</cmd>
+               </substep>
+            </substeps>
+         </step>
+</steps>
+</taskbody>
+</task>

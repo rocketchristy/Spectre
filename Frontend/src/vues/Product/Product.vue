@@ -2,9 +2,13 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getProducts, getInventory, addToCart } from '@/utils/api.js'
+import { getCardImage } from '@/utils/cardImages.js'
+import { getRandomAd } from '@/utils/ads.js'
+import HiddenCard from '@/vues/EasterEgg/HiddenCard.vue'
 
 const route = useRoute()
 const router = useRouter()
+const randomAd = getRandomAd()
 
 const productType = computed(() => route.params.type)
 const productId   = computed(() => route.params.id)
@@ -12,23 +16,6 @@ const productId   = computed(() => route.params.id)
 const products = ref([])
 const inventory = ref([])
 const loading = ref(true)
-
-// Dynamically import all card images
-const cardImageFiles = import.meta.glob('@/assets/Images/Cards/*.png', { eager: true })
-
-function getCardImage(description) {
-  const lowerDesc = description.toLowerCase()
-  if (lowerDesc.includes('mystery') || lowerDesc.includes('booster')) {
-    const boosterKey = Object.keys(cardImageFiles).find(k => k.toLowerCase().endsWith('booster.png'))
-    if (boosterKey) return cardImageFiles[boosterKey].default
-  }
-  for (const [path, mod] of Object.entries(cardImageFiles)) {
-    const fileName = path.split('/').pop().replace('.png', '')
-    if (fileName === description) return mod.default
-  }
-  const blankKey = Object.keys(cardImageFiles).find(k => k.endsWith('Blank.png'))
-  return blankKey ? cardImageFiles[blankKey].default : null
-}
 
 async function fetchData() {
   loading.value = true
@@ -87,10 +74,10 @@ watch(productId, () => {
 
 const filteredListings = computed(() => {
   return productListings.value.filter(i => {
-    const name = (i.MODIFIER_NAME || '').toLowerCase()
-    if (selectedLanguage.value && !name.includes(selectedLanguage.value.toLowerCase())) return false
-    if (selectedCondition.value && !name.includes(selectedCondition.value.toLowerCase())) return false
-    if (selectedFoil.value && !name.includes(selectedFoil.value.toLowerCase())) return false
+    const segments = (i.MODIFIER_NAME || '').split(',').map(s => s.trim().toLowerCase())
+    if (selectedLanguage.value && !segments.some(s => s === selectedLanguage.value.toLowerCase())) return false
+    if (selectedCondition.value && !segments.some(s => s === selectedCondition.value.toLowerCase())) return false
+    if (selectedFoil.value && !segments.some(s => s === selectedFoil.value.toLowerCase())) return false
     return true
   })
 })
@@ -122,6 +109,7 @@ const currentProduct = computed(() => {
 
 // Add to cart handler
 const cartQuantities = ref({})
+const showCartPrompt = ref(false)
 
 function getCartQty(listing) {
   return cartQuantities.value[listing.INVENTORY_ID] || 1
@@ -132,6 +120,10 @@ function setCartQty(listing, val) {
 }
 
 async function handleAddToCart(listing) {
+  if (!localStorage.getItem('token')) {
+    router.push({ name: 'landing' })
+    return
+  }
   const qty = getCartQty(listing)
   try {
     await addToCart(
@@ -140,7 +132,7 @@ async function handleAddToCart(listing) {
       listing.UNIT_PRICE_CENTS,
       listing.CURRENCY_CODE || 'USD'
     )
-    alert(`Added ${qty} to cart!`)
+    showCartPrompt.value = true
   } catch (e) {
     alert(e.message || 'Failed to add to cart')
   }
@@ -148,8 +140,10 @@ async function handleAddToCart(listing) {
 </script>
 
 <template>
+  <div class="page-with-ad">
   <main class="page-shell product-page">
     <router-link to="/store" class="back-link">← Back to Store</router-link>
+    <HiddenCard name="Jessalyn" style="float: right; margin-top: -1.6rem;" />
 
     <p v-if="loading" class="empty-state">Loading product…</p>
 
@@ -250,24 +244,59 @@ async function handleAddToCart(listing) {
       <h2>Product not found</h2>
       <router-link to="/store">Return to store</router-link>
     </div>
+
+    <!-- Cart prompt overlay -->
+    <div v-if="showCartPrompt" class="modal-overlay" @click="showCartPrompt = false">
+      <div class="cart-prompt" @click.stop>
+        <h3>Added to cart!</h3>
+        <div class="cart-prompt-actions">
+          <router-link to="/cart" class="action-btn">Go to Cart</router-link>
+          <button class="action-btn cart-prompt-continue" @click="showCartPrompt = false">Continue Shopping</button>
+        </div>
+      </div>
+    </div>
   </main>
+  <aside v-if="randomAd" class="ad-column">
+    <img :src="randomAd" alt="Advertisement" class="ad-img" />
+  </aside>
+  </div>
 </template>
 
 <style scoped>
-.product-page {
-  max-width: 1000px;
+.page-with-ad {
+  display: flex;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
+.page-shell { flex: 1; min-width: 0; }
+.ad-column {
+  width: 180px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 50%;
+  transform: translateY(-50%);
+  align-self: center;
+  height: fit-content;
+}
+.ad-img {
+  width: 100%;
+  border: 3px solid var(--shadow);
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+@media (max-width: 900px) {
+  .ad-column { display: none; }
+}
+
+.product-page { max-width: 1000px; }
 
 .product-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
 }
-
 @media (max-width: 768px) {
-  .product-container {
-    grid-template-columns: 1fr;
-  }
+  .product-container { grid-template-columns: 1fr; }
 }
 
 .product-image-section {
@@ -278,76 +307,38 @@ async function handleAddToCart(listing) {
 
 .product-image-large {
   font-size: 12rem;
-  background: var(--color-background-soft, #1a1a2e);
-  border-radius: 12px;
+  background: var(--bg-panel);
+  border: 3px solid var(--water);
+  box-shadow: 4px 4px 0 var(--water);
   padding: 3rem;
-  border: 1px solid var(--color-border, #333);
 }
 
 .product-details h1 {
   margin: 0 0 1rem;
-  color: var(--color-heading, #fff);
+  color: var(--stone);
+  font-family: var(--font-pixel);
 }
 
 .product-img {
   max-width: 100%;
   height: auto;
-  border-radius: 8px;
+  border: 3px solid var(--shadow);
 }
 
-.buy-btn {
-  width: 100%;
-}
+.buy-btn { width: 100%; }
 
 .qty-input {
   width: 60px;
   padding: 4px 6px;
   text-align: center;
-  border-radius: 4px;
-  border: 1px solid var(--color-border, #333);
-  background: var(--color-background, #111);
-  color: var(--color-text, #fff);
+  border: 2px solid var(--water);
+  background: var(--bg-panel);
+  color: var(--stone);
 }
 
-.filters {
+.cart-prompt-actions {
   display: flex;
+  justify-content: center;
   gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
-}
-
-.filter-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.filter-group label {
-  font-size: 0.85rem;
-  color: var(--color-text-muted, #aaa);
-}
-
-.filter-group select {
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: 1px solid var(--color-border, #333);
-  background: var(--color-background-soft, #1a1a2e);
-  color: var(--color-text, #fff);
-}
-
-.booster-listings {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.booster-row {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem;
-  background: var(--color-background-soft, #1a1a2e);
-  border-radius: 8px;
-  border: 1px solid var(--color-border, #333);
 }
 </style>

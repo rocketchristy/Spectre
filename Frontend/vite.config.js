@@ -21,6 +21,14 @@ export default defineConfig({
         target: 'http://localhost:8000',
         changeOrigin: true,
       },
+      '/hello_world': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+      '/hola_mundo': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
     },
   },
 })

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="release_notes_whats_new_whats_fixed">
+    <title>NXTCG v 0.0.1 Release Notes: What’s New and What’s Fixed</title>
+    
+    <conbody>
+        
+        <section>
+            <title>Overview</title>
+            <p>
+                This release of the NXTCG platform introduces core marketplace functionality,
+                allowing users to buy, sell, and manage NextGen trading cards through a fully
+                integrated frontend and backend experience. The release focuses on establishing
+                the end-to-end purchase flow, product configuration, user profile management,
+                and platform stability.
+            </p>
+        </section>
+        
+        <section>
+            <title>What’s New in 0.0.1</title>
+            
+            <p>
+                NXTCG now supports a complete trading card marketplace experience. Users can
+                browse available cards, configure product attributes, add customized items to
+                their cart, and securely complete checkout. Sellers can list cards for sale and
+                manage their inventory directly from their user profile. The platform also
+                introduces a modern storefront interface, navigation components, and landing
+                pages to support discovery and usability.
+            </p>
+            
+            <table colsep="1" rowsep="1" frame="all">
+                <title>New Features</title>
+                <tgroup cols="3">
+                    <colspec colname="c1" colwidth="2*" colsep="1" rowsep="1"/>
+                    <colspec colname="c2" colwidth="6*" colsep="1" rowsep="1"/>
+                    <colspec colname="c3" colwidth="2*" colsep="1" rowsep="1"/>
+                    <thead>
+                        <row>
+                            <entry>Jira ID</entry>
+                            <entry>Description</entry>
+                            <entry>Area</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>NAR-243</entry>
+                            <entry>Users can configure products, add them to an order, and enter
+                                payment and address details during checkout.</entry>
+                            <entry>Checkout</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-244</entry>
+                            <entry>Users can select product quantities before adding items to their
+                                cart.</entry>
+                            <entry>Cart</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-246</entry>
+                            <entry>Support for configurable product attributes for trading
+                                cards.</entry>
+                            <entry>Products</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-247</entry>
+                            <entry>Users can add multiple customized products to their cart.</entry>
+                            <entry>Cart</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-248</entry>
+                            <entry>Users can enter a delivery address during checkout.</entry>
+                            <entry>Checkout</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-249</entry>
+                            <entry>Users can enter a billing address as part of the checkout
+                                process.</entry>
+                            <entry>Checkout</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-250</entry>
+                            <entry>Users can submit and complete orders through the checkout
+                                workflow.</entry>
+                            <entry>Checkout</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-292</entry>
+                            <entry>Order history now displays purchased trading cards
+                                correctly.</entry>
+                            <entry>Orders</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-197</entry>
+                            <entry>Introduced a landing page to support storefront access and
+                                discovery.</entry>
+                            <entry>UI</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-137</entry>
+                            <entry>Implemented storefront and product views for browsing available
+                                cards.</entry>
+                            <entry>Storefront</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-138</entry>
+                            <entry>Added navigation bar and footer views to improve site
+                                navigation.</entry>
+                            <entry>UI</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-200</entry>
+                            <entry>User profiles now display the trading cards a user has listed for
+                                sale.</entry>
+                            <entry>User Profile</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-291</entry>
+                            <entry>Sellers can delete items they have listed for sale.</entry>
+                            <entry>Marketplace</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </section>
+        
+        <section>
+            <title>What’s Fixed in 0.0.1</title>
+            
+            <table colsep="1" rowsep="1" frame="all">
+                <title>Bug Fixes</title>
+                <tgroup cols="3">
+                    <colspec colname="c1" colwidth="2*"/>
+                    <colspec colname="c2" colwidth="6*"/>
+                    <colspec colname="c3" colwidth="2*"/>
+                    <thead>
+                        <row rowsep="0">
+                            <entry>Jira ID</entry>
+                            <entry>Description</entry>
+                            <entry>Area</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>NAR-296</entry>
+                            <entry>Fixed an issue where the storefront displayed incorrect available
+                                listings.</entry>
+                            <entry>Storefront</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-292</entry>
+                            <entry>Resolved an issue where order history did not return purchased
+                                cards.</entry>
+                            <entry>Orders</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-229</entry>
+                            <entry>Prevented users from updating their profile information and
+                                password at the same time.</entry>
+                            <entry>User Profile</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-232</entry>
+                            <entry>User authentication tokens are now invalidated after password
+                                changes, requiring re-login.</entry>
+                            <entry>Security</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-202</entry>
+                            <entry>Stabilized the automated testing environment to prevent pipeline
+                                failures.</entry>
+                            <entry>Testing</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </section>
+        
+        <section>
+            <title>Infrastructure and Internal Improvements in 0.0.1</title>
+            
+            <table colsep="1" rowsep="1" frame="all">
+                <title>Platform Enhancements</title>
+                <tgroup cols="3" class="- topic/tgroup " align="justify">
+                    <colspec colname="c1" colwidth="2*"/>
+                    <colspec colname="c2" colwidth="6*"/>
+                    <colspec colname="c3" colwidth="2*"/>
+                    <thead>
+                        <row>
+                            <entry>Jira ID</entry>
+                            <entry>Description</entry>
+                            <entry>Area</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>NAR-46</entry>
+                            <entry>Implemented a DB2 database connection prototype for backend
+                                services.</entry>
+                            <entry>Backend</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-49</entry>
+                            <entry>Created database access objects to standardize data
+                                operations.</entry>
+                            <entry>Backend</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-51</entry>
+                            <entry>Set up REST API endpoints to support frontend
+                                integration.</entry>
+                            <entry>API</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-201</entry>
+                            <entry>Established an automated testing environment for continuous
+                                integration.</entry>
+                            <entry>DevOps</entry>
+                        </row>
+                        <row>
+                            <entry>NAR-290</entry>
+                            <entry>Added project README documentation.</entry>
+                            <entry>Documentation</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </section>
+        
+    </conbody>
+</concept>
+

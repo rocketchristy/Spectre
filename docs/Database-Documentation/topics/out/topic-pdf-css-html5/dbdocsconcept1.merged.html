@@ -1,0 +1,100 @@
+<!DOCTYPE html><html xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita" show-onpage-lbl="no" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="copyright" content="(C) Copyright 2026"/><meta name="DC.rights.owner" content="(C) Copyright 2026"/>
+<link rel="stylesheet" type="text/css" href="file:/C:/Users/jheckel/AppData/Local/Programs/Oxygen%20XML%20Editor%2026/frameworks/dita/DITA-OT/plugins/com.oxygenxml.webhelp.responsive/oxygen-webhelp/app/topic-page-print.css"/>
+<link rel="stylesheet" type="text/css" href="file:/C:/Users/jheckel/AppData/Local/Programs/Oxygen%20XML%20Editor%2026/frameworks/dita/DITA-OT/plugins/com.oxygenxml.pdf.css/css/print/p-dita.css"/>
+<link rel="stylesheet" type="text/css" href="file:/C:/Users/jheckel/AppData/Local/Programs/Oxygen%20XML%20Editor%2026/frameworks/dita/DITA-OT/plugins/com.oxygenxml.editlink/pdf-css.css"/>
+<link rel="stylesheet" type="text/css" href="file:/C:/Users/jheckel/AppData/Local/Programs/Oxygen%20XML%20Editor%2026/frameworks/dita/DITA-OT/plugins/com.oxygenxml.webhelp.responsive/templates/oxygen/oxygen-print.css"/>
+<link rel="stylesheet" type="text/css" href="file:/C:/Users/jheckel/AppData/Local/Programs/Oxygen%20XML%20Editor%2026/frameworks/dita/DITA-OT/plugins/com.oxygenxml.webhelp.responsive/templates/oxygen/notes.css"/>
+<meta name="generator" content="DITA-OT"/><meta name="DC.type" content="concept"/><meta name="description" content="The NextGen Trading Card Game (NXTCG) features exclusive collectible cards inspired by the Rocket Software NextGen Academy and its Rocketeers. The platform empowers users to buy and sell new cards and related products, creating a dynamic marketplace for fans and collectors."/><meta name="keywords" content="Database AdministrationDb2 13 for z/OS, ECOMAPP, ECOMDB01, RUNSTATS, JCL, Privileges"/><meta name="product" content="ECOMAPP"/><meta name="platform" content="Db2 for z/OS 13"/><meta name="DC.format" content="HTML5"/><meta name="DC.identifier" content="dbdocsconcept1"/><meta name="DC.language" content="en"/><title>Database Administrator Guide</title></head><body class="wh_topic_page"><div class="wh_content_area"><div class="wh_topic_body"><div class="wh_topic_content"><div xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" show-onpage-lbl="no" class="- topic/topic concept/concept topic concept" ditaarch:DITAArchVersion="1.3" domains="(topic concept) (topic abbrev-d) a(props deliveryTarget) (topic equation-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic mathml-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic svg-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)" id="dbdocsconcept1" specializations="@props/deliveryTarget" xml:lang="en" lang="en">
+    <h1 class="- topic/title title topictitle1" id="ariaid-title1"><span class="- topic/ph topic/title-wrapper ph title-wrapper">Database Administrator Guide</span></h1>
+    
+    <div class="- topic/prolog prolog">
+        <div class="- topic/metadata metadata">
+            <div class="- topic/keywords keywords">
+                <div class="- topic/indexterm indexterm">Database Administration</div>
+                <div class="- topic/indexterm indexterm">Db2 13 for z/OS</div>
+                <div class="- topic/indexterm indexterm">ECOMAPP</div>
+                <div class="- topic/indexterm indexterm">ECOMDB01</div>
+                <div class="- topic/indexterm indexterm">RUNSTATS</div>
+                <div class="- topic/indexterm indexterm">JCL</div>
+                <div class="- topic/indexterm indexterm">Privileges</div>
+            </div>
+            <div content="ECOMAPP" name="product" class="- topic/othermeta othermeta"></div>
+            <div content="Db2 for z/OS 13" name="platform" class="- topic/othermeta othermeta"></div>
+        </div>
+    </div>
+    <div class="- topic/body concept/conbody body conbody"><p class="- topic/shortdesc shortdesc">The NextGen Trading Card Game (NXTCG) features exclusive collectible cards inspired
+        by the Rocket Software NextGen Academy and its Rocketeers. The platform empowers users to
+        buy and sell new cards and related products, creating a dynamic marketplace for fans and
+        collectors.</p>
+        <p class="- topic/p p">ECOMAPP is a Db2 13 for z/OS database for NXTCG. It is compromised of 15 normalized
+            tables with full referential integrity and indexed access paths. Administration is
+            driven by source-controlled DDL and JCL pipelines for build, initialization, statistics,
+            grants, and teardown. </p>
+        <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Key Features:</strong></p>
+        <ul class="- topic/ul ul" id="ul_fhm_zcd_q3c">
+            <li class="- topic/li li">Complete SKU-based product catalog (4,824 trading card variants)</li>
+            <li class="- topic/li li">Multiplier-based dynamic pricing system</li>
+            <li class="- topic/li li">16 normalized tables with full referential integrity</li>
+            <li class="- topic/li li">Performance indexes on all critical access paths</li>
+            <li class="- topic/li li">Split initialization files for mainframe line length compliance</li>
+            <li class="- topic/li li">Automated JCL for all database operations</li>
+        </ul>
+        <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Product Catalog:</strong></p>
+        <ul class="- topic/ul ul" id="ul_ghm_zcd_q3c">
+            <li class="- topic/li li">80 Individual Cards × 60 modifier combinations = 4,800 variants</li>
+            <li class="- topic/li li">24 Mystery Products × 1 variant each = 24 variants</li>
+            <li class="- topic/li li">Total: 4,824 sellable SKUs</li>
+        </ul>
+        <div class="- topic/note note note note_note" id="note_yc4_23r_q3c"><span class="note__title">Note:</span> NXTCG is planning to extend their future card catalog to NextGen
+            Academies world-wide. </div>
+        <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Database Components:</strong></p>
+        <ul class="- topic/ul ul" id="ul_hhm_zcd_q3c">
+            <li class="- topic/li li">Database: ECOMDB01</li>
+            <li class="- topic/li li">Tablespaces: 15 tablespaces, one per table for flexibility.</li>
+            <li class="- topic/li li">Tables: USERS, TOKENS, SERIES, STYLES, STYLE_MODIFIERS, PRODUCT_TYPES,
+                PRODUCT_VARIANTS, VARIANT_IMAGES, INVENTORY, CARTS, CART_ITEMS, ADDRESSES, ORDERS,
+                ORDER_ADDRESSES, ORDER_ITEMS </li>
+            <li class="- topic/li li">Indexes: Primary key indexes + business key indexes</li>
+        </ul>
+        <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Directory Structure</strong></p>
+        <pre class="+ topic/pre pr-d/codeblock pre codeblock" id="codeblock_tlx_hlb_q3c" xml:space="preserve"><code>&lt;HLQ&gt;.ECOMAPP
+├── ALLOC
+│   └── ECOMALOC
+│
+├── DDL
+│   ├── E01STGDB
+│   ├── E02TBSPC
+│   ├── E03TABLE
+│   ├── E04INDEX
+│   ├── E05CMT
+│   ├── E06GRANT
+│   ├── E07INIT1
+│   ├── E07INIT2
+│   ├── E07INIT3
+│   ├── E08INVEN
+│   ├── E09RPTO1
+│   ├── E09RPTO2
+│   └── E09RPTO3
+│
+├── JCL
+│   ├── ECOMDDL
+│   ├── ECOMDROP
+│   ├── ECOMFILL
+│   ├── ECOMGRNT
+│   ├── ECOMINIT
+│   ├── ECOMRPTS
+│   └── ECOMRS
+│
+└── REPORTS
+    ├── RPTO1
+    ├── RPTO2
+    └── RPTO3</code></pre>
+        <section class="- topic/section section" id="section_f4v_2dk_q3c"><h2 class="- topic/title title sectiontitle">Db2 Common Codes</h2>
+            
+            <p class="- topic/p p">RC=0: Complete success - all DDL executed successfully</p>
+            <p class="- topic/p p">RC=4: Warning - generally safe to continue</p>
+            <p class="- topic/p p">RC=8: SQL error - review SYSTSPRT</p>
+            <p class="- topic/p p">RC=12+: Severe error - STOP and investigate</p>
+        </section>
+    </div>
+</div></div></div></div></body></html>

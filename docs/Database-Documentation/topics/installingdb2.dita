@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="installingdb2" xml:lang="en">
+<title>Installing the ECOMAPP database</title>
+<shortdesc>ECOMAPP database is hosted on Db2 for z/OS platform. You can install the ECOMAPP database
+      within TSO/ISPF.</shortdesc>
+<prolog>
+<metadata><keywords><indexterm></indexterm></keywords></metadata>
+</prolog>
+<taskbody>
+<prereq>
+         <p>Before installing ECOMAPP, you must have these requirements: </p>
+         <ul id="ul_ncw_xcd_q3c">
+            <li>Access: You must have access to TSO/ISPF. </li>
+            <li>Db2: Version 13, subsystem ID <codeph>&lt;Your SSID&gt;</codeph>, Db2 software HLQ
+                  <codeph>&lt;Your DB2HLQ></codeph>, and a Db2 Connect license.</li>
+            <li>User Privileges: SYSADM/SYSCTRL or CREATEDB.</li>
+            <li>Storage: 100 tracks for DDL library, 50 tracks for JCL library, 500 MB DASD for
+               tablespaces and indexes.</li>
+         </ul>
+      </prereq>
+<context>Below are steps instructing you on how to install ECOMAPP database within
+         TSO/ISPF.</context>
+<steps>
+<step>
+            <cmd>Before uploading any files, you must customize the following placeholders
+               throughout all DDL and JCL files:</cmd>
+            <choicetable frame="all" relcolwidth="1* 1*" id="choicetable_frz_qjr_q3c">
+               <chhead>
+                  <choptionhd>Placeholder</choptionhd>
+                  <chdeschd>Description</chdeschd>
+               </chhead>
+               <chrow>
+                  <choption>&lt;Your HLQ></choption>
+                  <chdesc>Your z/OS High-Level Qualifier</chdesc>
+               </chrow>
+               <chrow>
+                  <choption>&lt;Your USERGRP></choption>
+                  <chdesc>Application user group for DML access</chdesc>
+               </chrow>
+               <chrow>
+                  <choption>&lt;Your SSID></choption>
+                  <chdesc>Db2 subsystem ID</chdesc>
+               </chrow>
+               <chrow>
+                  <choption>&lt;Your DB2HLQ></choption>
+                  <chdesc>Db2 Software Library</chdesc>
+               </chrow>
+            </choicetable>
+         </step>
+         <step>
+            <cmd>Create an Initial Partitioned Data Set (PDS) in <codeph>&lt;Your
+                  HLQ>.ECOMAPP.ALOC</codeph>. You must create one dataset and upload the
+                  <codeph>ECOMALOC.jcl</codeph> as a member of that dataset.Your new dataset can be
+               accessed by <codeph>&lt;Your HLQ>.ECOMAPP.ALLOC(ECOMALOC)</codeph>. Configure your
+               new dataset with the appropriate quantities, blocks, and record formattings below. </cmd>
+            <info>
+               <codeblock id="codeblock_edw_lty_q3c">Command ===> A
+Dataset Name: &lt;Your HLQ>.ECOMAPP.ECOMALOC
+Management class . . . &lt;blank>
+Storage class  . . . . &lt;blank>
+Volume serial  . . . . &lt;blank>
+Device type  . . . . . &lt;blank or SYSDA>
+Data class . . . . . . &lt;blank>
+Space units  . . . . . TRKS
+Primary quantity . . . 5
+Secondary quantity . . 2
+Directory blocks . . . 2
+Record format  . . . . FB
+Record length  . . . . 80
+Block size . . . . . . 3120
+Data set name type . . PDS</codeblock>
+            </info>
+            <substeps id="substeps_l5x_c5w_q3c">
+               <substep>
+                  <cmd>Log into TSO/ISPF and allocate the Initial PDS. </cmd>
+               </substep>
+               <substep>
+                  <cmd>Upload ECOMALOC.jcl via Zowe or by pasting in the code in ISPF. You can find
+                     and edit it by using option 3.4 to find <codeph>&lt;Your
+                        HLQ>.ECOMAPP.ALLOC(ECOMALLOC)</codeph>.</cmd>
+               </substep>
+            </substeps>
+         </step>
+         <step>
+            <cmd>Run ECOMALOC to create DDL and JCL libraries. This job creates the two main PDS
+               libraries for the DDL and JCL files. </cmd>
+            <substeps id="substeps_s1s_ytw_q3c">
+               <substep>
+                  <cmd>Insert option 3.4 in DSLIST.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Navigate to <codeph>&lt;Your HLQ>.ECOMAPP.ALLOC(ECOMALOC)</codeph>.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Type <codeph>SUB</codeph> next to the ECOMALOC member.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Click Enter.</cmd>
+               </substep>
+            </substeps>
+         </step>
+         <step>
+            <cmd>Upload all SQL DDL files to the <codeph>&lt;Your HLQ>.ECOMAPP.DDL</codeph> library.
+               You can use Zowe to upload members directly from the project repository into the
+               dataset.</cmd>
+            <substeps id="substeps_cl4_ttw_q3c">
+               <substep>
+                  <cmd>Insert option 3.4 in DSLIST.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Navigate to <codeph>&lt;Your HLQ>.ECOMAPP.DDL</codeph>.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Click Enter.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Navigate to the ISPF main menu and insert Option 2.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Insert <codeph>&lt;Your HLQ>.ECOMAPP.DDL(&lt;membername>)</codeph>.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Paste in the new member contents.</cmd>
+               </substep>
+            </substeps>
+         </step>
+         <step>
+            <cmd>Upload all JCL job files to the <codeph>&lt;Your HLQ>.ECOMAPP.JCL</codeph> library
+               using TSO/ISPF. </cmd>
+            <substeps id="substeps_scq_ktw_q3c">
+               <substep>
+                  <cmd>Insert option 3.4 in DSLIST.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Navigate to <codeph>&lt;Your HLQ>.ECOMAPP.JCL</codeph>.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Click Enter.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Navigate to the ISPF main menu and insert Option 2.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Insert <codeph>&lt;Your HLQ>.ECOMAPP.DDL(&lt;membername>)</codeph>.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Paste in the new member contents.</cmd>
+               </substep>
+            </substeps>
+         </step>
+         <step>
+            <cmd>Submit the ECOMDDL job to create the database. Submit an ECOMDDL Job in
+               TSO/ISPF.</cmd>
+            <substeps id="substeps_m1q_2tw_q3c">
+               <substep>
+                  <cmd>Insert option 3.4 in DSLIST.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Navigate to <codeph>&lt;Your HLQ>.ECOMAPP.JCL</codeph>.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Insert <codeph>B</codeph> for browsing to see the members.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Type <codeph>SUB</codeph> next to the ECOMDDL member.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Click Enter.</cmd>
+               </substep>
+            </substeps>
+         </step>
+         <step>
+            <cmd>Verify the database creation in TSO/ISPF. </cmd>
+            <substeps id="substeps_y5h_m5w_q3c">
+               <substep>
+                  <cmd>Insert option 2 in SPUFI.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Enter <codeph>SELECT * FROM SYSIBM.SYSTABLES WHERE CREATOR = '&lt;Your
+                        HLQ>';</codeph>.</cmd>
+                  <stepresult>The result will show all of the tables in the database.</stepresult>
+               </substep>
+            </substeps>
+         </step>
+         <step>
+            <cmd>Initialize the Product catalog by submitting an ECPMINIT Job in TSO/ISPF.</cmd>
+            <substeps id="substeps_qpk_mfs_q3c">
+               <substep>
+                  <cmd>Navigate to <codeph>&lt;Your HLQ>.ECOMAPP.JCL</codeph>.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Type <codeph>SUB</codeph>next to ECOMINIT member.</cmd>
+               </substep>
+            </substeps>
+         </step>
+         <step>
+            <cmd>Run statistics for optimal query performance by running ECOMRS.</cmd>
+            <substeps id="substeps_u5f_hfs_q3c">
+               <substep>
+                  <cmd>Navigate to <codeph>&lt;Your HLQ>.ECOMAPP.JCL</codeph>.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Type <codeph>SUB</codeph> next to ECOMRS member.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Check the job output in SDSF job status menu.</cmd>
+               </substep>
+            </substeps>
+         </step>
+</steps>
+</taskbody>
+</task>

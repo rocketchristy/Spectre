@@ -1,32 +1,25 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getProducts, getInventory, addInventoryItem } from '@/utils/api.js'
+import { getProducts, getInventory, addInventoryItem, getModifiers } from '@/utils/api.js'
+import { getCardImage } from '@/utils/cardImages.js'
+import { getRandomAd, getRandomAdPair } from '@/utils/ads.js'
+import { getRandomAdRow } from '@/utils/adRows.js'
+import HiddenCard from '@/vues/EasterEgg/HiddenCard.vue'
 
 const router = useRouter()
+const [randomAd, randomAd2] = getRandomAdPair()
+const adRow = getRandomAdRow()
+
+const rowRefs = {}
+function scrollRow(key, dir) {
+  const el = rowRefs[key]
+  if (el) el.scrollBy({ left: dir * 300, behavior: 'smooth' })
+}
+
 const products = ref([])
 const inventory = ref([])
 const loading = ref(true)
-
-// Dynamically import all card images
-const cardImageFiles = import.meta.glob('@/assets/Images/Cards/*.png', { eager: true })
-
-function getCardImage(description) {
-  // Check if this is a booster/mystery product
-  const lowerDesc = description.toLowerCase()
-  if (lowerDesc.includes('mystery') || lowerDesc.includes('booster')) {
-    const boosterKey = Object.keys(cardImageFiles).find(k => k.toLowerCase().endsWith('booster.png'))
-    if (boosterKey) return cardImageFiles[boosterKey].default
-  }
-  // Try to find exact match by description
-  for (const [path, mod] of Object.entries(cardImageFiles)) {
-    const fileName = path.split('/').pop().replace('.png', '')
-    if (fileName === description) return mod.default
-  }
-  // Fallback to Blank
-  const blankKey = Object.keys(cardImageFiles).find(k => k.endsWith('Blank.png'))
-  return blankKey ? cardImageFiles[blankKey].default : null
-}
 
 onMounted(async () => {
   try {
@@ -163,12 +156,47 @@ const CONDITION_OPTIONS = [
   { label: 'Moderate Play', code: 'P' },
 ]
 
+const suggestedPrice = ref(null)
+
 function openSellModal() {
+  if (!localStorage.getItem('token')) {
+    router.push({ name: 'landing' })
+    return
+  }
   sellForm.value = { productSku: '', language: '', condition: '', foil: '', quantity: 1, price: '' }
   sellError.value = ''
+  suggestedPrice.value = null
   showSellModal.value = true
 }
 function closeSellModal() { showSellModal.value = false }
+
+// Watch for card + all modifiers selected, then suggest a price
+watch(
+  () => [sellForm.value.productSku, sellForm.value.language, sellForm.value.foil, sellForm.value.condition],
+  async ([sku, lang, foil, cond]) => {
+    if (!sku || !lang || !foil || !cond) {
+      suggestedPrice.value = null
+      return
+    }
+    const product = products.value.find(p => p['1'] === sku)
+    if (!product) return
+    try {
+      const modifiers = await getModifiers('C')
+      const code = lang + foil + cond
+      const match = modifiers.find(m => m.MODIFIER_CODE === code)
+      if (match) {
+        const cents = product.BASE_PRICE_CENTS * parseFloat(match.PRICE_MULTIPLIER)
+        const suggested = (cents / 100).toFixed(2)
+        suggestedPrice.value = suggested
+        sellForm.value.price = suggested
+      } else {
+        suggestedPrice.value = null
+      }
+    } catch {
+      suggestedPrice.value = null
+    }
+  }
+)
 
 // Build modifier code (3 chars) from the 3 dropdown selections
 // Order: Language + Foil + Condition
@@ -209,6 +237,7 @@ async function submitSell() {
 </script>
 
 <template>
+  <div class="page-with-ad">
   <main class="page-shell">
     <h1 class="page-title">Store</h1>
 
@@ -232,39 +261,57 @@ async function submitSell() {
         </div>
       </div>
 
+      <!-- Ad row banner -->
+      <div v-if="adRow" class="ad-row-banner">
+        <video v-if="adRow.isVideo" :src="adRow.src" autoplay loop muted playsinline class="ad-row-media" />
+        <img v-else :src="adRow.src" alt="Advertisement" class="ad-row-media" />
+      </div>
+
       <!-- Inventory grouped by Style (packs) -->
-      <section v-for="[styleName, items] in styleGroups" :key="styleName" class="product-section">
-        <h2 class="section-heading">{{ styleName }}</h2>
-        <div class="product-grid product-grid--scroll">
-          <router-link v-for="item in items" :key="item.SKU + '-' + item.INVENTORY_ID"
-            :to="{ name: 'product', params: { type: 'card', id: item.PRODUCT_NAME } }"
-            class="product-card product-card--sm"
-          >
-            <div class="product-image">
-              <img :src="item.image" :alt="item.PRODUCT_NAME" class="card-img" />
+      <div v-for="[styleName, items] in styleGroups" :key="styleName">
+        <section class="product-section">
+          <h2 class="section-heading">{{ styleName }}</h2>
+          <div class="scroll-row-wrapper">
+            <button class="scroll-btn" @click="scrollRow(styleName, -1)">&#9664;</button>
+            <div class="product-grid product-grid--scroll" :ref="el => { if (el) rowRefs[styleName] = el }">
+              <router-link v-for="item in items" :key="item.SKU + '-' + item.INVENTORY_ID"
+                :to="{ name: 'product', params: { type: 'card', id: item.PRODUCT_NAME } }"
+                class="product-card product-card--sm"
+              >
+                <div class="product-image">
+                  <img :src="item.image" :alt="item.PRODUCT_NAME" class="card-img" />
+                </div>
+                <h3>{{ item.PRODUCT_NAME }}</h3>
+                <p class="product-description">{{ item.MODIFIER_NAME }}</p>
+                <p class="product-price">${{ (item.UNIT_PRICE_CENTS / 100).toFixed(2) }}</p>
+                <p class="product-stock">{{ item.totalStock }} in stock</p>
+                <span class="card-view-btn">View</span>
+              </router-link>
             </div>
-            <h3>{{ item.PRODUCT_NAME }}</h3>
-            <p class="product-description">{{ item.MODIFIER_NAME }}</p>
-            <p class="product-price">${{ (item.UNIT_PRICE_CENTS / 100).toFixed(2) }}</p>
-            <p class="product-stock">{{ item.totalStock }} in stock</p>
-          </router-link>
-        </div>
-      </section>
+            <button class="scroll-btn" @click="scrollRow(styleName, 1)">&#9654;</button>
+          </div>
+        </section>
+      </div>
 
       <!-- All Cards from Products Catalog -->
       <section class="product-section">
         <h2 class="section-heading">All Cards</h2>
-        <div class="product-grid product-grid--scroll">
-          <router-link v-for="card in productCards" :key="card.sku"
-            :to="{ name: 'product', params: { type: 'card', id: card.name } }"
-            class="product-card product-card--sm"
-          >
-            <div class="product-image">
-              <img :src="card.image" :alt="card.name" class="card-img" />
-            </div>
-            <h3>{{ card.name }}</h3>
-            <p class="product-price">From ${{ card.price }}</p>
-          </router-link>
+        <div class="scroll-row-wrapper">
+          <button class="scroll-btn" @click="scrollRow('all-cards', -1)">&#9664;</button>
+          <div class="product-grid product-grid--scroll" :ref="el => { if (el) rowRefs['all-cards'] = el }">
+            <router-link v-for="card in productCards" :key="card.sku"
+              :to="{ name: 'product', params: { type: 'card', id: card.name } }"
+              class="product-card product-card--sm"
+            >
+              <div class="product-image">
+                <img :src="card.image" :alt="card.name" class="card-img" />
+              </div>
+              <h3>{{ card.name }}</h3>
+              <p class="product-price">From ${{ card.price }}</p>
+              <span class="card-view-btn">View</span>
+            </router-link>
+          </div>
+          <button class="scroll-btn" @click="scrollRow('all-cards', 1)">&#9654;</button>
         </div>
       </section>
 
@@ -272,18 +319,23 @@ async function submitSell() {
       <section v-if="bargainCards.length" class="product-section">
         <h2 class="section-heading">Bargain Bin</h2>
         <p class="text-muted" style="margin-bottom:1rem">Cards under $1</p>
-        <div class="product-grid product-grid--scroll">
-          <router-link v-for="card in bargainCards" :key="card.SKU + '-' + card.INVENTORY_ID"
-            :to="{ name: 'product', params: { type: 'card', id: card.PRODUCT_NAME } }"
-            class="product-card product-card--sm"
-          >
-            <div class="product-image">
-              <img :src="card.image" :alt="card.PRODUCT_NAME" class="card-img" />
-            </div>
-            <h3>{{ card.PRODUCT_NAME }}</h3>
-            <p class="product-description">{{ card.MODIFIER_NAME }}</p>
-            <p class="product-price">${{ (card.UNIT_PRICE_CENTS / 100).toFixed(2) }}</p>
-          </router-link>
+        <div class="scroll-row-wrapper">
+          <button class="scroll-btn" @click="scrollRow('bargain', -1)">&#9664;</button>
+          <div class="product-grid product-grid--scroll" :ref="el => { if (el) rowRefs['bargain'] = el }">
+            <router-link v-for="card in bargainCards" :key="card.SKU + '-' + card.INVENTORY_ID"
+              :to="{ name: 'product', params: { type: 'card', id: card.PRODUCT_NAME } }"
+              class="product-card product-card--sm"
+            >
+              <div class="product-image">
+                <img :src="card.image" :alt="card.PRODUCT_NAME" class="card-img" />
+              </div>
+              <h3>{{ card.PRODUCT_NAME }}</h3>
+              <p class="product-description">{{ card.MODIFIER_NAME }}</p>
+              <p class="product-price">${{ (card.UNIT_PRICE_CENTS / 100).toFixed(2) }}</p>
+              <span class="card-view-btn">View</span>
+            </router-link>
+          </div>
+          <button class="scroll-btn" @click="scrollRow('bargain', 1)">&#9654;</button>
         </div>
       </section>
 
@@ -291,18 +343,23 @@ async function submitSell() {
       <section v-if="rareFinds.length" class="product-section">
         <h2 class="section-heading">Rare Finds</h2>
         <p class="text-muted" style="margin-bottom:1rem">Cards over $10</p>
-        <div class="product-grid product-grid--scroll">
-          <router-link v-for="card in rareFinds" :key="card.SKU + '-' + card.INVENTORY_ID"
-            :to="{ name: 'product', params: { type: 'card', id: card.PRODUCT_NAME } }"
-            class="product-card product-card--sm"
-          >
-            <div class="product-image">
-              <img :src="card.image" :alt="card.PRODUCT_NAME" class="card-img" />
-            </div>
-            <h3>{{ card.PRODUCT_NAME }}</h3>
-            <p class="product-description">{{ card.MODIFIER_NAME }}</p>
-            <p class="product-price">${{ (card.UNIT_PRICE_CENTS / 100).toFixed(2) }}</p>
-          </router-link>
+        <div class="scroll-row-wrapper">
+          <button class="scroll-btn" @click="scrollRow('rare', -1)">&#9664;</button>
+          <div class="product-grid product-grid--scroll" :ref="el => { if (el) rowRefs['rare'] = el }">
+            <router-link v-for="card in rareFinds" :key="card.SKU + '-' + card.INVENTORY_ID"
+              :to="{ name: 'product', params: { type: 'card', id: card.PRODUCT_NAME } }"
+              class="product-card product-card--sm"
+            >
+              <div class="product-image">
+                <img :src="card.image" :alt="card.PRODUCT_NAME" class="card-img" />
+              </div>
+              <h3>{{ card.PRODUCT_NAME }}</h3>
+              <p class="product-description">{{ card.MODIFIER_NAME }}</p>
+              <p class="product-price">${{ (card.UNIT_PRICE_CENTS / 100).toFixed(2) }}</p>
+              <span class="card-view-btn">View</span>
+            </router-link>
+          </div>
+          <button class="scroll-btn" @click="scrollRow('rare', 1)">&#9654;</button>
         </div>
       </section>
 
@@ -318,7 +375,7 @@ async function submitSell() {
               <label class="form-label">Card</label>
               <select v-model="sellForm.productSku" class="form-input">
                 <option value="">Select a card…</option>
-                <option v-for="p in productCards" :key="p.sku" :value="p.sku">{{ p.name }} (${{ p.price }})</option>
+                <option v-for="p in productCards" :key="p.sku" :value="p.sku">{{ p.name }}</option>
               </select>
             </div>
             <div class="form-group">
@@ -349,6 +406,7 @@ async function submitSell() {
             <div class="form-group">
               <label class="form-label">Your Price ($)</label>
               <input v-model="sellForm.price" type="number" step="0.01" min="0.01" class="form-input" placeholder="Enter price" />
+              <p v-if="suggestedPrice" class="suggested-price">Suggested: ${{ suggestedPrice }}</p>
             </div>
             <p v-if="sellError" class="modal-error">{{ sellError }}</p>
             <div class="modal-actions">
@@ -359,21 +417,133 @@ async function submitSell() {
         </div>
       </div>
     </template>
+    <div style="margin-top: 0.5rem; text-align: right; padding-right: 1rem;">
+      <HiddenCard name="Ben" />
+    </div>
   </main>
+  <div class="store-ads-col">
+    <aside class="store-ad-item">
+      <img :src="randomAd" alt="Ad" />
+    </aside>
+    <aside class="store-ad-item">
+      <img :src="randomAd2" alt="Ad" />
+    </aside>
+  </div>
+  </div>
 </template>
 
 <style scoped>
-.product-section {
-  margin-bottom: 3rem;
+/* Two-ad sidebar layout */
+.page-with-ad {
+  display: flex;
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: stretch;
 }
+.page-shell {
+  flex: 1;
+  min-width: 0;
+  padding: 2rem;
+}
+.store-ads-col {
+  width: 180px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  align-self: flex-start;
+  padding: 2rem 0;
+}
+.store-ad-item img {
+  width: 100%;
+  height: 45vh;
+  object-fit: fill;
+  border: 3px solid var(--shadow);
+  box-shadow: 4px 4px 0 var(--shadow);
+  display: block;
+}
+@media (max-width: 900px) { .store-ads-col { display: none; } }
+
+/* Scroll row with ◀ ▶ buttons */
+.scroll-row-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.scroll-btn {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: var(--water);
+  color: #fff;
+  border: 3px solid var(--shadow);
+  box-shadow: 3px 3px 0 var(--shadow);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.scroll-btn:hover { background: var(--shadow); color: #000; }
+.scroll-row-wrapper .product-grid--scroll { flex: 1; min-width: 0; }
+
 .card-img {
   width: 100%;
   max-width: 120px;
   height: auto;
-  border-radius: 6px;
 }
 .product-stock {
-  font-size: 0.8rem;
-  color: var(--color-text-muted, #888);
+  font-size: 0.85rem;
+  color: var(--ice);
+  font-family: var(--font-head);
+  letter-spacing: 1px;
+}
+.product-description {
+  font-size: 0.82rem;
+  color: var(--shadow);
+  font-weight: bold;
+}
+
+/* view button on each card */
+.card-view-btn {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.35rem 0;
+  background: var(--water);
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.4);
+  font-family: var(--font-head);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  pointer-events: none; /* card link handles click */
+  text-align: center;
+  box-shadow: 2px 2px 0 var(--shadow);
+}
+
+.ad-row-banner {
+  margin: 1.5rem 0;
+  border: 3px solid var(--water);
+  box-shadow: 4px 4px 0 var(--water);
+  overflow: hidden;
+}
+.ad-row-media {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.suggested-price {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: var(--grass);
+  font-style: italic;
 }
 </style>

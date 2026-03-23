@@ -177,9 +177,9 @@ export async function addToCart(inventoryId, quantity, unitPriceCents, currencyC
     method: 'POST',
     headers: { 'Content-Type': 'application/json', token },
     body: JSON.stringify({
-      inventory_id: inventoryId,
+      inventory_id: String(inventoryId),
       quantity,
-      unit_price_cents: unitPriceCents,
+      unit_price_cents: String(unitPriceCents),
       currency_code: currencyCode,
     }),
   })
@@ -190,10 +190,10 @@ export async function addToCart(inventoryId, quantity, unitPriceCents, currencyC
   return res.json()
 }
 
-export async function removeFromCart(inventoryId) {
+export async function removeFromCart(cartItemId) {
   const token = localStorage.getItem('token')
   if (!token) throw new Error('Not logged in')
-  const res = await fetch(`${API_BASE}/cart/item/${inventoryId}`, {
+  const res = await fetch(`${API_BASE}/cart/item/${cartItemId}`, {
     method: 'DELETE',
     headers: { token },
   })
@@ -201,4 +201,65 @@ export async function removeFromCart(inventoryId) {
     const err = await res.json()
     throw new Error(err.reason || 'Failed to remove from cart')
   }
+}
+
+export async function checkout(billingAddressId, shippingAddressId) {
+  const token = localStorage.getItem('token')
+  if (!token) throw new Error('Not logged in')
+  const res = await fetch(`${API_BASE}/cart/buy`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', token },
+    body: JSON.stringify({
+      billing_address_id: String(billingAddressId),
+      shipping_address_id: String(shippingAddressId),
+    }),
+  })
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.detail || 'Checkout failed')
+  }
+  return res.json()
+}
+
+// ---- Orders ----
+
+export async function getOrders() {
+  const token = localStorage.getItem('token')
+  if (!token) throw new Error('Not logged in')
+  const res = await fetch(`${API_BASE}/orders/me`, {
+    headers: { token },
+  })
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.reason || 'Failed to load orders')
+  }
+  return res.json()
+}
+
+// ---- Inventory (delete) ----
+
+export async function deleteInventoryItem(inventoryId) {
+  const token = localStorage.getItem('token')
+  if (!token) throw new Error('Not logged in')
+  const res = await fetch(`${API_BASE}/inventory/me/${inventoryId}`, {
+    method: 'DELETE',
+    headers: { token },
+  })
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.detail || 'Failed to remove listing')
+  }
+}
+
+export async function getOrderItems(orderId) {
+  const token = localStorage.getItem('token')
+  if (!token) throw new Error('Not logged in')
+  const res = await fetch(`${API_BASE}/orders/me/${orderId}/items`, {
+    headers: { token },
+  })
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.reason || 'Failed to load order items')
+  }
+  return res.json()
 }

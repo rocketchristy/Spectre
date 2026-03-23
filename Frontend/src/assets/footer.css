@@ -1,16 +1,8 @@
-.main-footer {
-    /* make footer full-bleed while keeping inner content constrained */
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    background-color: var(--vt-c-blue);
-    color: var(--vt-c-bg);
-    padding: 1.5rem 0 1rem;
-    margin-top: 2rem;
-}
+/* ================================================================
+   footer.css — 90s Retro TCG Footer (layout handled by Footer.vue scoped)
+   ================================================================ */
+
+/* keep this file minimal — all footer styles live in Footer.vue scoped */
 
 .footer-content {
     display: grid;

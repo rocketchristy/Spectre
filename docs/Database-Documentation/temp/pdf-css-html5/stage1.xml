@@ -1,0 +1,682 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bookmap xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" xmlns:opentopic-index="http://www.idiominc.com/opentopic/index" cascade="merge" class="- map/map bookmap/bookmap " ditaarch:DITAArchVersion="1.3" domains="(map mapgroup-d) (map bookmap) (topic abbrev-d) (topic delay-d) a(props deliveryTarget) (map ditavalref-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic ui-d) (topic ut-d) (topic xnal-d) (topic markup-d xml-d)" outputclass="brand or business unit" specializations="@props/deliveryTarget" xml:lang="en" xtrc="bookmap:1;3:61" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"><opentopic:map xmlns:opentopic="http://www.idiominc.com/opentopic" xmlns:ot-placeholder="http://suite-sol.com/namespaces/ot-placeholder">
+  <booktitle class="- topic/title bookmap/booktitle " xtrc="booktitle:1;4:14" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">  <mainbooktitle class="- topic/ph bookmap/mainbooktitle " xtrc="mainbooktitle:1;5:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">NXTCG Database Administration Guide</mainbooktitle>  <booktitlealt class="- topic/ph bookmap/booktitlealt " xtrc="booktitlealt:1;6:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"><image class="- topic/image " height="300" href="../../../../../../Downloads/NXTCGFINALLOGO.jpg" id="_Connect_42_image_tnr_dr3_q3c" placement="inline" xtrc="image:1;7:77" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/></booktitlealt>  <booktitlealt class="- topic/ph bookmap/booktitlealt " xtrc="booktitlealt:2;8:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">Database Architecture</booktitlealt>  <booktitlealt class="- topic/ph bookmap/booktitlealt " xtrc="booktitlealt:3;9:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">Version 0.0.1</booktitlealt>  </booktitle>
+  <bookmeta class="- map/topicmeta bookmap/bookmeta " xtrc="bookmeta:1;11:13" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+    <critdates class="- topic/critdates " xtrc="critdates:1;12:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;13:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates>
+    <bookid class="- topic/data bookmap/bookid " xtrc="bookid:1;17:13" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <booknumber class="- topic/data bookmap/booknumber " xtrc="booknumber:1;18:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">XXX-VVRR-XX-01</booknumber>
+      
+    </bookid>
+    <bookrights class="- topic/data bookmap/bookrights " xtrc="bookrights:1;23:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <copyrfirst class="- topic/data bookmap/copyrfirst " xtrc="copyrfirst:1;24:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+        <year class="- topic/ph bookmap/year " xtrc="year:1;25:15" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">2011</year>
+        
+      </copyrfirst>
+      <copyrlast class="- topic/data bookmap/copyrlast " xtrc="copyrlast:1;28:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+        <year class="- topic/ph bookmap/year " xtrc="year:2;29:15" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">-2017</year>
+        
+      </copyrlast>
+      <bookowner class="- topic/data bookmap/bookowner " xtrc="bookowner:1;33:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      	<organization class="- topic/data bookmap/organization " xtrc="organization:1;34:22" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">Rocket Software</organization>
+      </bookowner>
+    </bookrights>
+  </bookmeta>
+  <frontmatter class="- map/topicref bookmap/frontmatter " id="d93e61" xtrc="frontmatter:1;38:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"><booklists class="- map/topicref bookmap/booklists " id="d93e62" xtrc="booklists:1;39:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"><trademarklist class="- map/topicref bookmap/trademarklist " id="d93e63" xtrc="trademarklist:1;40:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/><booklist class="- map/topicref bookmap/booklist " id="d93e64" xtrc="booklist:1;41:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/><toc class="- map/topicref bookmap/toc " id="d93e65" xtrc="toc:1;42:14" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/></booklists></frontmatter>
+  <chapter class="- map/topicref bookmap/chapter " first_topic_id="#unique_1" href="#unique_1" id="unique_1" ohref="topics/dbdocsconcept1.dita" type="concept" xtrc="chapter:1;46:46" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"><topicmeta class="- map/topicmeta " data-topic-id="dbdocsconcept1"><resourceid appid="dbdocsconcept1" class="- topic/resourceid " oxy-source="topic"/><navtitle class="- topic/navtitle ">Database Administrator Guide</navtitle><?ditaot gentext?><linktext class="- map/linktext ">Database Administrator Guide</linktext><?ditaot genshortdesc?><shortdesc class="- map/shortdesc ">The NextGen Trading Card Game features exclusive collectible cards inspired by the         Rocket Software NextGen Academy and its Rocketeers. The platform empowers users to buy and         sell new cards and related products, creating a dynamic marketplace for fans and         collectors.</shortdesc><critdates class="- topic/critdates " xtrc="critdates:1;12:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;13:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates></topicmeta><topicref class="- map/topicref " first_topic_id="#unique_2" href="#unique_2" id="unique_2" ohref="topics/database-administrator-guide-topic.dita" type="topic" xtrc="topicref:1;47:70" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"><topicmeta class="- map/topicmeta " data-topic-id="dbdocstopic1"><resourceid appid="dbdocstopic1" class="- topic/resourceid " oxy-source="topic"/><navtitle class="- topic/navtitle ">ECOMAPP Database Architecture</navtitle><?ditaot gentext?><linktext class="- map/linktext ">ECOMAPP Database Architecture</linktext><?ditaot genshortdesc?><shortdesc class="- map/shortdesc "> Structural and logical architecture for the ECOMAPP NXTCG database on Db2 13 for         z/OS. The database design and architecture includes SKU composition, multiplier-based         pricing, and normalized entities with referential integrity.</shortdesc><critdates class="- topic/critdates " xtrc="critdates:1;12:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;13:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates></topicmeta></topicref><topicref class="- map/topicref " first_topic_id="#unique_3" href="#unique_3" id="unique_3" ohref="topics/installingdb2.dita" type="task" xtrc="topicref:2;48:49" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"><topicmeta class="- map/topicmeta " data-topic-id="installingdb2"><resourceid appid="installingdb2" class="- topic/resourceid " oxy-source="topic"/><navtitle class="- topic/navtitle ">Installing ECOMAPP</navtitle><?ditaot gentext?><linktext class="- map/linktext ">Installing ECOMAPP</linktext><?ditaot genshortdesc?><shortdesc class="- map/shortdesc ">ECOMAPP database is hosted on Db2 for z/OS platform. Installing ECOMAPP requires you to       have a Db2 license called Db2 Connect in order for you to make a connection from the NXTCG       backend application.</shortdesc><critdates class="- topic/critdates " xtrc="critdates:1;12:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;13:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates></topicmeta></topicref><topicref class="- map/topicref " first_topic_id="#unique_4" href="#unique_4" id="unique_4" ohref="topics/troubleshootingspectredb.dita" type="topic" xtrc="topicref:3;49:60" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"><topicmeta class="- map/topicmeta " data-topic-id="troubleshootingspectredb"><resourceid appid="troubleshootingspectredb" class="- topic/resourceid " oxy-source="topic"/><navtitle class="- topic/navtitle ">Troubleshooting the NXTCG ECOMAPP database</navtitle><?ditaot gentext?><linktext class="- map/linktext ">Troubleshooting the NXTCG ECOMAPP database</linktext><?ditaot genshortdesc?><shortdesc class="- map/shortdesc ">There are common SQL and API error codes when configuring the ECOMAPP database. Solutions         are provided for each issue.  </shortdesc><critdates class="- topic/critdates " xtrc="critdates:1;12:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;13:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates></topicmeta></topicref></chapter>
+  
+  
+  <backmatter class="- map/topicref bookmap/backmatter " id="d93e128" xtrc="backmatter:1;53:15" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"><booklists class="- map/topicref bookmap/booklists " id="d93e129" xtrc="booklists:2;54:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"><indexlist class="- map/topicref bookmap/indexlist " id="d93e130" xtrc="indexlist:1;55:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/><trademarklist class="- map/topicref bookmap/trademarklist " id="d93e131" xtrc="trademarklist:2;56:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/><booklist class="- map/topicref bookmap/booklist " id="d93e132" xtrc="booklist:2;57:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/></booklists></backmatter>
+</opentopic:map><ot-placeholder:toc xmlns:ot-placeholder="http://suite-sol.com/namespaces/ot-placeholder" id="d93e65"/><concept class="- topic/topic concept/concept " ditaarch:DITAArchVersion="1.3" domains="(topic concept) (topic abbrev-d) a(props deliveryTarget) (topic equation-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic mathml-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic svg-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)" id="unique_1" oid="dbdocsconcept1" specializations="@props/deliveryTarget" xml:lang="en" xtrc="concept:1;3:44" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+    <title class="- topic/title " xtrc="title:1;4:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Database Administrator Guide</title>
+    <shortdesc class="- topic/shortdesc " xtrc="shortdesc:1;5:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">The NextGen Trading Card Game features exclusive collectible cards inspired by the
+        Rocket Software NextGen Academy and its Rocketeers. The platform empowers users to buy and
+        sell new cards and related products, creating a dynamic marketplace for fans and
+        collectors.</shortdesc>
+    <prolog class="- topic/prolog " xtrc="prolog:1;9:13" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+        <critdates class="- topic/critdates " xtrc="critdates:1;12:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;13:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates><metadata class="- topic/metadata " xtrc="metadata:1;10:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+            <keywords class="- topic/keywords " xtrc="keywords:1;11:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+                <opentopic-index:index.entry value="Database Administration"><opentopic-index:formatted-value>Database Administration</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid-1999053065" value="Database Administration:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="Db2 13 for z/OS"><opentopic-index:formatted-value>Db2 13 for z/OS</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid-737927560" value="Db2 13 for z/OS:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="ECOMAPP"><opentopic-index:formatted-value>ECOMAPP</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid1662863189" value="ECOMAPP:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="ECOMDB01"><opentopic-index:formatted-value>ECOMDB01</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid11473823" value="ECOMDB01:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="RUNSTATS"><opentopic-index:formatted-value>RUNSTATS</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid-1405729338" value="RUNSTATS:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="JCL"><opentopic-index:formatted-value>JCL</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid2271335" value="JCL:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="Privileges"><opentopic-index:formatted-value>Privileges</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid1921107064" value="Privileges:"/></opentopic-index:index.entry>
+            </keywords>
+            <othermeta class="- topic/othermeta " content="ECOMAPP" name="product" xtrc="othermeta:1;20:58" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita"/>
+            <othermeta class="- topic/othermeta " content="Db2 for z/OS 13" name="platform" xtrc="othermeta:2;21:67" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita"/>
+        </metadata>
+    </prolog>
+    <conbody class="- topic/body  concept/conbody " xtrc="conbody:1;24:14" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+        <p class="- topic/p " xtrc="p:1;25:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">ECOMAPP is a Db2 13 for z/OS database for NXTCG. It is compromised of 15 normalized
+            tables with full referential integrity and indexed access paths. Administration is
+            driven by source-controlled DDL and JCL pipelines for build, initialization, statistics,
+            grants, and teardown. </p>
+        <p class="- topic/p " xtrc="p:2;29:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita"><b class="+ topic/ph hi-d/b " xtrc="b:1;29:15" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Key Features:</b></p>
+        <ul class="- topic/ul " id="unique_1_Connect_42_ul_fhm_zcd_q3c" xtrc="ul:1;30:33" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+            <li class="- topic/li " xtrc="li:1;31:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Complete SKU-based product catalog (4,824 trading card variants)</li>
+            <li class="- topic/li " xtrc="li:2;32:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Multiplier-based dynamic pricing system</li>
+            <li class="- topic/li " xtrc="li:3;33:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">16 normalized tables with full referential integrity</li>
+            <li class="- topic/li " xtrc="li:4;34:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Performance indexes on all critical access paths</li>
+            <li class="- topic/li " xtrc="li:5;35:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Split initialization files for mainframe line length compliance</li>
+            <li class="- topic/li " xtrc="li:6;36:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Automated JCL for all database operations</li>
+        </ul>
+        <p class="- topic/p " xtrc="p:3;38:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita"><b class="+ topic/ph hi-d/b " xtrc="b:2;38:15" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Product Catalog:</b></p>
+        <ul class="- topic/ul " id="unique_1_Connect_42_ul_ghm_zcd_q3c" xtrc="ul:2;39:33" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+            <li class="- topic/li " xtrc="li:7;40:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">80 Individual Cards × 60 modifier combinations = 4,800 variants</li>
+            <li class="- topic/li " xtrc="li:8;41:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">24 Mystery Products × 1 variant each = 24 variants</li>
+            <li class="- topic/li " xtrc="li:9;42:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Total: 4,824 sellable SKUs</li>
+        </ul>
+        <note class="- topic/note " id="unique_1_Connect_42_note_yc4_23r_q3c" xtrc="note:1;44:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">NXTCG is planning to extend their future card catalog to NextGen
+            Academy's world-wide. </note>
+        <p class="- topic/p " xtrc="p:4;46:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita"><b class="+ topic/ph hi-d/b " xtrc="b:3;46:15" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Database Components:</b></p>
+        <ul class="- topic/ul " id="unique_1_Connect_42_ul_hhm_zcd_q3c" xtrc="ul:3;47:33" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+            <li class="- topic/li " xtrc="li:10;48:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Database: ECOMDB01</li>
+            <li class="- topic/li " xtrc="li:11;49:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Tablespaces: 15 tablespaces, one per table for flexibility.</li>
+            <li class="- topic/li " xtrc="li:12;50:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Tables: USERS, TOKENS, SERIES, STYLES, STYLE_MODIFIERS, PRODUCT_TYPES,
+                PRODUCT_VARIANTS, VARIANT_IMAGES, INVENTORY, CARTS, CART_ITEMS, ADDRESSES, ORDERS,
+                ORDER_ADDRESSES, ORDER_ITEMS </li>
+            <li class="- topic/li " xtrc="li:13;53:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Indexes: Primary key indexes + business key indexes</li>
+        </ul>
+        <p class="- topic/p " xtrc="p:5;55:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita"><b class="+ topic/ph hi-d/b " xtrc="b:4;55:15" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Directory Structure</b></p>
+        <codeblock class="+ topic/pre pr-d/codeblock " id="unique_1_Connect_42_codeblock_tlx_hlb_q3c" xml:space="preserve" xtrc="codeblock:1;56:47" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">&lt;HLQ&gt;.ECOMAPP
+├── ALLOC
+│   └── ECOMALOC
+│
+├── DDL
+│   ├── E01STGDB
+│   ├── E02TBSPC
+│   ├── E03TABLE
+│   ├── E04INDEX
+│   ├── E05CMT
+│   ├── E06GRANT
+│   ├── E07INIT1
+│   ├── E07INIT2
+│   ├── E07INIT3
+│   ├── E08INVEN
+│   ├── E09RPTO1
+│   ├── E09RPTO2
+│   └── E09RPTO3
+│
+├── JCL
+│   ├── ECOMDDL
+│   ├── ECOMDROP
+│   ├── ECOMFILL
+│   ├── ECOMGRNT
+│   ├── ECOMINIT
+│   ├── ECOMRPTS
+│   └── ECOMRS
+│
+└── REPORTS
+    ├── RPTO1
+    ├── RPTO2
+    └── RPTO3</codeblock>
+        <section class="- topic/section " id="unique_1_Connect_42_section_f4v_2dk_q3c" xtrc="section:1;88:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+            <title class="- topic/title " xtrc="title:2;89:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Db2 Common Codes</title>
+            <p class="- topic/p " xtrc="p:6;90:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">RC=0: Complete success - all DDL executed successfully</p>
+            <p class="- topic/p " xtrc="p:7;91:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">RC=4: Warning - generally safe to continue</p>
+            <p class="- topic/p " xtrc="p:8;92:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">RC=8: SQL error - review SYSTSPRT</p>
+            <p class="- topic/p " xtrc="p:9;93:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">RC=12+: Severe error - STOP and investigate</p>
+        </section>
+    </conbody>
+<topic class="- topic/topic " ditaarch:DITAArchVersion="1.3" domains="(topic abbrev-d) a(props deliveryTarget) (topic equation-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic mathml-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic svg-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)" id="unique_2" oid="dbdocstopic1" specializations="@props/deliveryTarget" xml:lang="en" xtrc="topic:1;3:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+    <title class="- topic/title " xtrc="title:1;4:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ECOMAPP Database Architecture</title>
+    <shortdesc class="- topic/shortdesc " xtrc="shortdesc:1;5:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita"> Structural and logical architecture for the ECOMAPP NXTCG database on Db2 13 for
+        z/OS. The database design and architecture includes SKU composition, multiplier-based
+        pricing, and normalized entities with referential integrity.</shortdesc>
+    <prolog class="- topic/prolog " xtrc="prolog:1;8:13" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+        <critdates class="- topic/critdates " xtrc="critdates:1;12:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;13:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates><metadata class="- topic/metadata " xtrc="metadata:1;9:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <keywords class="- topic/keywords " xtrc="keywords:1;10:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                <opentopic-index:index.entry value="ECOMAPP"><opentopic-index:formatted-value>ECOMAPP</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid1662863189" value="ECOMAPP:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="Database Architecture"><opentopic-index:formatted-value>Database Architecture</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid2005217122" value="Database Architecture:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="SKU Architecture"><opentopic-index:formatted-value>SKU Architecture</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid-1920833724" value="SKU Architecture:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="Pricing Model"><opentopic-index:formatted-value>Pricing Model</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid1636679691" value="Pricing Model:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="Normalization"><opentopic-index:formatted-value>Normalization</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid-1463846307" value="Normalization:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="Indexes"><opentopic-index:formatted-value>Indexes</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid177159002" value="Indexes:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="Tablespaces"><opentopic-index:formatted-value>Tablespaces</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid-2049594817" value="Tablespaces:"/></opentopic-index:index.entry>
+            </keywords>
+        </metadata>
+    </prolog>
+    <body class="- topic/body " xtrc="body:1;21:11" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+        <p class="- topic/p " xtrc="p:1;22:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita"> ECOMAPP is a normalized, SKU-driven data model with centralized pricing logic and strong
+            referential integrity. The catalog supports 4,824 sellable SKUs derived from 104 base
+            product types and 63 style modifiers, designed to be scalable and consistent with
+            updates.</p>
+        <image class="- topic/image " href="Downloads/ECOMDB01_ERD.png" id="unique_2_Connect_42_image_ugv_53r_q3c" placement="inline" xtrc="image:1;26:95" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita"/>
+        <section class="- topic/section " id="unique_2_Connect_42_section_mgk_4rd_q3c" xtrc="section:1;27:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <title class="- topic/title " xtrc="title:2;28:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Normalization</title>
+            <p class="- topic/p " xtrc="p:2;29:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ECOMAPP NXTCG demonstrates a strong level of normalization, with the schema largely
+                conforming to Third Normal Form (3NF). All relations satisfy the requirements of
+                First and Second Normal Forms, and the use of composite‑key tables ensures that each
+                non‑key attribute is fully dependent on the entire primary key.</p>
+        </section>
+        <section class="- topic/section " id="unique_2_Connect_42_sku-architecture" xtrc="section:2;34:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <title class="- topic/title " xtrc="title:3;35:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">SKU Architecture</title>
+            <p class="- topic/p " xtrc="p:3;36:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ECOMAPP uses a hierarchical SKU system: <b class="+ topic/ph hi-d/b " xtrc="b:1;36:59" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">SERIES-STYLE-SERIAL-MODIFIER</b></p>
+            <p class="- topic/p " xtrc="p:4;37:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Example SKU: <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:1;37:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">NAC-SE01-EHM</codeph></p>
+            <ul class="- topic/ul " id="unique_2_Connect_42_ul_lm3_crd_q3c" xtrc="ul:1;38:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                <li class="- topic/li " xtrc="li:1;39:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">NA = Series</li>
+                <li class="- topic/li " xtrc="li:2;40:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita"> S = Style</li>
+                <li class="- topic/li " xtrc="li:3;41:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">SE01 = Serial Number</li>
+                <li class="- topic/li " xtrc="li:4;42:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">EHM = Modifier (English, Holofoil, Mint)</li>
+            </ul>
+        </section>
+        <section class="- topic/section " id="unique_2_Connect_42_section_anp_fbj_q3c" xtrc="section:3;45:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <title class="- topic/title " xtrc="title:4;46:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Pricing Model</title>
+            <p class="- topic/p " xtrc="p:5;47:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ECOMAPP uses a multiplier-based pricing system where each product variant's final
+                price is calculated by multiplying the base price by a modifier-specific
+                multiplier.</p>
+            <p class="- topic/p " xtrc="p:6;50:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">The formula is <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:2;50:39" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Final Price = BASE_PRICE_CENTS x
+                PRICE_MULTIPLIER</codeph>.</p>
+            <p class="- topic/p " xtrc="p:7;52:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                <note class="- topic/note " id="unique_2_Connect_42_note_lfy_4bj_q3c" xtrc="note:1;53:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Users who upload a new product will be able to decipher
+                    the price for their product. The pricing model does show the user a recommended
+                    price. </note>
+            </p>
+        </section>
+        <section class="- topic/section " id="unique_2_Connect_42_e-commerce-support-tables" xtrc="section:4;58:49" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <title class="- topic/title " xtrc="title:5;59:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">E-Commerce Support Tables</title>
+            <ul class="- topic/ul " id="unique_2_Connect_42_ul_wws_frd_q3c" xtrc="ul:2;60:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                <li class="- topic/li " xtrc="li:5;61:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">USERS - Customer and seller accounts</li>
+                <li class="- topic/li " xtrc="li:6;62:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">TOKENS - Authentication tokens (placeholder for future implementation)</li>
+                <li class="- topic/li " xtrc="li:7;63:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">VARIANT_IMAGES - Product images</li>
+                <li class="- topic/li " xtrc="li:8;64:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">INVENTORY - Seller listings with pricing and stock levels</li>
+                <li class="- topic/li " xtrc="li:9;65:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">CARTS - Shopping carts</li>
+                <li class="- topic/li " xtrc="li:10;66:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">CART_ITEMS - Line items in carts</li>
+                <li class="- topic/li " xtrc="li:11;67:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ADDRESSES - Customer shipping/billing addresses</li>
+                <li class="- topic/li " xtrc="li:12;68:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ORDERS - Completed purchases </li>
+                <li class="- topic/li " xtrc="li:13;69:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ORDER_ADDRESSES - Immutable address snapshots per order</li>
+                <li class="- topic/li " xtrc="li:14;70:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ORDER_ITEMS - Line items in orders with pricing snapshots</li>
+            </ul>
+        </section>
+        <section class="- topic/section " id="unique_2_Connect_42_section_w3x_5bj_q3c" xtrc="section:5;73:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <title class="- topic/title " xtrc="title:6;74:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Modifying the database</title>
+            <p class="- topic/p " xtrc="p:8;75:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita"><b class="+ topic/ph hi-d/b " xtrc="b:2;75:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Adding a New Table</b></p>
+            <ol class="- topic/ol " id="unique_2_Connect_42_ol_pzz_kcj_q3c" xtrc="ol:1;76:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                <li class="- topic/li " xtrc="li:15;77:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                    <p class="- topic/p " xtrc="p:9;78:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Update E03TABLE.sql</p>
+                    <ul class="- topic/ul " id="unique_2_Connect_42_ul_qzz_kcj_q3c" xtrc="ul:3;79:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                        <li class="- topic/li " xtrc="li:16;80:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add CREATE TABLE statement</li>
+                        <li class="- topic/li " xtrc="li:17;81:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add CREATE UNIQUE INDEX for primary key</li>
+                        <li class="- topic/li " xtrc="li:18;82:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add foreign key constraints if needed</li>
+                    </ul>
+                </li>
+                <li class="- topic/li " xtrc="li:19;85:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                    <p class="- topic/p " xtrc="p:10;86:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Update E04INDEX.sql</p>
+                    <ul class="- topic/ul " id="unique_2_Connect_42_ul_rzz_kcj_q3c" xtrc="ul:4;87:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                        <li class="- topic/li " xtrc="li:20;88:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add performance indexes for new table</li>
+                    </ul>
+                </li>
+                <li class="- topic/li " xtrc="li:21;91:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                    <p class="- topic/p " xtrc="p:11;92:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Update E05CMNT.sql</p>
+                    <ul class="- topic/ul " id="unique_2_Connect_42_ul_szz_kcj_q3c" xtrc="ul:5;93:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                        <li class="- topic/li " xtrc="li:22;94:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add COMMENT statements for new tables and columns</li>
+                    </ul>
+                </li>
+                <li class="- topic/li " xtrc="li:23;97:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                    <p class="- topic/p " xtrc="p:12;98:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Update E06GRANT.sql</p>
+                    <ul class="- topic/ul " id="unique_2_Connect_42_ul_tzz_kcj_q3c" xtrc="ul:6;99:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                        <li class="- topic/li " xtrc="li:24;100:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add GRANT statement for new table</li>
+                    </ul>
+                </li>
+                <li class="- topic/li " xtrc="li:25;103:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                    <p class="- topic/p " xtrc="p:13;104:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Update E07LOAD.sql</p>
+                    <ul class="- topic/ul " id="unique_2_Connect_42_ul_uzz_kcj_q3c" xtrc="ul:7;105:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                        <li class="- topic/li " xtrc="li:26;106:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add INSERT statements for test data</li>
+                    </ul>
+                </li>
+                <li class="- topic/li " xtrc="li:27;109:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                    <p class="- topic/p " xtrc="p:14;110:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Update ECOMDROP.jcl</p>
+                    <ul class="- topic/ul " id="unique_2_Connect_42_ul_vzz_kcj_q3c" xtrc="ul:8;111:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                        <li class="- topic/li " xtrc="li:28;112:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add DROP TABLE statement in appropriate position.</li>
+                    </ul>
+                </li>
+                <li class="- topic/li " xtrc="li:29;115:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                    <p class="- topic/p " xtrc="p:15;116:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Re-upload and re-run</p>
+                    <ul class="- topic/ul " id="unique_2_Connect_42_ul_wzz_kcj_q3c" xtrc="ul:9;117:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                        <li class="- topic/li " xtrc="li:30;118:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Upload modified DDL files</li>
+                        <li class="- topic/li " xtrc="li:31;119:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Submit ECOMDROP</li>
+                        <li class="- topic/li " xtrc="li:32;120:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Submit ECOMDDL</li>
+                    </ul>
+                </li>
+            </ol>
+            <p class="- topic/p " xtrc="p:16;124:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita"><b class="+ topic/ph hi-d/b " xtrc="b:3;124:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Modifying an existing
+                table</b><codeblock class="+ topic/pre pr-d/codeblock " id="unique_2_Connect_42_codeblock_scc_ncj_q3c" xml:space="preserve" xtrc="codeblock:1;125:64" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">1. Update E03TABLE.sql with new table definition
+2. Submit ECOMDROP
+3. Submit ECOMDDL
+4. Submit ECOMLOAD (reloads test data)</codeblock></p>
+        </section>
+    </body>
+</topic><task class="- topic/topic task/task " ditaarch:DITAArchVersion="1.3" domains="(topic task) (topic abbrev-d) a(props deliveryTarget) (topic equation-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic mathml-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic svg-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d) (topic task strictTaskbody-c)" id="unique_3" oid="installingdb2" specializations="@props/deliveryTarget" xml:lang="en" xtrc="task:1;3:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+<title class="- topic/title " xtrc="title:1;4:8" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Installing ECOMAPP</title>
+<shortdesc class="- topic/shortdesc " xtrc="shortdesc:1;5:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">ECOMAPP database is hosted on Db2 for z/OS platform. Installing ECOMAPP requires you to
+      have a Db2 license called Db2 Connect in order for you to make a connection from the NXTCG
+      backend application.</shortdesc>
+<prolog class="- topic/prolog " xtrc="prolog:1;8:9" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+<critdates class="- topic/critdates " xtrc="critdates:1;12:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;13:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates><metadata class="- topic/metadata " xtrc="metadata:1;9:11" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><keywords class="- topic/keywords " xtrc="keywords:1;9:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"/></metadata>
+</prolog>
+<taskbody class="- topic/body task/taskbody " xtrc="taskbody:1;11:11" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+<prereq class="- topic/section task/prereq " xtrc="prereq:1;12:9" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+         <p class="- topic/p " xtrc="p:1;13:13" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Before installing ECOMAPP, you must have these requirements: </p>
+         <ul class="- topic/ul " id="unique_3_Connect_42_ul_ncw_xcd_q3c" xtrc="ul:1;14:34" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <li class="- topic/li " xtrc="li:1;15:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Access: TSO/ISPF</li>
+            <li class="- topic/li " xtrc="li:2;16:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Db2: Version 13, subsystem ID <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:1;16:55" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your SSID&gt;</codeph>, Db2 software HLQ
+                  <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:2;17:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your DB2HLQ&gt;</codeph>, and a Db2 Connect license.</li>
+            <li class="- topic/li " xtrc="li:3;18:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">User Priviledges: SYSADM/SYSCTRL or CREATEDB.</li>
+            <li class="- topic/li " xtrc="li:4;19:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Storage: 100 tracks for DDL library, 50 tracks for JCL library, 500 MB DASD for
+               tablespaces and indexes.</li>
+         </ul>
+      </prereq>
+<context class="- topic/section task/context " xtrc="context:1;23:10" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Installing ECOMAPP database requires you to have a Db2 Connect license. Below are steps
+         instructing you on how to install ECOMAPP database within TSO/ISPF.</context>
+<steps class="- topic/ol task/steps " xtrc="steps:1;25:8" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+<step class="- topic/li task/step " xtrc="step:1;26:7" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:1;27:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Customize Placeholders. Before uploading any files, you <b class="+ topic/ph hi-d/b " xtrc="b:1;27:77" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">must</b> customize the
+               following placeholders throughout all DDL and JCL files:</cmd>
+            <choicetable class="- topic/simpletable task/choicetable " frame="all" id="unique_3_Connect_42_choicetable_frz_qjr_q3c" keycol="1" relcolwidth="1* 1*" xtrc="choicetable:1;29:87" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <chhead class="- topic/sthead task/chhead " xtrc="chhead:1;30:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <choptionhd class="- topic/stentry task/choptionhd " dita-ot:x="1" dita-ot:y="1" xtrc="choptionhd:1;31:31" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Placeholder</choptionhd>
+                  <chdeschd class="- topic/stentry task/chdeschd " dita-ot:x="2" dita-ot:y="1" xtrc="chdeschd:1;32:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Description</chdeschd>
+               </chhead>
+               <chrow class="- topic/strow task/chrow " xtrc="chrow:1;34:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <choption class="- topic/stentry task/choption " dita-ot:x="1" dita-ot:y="2" xtrc="choption:1;35:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;</choption>
+                  <chdesc class="- topic/stentry task/chdesc " dita-ot:x="2" dita-ot:y="2" xtrc="chdesc:1;36:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Your z/OS High-Level Qualifier</chdesc>
+               </chrow>
+               <chrow class="- topic/strow task/chrow " xtrc="chrow:2;38:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <choption class="- topic/stentry task/choption " dita-ot:x="1" dita-ot:y="3" xtrc="choption:2;39:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your USERGRP&gt;</choption>
+                  <chdesc class="- topic/stentry task/chdesc " dita-ot:x="2" dita-ot:y="3" xtrc="chdesc:2;40:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Application user group for DML access</chdesc>
+               </chrow>
+               <chrow class="- topic/strow task/chrow " xtrc="chrow:3;42:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <choption class="- topic/stentry task/choption " dita-ot:x="1" dita-ot:y="4" xtrc="choption:3;43:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your SSID&gt;</choption>
+                  <chdesc class="- topic/stentry task/chdesc " dita-ot:x="2" dita-ot:y="4" xtrc="chdesc:3;44:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Db2 subsystem ID</chdesc>
+               </chrow>
+               <chrow class="- topic/strow task/chrow " xtrc="chrow:4;46:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <choption class="- topic/stentry task/choption " dita-ot:x="1" dita-ot:y="5" xtrc="choption:4;47:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your DB2HLQ&gt;</choption>
+                  <chdesc class="- topic/stentry task/chdesc " dita-ot:x="2" dita-ot:y="5" xtrc="chdesc:4;48:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Db2 Software Library</chdesc>
+               </chrow>
+            </choicetable>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:2;52:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:2;53:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Create an Initial Partitioned Data Set (PDS) in <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:3;53:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your
+                  HLQ&gt;.ECOMAPP.ALOC</codeph>. You must create one dataset and upload the
+                  <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:4;55:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">ECOMALOC.jcl</codeph> as a member of that dataset. It can be accessed by
+                  <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:5;56:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.ALLOC(ECOMALOC)</codeph>.</cmd>
+            <info class="- topic/itemgroup task/info " xtrc="info:1;57:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Log into TSO/ISPF and allocate the Initial
+               PDS:<codeblock class="+ topic/pre pr-d/codeblock " id="unique_3_Connect_42_codeblock_qq1_h2d_q3c" xml:space="preserve" xtrc="codeblock:1;58:58" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Command ===&gt; A
+Dataset Name: &lt;Your HLQ&gt;.ECOMAPP.ECOMALOC
+Management class . . . &lt;blank&gt;
+Storage class  . . . . &lt;blank&gt;
+Volume serial  . . . . &lt;blank&gt;
+Device type  . . . . . &lt;blank or SYSDA&gt;
+Data class . . . . . . &lt;blank&gt;
+Space units  . . . . . TRKS
+Primary quantity . . . 5
+Secondary quantity . . 2
+Directory blocks . . . 2
+Record format  . . . . FB
+Record length  . . . . 80
+Block size . . . . . . 3120
+Data set name type . . PDS</codeblock>Upload ECOMALOC.jcl via Zowe or by pasting in
+               the code in ISPF. You can find and edit it by using option 3.4 to find
+                  <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:6;74:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.ALLOC(ECOMALLOC)</codeph></info>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:3;76:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:3;77:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><b class="+ topic/ph hi-d/b " xtrc="b:2;77:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Run ECOMALOC to create DDL and JCL libraries. This job creates the two main PDS
+                  libraries for the DDL and JCL files.  </b></cmd>
+            <info class="- topic/itemgroup task/info " xtrc="info:2;79:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <note class="- topic/note " id="unique_3_Connect_42_note_l4h_pfj_q3c" xtrc="note:1;80:44" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <p class="- topic/p " xtrc="p:2;81:22" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><b class="+ topic/ph hi-d/b " xtrc="b:3;81:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">What ECOMALOC Does:</b></p>
+                  <ul class="- topic/ul " id="unique_3_Connect_42_ul_tr2_qfj_q3c" xtrc="ul:2;82:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                     <li class="- topic/li " xtrc="li:5;83:26" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Creates <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:7;83:42" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.DDL</codeph></li>
+                     <li class="- topic/li " xtrc="li:6;84:26" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Creates <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:8;84:42" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.JCL</codeph></li>
+                     <li class="- topic/li " xtrc="li:7;85:26" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Creates <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:9;85:42" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.REPORTS</codeph></li>
+                  </ul>
+               </note>
+            </info>
+            <info class="- topic/itemgroup task/info " xtrc="info:3;89:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <p class="- topic/p " xtrc="p:3;90:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">TSO/ISPF</p>
+               <ol class="- topic/ol " id="unique_3_Connect_42_ol_ums_w2d_q3c" xtrc="ol:1;91:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <li class="- topic/li " xtrc="li:8;92:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Option 3.4 in DSLIST</li>
+                  <li class="- topic/li " xtrc="li:9;93:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Navigate to <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:10;93:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.ALLOC(ECOMALOC)</codeph></li>
+                  <li class="- topic/li " xtrc="li:10;94:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Type <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:11;94:36" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">SUB</codeph> next to the ECOMALOC member</li>
+                  <li class="- topic/li " xtrc="li:11;95:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Click Enter</li>
+               </ol>
+            </info>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:4;99:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:4;100:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><b class="+ topic/ph hi-d/b " xtrc="b:4;100:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Upload all SQL DDL files to the <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:12;100:61" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.DDL</codeph>
+                  library.</b></cmd>
+            <info class="- topic/itemgroup task/info " xtrc="info:4;102:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <p class="- topic/p " xtrc="p:4;103:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">TSO/ISPF</p>
+               <ol class="- topic/ol " id="unique_3_Connect_42_ol_wzt_cfd_q3c" xtrc="ol:2;104:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <li class="- topic/li " xtrc="li:12;105:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Option 3.4 in DSLIST</li>
+                  <li class="- topic/li " xtrc="li:13;106:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Navigate to <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:13;106:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.DDL</codeph></li>
+                  <li class="- topic/li " xtrc="li:14;107:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Click Enter</li>
+                  <li class="- topic/li " xtrc="li:15;108:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">For each DDL file, create a new member:<ul class="- topic/ul " id="unique_3_Connect_42_ul_xzt_cfd_q3c" xtrc="ul:3;108:86" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                        <li class="- topic/li " xtrc="li:16;109:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Option 2 in DSLIST from the ISPF main menu</li>
+                        <li class="- topic/li " xtrc="li:17;110:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Insert <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:14;110:44" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.DDL(&lt;membername&gt;)</codeph></li>
+                        <li class="- topic/li " xtrc="li:18;111:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Paste in the new member contents</li>
+                     </ul><note class="- topic/note " id="unique_3_Connect_42_note_ujm_llr_q3c" xtrc="note:2;112:55" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">You can use Zowe to upload members directly
+                        from the project repository into the dataset. </note></li>
+               </ol>
+               <p class="- topic/p " xtrc="p:5;115:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><b class="+ topic/ph hi-d/b " xtrc="b:5;115:22" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Upload these members in this order:</b></p>
+               <ul class="- topic/ul " id="unique_3_Connect_42_ul_t5s_2fd_q3c" xtrc="ul:4;116:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <li class="- topic/li " xtrc="li:19;117:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">E01STGDB</li>
+                  <li class="- topic/li " xtrc="li:20;118:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">E02TBSPC</li>
+                  <li class="- topic/li " xtrc="li:21;119:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">E03TABLE</li>
+                  <li class="- topic/li " xtrc="li:22;120:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">E04INDEX</li>
+                  <li class="- topic/li " xtrc="li:23;121:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">E05CMNT</li>
+                  <li class="- topic/li " xtrc="li:24;122:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">E06GRANT</li>
+                  <li class="- topic/li " xtrc="li:25;123:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">E07INIT1</li>
+                  <li class="- topic/li " xtrc="li:26;124:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">E07INIT2</li>
+                  <li class="- topic/li " xtrc="li:27;125:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">E07INIT3</li>
+                  <li class="- topic/li " xtrc="li:28;126:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">E08INVEN</li>
+                  <li class="- topic/li " xtrc="li:29;127:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">E09RPTO1</li>
+                  <li class="- topic/li " xtrc="li:30;128:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">E09RPTO2</li>
+                  <li class="- topic/li " xtrc="li:31;129:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">E09RPTO3</li>
+               </ul>
+            </info>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:5;133:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:5;134:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><b class="+ topic/ph hi-d/b " xtrc="b:6;134:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Upload all JCL job files to the <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:15;134:61" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.JCL</codeph>
+                  library. </b></cmd>
+            <info class="- topic/itemgroup task/info " xtrc="info:5;136:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <p class="- topic/p " xtrc="p:6;137:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">TSO/ISPF</p>
+               <ol class="- topic/ol " id="unique_3_Connect_42_ol_lc5_3fd_q3c" xtrc="ol:3;138:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <li class="- topic/li " xtrc="li:32;139:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Option 3.4 in DSLIST</li>
+                  <li class="- topic/li " xtrc="li:33;140:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Navigate to <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:16;140:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.JCL</codeph></li>
+                  <li class="- topic/li " xtrc="li:34;141:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Click Enter</li>
+                  <li class="- topic/li " xtrc="li:35;142:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">For each JCL file, create a new member:<ul class="- topic/ul " id="unique_3_Connect_42_ul_mc5_3fd_q3c" xtrc="ul:5;142:86" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                        <li class="- topic/li " xtrc="li:36;143:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Option 2 in DSLIST from the ISPF main menu</li>
+                        <li class="- topic/li " xtrc="li:37;144:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Insert <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:17;144:44" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.DDL(&lt;membername&gt;)</codeph></li>
+                        <li class="- topic/li " xtrc="li:38;145:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Paste in the new member contents</li>
+                     </ul></li>
+               </ol>
+               <p class="- topic/p " xtrc="p:7;148:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><b class="+ topic/ph hi-d/b " xtrc="b:7;148:22" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Upload these members:</b></p>
+               <ul class="- topic/ul " id="unique_3_Connect_42_ul_nc5_3fd_q3c" xtrc="ul:6;149:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <li class="- topic/li " xtrc="li:39;150:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">ECOMDDL</li>
+                  <li class="- topic/li " xtrc="li:40;151:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">ECOMINIT</li>
+                  <li class="- topic/li " xtrc="li:41;152:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">ECOMFILL</li>
+                  <li class="- topic/li " xtrc="li:42;153:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">ECOMDROP</li>
+                  <li class="- topic/li " xtrc="li:43;154:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">ECOMGRNT</li>
+                  <li class="- topic/li " xtrc="li:44;155:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">ECOMLOAD</li>
+                  <li class="- topic/li " xtrc="li:45;156:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">ECOMRS</li>
+               </ul>
+            </info>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:6;160:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:6;161:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><b class="+ topic/ph hi-d/b " xtrc="b:8;161:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Submit the ECOMDDL job to create the database. </b></cmd>
+            <info class="- topic/itemgroup task/info " xtrc="info:6;162:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <p class="- topic/p " xtrc="p:8;163:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Submit ECOMDDL Job:</p>
+               <p class="- topic/p " xtrc="p:9;164:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">TSO/ISPF</p>
+               <ol class="- topic/ol " id="unique_3_Connect_42_ol_s3s_sfd_q3c" xtrc="ol:4;165:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <li class="- topic/li " xtrc="li:46;166:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Option 3.4 in DSLIST</li>
+                  <li class="- topic/li " xtrc="li:47;167:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Navigate to <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:18;167:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.JCL</codeph></li>
+                  <li class="- topic/li " xtrc="li:48;168:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Insert <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:19;168:38" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">B</codeph> for browsing to see the members. </li>
+                  <li class="- topic/li " xtrc="li:49;169:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Type <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:20;169:36" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">SUB</codeph> next to the ECOMDDL member</li>
+                  <li class="- topic/li " xtrc="li:50;170:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Click Enter</li>
+               </ol>
+               <note class="- topic/note " id="unique_3_Connect_42_note_hbk_1gd_q3c" xtrc="note:3;172:44" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <p class="- topic/p " xtrc="p:10;173:22" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><b class="+ topic/ph hi-d/b " xtrc="b:9;173:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">What ECOMDDL Does:</b></p>
+                  <p class="- topic/p " xtrc="p:11;174:22" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">This job executes the complete DDL pipeline in dependency order:<simpletable class="- topic/simpletable " frame="all" id="unique_3_Connect_42_simpletable_oyr_x2j_q3c" xtrc="simpletable:1;175:66" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                        <sthead class="- topic/sthead " xtrc="sthead:1;176:33" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                           <stentry class="- topic/stentry " dita-ot:x="1" dita-ot:y="1" xtrc="stentry:1;177:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Steps</stentry>
+                           <stentry class="- topic/stentry " dita-ot:x="2" dita-ot:y="1" xtrc="stentry:2;178:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Description</stentry>
+                        </sthead>
+                        <strow class="- topic/strow " xtrc="strow:1;180:32" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                           <stentry class="- topic/stentry " dita-ot:x="1" dita-ot:y="2" xtrc="stentry:3;181:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">STGDB Step</stentry>
+                           <stentry class="- topic/stentry " dita-ot:x="2" dita-ot:y="2" xtrc="stentry:4;182:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Creates ECOMDB01 database</stentry>
+                        </strow>
+                        <strow class="- topic/strow " xtrc="strow:2;184:32" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                           <stentry class="- topic/stentry " dita-ot:x="1" dita-ot:y="3" xtrc="stentry:5;185:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">TBSPC Step</stentry>
+                           <stentry class="- topic/stentry " dita-ot:x="2" dita-ot:y="3" xtrc="stentry:6;186:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Creates 15 tablespaces</stentry>
+                        </strow>
+                        <strow class="- topic/strow " xtrc="strow:3;188:32" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                           <stentry class="- topic/stentry " dita-ot:x="1" dita-ot:y="4" xtrc="stentry:7;189:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">TABLES Step</stentry>
+                           <stentry class="- topic/stentry " dita-ot:x="2" dita-ot:y="4" xtrc="stentry:8;190:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Creates all tables with PKs, FKs, constraints</stentry>
+                        </strow>
+                        <strow class="- topic/strow " xtrc="strow:4;192:32" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                           <stentry class="- topic/stentry " dita-ot:x="1" dita-ot:y="5" xtrc="stentry:9;193:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">INDEXES Step</stentry>
+                           <stentry class="- topic/stentry " dita-ot:x="2" dita-ot:y="5" xtrc="stentry:10;194:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Creates performance indexes</stentry>
+                        </strow>
+                        <strow class="- topic/strow " xtrc="strow:5;196:32" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                           <stentry class="- topic/stentry " dita-ot:x="1" dita-ot:y="6" xtrc="stentry:11;197:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">COMMENTS Step</stentry>
+                           <stentry class="- topic/stentry " dita-ot:x="2" dita-ot:y="6" xtrc="stentry:12;198:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Adds catalog comments</stentry>
+                        </strow>
+                        <strow class="- topic/strow " xtrc="strow:6;200:32" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                           <stentry class="- topic/stentry " dita-ot:x="1" dita-ot:y="7" xtrc="stentry:13;201:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">GRANTS Step</stentry>
+                           <stentry class="- topic/stentry " dita-ot:x="2" dita-ot:y="7" xtrc="stentry:14;202:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Grants privileges to owner and application user </stentry>
+                        </strow>
+                     </simpletable></p>
+               </note>
+            </info>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:7;208:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:7;209:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><b class="+ topic/ph hi-d/b " xtrc="b:10;209:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Verify the database creation. </b></cmd>
+            <info class="- topic/itemgroup task/info " xtrc="info:7;210:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">TSO/ISPF with Db2<p class="- topic/p " xtrc="p:12;210:39" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <codeblock class="+ topic/pre pr-d/codeblock " id="unique_3_Connect_42_codeblock_e4y_khd_q3c" xml:space="preserve" xtrc="codeblock:2;211:57" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Option ==&gt; D (Db2I Primary Menu)
+Option ==&gt; 2 (SPUFI)
+
+Enter SQL:
+SELECT * FROM SYSIBM.SYSTABLES WHERE CREATOR = '&lt;Your HLQ&gt;';
+
+You should see 15 tables:
+USERS, TOKENS, SERIES, STYLES, STYLE_MODIFIERS, PRODUCT_TYPES,
+PRODUCT_VARIANTS, VARIANT_IMAGES, INVENTORY, CARTS, CART_ITEMS,
+ADDRESSES, ORDERS, ORDER_ADDRESSES, ORDER_ITEMS</codeblock>
+               </p></info>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:8;223:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:8;224:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><b class="+ topic/ph hi-d/b " xtrc="b:11;224:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Initialize the Product catalog.</b></cmd>
+            <info class="- topic/itemgroup task/info " xtrc="info:8;225:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <p class="- topic/p " xtrc="p:13;226:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">After creating the database structure, initialize it with the NXTCG catalog.</p>
+               <p class="- topic/p " xtrc="p:14;227:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Submit ECOMINIT Job:</p>
+               <p class="- topic/p " xtrc="p:15;228:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">TSO/ISPF</p>
+               <ol class="- topic/ol " id="unique_3_Connect_42_ol_w52_jpd_q3c" xtrc="ol:5;229:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <li class="- topic/li " xtrc="li:51;230:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Navigate to <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:21;230:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.JCL</codeph></li>
+                  <li class="- topic/li " xtrc="li:52;231:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Type <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:22;231:36" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">SUB</codeph> next to ECOMINIT member</li>
+               </ol>
+               <note class="- topic/note " id="unique_3_Connect_42_note_wps_jpd_q3c" xtrc="note:4;233:44" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <p class="- topic/p " xtrc="p:16;234:22" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><b class="+ topic/ph hi-d/b " xtrc="b:12;234:25" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">What ECOMINIT Does:</b></p>
+                  <p class="- topic/p " xtrc="p:17;235:22" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Executes E07INIT1, E07INIT2, and E07INIT3 in sequence to populate the product
+                     catalog:</p>
+               </note>
+            </info>
+         </step>
+         <step class="- topic/li task/step " xtrc="step:9;240:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+            <cmd class="- topic/ph task/cmd " xtrc="cmd:9;241:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita"><b class="+ topic/ph hi-d/b " xtrc="b:13;241:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Gather Statistics</b></cmd>
+            <info class="- topic/itemgroup task/info " xtrc="info:9;242:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+               <p class="- topic/p " xtrc="p:18;243:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">After creating the database, run statistics for optimal query performance:</p>
+               <p class="- topic/p " xtrc="p:19;244:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Submit ECOMRS Job:</p>
+               <p class="- topic/p " xtrc="p:20;245:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">TSO/ISPF</p>
+               <ol class="- topic/ol " id="unique_3_Connect_42_ol_uz3_bqd_q3c" xtrc="ol:6;246:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">
+                  <li class="- topic/li " xtrc="li:53;247:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Navigate to <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:23;247:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">&lt;Your HLQ&gt;.ECOMAPP.JCL</codeph></li>
+                  <li class="- topic/li " xtrc="li:54;248:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Type <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:24;248:36" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">SUB</codeph> next to ECOMRS member</li>
+                  <li class="- topic/li " xtrc="li:55;249:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">Check the job output in SDSF job status menu</li>
+               </ol>
+               <note class="- topic/note " id="unique_3_Connect_42_note_dh4_vq3_q3c" xtrc="note:5;251:44" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/installingdb2.dita">You must run ECOMRS before running ECOMRPTS.</note>
+            </info>
+         </step>
+</steps>
+</taskbody>
+</task><topic class="- topic/topic " ditaarch:DITAArchVersion="1.3" domains="(topic abbrev-d) a(props deliveryTarget) (topic equation-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic mathml-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic svg-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)" id="unique_4" oid="troubleshootingspectredb" specializations="@props/deliveryTarget" xml:lang="en" xtrc="topic:1;3:52" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+<title class="- topic/title " xtrc="title:1;4:8" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Troubleshooting the NXTCG ECOMAPP database</title>
+<shortdesc class="- topic/shortdesc " xtrc="shortdesc:1;5:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">There are common SQL and API error codes when configuring the ECOMAPP database. Solutions
+        are provided for each issue.  </shortdesc>
+<prolog class="- topic/prolog " xtrc="prolog:1;7:9" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+<critdates class="- topic/critdates " xtrc="critdates:1;12:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;13:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates><metadata class="- topic/metadata " xtrc="metadata:1;8:11" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><keywords class="- topic/keywords " xtrc="keywords:1;8:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <opentopic-index:index.entry value="ECOMAPP"><opentopic-index:formatted-value>ECOMAPP</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid1662863189" value="ECOMAPP:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="Database Architecture"><opentopic-index:formatted-value>Database Architecture</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid2005217122" value="Database Architecture:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="Indexes"><opentopic-index:formatted-value>Indexes</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid177159002" value="Indexes:"/></opentopic-index:index.entry>
+                <opentopic-index:index.entry value="Tablespaces"><opentopic-index:formatted-value>Tablespaces</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid-2049594817" value="Tablespaces:"/></opentopic-index:index.entry></keywords></metadata>
+</prolog>
+<body class="- topic/body " xtrc="body:1;14:7" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+        <bodydiv class="- topic/bodydiv " xtrc="bodydiv:1;15:18" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+            <section class="- topic/section " id="unique_4_Connect_42_issue-ecomddl-fails-with-rc12---plan-not-found" xtrc="section:1;16:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:2;17:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:1;17:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">ECOMDDL Fails with RC=12 - PLAN NOT FOUND</b></title>
+                <p class="- topic/p " xtrc="p:1;18:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:2;18:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Db2 plan DSNTEP3 not available or no EXECUTE privilege</p>
+                <p class="- topic/p " xtrc="p:2;19:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:3;19:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="unique_4_Connect_42_codeblock_hjb_dl3_q3c" xml:space="preserve" xtrc="codeblock:1;19:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">1. Verify DSNTEP3 plan exists:
+   -DIS THREAD(*) TYPE(PLAN)
+   
+2. Check your privileges:
+   SELECT GRANTEE, GRANTEETYPE, AUTHHOWGOT
+   FROM SYSIBM.SYSPLANAUTH
+   WHERE NAME = 'DSNTEP3';
+
+3. If missing privilege, have DBA grant:
+   GRANT EXECUTE ON PLAN DSNTEP3 TO &lt;Your HLQ&gt;;
+</codeblock></p>
+            </section>
+            <section class="- topic/section " id="unique_4_Connect_42_issue-ecomddl-fails-with-rc12---sqlcode-204-object-not-found" xtrc="section:2;31:88" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:3;32:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:4;32:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">ECOMDDL Fails with RC=12 - SQLCODE=-204 OBJECT NOT FOUND</b></title>
+                <p class="- topic/p " xtrc="p:3;33:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:5;33:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> DDL members not uploaded or incorrect dataset names</p>
+                <p class="- topic/p " xtrc="p:4;34:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:6;34:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="unique_4_Connect_42_codeblock_rmy_dl3_q3c" xml:space="preserve" xtrc="codeblock:2;34:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">1. Verify DDL members exist:
+   TSO/ISPF 3.4 → &lt;Your HLQ&gt;.ECOMAPP.DDL
+   
+2. Check member names match exactly:
+   E01STGDB, E02TBSPC, E03TABLE, E04INDEX, E05CMNT, E06GRANT
+   E07INIT1, E07INIT2, E07INIT3
+   
+3. Verify SET HLQ statement in ECOMDDL.jcl matches your dataset name
+</codeblock></p>
+            </section>
+            <section class="- topic/section " id="unique_4_Connect_42_issue-ecomddl-fails-with-rc8---sqlcode-601-object-already-exists" xtrc="section:3;44:92" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:4;45:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:7;45:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">ECOMDDL Fails with RC=8 - SQLCODE=-601 OBJECT ALREADY EXISTS</b></title>
+                <p class="- topic/p " xtrc="p:5;46:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:8;46:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Database objects already exist (normal on re-run)</p>
+                <p class="- topic/p " xtrc="p:6;47:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:9;47:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="unique_4_Connect_42_codeblock_qp5_gl3_q3c" xml:space="preserve" xtrc="codeblock:3;47:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">This is expected behavior when re-running ECOMDDL on existing database.
+Job will continue and create any missing objects.
+
+To start fresh:
+1. Submit ECOMDROP first
+2. Then submit ECOMDDL</codeblock></p>
+            </section>
+            <section class="- topic/section " id="unique_4_Connect_42_issue-ecominit-fails-with-rc12---rest-api-failure-with-https-status-500" xtrc="section:4;54:99" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:5;55:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:10;55:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">ECOMINIT Fails with RC=12 - Rest API failure with HTTP(S) status
+                    500</b></title>
+                <p class="- topic/p " xtrc="p:7;57:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:11;57:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> SQL files have lines exceeding 72 characters</p>
+                <p class="- topic/p " xtrc="p:8;58:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:12;58:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="unique_4_Connect_42_codeblock_nm5_3l3_q3c" xml:space="preserve" xtrc="codeblock:4;58:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">All E07INIT files in zOS_Datasets have been pre-processed to comply
+with 72-character line limits. If you modified them:
+
+1. Check for long lines:
+   Edit member with ISPF
+   COLS ON (show column numbers)
+   Look for lines extending past column 72
+
+2. Split long lines:
+   - Break INSERT statements after table name
+   - Continue column list on next line with leading spaces
+   - Ensure VALUES clause on separate line
+
+3. Re-upload corrected members</codeblock></p>
+            </section>
+            <section class="- topic/section " id="unique_4_Connect_42_issue-ecominit-fails-with-sqlcode-803-duplicate-key" xtrc="section:5;73:79" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:6;74:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:13;74:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">ECOMINIT Fails with SQLCODE=-803 DUPLICATE KEY</b></title>
+                <p class="- topic/p " xtrc="p:9;75:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:14;75:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Product catalog already loaded</p>
+                <p class="- topic/p " xtrc="p:10;76:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:15;76:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="unique_4_Connect_42_codeblock_aln_jl3_q3c" xml:space="preserve" xtrc="codeblock:5;76:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">This is expected behavior with RC=8. Job continues to next step.
+Each step is conditioned on RC &lt; 12.
+
+To reload catalog from scratch:
+1. Submit ECOMDROP first
+2. Submit ECOMDDL
+3. Submit ECOMINIT
+</codeblock></p>
+            </section>
+            <section class="- topic/section " id="unique_4_Connect_42_issue-ecominit-shows-wrong-row-counts" xtrc="section:6;85:65" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:7;86:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:16;86:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">ECOMINIT Shows Wrong Row Counts</b></title>
+                <p class="- topic/p " xtrc="p:11;87:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:17;87:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Previous data not cleared, or partial load</p>
+                <p class="- topic/p " xtrc="p:12;88:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:18;88:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="unique_4_Connect_42_codeblock_zyx_ml3_q3c" xml:space="preserve" xtrc="codeblock:6;88:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">-- Check current countsSELECT'PRODUCT_VARIANTS'AS TABLE_NAME,COUNT(*)AS COUNT
+FROM&lt;Your HLQ&gt;.PRODUCT_VARIANTS;
+
+Expected: 4,824If count doesn't match:
+1. Submit ECOMDROP
+2. Submit ECOMDDL  
+3. Submit ECOMINIT</codeblock></p>
+            </section>
+            <section class="- topic/section " id="unique_4_Connect_42_issue-not-authorized-to-create-database" xtrc="section:7;96:67" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:8;97:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:19;97:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">NOT AUTHORIZED TO CREATE DATABASE</b></title>
+                <p class="- topic/p " xtrc="p:13;98:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:20;98:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Insufficient Db2 privileges</p>
+                <p class="- topic/p " xtrc="p:14;99:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:21;99:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="unique_4_Connect_42_codeblock_wzg_4l3_q3c" xml:space="preserve" xtrc="codeblock:7;99:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Contact your Db2 DBA to grant CREATEDB authority:
+
+GRANT CREATEDB ON SYSTEM TO &lt;Your HLQ&gt;;
+</codeblock></p>
+            </section>
+            <section class="- topic/section " id="unique_4_Connect_42_issue-joblib-libraries-not-found" xtrc="section:8;104:60" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:9;105:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:22;105:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">JOBLIB Libraries Not Found</b></title>
+                <p class="- topic/p " xtrc="p:15;106:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:23;106:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Incorrect Db2 software library HLQ</p>
+                <p class="- topic/p " xtrc="p:16;107:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:24;107:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="unique_4_Connect_42_codeblock_jqz_4l3_q3c" xml:space="preserve" xtrc="codeblock:8;107:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">1. Find correct Db2 HLQ on your system:
+   TSO/ISPF 3.4 → DSN* (or DSNV*)
+   Look for: SDSNLOAD, SDSNEXIT, RUNLIB.LOAD
+   
+2. Update JOBLIB statements in all JCL files:
+   //JOBLIB   DD  DISP=SHR,DSN=&lt;Correct HLQ&gt;.SDSNEXIT
+   //         DD  DISP=SHR,DSN=&lt;Correct HLQ&gt;.SDSNLOAD
+   //         DD  DISP=SHR,DSN=&lt;Correct HLQ&gt;.RUNLIB.LOAD</codeblock></p>
+            </section>
+            <section class="- topic/section " id="unique_4_Connect_42_issue-storage-group-not-defined" xtrc="section:9;116:59" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:10;117:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:25;117:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">STORAGE GROUP NOT DEFINED</b></title>
+                <p class="- topic/p " xtrc="p:17;118:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:26;118:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> E01STGDB.sql uses default storage group</p>
+                <p class="- topic/p " xtrc="p:18;119:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:27;119:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="unique_4_Connect_42_codeblock_rws_pl3_q3c" xml:space="preserve" xtrc="codeblock:9;119:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">1. Find available storage groups:
+   SELECT * FROM SYSIBM.SYSSTOGROUP;
+   
+2. Update E01STGDB.sql:
+   CREATE DATABASE ECOMDB01
+       STOGROUP &lt;Your STOGROUP&gt;
+       BUFFERPOOL BP0
+       ...
+</codeblock></p>
+            </section>
+            <section class="- topic/section " id="unique_4_Connect_42_issue-price-calculations-return-wrong-values" xtrc="section:10;129:72" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:11;130:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:28;130:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Price Calculations Return Wrong Values</b></title>
+                <p class="- topic/p " xtrc="p:19;131:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:29;131:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Query not joining to STYLE_MODIFIERS table</p>
+                <p class="- topic/p " xtrc="p:20;132:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:30;132:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="unique_4_Connect_42_codeblock_msj_ql3_q3c" xml:space="preserve" xtrc="codeblock:10;132:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">-- Incorrect (missing PRICE_MULTIPLIER):SELECT PT.BASE_PRICE_CENTS
+FROM PRODUCT_VARIANTS PV
+INNERJOIN PRODUCT_TYPES PT ON...;-- Correct (includes multiplier):SELECT 
+    PT.BASE_PRICE_CENTS,
+    SM.PRICE_MULTIPLIER,
+    CAST(PT.BASE_PRICE_CENTS * SM.PRICE_MULTIPLIER ASINT)AS FINAL_PRICE
+FROM PRODUCT_VARIANTS PV
+INNERJOIN PRODUCT_TYPES PT ON...INNERJOIN STYLE_MODIFIERS SM 
+    ON PV.STYLE_CODE = SM.STYLE_CODE
+   AND PV.MODIFIER_CODE = SM.MODIFIER_CODE;</codeblock></p>
+            </section>
+            <section class="- topic/section " id="unique_4_Connect_42_issue-performance-issues--slow-queries" xtrc="section:11;143:66" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">
+                <title class="- topic/title " xtrc="title:12;144:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:31;144:27" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Slow Queries</b></title>
+                <p class="- topic/p " xtrc="p:21;145:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:32;145:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Cause:</b> Statistics not gathered or outdated</p>
+                <p class="- topic/p " xtrc="p:22;146:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"><b class="+ topic/ph hi-d/b " xtrc="b:33;146:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">Solution:</b><codeblock class="+ topic/pre pr-d/codeblock " id="unique_4_Connect_42_codeblock_t2f_rl3_q3c" xml:space="preserve" xtrc="codeblock:11;146:74" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita">1. Submit ECOMRS to gather/refresh statistics
+2. Verify statistics exist:
+   SELECT NAME, CARD, NPAGES
+   FROM SYSIBM.SYSTABLES
+   WHERE CREATOR = '&lt;Your HLQ&gt;';
+   
+   If CARD = -1, statistics not gathered</codeblock></p>
+            </section>
+        </bodydiv>
+<p class="- topic/p " xtrc="p:23;155:4" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/troubleshootingspectredb.dita"/>
+</body>
+</topic></concept><ot-placeholder:indexlist xmlns:ot-placeholder="http://suite-sol.com/namespaces/ot-placeholder" id="d93e130"/><opentopic-index:index.groups><opentopic-index:index.group><opentopic-index:label>D</opentopic-index:label><opentopic-index:index.entry value="Database Administration"><opentopic-index:formatted-value>Database Administration</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid-1999053065" value="Database Administration:"/></opentopic-index:index.entry><opentopic-index:index.entry value="Database Architecture"><opentopic-index:formatted-value>Database Architecture</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid2005217122" value="Database Architecture:"/></opentopic-index:index.entry><opentopic-index:index.entry value="Db2 13 for z/OS"><opentopic-index:formatted-value>Db2 13 for z/OS</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid-737927560" value="Db2 13 for z/OS:"/></opentopic-index:index.entry></opentopic-index:index.group><opentopic-index:index.group><opentopic-index:label>E</opentopic-index:label><opentopic-index:index.entry value="ECOMAPP"><opentopic-index:formatted-value>ECOMAPP</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid1662863189" value="ECOMAPP:"/></opentopic-index:index.entry><opentopic-index:index.entry value="ECOMDB01"><opentopic-index:formatted-value>ECOMDB01</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid11473823" value="ECOMDB01:"/></opentopic-index:index.entry></opentopic-index:index.group><opentopic-index:index.group><opentopic-index:label>I</opentopic-index:label><opentopic-index:index.entry value="Indexes"><opentopic-index:formatted-value>Indexes</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid177159002" value="Indexes:"/></opentopic-index:index.entry></opentopic-index:index.group><opentopic-index:index.group><opentopic-index:label>J</opentopic-index:label><opentopic-index:index.entry value="JCL"><opentopic-index:formatted-value>JCL</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid2271335" value="JCL:"/></opentopic-index:index.entry></opentopic-index:index.group><opentopic-index:index.group><opentopic-index:label>N</opentopic-index:label><opentopic-index:index.entry value="Normalization"><opentopic-index:formatted-value>Normalization</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid-1463846307" value="Normalization:"/></opentopic-index:index.entry></opentopic-index:index.group><opentopic-index:index.group><opentopic-index:label>P</opentopic-index:label><opentopic-index:index.entry value="Pricing Model"><opentopic-index:formatted-value>Pricing Model</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid1636679691" value="Pricing Model:"/></opentopic-index:index.entry><opentopic-index:index.entry value="Privileges"><opentopic-index:formatted-value>Privileges</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid1921107064" value="Privileges:"/></opentopic-index:index.entry></opentopic-index:index.group><opentopic-index:index.group><opentopic-index:label>R</opentopic-index:label><opentopic-index:index.entry value="RUNSTATS"><opentopic-index:formatted-value>RUNSTATS</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid-1405729338" value="RUNSTATS:"/></opentopic-index:index.entry></opentopic-index:index.group><opentopic-index:index.group><opentopic-index:label>S</opentopic-index:label><opentopic-index:index.entry value="SKU Architecture"><opentopic-index:formatted-value>SKU Architecture</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid-1920833724" value="SKU Architecture:"/></opentopic-index:index.entry></opentopic-index:index.group><opentopic-index:index.group><opentopic-index:label>T</opentopic-index:label><opentopic-index:index.entry value="Tablespaces"><opentopic-index:formatted-value>Tablespaces</opentopic-index:formatted-value><opentopic-index:refID indexid="indexid-2049594817" value="Tablespaces:"/></opentopic-index:index.entry></opentopic-index:index.group></opentopic-index:index.groups></bookmap>

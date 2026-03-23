@@ -1,0 +1,522 @@
+<!DOCTYPE html><html xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap" show-onpage-lbl="no" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="copyright" content="(C) Copyright 2026"/><meta name="DC.rights.owner" content="(C) Copyright 2026"/>
+<link rel="stylesheet" type="text/css" href="file:/C:/Users/jheckel/AppData/Local/Programs/Oxygen%20XML%20Editor%2026/frameworks/dita/DITA-OT/plugins/com.oxygenxml.webhelp.responsive/oxygen-webhelp/app/topic-page-print.css"/>
+<link rel="stylesheet" type="text/css" href="file:/C:/Users/jheckel/AppData/Local/Programs/Oxygen%20XML%20Editor%2026/frameworks/dita/DITA-OT/plugins/com.oxygenxml.pdf.css/css/print/p-dita.css"/>
+<link rel="stylesheet" type="text/css" href="file:/C:/Users/jheckel/AppData/Local/Programs/Oxygen%20XML%20Editor%2026/frameworks/dita/DITA-OT/plugins/com.oxygenxml.editlink/pdf-css.css"/>
+<link rel="stylesheet" type="text/css" href="file:/C:/Users/jheckel/AppData/Local/Programs/Oxygen%20XML%20Editor%2026/frameworks/dita/DITA-OT/plugins/com.oxygenxml.webhelp.responsive/templates/oxygen/oxygen-print.css"/>
+<link rel="stylesheet" type="text/css" href="file:/C:/Users/jheckel/AppData/Local/Programs/Oxygen%20XML%20Editor%2026/frameworks/dita/DITA-OT/plugins/com.oxygenxml.webhelp.responsive/templates/oxygen/notes.css"/>
+<meta name="generator" content="DITA-OT"/><meta name="DC.type" content="bookmap"/><meta name="keywords" content="Database Administration, Db2 13 for z/OS, ECOMAPP, ECOMDB01, RUNSTATS, JCL, Privileges, Database Architecture, SKU Architecture, Pricing Model, Normalization, Indexes, Tablespaces"/><meta name="DC.format" content="HTML5"/><meta name="DC.language" content="en"/><title>NXTCG Database Administration Guide</title></head><body class="wh_topic_page"><div class="wh_content_area"><div class="wh_topic_body"><div class="wh_topic_content"><div xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" show-onpage-lbl="no" cascade="merge" class="- map/map bookmap/bookmap map bookmap brand or business unit" ditaarch:DITAArchVersion="1.3" domains="(map mapgroup-d) (map bookmap) (topic abbrev-d) (topic delay-d) a(props deliveryTarget) (map ditavalref-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic ui-d) (topic ut-d) (topic xnal-d) (topic markup-d xml-d)" outputclass="brand or business unit" specializations="@props/deliveryTarget" xml:lang="en" lang="en"><div class="- front-page/front-page front-page"><div class="- map/topicmeta bookmap/bookmeta topicmeta bookmeta">
+    <div class="- topic/critdates critdates">
+      <div date="January 2017" class="- topic/created created"></div>
+      
+    </div>
+    <div class="- topic/data bookmap/bookid data bookid">
+      <div class="- topic/data bookmap/booknumber data booknumber">XXX-VVRR-XX-01</div>
+      
+    </div>
+    <div class="- topic/data bookmap/bookrights data bookrights">
+      <div class="- topic/data bookmap/copyrfirst data copyrfirst">
+        <div class="- topic/ph bookmap/year ph year">2011</div>
+        
+      </div>
+      <div class="- topic/data bookmap/copyrlast data copyrlast">
+        <div class="- topic/ph bookmap/year ph year">-2017</div>
+        
+      </div>
+      <div class="- topic/data bookmap/bookowner data bookowner">
+      	<div class="- topic/data bookmap/organization data organization">Rocket Software</div>
+      </div>
+    </div>
+  </div><div class="- front-page/front-page-title front-page-title"><div class="- topic/title bookmap/booktitle title booktitle">  <span class="- topic/ph bookmap/mainbooktitle ph mainbooktitle">NXTCG Database Administration Guide</span>  <span class="- topic/ph bookmap/booktitlealt ph booktitlealt"><img class="- topic/image image" height="300" href="file:/C:/Users/jheckel/Downloads/NXTCGFINALLOGO.jpg" id="_Connect_42_image_tnr_dr3_q3c" placement="inline" src="file:/C:/Users/jheckel/Downloads/NXTCGFINALLOGO.jpg"/></span>  <span class="- topic/ph bookmap/booktitlealt ph booktitlealt">Version 0.0.1</span>  </div></div></div><div class="- toc/toc toc"><div empty="true" class="- toc/title title"></div>
+  <div class="- topic/title bookmap/booktitle title booktitle">  <span class="- topic/ph bookmap/mainbooktitle ph mainbooktitle">NXTCG Database Administration Guide</span>  <span class="- topic/ph bookmap/booktitlealt ph booktitlealt"><img class="- topic/image image" height="300" href="file:/C:/Users/jheckel/Downloads/NXTCGFINALLOGO.jpg" id="_Connect_42_image_tnr_dr3_q3c" placement="inline" src="file:/C:/Users/jheckel/Downloads/NXTCGFINALLOGO.jpg"/></span>  <span class="- topic/ph bookmap/booktitlealt ph booktitlealt">Version 0.0.1</span>  </div>
+  
+  <div class="- map/topicref bookmap/frontmatter topicref frontmatter"><div class="- map/topicref bookmap/booklists topicref booklists"><div class="- map/topicref bookmap/trademarklist topicref trademarklist"></div><div class="- map/topicref bookmap/booklist topicref booklist"></div></div></div>
+  <div is-chapter="true" href="#unique_1" type="topic" class="- map/topicref bookmap/chapter topicref chapter"><div data-topic-id="dbdocsconcept1" class="- map/topicmeta topicmeta"><div appid="dbdocsconcept1" oxy-source="topic" class="- topic/resourceid resourceid"></div><div href="#unique_1" class="- topic/navtitle navtitle">Introduction to the NXTCG ECOMAPP Database</div><div class="- map/shortdesc shortdesc">The NextGen Trading Card Game (NXTCG) features exclusive collectible cards inspired         by the Rocket Software NextGen Academy and its Rocketeers. The platform empowers you to buy         and sell new NXTCG cards. Use this guide to install the NXTCG database, add tables, and         troubleshoot common issues you may encounter. </div><div class="- topic/critdates critdates">
+      <div date="January 2017" class="- topic/created created"></div>
+      
+    </div></div><div href="#unique_2" type="topic" class="- map/topicref topicref"><div data-topic-id="dbdocstopic1" class="- map/topicmeta topicmeta"><div appid="dbdocstopic1" oxy-source="topic" class="- topic/resourceid resourceid"></div><div href="#unique_2" class="- topic/navtitle navtitle">ECOMAPP Database Architecture</div><div class="- map/shortdesc shortdesc">The database design and architecture includes SKU composition, multiplier-based         pricing, and normalized entities with referential integrity. NXTCG ECOMAPP's database is         hosted on Db2 13 for z/OS.</div><div class="- topic/critdates critdates">
+      <div date="January 2017" class="- topic/created created"></div>
+      
+    </div></div></div><div href="#unique_3" type="topic" class="- map/topicref topicref"><div data-topic-id="installingdb2" class="- map/topicmeta topicmeta"><div appid="installingdb2" oxy-source="topic" class="- topic/resourceid resourceid"></div><div href="#unique_3" class="- topic/navtitle navtitle">Installing the ECOMAPP database</div><div class="- map/shortdesc shortdesc">ECOMAPP database is hosted on Db2 for z/OS platform. You can install the ECOMAPP database       within TSO/ISPF.</div><div class="- topic/critdates critdates">
+      <div date="January 2017" class="- topic/created created"></div>
+      
+    </div></div></div><div href="#unique_4" type="topic" class="- map/topicref topicref"><div data-topic-id="modifyingthedatabase" class="- map/topicmeta topicmeta"><div appid="modifyingthedatabase" oxy-source="topic" class="- topic/resourceid resourceid"></div><div href="#unique_4" class="- topic/navtitle navtitle">Adding tables to the ECOMAPP Database</div><div class="- map/shortdesc shortdesc">In the ECOMAPP database you can add new tables by using TSO/ISPF in the Db2 z/OS       platform. </div><div class="- topic/critdates critdates">
+      <div date="January 2017" class="- topic/created created"></div>
+      
+    </div></div></div><div href="#unique_5" type="topic" class="- map/topicref topicref"><div data-topic-id="troubleshootingspectredb" class="- map/topicmeta topicmeta"><div appid="troubleshootingspectredb" oxy-source="topic" class="- topic/resourceid resourceid"></div><div href="#unique_5" class="- topic/navtitle navtitle">Troubleshooting the NXTCG ECOMAPP database</div><div class="- map/shortdesc shortdesc">There are common SQL and API error codes when configuring the ECOMAPP database. Solutions         are provided for each issue.  </div><div class="- topic/critdates critdates">
+      <div date="January 2017" class="- topic/created created"></div>
+      
+    </div></div></div></div>
+  <div class="- map/topicref bookmap/backmatter topicref backmatter"><div class="- map/topicref bookmap/booklists topicref booklists"><div class="- map/topicref bookmap/trademarklist topicref trademarklist"></div><div class="- map/topicref bookmap/booklist topicref booklist"></div></div></div>
+<div is-chapter="true" is-index="true" class="- map/topicref topicref"><div class="- map/topicmeta topicmeta"><div href="#d133e1104" class="- topic/navtitle navtitle">Index</div></div></div></div><article xmlns:nd="http://www.oxygenxml.com/css2fo/named-destinations" class="- topic/topic concept/concept topic concept nested0" aria-labelledby="ariaid-title1" break-before="true" is-chapter="true" id="unique_1" topicrefclass="- map/topicref bookmap/chapter " nd:nd-id="dbdocsconcept1" oid="dbdocsconcept1" specializations="@props/deliveryTarget" xml:lang="en" lang="en">
+    <h1 class="- topic/title title topictitle1" id="ariaid-title1"><span indexid="indexid-1999053065" value="Database Administration:" id="d133e159" class="- index/refid refid"></span><span indexid="indexid-737927560" value="Db2 13 for z/OS:" id="d133e163" class="- index/refid refid"></span><span indexid="indexid1662863189" value="ECOMAPP:" id="d133e167" class="- index/refid refid"></span><span indexid="indexid11473823" value="ECOMDB01:" id="d133e171" class="- index/refid refid"></span><span indexid="indexid-1405729338" value="RUNSTATS:" id="d133e175" class="- index/refid refid"></span><span indexid="indexid2271335" value="JCL:" id="d133e180" class="- index/refid refid"></span><span indexid="indexid1921107064" value="Privileges:" id="d133e184" class="- index/refid refid"></span><span class="- topic/ph topic/title-wrapper ph title-wrapper">Introduction to the NXTCG ECOMAPP Database</span></h1>
+    
+    <div class="- topic/prolog prolog">
+        <div class="- topic/critdates critdates">
+      <div date="January 2017" class="- topic/created created"></div>
+      
+    </div><div class="- topic/metadata metadata">
+            <div class="- topic/keywords keywords">
+                <span value="Database Administration" class="- index/entry entry"><span class="- index/formatted-value formatted-value">Database Administration</span><span indexid="indexid-1999053065" value="Database Administration:" id="d133e159" class="- index/refid refid"></span></span>
+                <span value="Db2 13 for z/OS" class="- index/entry entry"><span class="- index/formatted-value formatted-value">Db2 13 for z/OS</span><span indexid="indexid-737927560" value="Db2 13 for z/OS:" id="d133e163" class="- index/refid refid"></span></span>
+                <span value="ECOMAPP" class="- index/entry entry"><span class="- index/formatted-value formatted-value">ECOMAPP</span><span indexid="indexid1662863189" value="ECOMAPP:" id="d133e167" class="- index/refid refid"></span></span>
+                <span value="ECOMDB01" class="- index/entry entry"><span class="- index/formatted-value formatted-value">ECOMDB01</span><span indexid="indexid11473823" value="ECOMDB01:" id="d133e171" class="- index/refid refid"></span></span>
+                <span value="RUNSTATS" class="- index/entry entry"><span class="- index/formatted-value formatted-value">RUNSTATS</span><span indexid="indexid-1405729338" value="RUNSTATS:" id="d133e175" class="- index/refid refid"></span></span>
+                <span value="JCL" class="- index/entry entry"><span class="- index/formatted-value formatted-value">JCL</span><span indexid="indexid2271335" value="JCL:" id="d133e180" class="- index/refid refid"></span></span>
+                <span value="Privileges" class="- index/entry entry"><span class="- index/formatted-value formatted-value">Privileges</span><span indexid="indexid1921107064" value="Privileges:" id="d133e184" class="- index/refid refid"></span></span>
+            </div>
+            <div content="ECOMAPP" name="product" class="- topic/othermeta othermeta"></div>
+            <div content="Db2 for z/OS 13" name="platform" class="- topic/othermeta othermeta"></div>
+        </div>
+    </div>
+    <div class="- topic/body concept/conbody body conbody"><p class="- topic/shortdesc shortdesc">The NextGen Trading Card Game (NXTCG) features exclusive collectible cards inspired
+        by the Rocket Software NextGen Academy and its Rocketeers. The platform empowers you to buy
+        and sell new NXTCG cards. Use this guide to install the NXTCG database, add tables, and
+        troubleshoot common issues you may encounter. </p>
+        <p class="- topic/p p">ECOMAPP is a Db2 13 for z/OS database for NXTCG. It is compromised of 15 normalized
+            tables with full referential integrity and indexed access paths. Administration is
+            driven by source-controlled DDL and JCL pipelines for build, initialization, statistics,
+            grants, and teardown. </p>
+        <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Key Features:</strong></p>
+        <ul class="- topic/ul ul" id="unique_1_Connect_42_ul_fhm_zcd_q3c" nd:nd-id="ul_fhm_zcd_q3c">
+            <li class="- topic/li li">Complete SKU-based product catalog (4,824 trading card variants)</li>
+            <li class="- topic/li li">Multiplier-based dynamic pricing system</li>
+            <li class="- topic/li li">16 normalized tables with full referential integrity</li>
+            <li class="- topic/li li">Performance indexes on all critical access paths</li>
+            <li class="- topic/li li">Split initialization files for mainframe line length compliance</li>
+            <li class="- topic/li li">Automated JCL for all database operations</li>
+        </ul>
+    </div>
+<article class="- topic/topic topic nested1" aria-labelledby="ariaid-title2" id="unique_2" topicrefclass="- map/topicref " nd:nd-id="dbdocstopic1" oid="dbdocstopic1" specializations="@props/deliveryTarget" xml:lang="en" lang="en">
+    <h2 class="- topic/title title topictitle2" id="ariaid-title2"><span indexid="indexid1662863189" value="ECOMAPP:" id="d133e245" class="- index/refid refid"></span><span indexid="indexid2005217122" value="Database Architecture:" id="d133e249" class="- index/refid refid"></span><span indexid="indexid-1920833724" value="SKU Architecture:" id="d133e253" class="- index/refid refid"></span><span indexid="indexid1636679691" value="Pricing Model:" id="d133e257" class="- index/refid refid"></span><span indexid="indexid-1463846307" value="Normalization:" id="d133e261" class="- index/refid refid"></span><span indexid="indexid177159002" value="Indexes:" id="d133e266" class="- index/refid refid"></span><span indexid="indexid-2049594817" value="Tablespaces:" id="d133e270" class="- index/refid refid"></span><span class="- topic/ph topic/title-wrapper ph title-wrapper">ECOMAPP Database Architecture</span></h2>
+    
+    <div class="- topic/prolog prolog">
+        <div class="- topic/critdates critdates">
+      <div date="January 2017" class="- topic/created created"></div>
+      
+    </div><div class="- topic/metadata metadata">
+            <div class="- topic/keywords keywords">
+                <span value="ECOMAPP" class="- index/entry entry"><span class="- index/formatted-value formatted-value">ECOMAPP</span><span indexid="indexid1662863189" value="ECOMAPP:" id="d133e245" class="- index/refid refid"></span></span>
+                <span value="Database Architecture" class="- index/entry entry"><span class="- index/formatted-value formatted-value">Database Architecture</span><span indexid="indexid2005217122" value="Database Architecture:" id="d133e249" class="- index/refid refid"></span></span>
+                <span value="SKU Architecture" class="- index/entry entry"><span class="- index/formatted-value formatted-value">SKU Architecture</span><span indexid="indexid-1920833724" value="SKU Architecture:" id="d133e253" class="- index/refid refid"></span></span>
+                <span value="Pricing Model" class="- index/entry entry"><span class="- index/formatted-value formatted-value">Pricing Model</span><span indexid="indexid1636679691" value="Pricing Model:" id="d133e257" class="- index/refid refid"></span></span>
+                <span value="Normalization" class="- index/entry entry"><span class="- index/formatted-value formatted-value">Normalization</span><span indexid="indexid-1463846307" value="Normalization:" id="d133e261" class="- index/refid refid"></span></span>
+                <span value="Indexes" class="- index/entry entry"><span class="- index/formatted-value formatted-value">Indexes</span><span indexid="indexid177159002" value="Indexes:" id="d133e266" class="- index/refid refid"></span></span>
+                <span value="Tablespaces" class="- index/entry entry"><span class="- index/formatted-value formatted-value">Tablespaces</span><span indexid="indexid-2049594817" value="Tablespaces:" id="d133e270" class="- index/refid refid"></span></span>
+            </div>
+        </div>
+    </div>
+    <div class="- topic/body body"><p class="- topic/shortdesc shortdesc">The database design and architecture includes SKU composition, multiplier-based
+        pricing, and normalized entities with referential integrity. NXTCG ECOMAPP's database is
+        hosted on Db2 13 for z/OS.</p>
+        <p class="- topic/p p"> ECOMAPP is a normalized, SKU-driven data model with centralized pricing logic and strong
+            referential integrity. The catalog supports 4,824 sellable SKUs derived from 104 base
+            product types and 63 style modifiers, designed to be scalable and consistent with
+            updates.</p>
+        <img align="center" class="- topic/image image" height="875" href="file:/C:/Users/jheckel/Downloads/3221.drawio.png" id="unique_2_Connect_42_image_ugv_53r_q3c" nd:nd-id="image_ugv_53r_q3c" placement="inline" width="600" src="file:/C:/Users/jheckel/Downloads/3221.drawio.png"/>
+        <section class="- topic/section section" id="unique_2_Connect_42_section_tsz_szw_q3c" nd:nd-id="section_tsz_szw_q3c"><h3 class="- topic/title title sectiontitle">ECOMAPP database components</h3>
+            
+            <p class="- topic/p p">The ECOMDB01 database is organized into 15 tablespaces, with each table placed in its
+                own space to support flexibility and management. It includes the USERS, TOKENS,
+                SERIES, STYLES, STYLE_MODIFIERS, PRODUCT_TYPES, PRODUCT_VARIANTS, VARIANT_IMAGES,
+                INVENTORY, CARTS, CART_ITEMS, ADDRESSES, ORDERS, ORDER_ADDRESSES, and ORDER_ITEMS
+                tables, covering the core data structures of the system. Indexing is handled through
+                primary key indexes along with business key indexes to maintain efficient and
+                reliable query performance.</p>
+        </section>
+        <section class="- topic/section section" id="unique_2_Connect_42_section_mgk_4rd_q3c" nd:nd-id="section_mgk_4rd_q3c"><h3 class="- topic/title title sectiontitle">Normalization</h3>
+            
+            <p class="- topic/p p">ECOMAPP NXTCG demonstrates a high level of normalization, with the schema aligning
+                with Third Normal Form (3NF). All relations satisfy the requirements of First and
+                Second Normal Forms, and the use of composite‑key tables ensures that each non‑key
+                attribute is fully dependent on the entire primary key.</p>
+        </section>
+    </div>
+</article><article class="- topic/topic task/task topic task nested1" aria-labelledby="ariaid-title3" id="unique_3" topicrefclass="- map/topicref " nd:nd-id="installingdb2" oid="installingdb2" specializations="@props/deliveryTarget" xml:lang="en" lang="en">
+<h2 class="- topic/title title topictitle2" id="ariaid-title3"><span class="- topic/ph topic/title-wrapper ph title-wrapper">Installing the ECOMAPP database</span></h2>
+
+<div class="- topic/prolog prolog">
+<div class="- topic/critdates critdates">
+      <div date="January 2017" class="- topic/created created"></div>
+      
+    </div><div class="- topic/metadata metadata"><div class="- topic/keywords keywords"></div></div>
+</div>
+<div class="- topic/body task/taskbody body taskbody"><p class="- topic/shortdesc shortdesc">ECOMAPP database is hosted on Db2 for z/OS platform. You can install the ECOMAPP database
+      within TSO/ISPF.</p>
+<section class="- topic/section task/prereq section prereq">
+         <p class="- topic/p p">Before installing ECOMAPP, you must have these requirements: </p>
+         <ul class="- topic/ul ul" id="unique_3_Connect_42_ul_ncw_xcd_q3c" nd:nd-id="ul_ncw_xcd_q3c">
+            <li class="- topic/li li">Access: You must have access to TSO/ISPF. </li>
+            <li class="- topic/li li">Db2: Version 13, subsystem ID <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your SSID&gt;</code>, Db2 software HLQ
+                  <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your DB2HLQ&gt;</code>, and a Db2 Connect license.</li>
+            <li class="- topic/li li">User Privileges: SYSADM/SYSCTRL or CREATEDB.</li>
+            <li class="- topic/li li">Storage: 100 tracks for DDL library, 50 tracks for JCL library, 500 MB DASD for
+               tablespaces and indexes.</li>
+         </ul>
+      </section>
+<section class="- topic/section task/context section context">Below are steps instructing you on how to install ECOMAPP database within
+         TSO/ISPF.</section>
+<section class="- topic/ol task/steps ol steps"><ol class="- topic/ol task/steps ol steps"><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Before uploading any files, you must customize the following placeholders
+               throughout all DDL and JCL files:</span>
+            <div xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" class="simpletable-container"><table class="- topic/simpletable task/choicetable simpletable choicetable choicetableborder" id="unique_3_Connect_42_choicetable_frz_qjr_q3c" nd:nd-id="choicetable_frz_qjr_q3c" keycol="1" relcolwidth="1* 1*"><colgroup><col style="width:50%"/><col style="width:50%"/></colgroup><thead><tr class="- topic/sthead task/chhead sthead chhead"><th scope="col" class="- topic/stentry task/choptionhd stentry choptionhd" dita-ot:x="1" dita-ot:y="1">Placeholder</th><th scope="col" class="- topic/stentry task/chdeschd stentry chdeschd" dita-ot:x="2" dita-ot:y="1">Description</th></tr></thead><tbody><tr class="- topic/strow task/chrow strow chrow"><th scope="row" class="- topic/stentry task/choption stentry choption" dita-ot:x="1" dita-ot:y="2">&lt;Your HLQ&gt;</th><td class="- topic/stentry task/chdesc stentry chdesc" dita-ot:x="2" dita-ot:y="2">Your z/OS High-Level Qualifier</td></tr><tr class="- topic/strow task/chrow strow chrow"><th scope="row" class="- topic/stentry task/choption stentry choption" dita-ot:x="1" dita-ot:y="3">&lt;Your USERGRP&gt;</th><td class="- topic/stentry task/chdesc stentry chdesc" dita-ot:x="2" dita-ot:y="3">Application user group for DML access</td></tr><tr class="- topic/strow task/chrow strow chrow"><th scope="row" class="- topic/stentry task/choption stentry choption" dita-ot:x="1" dita-ot:y="4">&lt;Your SSID&gt;</th><td class="- topic/stentry task/chdesc stentry chdesc" dita-ot:x="2" dita-ot:y="4">Db2 subsystem ID</td></tr><tr class="- topic/strow task/chrow strow chrow"><th scope="row" class="- topic/stentry task/choption stentry choption" dita-ot:x="1" dita-ot:y="5">&lt;Your DB2HLQ&gt;</th><td class="- topic/stentry task/chdesc stentry chdesc" dita-ot:x="2" dita-ot:y="5">Db2 Software Library</td></tr></tbody></table></div>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Create an Initial Partitioned Data Set (PDS) in <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your
+                  HLQ&gt;.ECOMAPP.ALOC</code>. You must create one dataset and upload the
+                  <code class="+ topic/ph pr-d/codeph ph codeph">ECOMALOC.jcl</code> as a member of that dataset.Your new dataset can be
+               accessed by <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your HLQ&gt;.ECOMAPP.ALLOC(ECOMALOC)</code>. Configure your
+               new dataset with the appropriate quantities, blocks, and record formattings below. </span>
+            <div class="- topic/itemgroup task/info itemgroup info">
+               <pre class="+ topic/pre pr-d/codeblock pre codeblock" id="unique_3_Connect_42_codeblock_edw_lty_q3c" nd:nd-id="codeblock_edw_lty_q3c" xml:space="preserve"><code>Command ===&gt; A
+Dataset Name: &lt;Your HLQ&gt;.ECOMAPP.ECOMALOC
+Management class . . . &lt;blank&gt;
+Storage class  . . . . &lt;blank&gt;
+Volume serial  . . . . &lt;blank&gt;
+Device type  . . . . . &lt;blank or SYSDA&gt;
+Data class . . . . . . &lt;blank&gt;
+Space units  . . . . . TRKS
+Primary quantity . . . 5
+Secondary quantity . . 2
+Directory blocks . . . 2
+Record format  . . . . FB
+Record length  . . . . 80
+Block size . . . . . . 3120
+Data set name type . . PDS</code></pre>
+            </div>
+            <ol type="a" class="- topic/ol task/substeps ol substeps" id="unique_3_Connect_42_substeps_l5x_c5w_q3c" nd:nd-id="substeps_l5x_c5w_q3c">
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Log into TSO/ISPF and allocate the Initial PDS. </span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Upload ECOMALOC.jcl via Zowe or by pasting in the code in ISPF. You can find
+                     and edit it by using option 3.4 to find <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your
+                        HLQ&gt;.ECOMAPP.ALLOC(ECOMALLOC)</code>.</span>
+               </li>
+            </ol>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Run ECOMALOC to create DDL and JCL libraries. This job creates the two main PDS
+               libraries for the DDL and JCL files. </span>
+            <ol type="a" class="- topic/ol task/substeps ol substeps" id="unique_3_Connect_42_substeps_s1s_ytw_q3c" nd:nd-id="substeps_s1s_ytw_q3c">
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Insert option 3.4 in DSLIST.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Navigate to <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your HLQ&gt;.ECOMAPP.ALLOC(ECOMALOC)</code>.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Type <code class="+ topic/ph pr-d/codeph ph codeph">SUB</code> next to the ECOMALOC member.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Click Enter.</span>
+               </li>
+            </ol>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Upload all SQL DDL files to the <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your HLQ&gt;.ECOMAPP.DDL</code> library.
+               You can use Zowe to upload members directly from the project repository into the
+               dataset.</span>
+            <ol type="a" class="- topic/ol task/substeps ol substeps" id="unique_3_Connect_42_substeps_cl4_ttw_q3c" nd:nd-id="substeps_cl4_ttw_q3c">
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Insert option 3.4 in DSLIST.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Navigate to <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your HLQ&gt;.ECOMAPP.DDL</code>.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Click Enter.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Navigate to the ISPF main menu and insert Option 2.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Insert <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your HLQ&gt;.ECOMAPP.DDL(&lt;membername&gt;)</code>.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Paste in the new member contents.</span>
+               </li>
+            </ol>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Upload all JCL job files to the <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your HLQ&gt;.ECOMAPP.JCL</code> library
+               using TSO/ISPF. </span>
+            <ol type="a" class="- topic/ol task/substeps ol substeps" id="unique_3_Connect_42_substeps_scq_ktw_q3c" nd:nd-id="substeps_scq_ktw_q3c">
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Insert option 3.4 in DSLIST.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Navigate to <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your HLQ&gt;.ECOMAPP.JCL</code>.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Click Enter.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Navigate to the ISPF main menu and insert Option 2.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Insert <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your HLQ&gt;.ECOMAPP.DDL(&lt;membername&gt;)</code>.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Paste in the new member contents.</span>
+               </li>
+            </ol>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Submit the ECOMDDL job to create the database. Submit an ECOMDDL Job in
+               TSO/ISPF.</span>
+            <ol type="a" class="- topic/ol task/substeps ol substeps" id="unique_3_Connect_42_substeps_m1q_2tw_q3c" nd:nd-id="substeps_m1q_2tw_q3c">
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Insert option 3.4 in DSLIST.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Navigate to <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your HLQ&gt;.ECOMAPP.JCL</code>.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Insert <code class="+ topic/ph pr-d/codeph ph codeph">B</code> for browsing to see the members.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Type <code class="+ topic/ph pr-d/codeph ph codeph">SUB</code> next to the ECOMDDL member.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Click Enter.</span>
+               </li>
+            </ol>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Verify the database creation in TSO/ISPF. </span>
+            <ol type="a" class="- topic/ol task/substeps ol substeps" id="unique_3_Connect_42_substeps_y5h_m5w_q3c" nd:nd-id="substeps_y5h_m5w_q3c">
+               <li class="- topic/li task/substep li substep substepexpand">
+                  <span class="- topic/ph task/cmd ph cmd">Insert option 2 in SPUFI.</span>
+               </li>
+               <li class="- topic/li task/substep li substep substepexpand">
+                  <span class="- topic/ph task/cmd ph cmd">Enter <code class="+ topic/ph pr-d/codeph ph codeph">SELECT * FROM SYSIBM.SYSTABLES WHERE CREATOR = '&lt;Your
+                        HLQ&gt;';</code>.</span>
+                  <div class="- topic/itemgroup task/stepresult itemgroup stepresult">The result will show all of the tables in the database.</div>
+               </li>
+            </ol>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Initialize the Product catalog by submitting an ECPMINIT Job in TSO/ISPF.</span>
+            <ol type="a" class="- topic/ol task/substeps ol substeps" id="unique_3_Connect_42_substeps_qpk_mfs_q3c" nd:nd-id="substeps_qpk_mfs_q3c">
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Navigate to <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your HLQ&gt;.ECOMAPP.JCL</code>.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Type <code class="+ topic/ph pr-d/codeph ph codeph">SUB</code>next to ECOMINIT member.</span>
+               </li>
+            </ol>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Run statistics for optimal query performance by running ECOMRS.</span>
+            <ol type="a" class="- topic/ol task/substeps ol substeps" id="unique_3_Connect_42_substeps_u5f_hfs_q3c" nd:nd-id="substeps_u5f_hfs_q3c">
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Navigate to <code class="+ topic/ph pr-d/codeph ph codeph">&lt;Your HLQ&gt;.ECOMAPP.JCL</code>.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Type <code class="+ topic/ph pr-d/codeph ph codeph">SUB</code> next to ECOMRS member.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Check the job output in SDSF job status menu.</span>
+               </li>
+            </ol>
+         </li></ol></section>
+</div>
+</article><article class="- topic/topic task/task topic task nested1" aria-labelledby="ariaid-title4" id="unique_4" topicrefclass="- map/topicref " nd:nd-id="modifyingthedatabase" oid="modifyingthedatabase" specializations="@props/deliveryTarget" xml:lang="en" lang="en">
+<h2 class="- topic/title title topictitle2" id="ariaid-title4"><span class="- topic/ph topic/title-wrapper ph title-wrapper">Adding tables to the ECOMAPP Database</span></h2>
+
+<div class="- topic/prolog prolog">
+<div class="- topic/critdates critdates">
+      <div date="January 2017" class="- topic/created created"></div>
+      
+    </div><div class="- topic/metadata metadata"><div class="- topic/keywords keywords"></div></div>
+</div>
+<div class="- topic/body task/taskbody body taskbody"><p class="- topic/shortdesc shortdesc">In the ECOMAPP database you can add new tables by using TSO/ISPF in the Db2 z/OS
+      platform. </p>
+<section class="- topic/section task/prereq section prereq"></section>
+<section class="- topic/section task/context section context"></section>
+<section class="- topic/ol task/steps ol steps"><ol class="- topic/ol task/steps ol steps"><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Update EO3TABLE.sql</span>
+            <ol type="a" class="- topic/ol task/substeps ol substeps">
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Add <code class="+ topic/ph pr-d/codeph ph codeph">CREATE TABLE</code> statement.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Add <code class="+ topic/ph pr-d/codeph ph codeph">CREATE UNIQUE INDEX</code> for the primary key.</span>
+               </li>
+               <li class="- topic/li task/substep li substep">
+                  <span class="- topic/ph task/cmd ph cmd">Add foreign key constraints if applicable.</span>
+               </li>
+            </ol>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Update E04INDEX.sql and add performance indexes for new table.</span>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Update E05CMNT.sql by adding a <code class="+ topic/ph pr-d/codeph ph codeph">COMMENT</code> statement for the new table
+               and columns.</span>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Add <code class="+ topic/ph pr-d/codeph ph codeph">COMMENT</code> statements for new tables and columns in
+               E05CMNT.sql.</span>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Update E06GRANT.sql by adding a <code class="+ topic/ph pr-d/codeph ph codeph">GRANT</code> statement for the new
+               table.</span>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Update E07LOAD.sql by adding an <code class="+ topic/ph pr-d/codeph ph codeph">INSERT</code> statement for the test
+               data.</span>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Update ECOMDROP.jcl by adding a <code class="+ topic/ph pr-d/codeph ph codeph">DROP TABLE</code> statement.</span>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Re-upload and re-run.</span>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Upload all the modified DDL files.</span>
+         </li><li class="- topic/li task/step li step">
+            <span class="- topic/ph task/cmd ph cmd">Submit ECOMDROP and ECOMDDL.</span>
+         </li></ol></section>
+</div>
+</article><article class="- topic/topic topic nested1" aria-labelledby="ariaid-title5" id="unique_5" topicrefclass="- map/topicref " nd:nd-id="troubleshootingspectredb" oid="troubleshootingspectredb" specializations="@props/deliveryTarget" xml:lang="en" lang="en">
+<h2 class="- topic/title title topictitle2" id="ariaid-title5"><span indexid="indexid1662863189" value="ECOMAPP:" id="d133e884" class="- index/refid refid"></span><span indexid="indexid2005217122" value="Database Architecture:" id="d133e888" class="- index/refid refid"></span><span indexid="indexid177159002" value="Indexes:" id="d133e892" class="- index/refid refid"></span><span indexid="indexid-2049594817" value="Tablespaces:" id="d133e896" class="- index/refid refid"></span><span class="- topic/ph topic/title-wrapper ph title-wrapper">Troubleshooting the NXTCG ECOMAPP database</span></h2>
+
+<div class="- topic/prolog prolog">
+<div class="- topic/critdates critdates">
+      <div date="January 2017" class="- topic/created created"></div>
+      
+    </div><div class="- topic/metadata metadata"><div class="- topic/keywords keywords">
+                <span value="ECOMAPP" class="- index/entry entry"><span class="- index/formatted-value formatted-value">ECOMAPP</span><span indexid="indexid1662863189" value="ECOMAPP:" id="d133e884" class="- index/refid refid"></span></span>
+                <span value="Database Architecture" class="- index/entry entry"><span class="- index/formatted-value formatted-value">Database Architecture</span><span indexid="indexid2005217122" value="Database Architecture:" id="d133e888" class="- index/refid refid"></span></span>
+                <span value="Indexes" class="- index/entry entry"><span class="- index/formatted-value formatted-value">Indexes</span><span indexid="indexid177159002" value="Indexes:" id="d133e892" class="- index/refid refid"></span></span>
+                <span value="Tablespaces" class="- index/entry entry"><span class="- index/formatted-value formatted-value">Tablespaces</span><span indexid="indexid-2049594817" value="Tablespaces:" id="d133e896" class="- index/refid refid"></span></span></div></div>
+</div>
+<div class="- topic/body body"><p class="- topic/shortdesc shortdesc">There are common SQL and API error codes when configuring the ECOMAPP database. Solutions
+        are provided for each issue.  </p>
+        <div class="- topic/bodydiv bodydiv">
+            <section class="- topic/section section" id="unique_5_Connect_42_issue-ecomddl-fails-with-rc12---plan-not-found" nd:nd-id="issue-ecomddl-fails-with-rc12---plan-not-found"><h3 class="- topic/title title sectiontitle"><strong class="+ topic/ph hi-d/b ph b">ECOMDDL Fails with RC=12 - PLAN NOT FOUND</strong></h3>
+                
+                <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Cause:</strong> Db2 plan DSNTEP3 not available or no EXECUTE privilege.</p>
+                <div class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Solution:</strong><pre class="+ topic/pre pr-d/codeblock pre codeblock" id="unique_5_Connect_42_codeblock_hjb_dl3_q3c" nd:nd-id="codeblock_hjb_dl3_q3c" xml:space="preserve"><code>1. Verify DSNTEP3 plan exists:
+   -DIS THREAD(*) TYPE(PLAN)
+   
+2. Check your privileges:
+   SELECT GRANTEE, GRANTEETYPE, AUTHHOWGOT
+   FROM SYSIBM.SYSPLANAUTH
+   WHERE NAME = 'DSNTEP3';
+
+3. If missing privilege, have DBA grant:
+   GRANT EXECUTE ON PLAN DSNTEP3 TO &lt;Your HLQ&gt;;
+</code></pre></div>
+            </section>
+            <section class="- topic/section section" id="unique_5_Connect_42_issue-ecomddl-fails-with-rc12---sqlcode-204-object-not-found" nd:nd-id="issue-ecomddl-fails-with-rc12---sqlcode-204-object-not-found"><h3 class="- topic/title title sectiontitle"><strong class="+ topic/ph hi-d/b ph b">ECOMDDL Fails with RC=12 - SQLCODE=-204 OBJECT NOT FOUND</strong></h3>
+                
+                <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Cause:</strong> DDL members not uploaded or incorrect dataset names.</p>
+                <div class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Solution:</strong><pre class="+ topic/pre pr-d/codeblock pre codeblock" id="unique_5_Connect_42_codeblock_rmy_dl3_q3c" nd:nd-id="codeblock_rmy_dl3_q3c" xml:space="preserve"><code>1. Verify DDL members exist:
+   TSO/ISPF 3.4 → &lt;Your HLQ&gt;.ECOMAPP.DDL
+   
+2. Check member names match exactly:
+   E01STGDB, E02TBSPC, E03TABLE, E04INDEX, E05CMNT, E06GRANT
+   E07INIT1, E07INIT2, E07INIT3
+   
+3. Verify SET HLQ statement in ECOMDDL.jcl matches your dataset name
+</code></pre></div>
+            </section>
+            <section class="- topic/section section" id="unique_5_Connect_42_issue-ecomddl-fails-with-rc8---sqlcode-601-object-already-exists" nd:nd-id="issue-ecomddl-fails-with-rc8---sqlcode-601-object-already-exists"><h3 class="- topic/title title sectiontitle"><strong class="+ topic/ph hi-d/b ph b">ECOMDDL Fails with RC=8 - SQLCODE=-601 OBJECT ALREADY EXISTS</strong></h3>
+                
+                <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Cause:</strong> Database objects already exist.</p>
+                <div class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Solution:</strong><pre class="+ topic/pre pr-d/codeblock pre codeblock" id="unique_5_Connect_42_codeblock_qp5_gl3_q3c" nd:nd-id="codeblock_qp5_gl3_q3c" xml:space="preserve"><code>This is expected behavior when re-running ECOMDDL on existing database.
+Job will continue and create any missing objects.
+
+To start fresh:
+1. Submit ECOMDROP first
+2. Then submit ECOMDDL</code></pre></div>
+            </section>
+            <section class="- topic/section section" id="unique_5_Connect_42_issue-ecominit-fails-with-rc12---rest-api-failure-with-https-status-500" nd:nd-id="issue-ecominit-fails-with-rc12---rest-api-failure-with-https-status-500"><h3 class="- topic/title title sectiontitle"><strong class="+ topic/ph hi-d/b ph b">ECOMINIT Fails with RC=12 - Rest API failure with HTTP(S) status
+                    500</strong></h3>
+                
+                <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Cause:</strong> SQL files have lines exceeding 72 characters.</p>
+                <div class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Solution:</strong><pre class="+ topic/pre pr-d/codeblock pre codeblock" id="unique_5_Connect_42_codeblock_nm5_3l3_q3c" nd:nd-id="codeblock_nm5_3l3_q3c" xml:space="preserve"><code>All E07INIT files in zOS_Datasets have been pre-processed to comply
+with 72-character line limits. If you modified them:
+
+1. Check for long lines:
+   Edit member with ISPF
+   COLS ON (show column numbers)
+   Look for lines extending past column 72
+
+2. Split long lines:
+   - Break INSERT statements after table name
+   - Continue column list on next line with leading spaces
+   - Ensure VALUES clause on separate line
+
+3. Re-upload corrected members</code></pre></div>
+            </section>
+            <section class="- topic/section section" id="unique_5_Connect_42_issue-ecominit-fails-with-sqlcode-803-duplicate-key" nd:nd-id="issue-ecominit-fails-with-sqlcode-803-duplicate-key"><h3 class="- topic/title title sectiontitle"><strong class="+ topic/ph hi-d/b ph b">ECOMINIT Fails with SQLCODE=-803 DUPLICATE KEY</strong></h3>
+                
+                <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Cause:</strong> Product catalog already loaded.</p>
+                <div class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Solution:</strong><pre class="+ topic/pre pr-d/codeblock pre codeblock" id="unique_5_Connect_42_codeblock_aln_jl3_q3c" nd:nd-id="codeblock_aln_jl3_q3c" xml:space="preserve"><code>This is expected behavior with RC=8. Job continues to next step.
+Each step is conditioned on RC &lt; 12.
+
+To reload catalog from scratch:
+1. Submit ECOMDROP first
+2. Submit ECOMDDL
+3. Submit ECOMINIT
+</code></pre></div>
+            </section>
+            <section class="- topic/section section" id="unique_5_Connect_42_issue-ecominit-shows-wrong-row-counts" nd:nd-id="issue-ecominit-shows-wrong-row-counts"><h3 class="- topic/title title sectiontitle"><strong class="+ topic/ph hi-d/b ph b">ECOMINIT Shows Wrong Row Counts</strong></h3>
+                
+                <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Cause:</strong> Previous data not cleared, or partial load.</p>
+                <div class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Solution:</strong><pre class="+ topic/pre pr-d/codeblock pre codeblock" id="unique_5_Connect_42_codeblock_zyx_ml3_q3c" nd:nd-id="codeblock_zyx_ml3_q3c" xml:space="preserve"><code>-- Check current countsSELECT'PRODUCT_VARIANTS'AS TABLE_NAME,COUNT(*)AS COUNT
+FROM&lt;Your HLQ&gt;.PRODUCT_VARIANTS;
+
+Expected: 4,824If count doesn't match:
+1. Submit ECOMDROP
+2. Submit ECOMDDL  
+3. Submit ECOMINIT</code></pre></div>
+            </section>
+            <section class="- topic/section section" id="unique_5_Connect_42_issue-not-authorized-to-create-database" nd:nd-id="issue-not-authorized-to-create-database"><h3 class="- topic/title title sectiontitle"><strong class="+ topic/ph hi-d/b ph b">NOT AUTHORIZED TO CREATE DATABASE</strong></h3>
+                
+                <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Cause:</strong> Insufficient Db2 privileges.</p>
+                <div class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Solution:</strong><pre class="+ topic/pre pr-d/codeblock pre codeblock" id="unique_5_Connect_42_codeblock_wzg_4l3_q3c" nd:nd-id="codeblock_wzg_4l3_q3c" xml:space="preserve"><code>Contact your Db2 DBA to grant CREATEDB authority:
+
+GRANT CREATEDB ON SYSTEM TO &lt;Your HLQ&gt;;
+</code></pre></div>
+            </section>
+            <section class="- topic/section section" id="unique_5_Connect_42_issue-joblib-libraries-not-found" nd:nd-id="issue-joblib-libraries-not-found"><h3 class="- topic/title title sectiontitle"><strong class="+ topic/ph hi-d/b ph b">JOBLIB Libraries Not Found</strong></h3>
+                
+                <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Cause:</strong> Incorrect Db2 software library HLQ.</p>
+                <div class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Solution:</strong><pre class="+ topic/pre pr-d/codeblock pre codeblock" id="unique_5_Connect_42_codeblock_jqz_4l3_q3c" nd:nd-id="codeblock_jqz_4l3_q3c" xml:space="preserve"><code>1. Find correct Db2 HLQ on your system:
+   TSO/ISPF 3.4 → DSN* (or DSNV*)
+   Look for: SDSNLOAD, SDSNEXIT, RUNLIB.LOAD
+   
+2. Update JOBLIB statements in all JCL files:
+   //JOBLIB   DD  DISP=SHR,DSN=&lt;Correct HLQ&gt;.SDSNEXIT
+   //         DD  DISP=SHR,DSN=&lt;Correct HLQ&gt;.SDSNLOAD
+   //         DD  DISP=SHR,DSN=&lt;Correct HLQ&gt;.RUNLIB.LOAD</code></pre></div>
+            </section>
+            <section class="- topic/section section" id="unique_5_Connect_42_issue-storage-group-not-defined" nd:nd-id="issue-storage-group-not-defined"><h3 class="- topic/title title sectiontitle"><strong class="+ topic/ph hi-d/b ph b">STORAGE GROUP NOT DEFINED</strong></h3>
+                
+                <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Cause:</strong> E01STGDB.sql uses default storage group.</p>
+                <div class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Solution:</strong><pre class="+ topic/pre pr-d/codeblock pre codeblock" id="unique_5_Connect_42_codeblock_rws_pl3_q3c" nd:nd-id="codeblock_rws_pl3_q3c" xml:space="preserve"><code>1. Find available storage groups:
+   SELECT * FROM SYSIBM.SYSSTOGROUP;
+   
+2. Update E01STGDB.sql:
+   CREATE DATABASE ECOMDB01
+       STOGROUP &lt;Your STOGROUP&gt;
+       BUFFERPOOL BP0
+       ...
+</code></pre></div>
+            </section>
+            <section class="- topic/section section" id="unique_5_Connect_42_issue-price-calculations-return-wrong-values" nd:nd-id="issue-price-calculations-return-wrong-values"><h3 class="- topic/title title sectiontitle"><strong class="+ topic/ph hi-d/b ph b">Price Calculations Return Wrong Values</strong></h3>
+                
+                <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Cause:</strong> Query not joining to STYLE_MODIFIERS table.</p>
+                <div class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Solution:</strong><pre class="+ topic/pre pr-d/codeblock pre codeblock" id="unique_5_Connect_42_codeblock_msj_ql3_q3c" nd:nd-id="codeblock_msj_ql3_q3c" xml:space="preserve"><code>-- Incorrect (missing PRICE_MULTIPLIER):SELECT PT.BASE_PRICE_CENTS
+FROM PRODUCT_VARIANTS PV
+INNERJOIN PRODUCT_TYPES PT ON...;-- Correct (includes multiplier):SELECT 
+    PT.BASE_PRICE_CENTS,
+    SM.PRICE_MULTIPLIER,
+    CAST(PT.BASE_PRICE_CENTS * SM.PRICE_MULTIPLIER ASINT)AS FINAL_PRICE
+FROM PRODUCT_VARIANTS PV
+INNERJOIN PRODUCT_TYPES PT ON...INNERJOIN STYLE_MODIFIERS SM 
+    ON PV.STYLE_CODE = SM.STYLE_CODE
+   AND PV.MODIFIER_CODE = SM.MODIFIER_CODE;</code></pre></div>
+            </section>
+            <section class="- topic/section section" id="unique_5_Connect_42_issue-performance-issues--slow-queries" nd:nd-id="issue-performance-issues--slow-queries"><h3 class="- topic/title title sectiontitle"><strong class="+ topic/ph hi-d/b ph b">Slow Queries</strong></h3>
+                
+                <p class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Cause:</strong> Statistics not gathered or outdated.</p>
+                <div class="- topic/p p"><strong class="+ topic/ph hi-d/b ph b">Solution:</strong><pre class="+ topic/pre pr-d/codeblock pre codeblock" id="unique_5_Connect_42_codeblock_t2f_rl3_q3c" nd:nd-id="codeblock_t2f_rl3_q3c" xml:space="preserve"><code>1. Submit ECOMRS to gather/refresh statistics
+2. Verify statistics exist:
+   SELECT NAME, CARD, NPAGES
+   FROM SYSIBM.SYSTABLES
+   WHERE CREATOR = '&lt;Your HLQ&gt;';
+   
+   If CARD = -1, statistics not gathered</code></pre></div>
+            </section>
+        </div>
+</div>
+</article></article></div></div></div></div></body></html>
