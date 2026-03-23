@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /C:\Users\jheckel\Documents\Repositories\Spectre\Spectre\docs\Database-Documentation\temp\pdf-css-html5\Documents\Repositories\Spectre\Spectre\docs\Database-Documentation\topics?><?workdir-uri file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/temp/pdf-css-html5/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/?><?path2project ..\?><?path2project-uri ../?><?path2rootmap-uri ../?><?doctype-public -//OASIS//DTD DITA Concept//EN?><?doctype-system concept.dtd?><concept xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" class="- topic/topic concept/concept " ditaarch:DITAArchVersion="1.3" domains="(topic concept) (topic abbrev-d) a(props deliveryTarget) (topic equation-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic mathml-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic svg-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)" id="dbdocsconcept1" specializations="@props/deliveryTarget" xml:lang="en" xtrc="concept:1;3:44" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+    <title class="- topic/title " xtrc="title:1;4:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Database Administrator Guide</title>
+    <shortdesc class="- topic/shortdesc " xtrc="shortdesc:1;5:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">The NextGen Trading Card Game features exclusive collectible cards inspired by the
+        Rocket Software NextGen Academy and its Rocketeers. The platform empowers users to buy and
+        sell new cards and related products, creating a dynamic marketplace for fans and
+        collectors.</shortdesc>
+    <prolog class="- topic/prolog " xtrc="prolog:1;9:13" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+        <critdates class="- topic/critdates " xtrc="critdates:1;12:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;13:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates><metadata class="- topic/metadata " xtrc="metadata:1;10:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+            <keywords class="- topic/keywords " xtrc="keywords:1;11:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+                <indexterm class="- topic/indexterm " xtrc="indexterm:1;12:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Database Administration</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:2;13:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Db2 13 for z/OS</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:3;14:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">ECOMAPP</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:4;15:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">ECOMDB01</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:5;16:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">RUNSTATS</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:6;17:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">JCL</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:7;18:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Privileges</indexterm>
+            </keywords>
+            <othermeta class="- topic/othermeta " content="ECOMAPP" name="product" xtrc="othermeta:1;20:58" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita"/>
+            <othermeta class="- topic/othermeta " content="Db2 for z/OS 13" name="platform" xtrc="othermeta:2;21:67" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita"/>
+        </metadata>
+    </prolog>
+    <conbody class="- topic/body  concept/conbody " xtrc="conbody:1;24:14" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+        <p class="- topic/p " xtrc="p:1;25:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">ECOMAPP is a Db2 13 for z/OS database for NXTCG. It is compromised of 15 normalized
+            tables with full referential integrity and indexed access paths. Administration is
+            driven by source-controlled DDL and JCL pipelines for build, initialization, statistics,
+            grants, and teardown. </p>
+        <p class="- topic/p " xtrc="p:2;29:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita"><b class="+ topic/ph hi-d/b " xtrc="b:1;29:15" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Key Features:</b></p>
+        <ul class="- topic/ul " id="ul_fhm_zcd_q3c" xtrc="ul:1;30:33" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+            <li class="- topic/li " xtrc="li:1;31:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Complete SKU-based product catalog (4,824 trading card variants)</li>
+            <li class="- topic/li " xtrc="li:2;32:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Multiplier-based dynamic pricing system</li>
+            <li class="- topic/li " xtrc="li:3;33:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">16 normalized tables with full referential integrity</li>
+            <li class="- topic/li " xtrc="li:4;34:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Performance indexes on all critical access paths</li>
+            <li class="- topic/li " xtrc="li:5;35:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Split initialization files for mainframe line length compliance</li>
+            <li class="- topic/li " xtrc="li:6;36:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Automated JCL for all database operations</li>
+        </ul>
+        <p class="- topic/p " xtrc="p:3;38:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita"><b class="+ topic/ph hi-d/b " xtrc="b:2;38:15" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Product Catalog:</b></p>
+        <ul class="- topic/ul " id="ul_ghm_zcd_q3c" xtrc="ul:2;39:33" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+            <li class="- topic/li " xtrc="li:7;40:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">80 Individual Cards × 60 modifier combinations = 4,800 variants</li>
+            <li class="- topic/li " xtrc="li:8;41:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">24 Mystery Products × 1 variant each = 24 variants</li>
+            <li class="- topic/li " xtrc="li:9;42:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Total: 4,824 sellable SKUs</li>
+        </ul>
+        <note class="- topic/note " id="note_yc4_23r_q3c" xtrc="note:1;44:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">NXTCG is planning to extend their future card catalog to NextGen
+            Academy's world-wide. </note>
+        <p class="- topic/p " xtrc="p:4;46:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita"><b class="+ topic/ph hi-d/b " xtrc="b:3;46:15" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Database Components:</b></p>
+        <ul class="- topic/ul " id="ul_hhm_zcd_q3c" xtrc="ul:3;47:33" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+            <li class="- topic/li " xtrc="li:10;48:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Database: ECOMDB01</li>
+            <li class="- topic/li " xtrc="li:11;49:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Tablespaces: 15 tablespaces, one per table for flexibility.</li>
+            <li class="- topic/li " xtrc="li:12;50:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Tables: USERS, TOKENS, SERIES, STYLES, STYLE_MODIFIERS, PRODUCT_TYPES,
+                PRODUCT_VARIANTS, VARIANT_IMAGES, INVENTORY, CARTS, CART_ITEMS, ADDRESSES, ORDERS,
+                ORDER_ADDRESSES, ORDER_ITEMS </li>
+            <li class="- topic/li " xtrc="li:13;53:17" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Indexes: Primary key indexes + business key indexes</li>
+        </ul>
+        <p class="- topic/p " xtrc="p:5;55:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita"><b class="+ topic/ph hi-d/b " xtrc="b:4;55:15" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Directory Structure</b></p>
+        <codeblock class="+ topic/pre pr-d/codeblock " id="codeblock_tlx_hlb_q3c" xml:space="preserve" xtrc="codeblock:1;56:47" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">&lt;HLQ&gt;.ECOMAPP
+├── ALLOC
+│   └── ECOMALOC
+│
+├── DDL
+│   ├── E01STGDB
+│   ├── E02TBSPC
+│   ├── E03TABLE
+│   ├── E04INDEX
+│   ├── E05CMT
+│   ├── E06GRANT
+│   ├── E07INIT1
+│   ├── E07INIT2
+│   ├── E07INIT3
+│   ├── E08INVEN
+│   ├── E09RPTO1
+│   ├── E09RPTO2
+│   └── E09RPTO3
+│
+├── JCL
+│   ├── ECOMDDL
+│   ├── ECOMDROP
+│   ├── ECOMFILL
+│   ├── ECOMGRNT
+│   ├── ECOMINIT
+│   ├── ECOMRPTS
+│   └── ECOMRS
+│
+└── REPORTS
+    ├── RPTO1
+    ├── RPTO2
+    └── RPTO3</codeblock>
+        <section class="- topic/section " id="section_f4v_2dk_q3c" xtrc="section:1;88:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">
+            <title class="- topic/title " xtrc="title:2;89:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">Db2 Common Codes</title>
+            <p class="- topic/p " xtrc="p:6;90:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">RC=0: Complete success - all DDL executed successfully</p>
+            <p class="- topic/p " xtrc="p:7;91:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">RC=4: Warning - generally safe to continue</p>
+            <p class="- topic/p " xtrc="p:8;92:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">RC=8: SQL error - review SYSTSPRT</p>
+            <p class="- topic/p " xtrc="p:9;93:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/dbdocsconcept1.dita">RC=12+: Severe error - STOP and investigate</p>
+        </section>
+    </conbody>
+</concept>

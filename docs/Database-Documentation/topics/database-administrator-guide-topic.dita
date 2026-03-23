@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="dbdocstopic1" xml:lang="en">
+    <title>ECOMAPP Database Architecture</title>
+    <shortdesc>The database design and architecture includes SKU composition, multiplier-based
+        pricing, and normalized entities with referential integrity. NXTCG ECOMAPP's database is
+        hosted on Db2 13 for z/OS.</shortdesc>
+    <prolog>
+        <metadata>
+            <keywords>
+                <indexterm>ECOMAPP</indexterm>
+                <indexterm>Database Architecture</indexterm>
+                <indexterm>SKU Architecture</indexterm>
+                <indexterm>Pricing Model</indexterm>
+                <indexterm>Normalization</indexterm>
+                <indexterm>Indexes</indexterm>
+                <indexterm>Tablespaces</indexterm>
+            </keywords>
+        </metadata>
+    </prolog>
+    <body>
+        <p> ECOMAPP is a normalized, SKU-driven data model with centralized pricing logic and strong
+            referential integrity. The catalog supports 4,824 sellable SKUs derived from 104 base
+            product types and 63 style modifiers, designed to be scalable and consistent with
+            updates.</p>
+        <image href="../../../../../../../Downloads/3221.drawio.png" id="image_ugv_53r_q3c"
+            height="875" width="600" align="center"/>
+        <section id="section_tsz_szw_q3c">
+            <title>ECOMAPP database components</title>
+            <p>The ECOMDB01 database is organized into 15 tablespaces, with each table placed in its
+                own space to support flexibility and management. It includes the USERS, TOKENS,
+                SERIES, STYLES, STYLE_MODIFIERS, PRODUCT_TYPES, PRODUCT_VARIANTS, VARIANT_IMAGES,
+                INVENTORY, CARTS, CART_ITEMS, ADDRESSES, ORDERS, ORDER_ADDRESSES, and ORDER_ITEMS
+                tables, covering the core data structures of the system. Indexing is handled through
+                primary key indexes along with business key indexes to maintain efficient and
+                reliable query performance.</p>
+        </section>
+        <section id="section_mgk_4rd_q3c">
+            <title>Normalization</title>
+            <p>ECOMAPP NXTCG demonstrates a high level of normalization, with the schema aligning
+                with Third Normal Form (3NF). All relations satisfy the requirements of First and
+                Second Normal Forms, and the use of composite‑key tables ensures that each non‑key
+                attribute is fully dependent on the entire primary key.</p>
+        </section>
+    </body>
+</topic>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="modifyingthedatabase" xml:lang="en">
+<title>Adding tables to the ECOMAPP Database</title>
+<shortdesc>In the ECOMAPP database you can add new tables by using TSO/ISPF in the Db2 z/OS
+      platform. </shortdesc>
+<prolog>
+<metadata><keywords><indexterm></indexterm></keywords></metadata>
+</prolog>
+<taskbody>
+<prereq></prereq>
+<context/>
+<steps>
+<step>
+            <cmd>Update EO3TABLE.sql</cmd>
+            <substeps>
+               <substep>
+                  <cmd>Add <codeph>CREATE TABLE</codeph> statement.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Add <codeph>CREATE UNIQUE INDEX</codeph> for the primary key.</cmd>
+               </substep>
+               <substep>
+                  <cmd>Add foreign key constraints if applicable.</cmd>
+               </substep>
+            </substeps>
+         </step>
+         <step>
+            <cmd>Update E04INDEX.sql and add performance indexes for new table.</cmd>
+         </step>
+         <step>
+            <cmd>Update E05CMNT.sql by adding a <codeph>COMMENT</codeph> statement for the new table
+               and columns.</cmd>
+         </step>
+         <step>
+            <cmd>Add <codeph>COMMENT</codeph> statements for new tables and columns in
+               E05CMNT.sql.</cmd>
+         </step>
+         <step>
+            <cmd>Update E06GRANT.sql by adding a <codeph>GRANT</codeph> statement for the new
+               table.</cmd>
+         </step>
+         <step>
+            <cmd>Update E07LOAD.sql by adding an <codeph>INSERT</codeph> statement for the test
+               data.</cmd>
+         </step>
+         <step>
+            <cmd>Update ECOMDROP.jcl by adding a <codeph>DROP TABLE</codeph> statement.</cmd>
+         </step>
+         <step>
+            <cmd>Re-upload and re-run.</cmd>
+         </step>
+         <step>
+            <cmd>Upload all the modified DDL files.</cmd>
+         </step>
+         <step>
+            <cmd>Submit ECOMDROP and ECOMDDL.</cmd>
+         </step>
+</steps>
+</taskbody>
+</task>
