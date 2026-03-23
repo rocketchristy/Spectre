@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="dbdocsconcept1" xml:lang="en">
+    <title>Introduction to the NXTCG ECOMAPP Database</title>
+    <shortdesc>The NextGen Trading Card Game (NXTCG) features exclusive collectible cards inspired
+        by the Rocket Software NextGen Academy and its Rocketeers. The platform empowers you to buy
+        and sell new NXTCG cards. Use this guide to install the NXTCG database, add tables, and
+        troubleshoot common issues you may encounter. </shortdesc>
+    <prolog>
+        <metadata>
+            <keywords>
+                <indexterm>Database Administration</indexterm>
+                <indexterm>Db2 13 for z/OS</indexterm>
+                <indexterm>ECOMAPP</indexterm>
+                <indexterm>ECOMDB01</indexterm>
+                <indexterm>RUNSTATS</indexterm>
+                <indexterm>JCL</indexterm>
+                <indexterm>Privileges</indexterm>
+            </keywords>
+            <othermeta name="product" content="ECOMAPP"/>
+            <othermeta name="platform" content="Db2 for z/OS 13"/>
+        </metadata>
+    </prolog>
+    <conbody>
+        <p>ECOMAPP is a Db2 13 for z/OS database for NXTCG. It is compromised of 15 normalized
+            tables with full referential integrity and indexed access paths. Administration is
+            driven by source-controlled DDL and JCL pipelines for build, initialization, statistics,
+            grants, and teardown. </p>
+        <p><b>Key Features:</b></p>
+        <ul id="ul_fhm_zcd_q3c">
+            <li>Complete SKU-based product catalog (4,824 trading card variants)</li>
+            <li>Multiplier-based dynamic pricing system</li>
+            <li>16 normalized tables with full referential integrity</li>
+            <li>Performance indexes on all critical access paths</li>
+            <li>Split initialization files for mainframe line length compliance</li>
+            <li>Automated JCL for all database operations</li>
+        </ul>
+    </conbody>
+</concept>

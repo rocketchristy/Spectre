@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /C:\Users\jheckel\Documents\Repositories\Spectre\Spectre\docs\Database-Documentation\temp\topic-pdf-css-html5\Documents\Repositories\Spectre\Spectre\docs\Database-Documentation\topics?><?workdir-uri file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/temp/topic-pdf-css-html5/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/?><?path2project ..\?><?path2project-uri ../?><?path2rootmap-uri ../?><?doctype-public -//OASIS//DTD DITA Topic//EN?><?doctype-system topic.dtd?><topic xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" class="- topic/topic " ditaarch:DITAArchVersion="1.3" domains="(topic abbrev-d) a(props deliveryTarget) (topic equation-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic mathml-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic svg-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)" id="dbdocstopic1" specializations="@props/deliveryTarget" xml:lang="en" xtrc="topic:1;3:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+    <title class="- topic/title " xtrc="title:1;4:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ECOMAPP Database Architecture</title>
+    <shortdesc class="- topic/shortdesc " xtrc="shortdesc:1;5:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">The database design and architecture includes SKU composition, multiplier-based
+        pricing, and normalized entities with referential integrity. NXTCG ECOMAPP's database is
+        hosted on Db2 13 for z/OS.</shortdesc>
+    <prolog class="- topic/prolog " xtrc="prolog:1;8:13" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+        <critdates class="- topic/critdates " xtrc="critdates:1;11:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;12:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates><metadata class="- topic/metadata " xtrc="metadata:1;9:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <keywords class="- topic/keywords " xtrc="keywords:1;10:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                <indexterm class="- topic/indexterm " xtrc="indexterm:1;11:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ECOMAPP</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:2;12:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Database Architecture</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:3;13:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">SKU Architecture</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:4;14:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Pricing Model</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:5;15:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Normalization</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:6;16:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Indexes</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:7;17:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Tablespaces</indexterm>
+            </keywords>
+        </metadata>
+    </prolog>
+    <body class="- topic/body " xtrc="body:1;21:11" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+        <p class="- topic/p " xtrc="p:1;22:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita"> ECOMAPP is a normalized, SKU-driven data model with centralized pricing logic and strong
+            referential integrity. The catalog supports 4,824 sellable SKUs derived from 104 base
+            product types and 63 style modifiers, designed to be scalable and consistent with
+            updates.</p>
+        <image class="- topic/image " href="../../../../../../../Downloads/322.drawio.png" id="image_ugv_53r_q3c" placement="inline" xtrc="image:1;26:93" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita"/>
+        <section class="- topic/section " id="section_tsz_szw_q3c" xtrc="section:1;27:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <title class="- topic/title " xtrc="title:2;28:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ECOMAPP database components</title>
+            <p class="- topic/p " xtrc="p:2;29:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">The ECOMDB01 database is organized into 15 tablespaces, with each table placed in its
+                own space to support flexibility and management. It includes the USERS, TOKENS,
+                SERIES, STYLES, STYLE_MODIFIERS, PRODUCT_TYPES, PRODUCT_VARIANTS, VARIANT_IMAGES,
+                INVENTORY, CARTS, CART_ITEMS, ADDRESSES, ORDERS, ORDER_ADDRESSES, and ORDER_ITEMS
+                tables, covering the core data structures of the system. Indexing is handled through
+                primary key indexes along with business key indexes to maintain efficient and
+                reliable query performance.</p>
+        </section>
+        <section class="- topic/section " id="section_mgk_4rd_q3c" xtrc="section:2;37:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <title class="- topic/title " xtrc="title:3;38:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Normalization</title>
+            <p class="- topic/p " xtrc="p:3;39:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ECOMAPP NXTCG demonstrates a high level of normalization, with the schema aligning
+                with Third Normal Form (3NF). All relations satisfy the requirements of First and
+                Second Normal Forms, and the use of composite‑key tables ensures that each non‑key
+                attribute is fully dependent on the entire primary key.</p>
+        </section>
+    </body>
+</topic>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="troubleshootingspectredb" xml:lang="en">
+<title>Troubleshooting the NXTCG ECOMAPP database</title>
+<shortdesc>There are common SQL and API error codes when configuring the ECOMAPP database. Solutions
+        are provided for each issue.  </shortdesc>
+<prolog>
+<metadata><keywords>
+                <indexterm>ECOMAPP</indexterm>
+                <indexterm>Database Architecture</indexterm>
+                <indexterm>Indexes</indexterm>
+                <indexterm>Tablespaces</indexterm></keywords></metadata>
+</prolog>
+<body>
+        <bodydiv>
+            <section id="issue-ecomddl-fails-with-rc12---plan-not-found">
+                <title><b>ECOMDDL Fails with RC=12 - PLAN NOT FOUND</b></title>
+                <p><b>Cause:</b> Db2 plan DSNTEP3 not available or no EXECUTE privilege.</p>
+                <p><b>Solution:</b><codeblock id="codeblock_hjb_dl3_q3c">1. Verify DSNTEP3 plan exists:
+   -DIS THREAD(*) TYPE(PLAN)
+   
+2. Check your privileges:
+   SELECT GRANTEE, GRANTEETYPE, AUTHHOWGOT
+   FROM SYSIBM.SYSPLANAUTH
+   WHERE NAME = 'DSNTEP3';
+
+3. If missing privilege, have DBA grant:
+   GRANT EXECUTE ON PLAN DSNTEP3 TO &lt;Your HLQ>;
+</codeblock></p>
+            </section>
+            <section id="issue-ecomddl-fails-with-rc12---sqlcode-204-object-not-found">
+                <title><b>ECOMDDL Fails with RC=12 - SQLCODE=-204 OBJECT NOT FOUND</b></title>
+                <p><b>Cause:</b> DDL members not uploaded or incorrect dataset names.</p>
+                <p><b>Solution:</b><codeblock id="codeblock_rmy_dl3_q3c">1. Verify DDL members exist:
+   TSO/ISPF 3.4 → &lt;Your HLQ>.ECOMAPP.DDL
+   
+2. Check member names match exactly:
+   E01STGDB, E02TBSPC, E03TABLE, E04INDEX, E05CMNT, E06GRANT
+   E07INIT1, E07INIT2, E07INIT3
+   
+3. Verify SET HLQ statement in ECOMDDL.jcl matches your dataset name
+</codeblock></p>
+            </section>
+            <section id="issue-ecomddl-fails-with-rc8---sqlcode-601-object-already-exists">
+                <title><b>ECOMDDL Fails with RC=8 - SQLCODE=-601 OBJECT ALREADY EXISTS</b></title>
+                <p><b>Cause:</b> Database objects already exist.</p>
+                <p><b>Solution:</b><codeblock id="codeblock_qp5_gl3_q3c">This is expected behavior when re-running ECOMDDL on existing database.
+Job will continue and create any missing objects.
+
+To start fresh:
+1. Submit ECOMDROP first
+2. Then submit ECOMDDL</codeblock></p>
+            </section>
+            <section id="issue-ecominit-fails-with-rc12---rest-api-failure-with-https-status-500">
+                <title><b>ECOMINIT Fails with RC=12 - Rest API failure with HTTP(S) status
+                    500</b></title>
+                <p><b>Cause:</b> SQL files have lines exceeding 72 characters.</p>
+                <p><b>Solution:</b><codeblock id="codeblock_nm5_3l3_q3c">All E07INIT files in zOS_Datasets have been pre-processed to comply
+with 72-character line limits. If you modified them:
+
+1. Check for long lines:
+   Edit member with ISPF
+   COLS ON (show column numbers)
+   Look for lines extending past column 72
+
+2. Split long lines:
+   - Break INSERT statements after table name
+   - Continue column list on next line with leading spaces
+   - Ensure VALUES clause on separate line
+
+3. Re-upload corrected members</codeblock></p>
+            </section>
+            <section id="issue-ecominit-fails-with-sqlcode-803-duplicate-key">
+                <title><b>ECOMINIT Fails with SQLCODE=-803 DUPLICATE KEY</b></title>
+                <p><b>Cause:</b> Product catalog already loaded.</p>
+                <p><b>Solution:</b><codeblock id="codeblock_aln_jl3_q3c">This is expected behavior with RC=8. Job continues to next step.
+Each step is conditioned on RC &lt; 12.
+
+To reload catalog from scratch:
+1. Submit ECOMDROP first
+2. Submit ECOMDDL
+3. Submit ECOMINIT
+</codeblock></p>
+            </section>
+            <section id="issue-ecominit-shows-wrong-row-counts">
+                <title><b>ECOMINIT Shows Wrong Row Counts</b></title>
+                <p><b>Cause:</b> Previous data not cleared, or partial load.</p>
+                <p><b>Solution:</b><codeblock id="codeblock_zyx_ml3_q3c">-- Check current countsSELECT'PRODUCT_VARIANTS'AS TABLE_NAME,COUNT(*)AS COUNT
+FROM&lt;Your HLQ>.PRODUCT_VARIANTS;
+
+Expected: 4,824If count doesn't match:
+1. Submit ECOMDROP
+2. Submit ECOMDDL  
+3. Submit ECOMINIT</codeblock></p>
+            </section>
+            <section id="issue-not-authorized-to-create-database">
+                <title><b>NOT AUTHORIZED TO CREATE DATABASE</b></title>
+                <p><b>Cause:</b> Insufficient Db2 privileges.</p>
+                <p><b>Solution:</b><codeblock id="codeblock_wzg_4l3_q3c">Contact your Db2 DBA to grant CREATEDB authority:
+
+GRANT CREATEDB ON SYSTEM TO &lt;Your HLQ>;
+</codeblock></p>
+            </section>
+            <section id="issue-joblib-libraries-not-found">
+                <title><b>JOBLIB Libraries Not Found</b></title>
+                <p><b>Cause:</b> Incorrect Db2 software library HLQ.</p>
+                <p><b>Solution:</b><codeblock id="codeblock_jqz_4l3_q3c">1. Find correct Db2 HLQ on your system:
+   TSO/ISPF 3.4 → DSN* (or DSNV*)
+   Look for: SDSNLOAD, SDSNEXIT, RUNLIB.LOAD
+   
+2. Update JOBLIB statements in all JCL files:
+   //JOBLIB   DD  DISP=SHR,DSN=&lt;Correct HLQ>.SDSNEXIT
+   //         DD  DISP=SHR,DSN=&lt;Correct HLQ>.SDSNLOAD
+   //         DD  DISP=SHR,DSN=&lt;Correct HLQ>.RUNLIB.LOAD</codeblock></p>
+            </section>
+            <section id="issue-storage-group-not-defined">
+                <title><b>STORAGE GROUP NOT DEFINED</b></title>
+                <p><b>Cause:</b> E01STGDB.sql uses default storage group.</p>
+                <p><b>Solution:</b><codeblock id="codeblock_rws_pl3_q3c">1. Find available storage groups:
+   SELECT * FROM SYSIBM.SYSSTOGROUP;
+   
+2. Update E01STGDB.sql:
+   CREATE DATABASE ECOMDB01
+       STOGROUP &lt;Your STOGROUP>
+       BUFFERPOOL BP0
+       ...
+</codeblock></p>
+            </section>
+            <section id="issue-price-calculations-return-wrong-values">
+                <title><b>Price Calculations Return Wrong Values</b></title>
+                <p><b>Cause:</b> Query not joining to STYLE_MODIFIERS table.</p>
+                <p><b>Solution:</b><codeblock id="codeblock_msj_ql3_q3c">-- Incorrect (missing PRICE_MULTIPLIER):SELECT PT.BASE_PRICE_CENTS
+FROM PRODUCT_VARIANTS PV
+INNERJOIN PRODUCT_TYPES PT ON...;-- Correct (includes multiplier):SELECT 
+    PT.BASE_PRICE_CENTS,
+    SM.PRICE_MULTIPLIER,
+    CAST(PT.BASE_PRICE_CENTS * SM.PRICE_MULTIPLIER ASINT)AS FINAL_PRICE
+FROM PRODUCT_VARIANTS PV
+INNERJOIN PRODUCT_TYPES PT ON...INNERJOIN STYLE_MODIFIERS SM 
+    ON PV.STYLE_CODE = SM.STYLE_CODE
+   AND PV.MODIFIER_CODE = SM.MODIFIER_CODE;</codeblock></p>
+            </section>
+            <section id="issue-performance-issues--slow-queries">
+                <title><b>Slow Queries</b></title>
+                <p><b>Cause:</b> Statistics not gathered or outdated.</p>
+                <p><b>Solution:</b><codeblock id="codeblock_t2f_rl3_q3c">1. Submit ECOMRS to gather/refresh statistics
+2. Verify statistics exist:
+   SELECT NAME, CARD, NPAGES
+   FROM SYSIBM.SYSTABLES
+   WHERE CREATOR = '&lt;Your HLQ>';
+   
+   If CARD = -1, statistics not gathered</codeblock></p>
+            </section>
+        </bodydiv>
+</body>
+</topic>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE bookmap PUBLIC "-//OASIS//DTD DITA BookMap//EN" "bookmap.dtd">
+<bookmap outputclass="brand or business unit" xml:lang="en">
+  <booktitle>
+    <mainbooktitle>NXTCG Database Administration Guide</mainbooktitle>
+    <booktitlealt><image id="image_tnr_dr3_q3c"
+        href="../../../../../../Downloads/NXTCGFINALLOGO.jpg" height="300"/></booktitlealt>
+    <booktitlealt>Version 0.0.1</booktitlealt>
+  </booktitle>
+  <bookmeta>
+    <critdates>
+      <created date="January 2017"/>
+      <!--In the Created field, select the month and year of the publication.
+Each time that you update the book, you must update this field.-->
+    </critdates>
+    <bookid>
+      <booknumber>XXX-VVRR-XX-01</booknumber>
+      <!--The book number is: Product code - Product version number and release number - Book type - Edition number.
+Each time that a new version of the product is released, you must update the product version and release number.
+If you update the book for the new version, update the edition number. If you do not update the book, do not update the edition number. For information about the product code and book type, see the Writer's Guide.-->
+    </bookid>
+    <bookrights>
+      <copyrfirst>
+        <year>2011</year>
+        <!--In the  <year> element in the <copyrfirst>  element, enter the year when the book was first published. After you enter this year, you never change it.-->
+      </copyrfirst>
+      <copyrlast>
+        <year>-2017</year>
+        <!--In the <year> element in the <copyrlast> element, enter a hyphen and the current year.
+Each time you update the book, you must update the <year>.-->
+      </copyrlast>
+      <bookowner>
+      	<organization>Rocket Software</organization>
+      </bookowner>
+    </bookrights>
+  </bookmeta>
+  <frontmatter>
+    <booklists>
+      <trademarklist />
+      <booklist />
+      <toc />
+    </booklists>
+  </frontmatter>
+  <chapter href="topics/dbdocsconcept1.dita" type="topic">
+    <topicref href="topics/database-administrator-guide-topic.dita"/>
+    <topicref href="topics/installingdb2.dita"/>
+    <topicref href="topics/modifyingthedatabase.dita"/>
+    <topicref href="topics/troubleshootingspectredb.dita"/>
+  </chapter>
+  <backmatter>
+    <booklists>
+      <trademarklist />
+      <booklist />
+    </booklists>
+  </backmatter>
+</bookmap>
