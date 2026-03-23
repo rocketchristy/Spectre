@@ -2,7 +2,8 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useEasterEgg } from '@/utils/easterEgg.js'
-import docsPdf from '@/assets/docs/placeholder.pdf'
+import dbGuidePdf from '@/assets/docs/NXTCG_Database_Administration_Guide.pdf'
+import releaseNotesPdf from '@/assets/docs/NXTCGReleaseNotes.pdf'
 import apiDemoGif from '@/assets/demo/API-Demo.gif'
 
 const showApiDiagram = ref(false)
@@ -55,7 +56,8 @@ function closeCelebration() { showCelebration.value = false }
       <div class="footer-col footer-links">
         <h4>Resources</h4>
         <ul>
-          <li><a :href="docsPdf" target="_blank" rel="noopener noreferrer">Docs</a></li>
+          <li><a :href="dbGuidePdf" target="_blank" rel="noopener noreferrer">Database Guide</a></li>
+          <li><a :href="releaseNotesPdf" target="_blank" rel="noopener noreferrer">Release Notes</a></li>
           <li><a href="#">Tutorials</a></li>
           <li><a href="#" @click.prevent="onCommunityClick">Community</a></li>
         </ul>
