@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /C:\Users\jheckel\Documents\Repositories\Spectre\Spectre\docs\Database-Documentation\temp\pdf-css-html5\Documents\Repositories\Spectre\Spectre\docs\Database-Documentation\topics?><?workdir-uri file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/temp/pdf-css-html5/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/?><?path2project ..\?><?path2project-uri ../?><?path2rootmap-uri ../?><?doctype-public -//OASIS//DTD DITA Topic//EN?><?doctype-system topic.dtd?><topic xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" class="- topic/topic " ditaarch:DITAArchVersion="1.3" domains="(topic abbrev-d) a(props deliveryTarget) (topic equation-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic mathml-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic svg-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)" id="dbdocstopic1" specializations="@props/deliveryTarget" xml:lang="en" xtrc="topic:1;3:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+    <title class="- topic/title " xtrc="title:1;4:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ECOMAPP Database Architecture</title>
+    <shortdesc class="- topic/shortdesc " xtrc="shortdesc:1;5:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita"> Structural and logical architecture for the ECOMAPP NXTCG database on Db2 13 for
+        z/OS. The database design and architecture includes SKU composition, multiplier-based
+        pricing, and normalized entities with referential integrity.</shortdesc>
+    <prolog class="- topic/prolog " xtrc="prolog:1;8:13" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+        <critdates class="- topic/critdates " xtrc="critdates:1;12:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap">
+      <created class="- topic/created " date="January 2017" xtrc="created:1;13:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/Database-Docs-nxtcg.ditamap"/>
+      
+    </critdates><metadata class="- topic/metadata " xtrc="metadata:1;9:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <keywords class="- topic/keywords " xtrc="keywords:1;10:23" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                <indexterm class="- topic/indexterm " xtrc="indexterm:1;11:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ECOMAPP</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:2;12:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Database Architecture</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:3;13:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">SKU Architecture</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:4;14:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Pricing Model</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:5;15:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Normalization</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:6;16:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Indexes</indexterm>
+                <indexterm class="- topic/indexterm " xtrc="indexterm:7;17:28" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Tablespaces</indexterm>
+            </keywords>
+        </metadata>
+    </prolog>
+    <body class="- topic/body " xtrc="body:1;21:11" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+        <p class="- topic/p " xtrc="p:1;22:12" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita"> ECOMAPP is a normalized, SKU-driven data model with centralized pricing logic and strong
+            referential integrity. The catalog supports 4,824 sellable SKUs derived from 104 base
+            product types and 63 style modifiers, designed to be scalable and consistent with
+            updates.</p>
+        <image class="- topic/image " href="../../../../../../../Downloads/ECOMDB01_ERD.png" id="image_ugv_53r_q3c" placement="inline" xtrc="image:1;26:95" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita"/>
+        <section class="- topic/section " id="section_mgk_4rd_q3c" xtrc="section:1;27:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <title class="- topic/title " xtrc="title:2;28:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Normalization</title>
+            <p class="- topic/p " xtrc="p:2;29:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ECOMAPP NXTCG demonstrates a strong level of normalization, with the schema largely
+                conforming to Third Normal Form (3NF). All relations satisfy the requirements of
+                First and Second Normal Forms, and the use of composite‑key tables ensures that each
+                non‑key attribute is fully dependent on the entire primary key.</p>
+        </section>
+        <section class="- topic/section " id="sku-architecture" xtrc="section:2;34:40" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <title class="- topic/title " xtrc="title:3;35:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">SKU Architecture</title>
+            <p class="- topic/p " xtrc="p:3;36:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ECOMAPP uses a hierarchical SKU system: <b class="+ topic/ph hi-d/b " xtrc="b:1;36:59" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">SERIES-STYLE-SERIAL-MODIFIER</b></p>
+            <p class="- topic/p " xtrc="p:4;37:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Example SKU: <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:1;37:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">NAC-SE01-EHM</codeph></p>
+            <ul class="- topic/ul " id="ul_lm3_crd_q3c" xtrc="ul:1;38:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                <li class="- topic/li " xtrc="li:1;39:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">NA = Series</li>
+                <li class="- topic/li " xtrc="li:2;40:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita"> S = Style</li>
+                <li class="- topic/li " xtrc="li:3;41:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">SE01 = Serial Number</li>
+                <li class="- topic/li " xtrc="li:4;42:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">EHM = Modifier (English, Holofoil, Mint)</li>
+            </ul>
+        </section>
+        <section class="- topic/section " id="section_anp_fbj_q3c" xtrc="section:3;45:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <title class="- topic/title " xtrc="title:4;46:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Pricing Model</title>
+            <p class="- topic/p " xtrc="p:5;47:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ECOMAPP uses a multiplier-based pricing system where each product variant's final
+                price is calculated by multiplying the base price by a modifier-specific
+                multiplier.</p>
+            <p class="- topic/p " xtrc="p:6;50:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">The formula is <codeph class="+ topic/ph pr-d/codeph " xtrc="codeph:2;50:39" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Final Price = BASE_PRICE_CENTS x
+                PRICE_MULTIPLIER</codeph>.</p>
+            <p class="- topic/p " xtrc="p:7;52:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                <note class="- topic/note " id="note_lfy_4bj_q3c" xtrc="note:1;53:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Users who upload a new product will be able to decipher
+                    the price for their product. The pricing model does show the user a recommended
+                    price. </note>
+            </p>
+        </section>
+        <section class="- topic/section " id="e-commerce-support-tables" xtrc="section:4;58:49" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <title class="- topic/title " xtrc="title:5;59:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">E-Commerce Support Tables</title>
+            <ul class="- topic/ul " id="ul_wws_frd_q3c" xtrc="ul:2;60:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                <li class="- topic/li " xtrc="li:5;61:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">USERS - Customer and seller accounts</li>
+                <li class="- topic/li " xtrc="li:6;62:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">TOKENS - Authentication tokens (placeholder for future implementation)</li>
+                <li class="- topic/li " xtrc="li:7;63:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">VARIANT_IMAGES - Product images</li>
+                <li class="- topic/li " xtrc="li:8;64:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">INVENTORY - Seller listings with pricing and stock levels</li>
+                <li class="- topic/li " xtrc="li:9;65:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">CARTS - Shopping carts</li>
+                <li class="- topic/li " xtrc="li:10;66:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">CART_ITEMS - Line items in carts</li>
+                <li class="- topic/li " xtrc="li:11;67:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ADDRESSES - Customer shipping/billing addresses</li>
+                <li class="- topic/li " xtrc="li:12;68:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ORDERS - Completed purchases </li>
+                <li class="- topic/li " xtrc="li:13;69:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ORDER_ADDRESSES - Immutable address snapshots per order</li>
+                <li class="- topic/li " xtrc="li:14;70:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">ORDER_ITEMS - Line items in orders with pricing snapshots</li>
+            </ul>
+        </section>
+        <section class="- topic/section " id="section_w3x_5bj_q3c" xtrc="section:5;73:43" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+            <title class="- topic/title " xtrc="title:6;74:20" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Modifying the database</title>
+            <p class="- topic/p " xtrc="p:8;75:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita"><b class="+ topic/ph hi-d/b " xtrc="b:2;75:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Adding a New Table</b></p>
+            <ol class="- topic/ol " id="ol_pzz_kcj_q3c" xtrc="ol:1;76:37" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                <li class="- topic/li " xtrc="li:15;77:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                    <p class="- topic/p " xtrc="p:9;78:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Update E03TABLE.sql</p>
+                    <ul class="- topic/ul " id="ul_qzz_kcj_q3c" xtrc="ul:3;79:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                        <li class="- topic/li " xtrc="li:16;80:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add CREATE TABLE statement</li>
+                        <li class="- topic/li " xtrc="li:17;81:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add CREATE UNIQUE INDEX for primary key</li>
+                        <li class="- topic/li " xtrc="li:18;82:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add foreign key constraints if needed</li>
+                    </ul>
+                </li>
+                <li class="- topic/li " xtrc="li:19;85:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                    <p class="- topic/p " xtrc="p:10;86:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Update E04INDEX.sql</p>
+                    <ul class="- topic/ul " id="ul_rzz_kcj_q3c" xtrc="ul:4;87:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                        <li class="- topic/li " xtrc="li:20;88:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add performance indexes for new table</li>
+                    </ul>
+                </li>
+                <li class="- topic/li " xtrc="li:21;91:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                    <p class="- topic/p " xtrc="p:11;92:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Update E05CMNT.sql</p>
+                    <ul class="- topic/ul " id="ul_szz_kcj_q3c" xtrc="ul:5;93:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                        <li class="- topic/li " xtrc="li:22;94:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add COMMENT statements for new tables and columns</li>
+                    </ul>
+                </li>
+                <li class="- topic/li " xtrc="li:23;97:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                    <p class="- topic/p " xtrc="p:12;98:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Update E06GRANT.sql</p>
+                    <ul class="- topic/ul " id="ul_tzz_kcj_q3c" xtrc="ul:6;99:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                        <li class="- topic/li " xtrc="li:24;100:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add GRANT statement for new table</li>
+                    </ul>
+                </li>
+                <li class="- topic/li " xtrc="li:25;103:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                    <p class="- topic/p " xtrc="p:13;104:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Update E07LOAD.sql</p>
+                    <ul class="- topic/ul " id="ul_uzz_kcj_q3c" xtrc="ul:7;105:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                        <li class="- topic/li " xtrc="li:26;106:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add INSERT statements for test data</li>
+                    </ul>
+                </li>
+                <li class="- topic/li " xtrc="li:27;109:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                    <p class="- topic/p " xtrc="p:14;110:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Update ECOMDROP.jcl</p>
+                    <ul class="- topic/ul " id="ul_vzz_kcj_q3c" xtrc="ul:8;111:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                        <li class="- topic/li " xtrc="li:28;112:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Add DROP TABLE statement in appropriate position.</li>
+                    </ul>
+                </li>
+                <li class="- topic/li " xtrc="li:29;115:21" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                    <p class="- topic/p " xtrc="p:15;116:24" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Re-upload and re-run</p>
+                    <ul class="- topic/ul " id="ul_wzz_kcj_q3c" xtrc="ul:9;117:45" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">
+                        <li class="- topic/li " xtrc="li:30;118:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Upload modified DDL files</li>
+                        <li class="- topic/li " xtrc="li:31;119:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Submit ECOMDROP</li>
+                        <li class="- topic/li " xtrc="li:32;120:29" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Submit ECOMDDL</li>
+                    </ul>
+                </li>
+            </ol>
+            <p class="- topic/p " xtrc="p:16;124:16" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita"><b class="+ topic/ph hi-d/b " xtrc="b:3;124:19" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">Modifying an existing
+                table</b><codeblock class="+ topic/pre pr-d/codeblock " id="codeblock_scc_ncj_q3c" xml:space="preserve" xtrc="codeblock:1;125:64" xtrf="file:/C:/Users/jheckel/Documents/Repositories/Spectre/Spectre/docs/Database-Documentation/topics/database-administrator-guide-topic.dita">1. Update E03TABLE.sql with new table definition
+2. Submit ECOMDROP
+3. Submit ECOMDDL
+4. Submit ECOMLOAD (reloads test data)</codeblock></p>
+        </section>
+    </body>
+</topic>
